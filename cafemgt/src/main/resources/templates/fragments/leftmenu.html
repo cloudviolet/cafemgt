@@ -133,20 +133,20 @@
 							<ul class="nav child_menu">
 								<li><a>#매입 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a href="#">매입 등록</a></li>
-										<li class="sub_menu"><a href="#">매입 조회</a></li>
+										<li class="sub_menu"><a th:href="@{addpurchases}">매입 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getpurchases}">매입 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#매출 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a href="#">매출 등록</a></li>
-										<li class="sub_menu"><a href="#">매출 조회</a></li>
+										<li class="sub_menu"><a th:href="@{addsales}">매출 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getsales}">매출 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#기타 지출 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a href="#">기타 치출 등록</a></li>
-										<li class="sub_menu"><a href="#">기타 지출 조회</a></li>
+										<li class="sub_menu"><a th:href="@{otherpurchases}">기타 지출 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getotherpurchases}">기타 지출 조회</a></li>
 									</ul>
 								</li>
 							</ul>
