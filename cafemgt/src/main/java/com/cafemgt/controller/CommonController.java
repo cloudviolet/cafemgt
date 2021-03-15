@@ -12,8 +12,18 @@ public class CommonController {
 	@PostConstruct
 	public void initialize() {
 		System.out.println("======================================");
-		System.out.println("======= MembrController bean 등록 ======");
+		System.out.println("======= CommonController bean 등록 ======");
 		System.out.println("======================================");
+	}
+	
+	@GetMapping("/addowner")
+	public String addowner() {
+		return "owner/addowner";		
+	}
+	
+	@GetMapping("/getowner")
+	public String getowner() {
+		return "owner/getowner";		
 	}
 	
 	@GetMapping("/")
