@@ -9,6 +9,31 @@
 
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
+		
+			<table border="1" class="table">
+				<thead>
+					<tr>
+						<th>매입 유형</th>
+						<th>상호 명</th>
+						<th>공급 가액</th>
+						<th>공급 세액</th>
+						<th>공급 합계</th>
+						<th>상세</th>
+						<th>사용 날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${#lists.size(otherPurchasesList)>0}" th:each="ol : ${otherPurchasesList}">
+						<td th:text="${ol.oeVatType}"></td>
+						<td th:text="${ol.oeStoreName}"></td>
+						<td th:text="${ol.oeSupplyValue}"></td>
+						<td th:text="${ol.oeTax}"></td>
+						<td th:text="${ol.oeTotal}"></td>
+						<td th:text="${ol.oeEtc}"></td>
+						<td th:text="${ol.oedate}"></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</th:block>
 

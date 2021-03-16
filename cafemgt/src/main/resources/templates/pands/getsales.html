@@ -9,6 +9,34 @@
 
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
+		
+			<table border="1" class="table">
+				<thead>
+					<tr>
+						<th>매출 유형</th>
+						<th>판매 수량</th>
+						<th>거래처 명</th>
+						<th>공급 가액</th>
+						<th>공급 세액</th>
+						<th>공급 합계</th>
+						<th>결제 유형</th>
+						<th>판매 날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${#lists.size(salesList)>0}" th:each="sl : ${salesList}">
+						<td th:text="${sl.salesVatType}"></td>
+						<td th:text="${sl.salesCount}"></td>
+						<td th:text="${sl.CustCode}"></td>
+						<td th:text="${sl.salesSupplyValue}"></td>
+						<td th:text="${sl.salesTax}"></td>
+						<td th:text="${sl.salesTotal}"></td>
+						<td th:text="${sl.salesPayType}"></td>
+						<td th:text="${sl.salesDate}"></td>
+					</tr>
+				</tbody>
+			</table>
+		
 		</div>
 	</th:block>
 

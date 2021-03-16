@@ -9,6 +9,34 @@
 
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
+		
+			<table border="1" class="table">
+				<thead>
+					<tr>
+						<th>매입 유형</th>
+						<th>입고 수량</th>
+						<th>거래처 명</th>
+						<th>공급 가액</th>
+						<th>공급 세액</th>
+						<th>공급 합계</th>
+						<th>결제 유형</th>
+						<th>판매 날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${#lists.size(purchasesList)>0}" th:each="pl : ${purchasesList}">
+						<td th:text="${pl.incoVatType}"></td>
+						<td th:text="${pl.incoCount}"></td>
+						<td th:text="${pl.custCode}"></td>
+						<td th:text="${pl.incoSupplyValue}"></td>
+						<td th:text="${pl.incoTax}"></td>
+						<td th:text="${pl.incoTotal}"></td>
+						<td th:text="${pl.incoPayType}"></td>
+						<td th:text="${pl.incoDate}"></td>
+					</tr>
+				</tbody>
+			</table>
+			
 		</div>
 	</th:block>
 
