@@ -13,7 +13,6 @@ public class ArticleService {
 	
 	private final ArticleMapper articleMapper;
 	
-	@Autowired
 	public ArticleService(ArticleMapper articleMapper) {
 		this.articleMapper= articleMapper;
 	}

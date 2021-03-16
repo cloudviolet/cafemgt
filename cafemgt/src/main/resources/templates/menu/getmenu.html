@@ -7,11 +7,33 @@
 		<title>메뉴 조회</title>
 	</th:block>
 
-	<th:block layout:fragment="customContents">
+<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-		
+			<table border=1 class="table">
+				<thead>
+					<tr>
+						<th>메뉴코드</th>
+						<th>상호코드</th>
+						<th>상호명</th>
+						<th>메뉴명</th>
+						<th>메뉴종류</th>
+						<th>메뉴가격</th>
+						<th>메뉴등록날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="ml : ${menuList}">
+						<td th:text="${ml.menuCode}"></td>
+						<td th:text="${ml.storeInfoCode}"></td>
+						<td th:text="${ml.storeInfoName}"></td>
+						<td th:text="${ml.menuName}"></td>
+						<td th:text="${ml.menuCate}"></td>
+						<td th:text="${ml.menuPrice}"></td>
+						<td th:text="${ml.menuRegDate}"></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-
 	</th:block>
 
 </html>
