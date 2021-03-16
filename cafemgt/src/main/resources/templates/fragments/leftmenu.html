@@ -33,7 +33,7 @@
 					<ul class="nav side-menu">
 						<li><a><i class="fa fa-home"></i> #기초 등록(??) <span	class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="#">사업장 등록</a></li>
+								<li><a th:href="@{addstore}">사업장 등록(영은)</a></li>
 								<li><a href="#">품목 등록</a></li>
 								<li><a href="#">메뉴 등록</a></li>
 								<li><a href="#">메뉴 레시피 등록</a></li>
@@ -43,26 +43,20 @@
 							<ul class="nav child_menu">							
 								<li><a>#사업장 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu">
-											<a href="#">사업장 등록</a>
-										</li>
-										<li><a href="#">사업장 조회</a></li>
+										<li class="sub_menu"><a th:href="@{addstore}">사업장 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getstore}">사업장 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#직원 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu">
-											<a href="#">직원 등록</a>
-										</li>
-										<li><a href="#">직원 조회</a></li>
+										<li class="sub_menu"><a th:href="@{adduser}">직원 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getuser}">직원 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#거래처 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu">
-											<a href="#">거래처 등록</a>
-										</li>
-										<li><a href="#">거래처 조회</a></li>
+										<li class="sub_menu"><a th:href="@{addcustomer}">거래처 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getcustomer}">거래처 조회</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -145,7 +139,7 @@
 								</li>
 								<li><a>#기타 지출 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{otherpurchases}">기타 지출 등록</a></li>
+										<li class="sub_menu"><a th:href="@{addotherpurchases}">기타 지출 등록</a></li>
 										<li class="sub_menu"><a th:href="@{getotherpurchases}">기타 지출 조회</a></li>
 									</ul>
 								</li>
