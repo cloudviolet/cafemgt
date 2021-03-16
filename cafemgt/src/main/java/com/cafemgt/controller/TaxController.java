@@ -19,27 +19,27 @@ public class TaxController {
 		return "pands/addsales";
 	}
 	
-	@GetMapping("addpurchases")
+	@GetMapping("/addpurchases")
 	public String addpurchases() {
 		return "pands/addpurchases";
 	}
 	
-	@GetMapping("addotherpurchases")
+	@GetMapping("/addotherpurchases")
 	public String addotherpurchases() {
 		return "pands/addotherpurchases";
 	}
 	
-	@GetMapping("getsales")
+	@GetMapping("/getsales")
 	public String getsales() {
 		return "pands/getsales";
 	}
 	
-	@GetMapping("getpurchases")
+	@GetMapping("/getpurchases")
 	public String getpurchases() {
 		return "pands/getpurchases";
 	}
 	
-	@GetMapping("getotherpurchases")
+	@GetMapping("/getotherpurchases")
 	public String getotherpurchases() {
 		return "pands/getotherpurchases";
 	}
