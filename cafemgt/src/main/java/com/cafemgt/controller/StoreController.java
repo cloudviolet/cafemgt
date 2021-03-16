@@ -1,12 +1,26 @@
 package com.cafemgt.controller;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.cafemgt.dto.UserDto;
+import com.cafemgt.service.UserService;
 
 @Controller
 public class StoreController {
+	
+	private final UserService userService;
+	
+	@Autowired
+	public StoreController(UserService userService) {
+		this.userService = userService;
+	}
 	
 	@PostConstruct
 	public void initialize() {
@@ -15,8 +29,17 @@ public class StoreController {
 		System.out.println("======================================");
 	}
 	
+	
+	@GetMapping("/getuser")
+	public String getuser(Model model) {
+		List<UserDto> userDtoList = userService.getUser();
+		model.addAttribute("userList", userDtoList);
+		
+		return "store/getuser";	
+	}
+	
 	@GetMapping("/addstore")
-	public String addstore() {
+	public String addstore(Model model) {
 		
 		return "store/addstore";		
 	}
@@ -45,10 +68,6 @@ public class StoreController {
 		return "store/getcustomer";	
 	}
 	
-	@GetMapping("/getuser")
-	public String getuser() {
-		
-		return "store/getuser";	
-	}
+
 
 }
