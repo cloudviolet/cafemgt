@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>상용직 급여 조회</title>
+	</th:block>
+
+	<th:block layout:fragment="customContents">
+		<div class="right_col" role="main">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>급여명세서 코드</th>
+					<th>상호명</th>
+					<th>직원아이디</th>
+					<th>직원이름</th>
+					<th>귀속연월</th>
+					<th>월급</th>
+					<th>과세추가수당합계</th>
+					<th>비과세추가수당합계</th>
+					<th>지급합계</th>
+					<th>근로소득세</th>
+					<th>근로지방소득세</th>
+					<th>4대보험 합계 세율 계산 금액</th>
+					<th>공제합계</th>
+					<th>실수령액</th>
+					<th>지급일자</th>
+					<th>등록날짜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="slr : ${salaryList}">
+					<td th:text="${slr.salaryCode}">
+					<td th:text="${slr.storeInfoCode}">
+					<td th:text="${slr.storeInfoName}">
+					<td th:text="${slr.userId}">
+					<td th:text="${slr.userName}">
+					<td th:text="${slr.salaryYearMonth}">
+					<td th:text="${slr.salaryPay}">
+					<td th:text="${slr.salaryBtaxTotal}">
+					<td th:text="${slr.salaryBntaxTotal}">
+					<td th:text="${slr.salaryTotal}">
+					<td th:text="${slr.intaxCode}">
+					<td th:text="${slr.intaxMin}">
+					<td th:text="${slr.intaxMax}">
+					<td th:text="${slr.intaxWork}">
+					<td th:text="${slr.intaxLocal}">
+					<td th:text="${slr.insuCode}">
+					<td th:text="${slr.salaryInsuCalc}">
+					<td th:text="${slr.salaryDeduction}">
+					<td th:text="${slr.salaryReceipts}">
+					<td th:text="${slr.salaryPayDate}">
+					<td th:text="${slr.salaryRegDate}">
+				</tr>
+			</tbody>
+			
+		</table>
+		</div>
+	</th:block>
+
+</html>
