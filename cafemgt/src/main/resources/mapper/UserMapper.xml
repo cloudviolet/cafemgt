@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.UserMapper">
+
+	<resultMap type="UserDto" id="userResulMap">
+		<result property="userId" 			column="user_id"/>
+		<result property="userPw" 			column="user_pw"/>
+		<result property="storeInfoCode" 	column="store_info_code"/>
+		<result property="userName" 		column="user_name"/>
+		<result property="levelCode" 		column="level_code"/>
+		<result property="userJoinDate" 	column="user_join_date"/>
+		<result property="userOutDate" 		column="user_out_date"/>
+		<result property="userPhone" 		column="user_phone"/>
+		<result property="userPay" 			column="user_pay"/>
+		<result property="userWorkTime" 	column="user_work_time"/>
+		<result property="userBankName" 	column="user_bank_name"/>
+		<result property="userBankAcount" 	column="user_bank_acount"/>
+		<result property="userAgreement" 	column="user_agreement"/>
+		<result property="userHealthCard" 	column="user_health_card"/>
+		<result property="userRegDate" 		column="user_reg_date"/>
+	</resultMap>
+	
+	<select id="getUser" resultMap="userResulMap">
+		SELECT 
+			ur.user_id
+			, ur.user_pw
+			, st.store_info_code
+			, ur.user_name
+			, le.level_code
+			, ur.user_join_date
+			, ur.user_out_date
+			, ur.user_phone
+			, ur.user_pay
+			, ur.user_work_time
+			, ur.user_bank_name
+			, ur.user_bank_acount
+			, ur.user_agreement
+			, ur.user_health_card
+			, ur.user_reg_date
+		FROM 
+			tb_user AS ur
+			LEFT join
+			tb_store_info AS st
+			on
+			ur.store_info_code = st.store_info_code
+			LEFT join
+			tb_level AS le
+			on
+			ur.level_code = le.level_code
+	</select>
+</mapper>

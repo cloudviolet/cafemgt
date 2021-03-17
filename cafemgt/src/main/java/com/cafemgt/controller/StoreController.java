@@ -1,12 +1,26 @@
 package com.cafemgt.controller;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.cafemgt.dto.UserDto;
+import com.cafemgt.service.UserService;
 
 @Controller
 public class StoreController {
+	
+	private final UserService userService;
+	
+	@Autowired
+	public StoreController(UserService userService) {
+		this.userService = userService;
+	}
 	
 	@PostConstruct
 	public void initialize() {
@@ -15,8 +29,43 @@ public class StoreController {
 		System.out.println("======================================");
 	}
 	
+	
+	@GetMapping("/login")
+	public String login(Model model) {
+		
+		return "store/login";	
+	}
+	@GetMapping("/join")
+	public String join(Model model) {
+
+		return "store/join";	
+	}
+	@GetMapping("/getuser")
+	public String getuser(Model model) {
+		List<UserDto> userDtoList = userService.getUser();
+		model.addAttribute("userList", userDtoList);
+		
+		return "store/getuser";	
+	}
+	
+	@GetMapping("/getuseradmin")
+	public String getuseradmin(Model model) {
+		List<UserDto> userDtoList = userService.getUser();
+		model.addAttribute("userList", userDtoList);
+		
+		return "admin/getuseradmin";	
+	}
+	
+	@GetMapping("/getusermy")
+	public String getusermy(Model model) {
+		List<UserDto> userDtoList = userService.getUser();
+		model.addAttribute("userList", userDtoList);
+		
+		return "store/getusermy";	
+	}
+	
 	@GetMapping("/addstore")
-	public String addstore() {
+	public String addstore(Model model) {
 		
 		return "store/addstore";		
 	}
@@ -38,17 +87,23 @@ public class StoreController {
 		
 		return "store/getstore";	
 	}
+	@GetMapping("/getstoreadmin")
+	public String getstoreadmin() {
+		
+		return "admin/getstoreadmin";	
+	}
 	
 	@GetMapping("/getcustomer")
 	public String getcustomer() {
 		
 		return "store/getcustomer";	
 	}
-	
-	@GetMapping("/getuser")
-	public String getuser() {
+	@GetMapping("/getcustomeradmin")
+	public String getcustomeradmin() {
 		
-		return "store/getuser";	
+		return "admin/getcustomeradmin";	
 	}
+	
+
 
 }
