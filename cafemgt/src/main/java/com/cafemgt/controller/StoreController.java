@@ -30,12 +30,38 @@ public class StoreController {
 	}
 	
 	
+	@GetMapping("/login")
+	public String login(Model model) {
+		
+		return "store/login";	
+	}
+	@GetMapping("/join")
+	public String join(Model model) {
+
+		return "store/join";	
+	}
 	@GetMapping("/getuser")
 	public String getuser(Model model) {
 		List<UserDto> userDtoList = userService.getUser();
 		model.addAttribute("userList", userDtoList);
 		
 		return "store/getuser";	
+	}
+	
+	@GetMapping("/getuseradmin")
+	public String getuseradmin(Model model) {
+		List<UserDto> userDtoList = userService.getUser();
+		model.addAttribute("userList", userDtoList);
+		
+		return "admin/getuseradmin";	
+	}
+	
+	@GetMapping("/getusermy")
+	public String getusermy(Model model) {
+		List<UserDto> userDtoList = userService.getUser();
+		model.addAttribute("userList", userDtoList);
+		
+		return "store/getusermy";	
 	}
 	
 	@GetMapping("/addstore")
@@ -61,11 +87,21 @@ public class StoreController {
 		
 		return "store/getstore";	
 	}
+	@GetMapping("/getstoreadmin")
+	public String getstoreadmin() {
+		
+		return "admin/getstoreadmin";	
+	}
 	
 	@GetMapping("/getcustomer")
 	public String getcustomer() {
 		
 		return "store/getcustomer";	
+	}
+	@GetMapping("/getcustomeradmin")
+	public String getcustomeradmin() {
+		
+		return "admin/getcustomeradmin";	
 	}
 	
 

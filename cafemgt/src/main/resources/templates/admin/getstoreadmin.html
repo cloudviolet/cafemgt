@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>사업장 조회</title>
+	</th:block>
+
+	<th:block layout:fragment="customContents">
+		<div class="right_col" role="main">
+			<table border="1" class="table">	
+				<thead>
+					<tr>
+						<th>사업장코드</th>
+						<th>사업주아이디</th>
+						<th>사업주상호명</th>
+						<th>사업자번호</th>
+						<th>사업장업종</th>
+						<th>사업장주소지</th>
+						<th>사업장전화번호</th>
+						<th>사업장등록일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="sl : ${storeList}">
+					<td th:text="${sl.storeInfoCode}">
+					<td th:text="${sl.ownerId}">
+					<td th:text="${sl.storeInfoName}">
+					<td th:text="${sl.storeInfoLicenseNumber}">
+					<td th:text="${sl.storeInfoIndustryType}">
+					<td th:text="${sl.storeInfoAddr}">
+					<td th:text="${sl.storeInfoPhone}">
+					<td th:text="${sl.storeInfoRegDate}">
+					</tr>
+				</tbody>			
+			</table>		
+		</div>
+	</th:block>
+</html>
