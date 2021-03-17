@@ -8,5 +8,8 @@ import com.cafemgt.dto.OtherPurchasesDto;
 
 @Mapper
 public interface OtherPurchasesMapper {
+	
+	public int addOtherPurchases(OtherPurchasesDto otherPurchasesDto);
+	
 	public List<OtherPurchasesDto> getOtherPurchases();
 }

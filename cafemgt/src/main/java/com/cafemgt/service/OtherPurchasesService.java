@@ -15,6 +15,12 @@ public class OtherPurchasesService {
 	public OtherPurchasesService(OtherPurchasesMapper otherPurchasesMapper) {
 		this.otherPurchasesMapper = otherPurchasesMapper;
 	}
+	
+	public int addOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
+		otherPurchasesMapper.addOtherPurchases(otherPurchasesDto);
+		
+		return 0;		
+	}
 
 	public List<OtherPurchasesDto> getOtherPurchases(){
 		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesMapper.getOtherPurchases();
