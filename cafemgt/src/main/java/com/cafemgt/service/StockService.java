@@ -17,9 +17,9 @@ public class StockService {
 		this.stockMapper= stockMapper;
 	}
 	
-	public List<StockDto> getStock() {
+	public List<StockDto> getStock(String sessionId) {
 		
-		return stockMapper.getStock();
+		return stockMapper.getStock(sessionId);
 	}
 	
 }

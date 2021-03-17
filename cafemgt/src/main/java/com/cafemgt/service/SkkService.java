@@ -15,11 +15,12 @@ public class SkkService {
 	private final SkkMapper skkMapper;
 	
 	public SkkService(SkkMapper skkMapper) {
+	
 		this.skkMapper= skkMapper;
 	}
 	
-	public List<SkkDto> getSkk() {
+	public List<SkkDto> getSkk(String sessionId) {
 		
-		return skkMapper.getSkk();
+		return skkMapper.getSkk(sessionId);
 	}
 }

@@ -25,7 +25,7 @@
 		<result property="stockRelation"	 		column="stock_relation" />
 		
 	</resultMap>
-	<select id="getStock" resultMap="StockResultMap">
+	<select id="getStock" parameterType="String" resultMap="StockResultMap">
 		SELECT
 			s.stock_code
 			,st.store_info_code
@@ -56,5 +56,7 @@
 			tb_article AS atc
 			on
 			s.article_code = atc.article_code
+		WHERE
+			st.store_info_code = #{sessionId}
 	</select>
 </mapper>

@@ -8,5 +8,5 @@ import com.cafemgt.dto.TotalStockDto;
 
 @Mapper
 public interface TotalStockMapper {
-	public List<TotalStockDto> getTotalStock();
+	public List<TotalStockDto> getTotalStock(String sessionId);
 }

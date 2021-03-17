@@ -17,8 +17,8 @@ public class TotalStockService {
 		this.totalStockMapper= totalStockMapper;
 	}
 	
-	public List<TotalStockDto> getTotalStock() {
-		List<TotalStockDto> totalStockList = totalStockMapper.getTotalStock();
+	public List<TotalStockDto> getTotalStock(String sessionId) {
+		List<TotalStockDto> totalStockList = totalStockMapper.getTotalStock(sessionId);
 		for(int i = 0 ; i < totalStockList.size(); i++) {
 			if(totalStockList.get(i).getDetailvolCheck() == 1) {
 				totalStockList.get(i).setDetailvolCheckString("사용전");

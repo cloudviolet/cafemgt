@@ -43,8 +43,6 @@
 										<button type="button" id="submitButton" class="btn btn-success" >Submit</button>
 									</li>
 								</ul>
-							
-							
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
@@ -53,8 +51,8 @@
 								<div class="form-group row">
 									<label class="control-label col-md-3 col-sm-3 label-align">메뉴 명 <span class="required">*</span></label>
 									<div class="col-md-6 col-sm-6 ">
-										<select class="form-control">
-											<option>choice plz</option>
+										<select class="form-control" required="required">
+											<option value="" disabled selected>choice plz</option>
 											<th:block th:each="ml : ${menuList}">
 												<option th:value="${ml.menuCode}" th:text="${ml.menuName}">* ea *</option>
 											</th:block>
@@ -80,8 +78,8 @@
 									<div class="form-group row">
 										<label class="control-label col-md-3 col-sm-3 label-align">단위</label>
 										<div class="col-md-6 col-sm-6 ">
-											<select class="form-control">
-												<option>choice plz</option>
+											<select class="form-control" required="required">
+												<option value="" disabled selected>choice plz</option>
 												<option value="b">* g *</option>
 												<option value="c">* ml *</option>
 											</select>
@@ -143,8 +141,8 @@
 				InnerHtml += 	'<div class="form-group row">';
 				InnerHtml += 	'<label class="control-label col-md-3 col-sm-3 label-align">단위</label>';
 				InnerHtml += 	'<div class="col-md-6 col-sm-6 ">';
-				InnerHtml += 		'<select class="form-control">';
-				InnerHtml += 			'<option>choice plz</option>';
+				InnerHtml += 		'<select class="form-control" required="required">';
+				InnerHtml += 			'<option value="" disabled selected>choice plz</option>';
 				InnerHtml += 			'<option value="b">* g *</option>';
 				InnerHtml += 			'<option value="c">* ml *</option>';
 				InnerHtml += 		'</select>';

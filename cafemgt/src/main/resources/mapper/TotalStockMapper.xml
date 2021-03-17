@@ -30,7 +30,7 @@
 		<result property="detailvolSystemId" 		column="detailvol_system_id" />
 		<result property="detailvolSystemName" 		column="detailvol_system_name" />
 	</resultMap>
-	<select id="getTotalStock" resultMap="TotalStockResultMap">
+	<select id="getTotalStock" parameterType="String" resultMap="TotalStockResultMap">
 		SELECT 
 				 dtv.detailvol_code
 			,st.store_info_code
@@ -75,5 +75,7 @@
 			tb_article AS ar
 			on
 			inc.article_code = ar.article_code
+		WHERE
+			st.store_info_code = #{sessionId}
 	</select>
 </mapper>
