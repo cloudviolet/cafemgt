@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.cafemgt.dto.ArticleDto;
+import com.cafemgt.dto.MenuDto;
 
 @Mapper
-public interface ArticleMapper {
-	public List<ArticleDto> getArticle();
+public interface MenuMapper {
+	public List<MenuDto> getMenu();
 }
