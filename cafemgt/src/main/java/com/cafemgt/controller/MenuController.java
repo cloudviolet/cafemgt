@@ -35,13 +35,14 @@ public class MenuController {
 	
 	@GetMapping("/addmenu")
 	public String addmenu() {
-		
+	
 		return "menu/addmenu";
 	}
 	
 	@GetMapping("/addrecipy")
-	public String addrecipy() {
-		
+	public String addrecipy(Model model) {
+		List<MenuDto> menuList = menuService.getMenu();
+		model.addAttribute("menuList",menuList);
 		return "menu/addrecipy";
 	}
 	

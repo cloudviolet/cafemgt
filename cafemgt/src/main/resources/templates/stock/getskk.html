@@ -58,10 +58,9 @@
 										여기에 설명써주시면됩니다.
 										<code>강조!</code>
 									</p>
-									<table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width: 100%">
+									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 										<thead>
 											<tr>
-												<th><input type="checkbox" id="check-all"></th>
 												<th>재고조사코드</th>
 												<th>상호코드</th>
 												<th>상호명</th>
@@ -82,7 +81,6 @@
 										</thead>
 										<tbody>
 											<tr th:each="skkl :${skkList}">
-												<td><input type="checkbox" id="check-all"></td>
 												<td th:text="${skkl.skCode}"></td>
 												<td th:text="${skkl.storeInfoCode}"></td>
 												<td th:text="${skkl.storeInfoName}"></td>

@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.SkkDto;
 import com.cafemgt.dto.StockDto;
+import com.cafemgt.dto.TotalStockDto;
 import com.cafemgt.service.ArticleService;
 import com.cafemgt.service.SkkService;
 import com.cafemgt.service.StockService;
+import com.cafemgt.service.TotalStockService;
 
 @Controller
 public class StockController {
@@ -22,15 +24,18 @@ public class StockController {
 	private final ArticleService articleService;
 	private final SkkService skkService;
 	private final StockService stockService;
+	private final TotalStockService totalStockService;
 	
 	
 	@Autowired
 	public StockController(ArticleService articleService
-							,SkkService skkService
-							,StockService stockService) {
+						  ,SkkService skkService
+						  ,StockService stockService
+						  ,TotalStockService totalStockService) {
 		this.articleService = articleService;
 		this.skkService = skkService;
 		this.stockService = stockService;
+		this.totalStockService = totalStockService;
 	}
 	
 	@PostConstruct
@@ -75,8 +80,9 @@ public class StockController {
 	}
 	
 	@GetMapping("/gettotalstock")
-	public String gettotalstock() {
-		
+	public String gettotalstock(Model model) {
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStock();
+		model.addAttribute("totalStockList",totalStockList);
 		return "stock/gettotalstock";
 	}
 }

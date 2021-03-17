@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.TotalStockMapper">
+	<resultMap type="TotalStockDto" id="TotalStockResultMap">
+		<result property="detailvolCode" 			column="detailvol_code" />
+		<result property="storeInfoCode" 			column="store_info_code" />
+		<result property="storeInfoName" 			column="store_info_name" />
+		<result property="conCode" 					column="con_code" />
+		<result property="conName" 					column="con_name" />
+		<result property="incoCode" 				column="inco_code" />
+		<result property="articleCode" 				column="article_code" />
+		<result property="articleName" 				column="article_name" />
+		<result property="incoCount" 				column="inco_count" />
+		<result property="articleVolume" 			column="article_volume" />
+		<result property="articleDan" 				column="article_dan" />
+		<result property="incoVolumeSubtotal" 		column="inco_volume_subtotal" />
+		<result property="detailvolGroupCode" 		column="detailvol_group_code" />
+		<result property="detailvolVolumeTotal" 	column="detailvol_volume_total" />
+		<result property="detailvolFinalTotal" 		column="detailvol_final_total" />
+		<result property="detailvolConCount" 		column="detailvol_con_count" />
+		<result property="detailvolRemainVolume" 	column="detailvol_remain_volume" />
+		<result property="detailvolRemainCount" 	column="detailvol_remain_count" />
+		<result property="incoDate" 				column="inco_date" />
+		<result property="detailvolRegDate" 		column="detailvol_reg_date" />
+		<result property="detailvolDeadlineCheck" 	column="detailvol_deadline_check" />
+		<result property="detailvolCheck" 			column="detailvol_check" />
+		<result property="detailvolStockGroupCode" 	column="detailvol_stock_group_code" />
+		<result property="detailvolSystemId" 		column="detailvol_system_id" />
+		<result property="detailvolSystemName" 		column="detailvol_system_name" />
+	</resultMap>
+	<select id="getTotalStock" resultMap="TotalStockResultMap">
+		SELECT 
+				 dtv.detailvol_code
+			,st.store_info_code
+			,st.store_info_name
+			,c.con_code
+			,c.con_name
+			,inc.inco_code
+			,inc.article_code
+			,ar.article_name
+			,inc.inco_count
+			,ar.article_volume
+			,ar.article_dan
+			,inc.inco_volume_subtotal
+			,dtv.detailvol_group_code	
+			,dtv.detailvol_volume_total
+			,dtv.detailvol_final_total
+			,dtv.detailvol_con_count
+			,dtv.detailvol_remain_volume
+			,dtv.detailvol_remain_count
+			,inc.inco_date
+			,dtv.detailvol_reg_date
+			,dtv.detailvol_deadline_check
+			,dtv.detailvol_check
+			,dtv.detailvol_stock_group_code
+			,dtv.detailvol_system_id
+			,dtv.detailvol_system_name
+		FROM 
+			tb_detail_volume AS dtv
+			LEFT join
+			tb_store_info AS st
+			on
+			dtv.store_info_code = st.store_info_code
+			LEFT join
+			tb_consumption AS c
+			ON 
+			dtv.con_code = c.con_code
+			LEFT join
+			tb_incoming AS inc
+			ON 
+			dtv.inco_code = inc.inco_code
+			LEFT join
+			tb_article AS ar
+			on
+			inc.article_code = ar.article_code
+	</select>
+</mapper>

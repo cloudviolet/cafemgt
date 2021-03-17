@@ -1,5 +1,6 @@
 package com.cafemgt.dto;
 
+//table name tb_stocktaking
 public class SkkDto {
 	private String  skCode;
 	private String  storeInfoCode;
