@@ -22,4 +22,8 @@ public class ArticleService {
 		
 		return articleDto;
 	}
+	public int addArticle(ArticleDto articleDto) {
+		
+		return articleMapper.addArticle(articleDto);
+	}
 }

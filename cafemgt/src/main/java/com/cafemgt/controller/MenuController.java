@@ -38,16 +38,12 @@ public class MenuController {
 	@GetMapping("/addmenu")
 	public String addmenu(Model model, HttpSession session) {
 		String sessionId = (String)session.getAttribute("S_ID");
-		System.out.println(sessionId);
 		model.addAttribute("sessionId",sessionId);
 		return "menu/addmenu";
 	}
 	@PostMapping("/addmenu")
 	public String addmenu(MenuDto menuDto) {
-		System.out.println(menuDto.getMenuName());
-		System.out.println(menuDto.getMenuCate());
-		System.out.println(menuDto.getMenuPrice());
-		/* menuService.addMenu(menuDto); */
+		menuService.addMenu(menuDto);
 		return "redirect:/getmenu";
 	}
 	
