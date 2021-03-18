@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.CustomerMapper">
+
+	<resultMap type="CustomerDto" id="customerResulMap">
+		<result property="custCode" 			column="cust_code"/>
+		<result property="storeInfoCode" 		column="store_info_code"/>
+		<result property="custNumber" 			column="cust_number"/>
+		<result property="custName" 			column="cust_name"/>
+		<result property="custBusinessType" 	column="cust_business_type"/>
+		<result property="custOwnerName" 		column="cust_owner_name"/>
+		<result property="custPhone" 			column="cust_phone"/>
+		<result property="custEtc" 				column="cust_etc"/>
+		<result property="custRegDate" 			column="cust_reg_date"/>
+	</resultMap>
+
+	<select id="getCustomer" resultMap="customerResulMap">
+	SELECT 
+		cr.cust_code
+		,st.store_info_code
+		,cr.cust_number
+		,cr.cust_name
+		,cr.cust_business_type
+		,cr.cust_owner_name
+		,cr.cust_phone
+		,cr.cust_etc
+		,cr.cust_reg_date
+	FROM 
+		tb_customer AS cr
+		LEFT join
+		tb_store_info AS st
+		on
+		cr.store_info_code = st.store_info_code
+	</select>
+</mapper>
