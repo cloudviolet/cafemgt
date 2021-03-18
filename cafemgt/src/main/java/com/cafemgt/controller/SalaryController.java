@@ -9,17 +9,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.cafemgt.dto.BonusDto;
+import com.cafemgt.dto.DsalaryDto;
 import com.cafemgt.dto.SalaryDto;
+import com.cafemgt.dto.WtimeDto;
 import com.cafemgt.service.SalaryService;
+import com.cafemgt.service.WtimeService;
+import com.cafemgt.service.BonusService;
+import com.cafemgt.service.DsalaryService;
 
 @Controller
 public class SalaryController {
 	
 	private final SalaryService salaryService;
+	private final DsalaryService dsalaryService;
+	private final WtimeService wtimeService;
+	private final BonusService bonusService;
 	
 	@Autowired
-	public SalaryController(SalaryService salaryService) {
+	public SalaryController(SalaryService salaryService
+						   ,DsalaryService dsalaryService
+						   ,WtimeService wtimeService
+						   ,BonusService bonusService) {
 		this.salaryService = salaryService;
+		this.dsalaryService = dsalaryService;
+		this.wtimeService = wtimeService;
+		this.bonusService = bonusService;
 	}
 	
 	@PostConstruct
@@ -53,7 +68,10 @@ public class SalaryController {
 	}
 	
 	@GetMapping("/getdsalary")
-	public String getdsalary() {
+	public String getdsalary(Model model) {
+		
+		List<DsalaryDto> dsalaryList = dsalaryService.getDsalary();
+		model.addAttribute("dsalaryList",dsalaryList);
 		
 		return "dsalary/getdsalary";
 	}
@@ -63,11 +81,16 @@ public class SalaryController {
 	@GetMapping("/addwtime")
 	public String addwtime() {
 		
+		
+		
 		return "dsalary/addwtime";
 	}
 	
 	@GetMapping("/getwtime")
-	public String getwtime() {
+	public String getwtime(Model model) {
+		
+		List<WtimeDto> wtimeList = wtimeService.getWtime();
+		model.addAttribute("wtimeList",wtimeList);
 		
 		return "dsalary/getwtime";
 	}
@@ -80,7 +103,10 @@ public class SalaryController {
 	}
 	
 	@GetMapping("/getbonus")
-	public String getbonus() {
+	public String getbonus(Model model) {
+		
+		List<BonusDto> bonusList = bonusService.getBonus();
+		model.addAttribute("bonusList",bonusList);
 		
 		return "bonus/getbonus";
 	}
