@@ -1,12 +1,15 @@
 package com.cafemgt.dto;
 
-public class DetailVolDto {
+//table name tb_detail_volume
+public class TotalStockDto {
+	
 	private String	detailvolCode;
 	private String	storeInfoCode;
 	private String 	storeInfoName;
 	private String 	conCode;
 	private String 	conName;
 	private String 	incoCode;
+	private String 	articleCode;
 	private String 	articleName;
 	private int 	incoCount;
 	private int 	articleVolume;
@@ -21,12 +24,11 @@ public class DetailVolDto {
 	private String 	incoDate;
 	private String 	detailvolRegDate;
 	private String 	detailvolDeadlineCheck;
+	private String 	detailvolCheckString;
 	private int 	detailvolCheck;
 	private String 	detailvolStockGroupCode;
 	private String 	detailvolSystemId;
 	private String 	detailvolSystemName;
-	
-	
 	public String getDetailvolCode() {
 		return detailvolCode;
 	}
@@ -62,6 +64,12 @@ public class DetailVolDto {
 	}
 	public void setIncoCode(String incoCode) {
 		this.incoCode = incoCode;
+	}
+	public String getArticleCode() {
+		return articleCode;
+	}
+	public void setArticleCode(String articleCode) {
+		this.articleCode = articleCode;
 	}
 	public String getArticleName() {
 		return articleName;
@@ -150,6 +158,12 @@ public class DetailVolDto {
 	public int getDetailvolCheck() {
 		return detailvolCheck;
 	}
+	public String getDetailvolCheckString() {
+		return detailvolCheckString;
+	}
+	public void setDetailvolCheckString(String detailvolCheckString) {
+		this.detailvolCheckString = detailvolCheckString;
+	}
 	public void setDetailvolCheck(int detailvolCheck) {
 		this.detailvolCheck = detailvolCheck;
 	}
@@ -171,11 +185,10 @@ public class DetailVolDto {
 	public void setDetailvolSystemName(String detailvolSystemName) {
 		this.detailvolSystemName = detailvolSystemName;
 	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DetailVolDto [detailvolCode=");
+		builder.append("TotalStockDto [detailvolCode=");
 		builder.append(detailvolCode);
 		builder.append(", storeInfoCode=");
 		builder.append(storeInfoCode);
@@ -187,6 +200,8 @@ public class DetailVolDto {
 		builder.append(conName);
 		builder.append(", incoCode=");
 		builder.append(incoCode);
+		builder.append(", articleCode=");
+		builder.append(articleCode);
 		builder.append(", articleName=");
 		builder.append(articleName);
 		builder.append(", incoCount=");
@@ -226,5 +241,6 @@ public class DetailVolDto {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 }

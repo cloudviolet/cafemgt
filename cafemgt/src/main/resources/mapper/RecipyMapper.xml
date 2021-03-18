@@ -13,7 +13,7 @@
 		<result property="conVolume" 		column="con_volume" />
 		<result property="conDan" 			column="con_dan" />
 	</resultMap>
-	<select id="getRecipy" resultMap="recipyResultMap">
+	<select id="getRecipy" parameterType="String" resultMap="recipyResultMap">
 		SELECT
 			 c.con_code
 		 	,st.store_info_code
@@ -31,7 +31,8 @@
 			LEFT JOIN
 			tb_store_info st
 			ON m.store_info_code = st.store_info_code
-
+		WHERE
+			st.store_info_code= #{sessionId}
 		
 	</select>
 </mapper>

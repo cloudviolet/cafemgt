@@ -1,6 +1,7 @@
 package com.cafemgt.controller;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,16 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CommonController {
 	
-	
 	@PostConstruct
 	public void initialize() {
 		System.out.println("======================================");
-		System.out.println("======= CommonController bean 등록 ======");
+		System.out.println("======= CommonController bean 등록======");
 		System.out.println("======================================");
 	}
 	
 	@GetMapping("/addowner")
 	public String addowner() {
+		
 		return "owner/addowner";		
 	}
 	
@@ -27,8 +28,8 @@ public class CommonController {
 	}
 	
 	@GetMapping("/")
-	public String main() {
-		
+	public String main(HttpSession session) {
+		session.setAttribute("S_ID", "owner_01");
 		return "index";
 	}
 	@GetMapping("/index")
@@ -36,7 +37,6 @@ public class CommonController {
 		
 		return "index";
 	}
-	//required = get방식으로 전달하지 않아도 받기위해서  값이 필수적인가?,defaultValue= "get방식"
 	
 	
 }

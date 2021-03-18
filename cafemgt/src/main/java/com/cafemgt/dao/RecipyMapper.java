@@ -8,5 +8,5 @@ import com.cafemgt.dto.RecipyDto;
 
 @Mapper
 public interface RecipyMapper {
-	public List<RecipyDto> getRecipy();
+	public List<RecipyDto> getRecipy(String sessionId);
 }
