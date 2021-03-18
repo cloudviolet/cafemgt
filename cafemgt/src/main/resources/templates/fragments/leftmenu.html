@@ -13,7 +13,7 @@
 
 			<!-- menu profile quick info -->
 			
-			<div class="profile clearfix">
+<!-- 			<div class="profile clearfix">
 				<div class="profile_pic">
 					<img src="images/img.jpg" alt="..." class="img-circle profile_img">
 				</div>
@@ -21,15 +21,18 @@
 					<span>Welcome,</span>
 					<h2>John Doe</h2>
 				</div>
-			</div>
+			</div> -->
 			<!-- /menu profile quick info -->
-
+			
+			<a th:href ="@{join}" class="btn btn-info btn-block btn-md " style="float: right; margin-top: 30px;">Join</a>
+			<a th:href ="@{login}" class="btn btn-success btn-block btn-md " style="float: right; margin-top: 30px;">Login</a>
+			
 			<br />
 
 			<!-- sidebar menu -->
 			<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 				<div class="menu_section">
-					<h3>General</h3>
+					<h3>-</h3>
 					<ul class="nav side-menu">
 						<li><a><i class="fa fa-home"></i> #기초 등록(??) <span	class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
@@ -44,19 +47,23 @@
 								<li><a>#사업장 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
 										<li class="sub_menu"><a th:href="@{addstore}">사업장 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getstore}">사업장 조회</a></li>
+										<li class="sub_menu"><a th:href="@{getstore}">사업장 조회(사업주)</a></li>
+										<li class="sub_menu"><a th:href="@{getstoreadmin}">사업장 조회(관리자)</a></li>
 									</ul>
 								</li>
 								<li><a>#직원 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
 										<li class="sub_menu"><a th:href="@{adduser}">직원 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getuser}">직원 조회</a></li>
+										<li class="sub_menu"><a th:href="@{getuser}">직원 조회(사업주)</a></li>
+										<li class="sub_menu"><a th:href="@{getusermy}">직원 조회(직원마이페이지)</a></li>
+										<li class="sub_menu"><a th:href="@{getuseradmin}">직원 조회(관리자)</a></li>
 									</ul>
 								</li>
 								<li><a>#거래처 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
 										<li class="sub_menu"><a th:href="@{addcustomer}">거래처 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getcustomer}">거래처 조회</a></li>
+										<li class="sub_menu"><a th:href="@{getcustomer}">거래처 조회(사업주+직원)</a></li>
+										<li class="sub_menu"><a th:href="@{getcustomeradmin}">거래처 조회(관리자)</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -194,7 +201,7 @@
 				<a data-toggle="tooltip" data-placement="top" title="Lock"> <span
 					class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
 				</a> 
-				<a data-toggle="tooltip" data-placement="top" title="Logout" href="#최영은"> 
+				<a data-toggle="tooltip" data-placement="top" title="Logout" th:href="@{index}"> 
 					<span class="glyphicon glyphicon-off"aria-hidden="true"></span>
 				</a>
 			</div>
