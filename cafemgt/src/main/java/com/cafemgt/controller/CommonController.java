@@ -29,19 +29,12 @@ public class CommonController {
 	}
 	
 	@GetMapping("/")
-	
-	public String main(HttpSession session) {
-		if(session.getAttribute("S_ID") == null) {
-			session.setAttribute("S_ID", "owner_01");
-		}
+		public String main() {
+
 		return "index";
 	}
 	@GetMapping("/index")
-	public String index(HttpSession session ,Model model) {
-		String oid = (String)session.getAttribute("OID");
-		String oname = (String)session.getAttribute("ONAME");
-		model.addAttribute("oid",oid);
-		model.addAttribute("oname",oname);
+	public String index() {
 
 		return "index";
 	}

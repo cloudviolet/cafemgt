@@ -48,60 +48,52 @@ public class StockController {
 	}
 	
 	@GetMapping("/addarticle")
-	public String addarticle(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		model.addAttribute("sessionId",sessionId);
+	public String addarticle() {
+
 		return "stock/addarticle";
 	}
 	@PostMapping("/addarticle")
 	public String addarticle(ArticleDto articleDto) {
-		System.out.println(articleDto.getStoreInfoCode());
-		System.out.println(articleDto.getArticleTaxCate());
-		System.out.println(articleDto.getArtcleBig());
-		
-		
 		articleService.addArticle(articleDto);
 		return "redirect:/getarticle";
 	}
 	
 	@GetMapping("/addskk")
 	public String addskk(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		List<ArticleDto> articleList = articleService.getArticle(sessionId);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
 		model.addAttribute("articleList",articleList);
-		model.addAttribute("sessionId",sessionId);
 		return "stock/addskk";
 	}
 	
 	@GetMapping("/getarticle")
 	public String getarticle(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		List<ArticleDto> articleList = articleService.getArticle(sessionId);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
 		model.addAttribute("articleList",articleList);
-		
 		return "stock/getarticle";
 	}
 	
 	@GetMapping("/getskk")
 	public String getskk(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		List<SkkDto> skkList = skkService.getSkk(sessionId);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SkkDto> skkList = skkService.getSkk(SSTORECODE);
 		model.addAttribute("skkList",skkList);
 		return "stock/getskk";
 	}
 	
 	@GetMapping("/getstock")
 	public String getstock(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		List<StockDto> stockList = stockService.getStock(sessionId);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<StockDto> stockList = stockService.getStock(SSTORECODE);
 		model.addAttribute("stockList",stockList);
 		return "stock/getstock";
 	}
 	
 	@GetMapping("/gettotalstock")
 	public String gettotalstock(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(sessionId);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
 		model.addAttribute("totalStockList",totalStockList);
 		return "stock/gettotalstock";
 	}

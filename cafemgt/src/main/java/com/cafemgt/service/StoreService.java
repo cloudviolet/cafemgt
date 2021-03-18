@@ -22,5 +22,13 @@ public class StoreService {
 		
 		return storeDtoList;
 	}
+	
+	public List<StoreDto> getStoreInfoByOwnerId(String ownerId){
+		List<StoreDto> storeDtoList = storeMapper.getStoreInfoByOwnerId(ownerId);
+		
+		return storeDtoList;
+	}
+	
+	
 
 }

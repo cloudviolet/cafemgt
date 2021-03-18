@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafemgt.dto.CustomerDto;
 import com.cafemgt.dto.OwnerDto;
+import com.cafemgt.dto.StoreDto;
 import com.cafemgt.dto.UserDto;
 import com.cafemgt.service.CustomerService;
 import com.cafemgt.service.OwnerService;
+import com.cafemgt.service.StoreService;
 import com.cafemgt.service.UserService;
 
 @Controller
@@ -25,15 +27,18 @@ public class StoreController {
 	private final UserService userService;
 	private final CustomerService customerService;
 	private final OwnerService ownerService;
+	private final StoreService storeService;
 	
 	
 	@Autowired
 	public StoreController(UserService userService
 						  ,CustomerService customerService
-						  ,OwnerService ownerService) {
+						  ,OwnerService ownerService
+						  ,StoreService storeService) {
 		this.userService = userService;
 		this.customerService = customerService;
 		this.ownerService = ownerService;
+		this.storeService = storeService;
 	}
 	
 	@PostConstruct
@@ -61,10 +66,17 @@ public class StoreController {
 			System.out.println(result +"++++++로그인성공++++++");
 			if(result.equals("로그인 성공")) {				
 				  OwnerDto ownerDto = ownerService.getinfoOwner(ownerId);
+				  
+				  List<StoreDto> storeDtoList = storeService.getStoreInfoByOwnerId(ownerId);
+				  String storeInfoCode = storeDtoList.get(0).getStoreInfoCode();
+				  
 				  System.out.println(ownerDto.getOwnerId());
 				  System.out.println(ownerDto.getOwnerName());
+				  System.out.println(storeInfoCode);
+				  
 				  session.setAttribute("OID", ownerDto.getOwnerId());
 				  session.setAttribute("ONAME", ownerDto.getOwnerName());				 
+				  session.setAttribute("SSTORECODE", storeInfoCode);				 
 			}		
 			return "redirect:/";			
 		}
@@ -82,6 +94,12 @@ public class StoreController {
 		
 		return "owner/join";	
 	}
+	@PostMapping("/join")
+	public String join(Model model) {
+		
+		return "redirect:/index";	
+	}
+	
 	@GetMapping("/getuser")
 	public String getuser(Model model) {
 		List<UserDto> userDtoList = userService.getUser();
@@ -143,8 +161,9 @@ public class StoreController {
 	}
 	
 	@GetMapping("/getstore")
-	public String getstore() {
-		
+	public String getstore(Model model) {
+		List<StoreDto> storeDtoList = storeService.getStore();
+		model.addAttribute(storeDtoList);
 		return "store/getstore";	
 	}
 	@GetMapping("/getstoreadmin")
