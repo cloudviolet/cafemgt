@@ -9,7 +9,7 @@ import com.cafemgt.dto.ArticleDto;
 @Mapper
 public interface ArticleMapper {
 	
-	public List<ArticleDto> getArticle(String sessionId);
+	public List<ArticleDto> getArticle(String SSTORECODE);
 	
 	public int addArticle(ArticleDto articleDto);
 }

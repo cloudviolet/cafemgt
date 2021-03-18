@@ -17,9 +17,9 @@ public class MenuService {
 		this.menuMapper= menuMapper;
 	}
 	
-	public List<MenuDto> getMenu(String sessionId) {
+	public List<MenuDto> getMenu(String SSTORECODE) {
 		
-		return menuMapper.getMenu(sessionId);
+		return menuMapper.getMenu(SSTORECODE);
 	}
 	
 	public int addMenu(MenuDto menuDto) {

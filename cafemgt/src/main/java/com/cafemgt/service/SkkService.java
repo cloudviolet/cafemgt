@@ -19,8 +19,8 @@ public class SkkService {
 		this.skkMapper= skkMapper;
 	}
 	
-	public List<SkkDto> getSkk(String sessionId) {
+	public List<SkkDto> getSkk(String SSTORECODE) {
 		
-		return skkMapper.getSkk(sessionId);
+		return skkMapper.getSkk(SSTORECODE);
 	}
 }

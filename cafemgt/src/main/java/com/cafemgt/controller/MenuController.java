@@ -21,13 +21,12 @@ public class MenuController {
 	
 	private final MenuService menuService;
 	private final RecipyService recipyService;
-	
 	@Autowired
 	public MenuController(MenuService menuService,RecipyService recipyService) {
 		this.menuService = menuService;
 		this.recipyService=recipyService;
 	}
-	
+
 	@PostConstruct
 	public void initialize() {
 		System.out.println("======================================");
@@ -37,9 +36,7 @@ public class MenuController {
 	//메뉴 등록
 	@GetMapping("/addmenu")
 
-	public String addmenu(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		model.addAttribute("sessionId",sessionId);
+	public String addmenu() {
 		return "menu/addmenu";
 	}
 	
@@ -52,24 +49,24 @@ public class MenuController {
 	//레시피 등록
 	@GetMapping("/addrecipy")
 	public String addrecipy(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		List<MenuDto> menuList = menuService.getMenu(sessionId);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<MenuDto> menuList = menuService.getMenu(SSTORECODE);
 		model.addAttribute("menuList",menuList);
 		return "menu/addrecipy";
 	}
 	
 	@GetMapping("/getmenu")
 	public String getmenu(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		List<MenuDto> menuList = menuService.getMenu(sessionId);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<MenuDto> menuList = menuService.getMenu(SSTORECODE);
 		model.addAttribute("menuList",menuList);
 		return "menu/getmenu";
 	}
 	
 	@GetMapping("/getrecipy")
 	public String getrecipy(Model model, HttpSession session) {
-		String sessionId = (String)session.getAttribute("S_ID");
-		List<RecipyDto> recipyList = recipyService.getRecipy(sessionId);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<RecipyDto> recipyList = recipyService.getRecipy(SSTORECODE);
 		model.addAttribute("recipyList",recipyList);
 		return "menu/getrecipy";
 	}

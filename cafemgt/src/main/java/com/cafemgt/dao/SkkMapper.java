@@ -8,5 +8,5 @@ import com.cafemgt.dto.SkkDto;
 
 @Mapper
 public interface SkkMapper {
-	public List<SkkDto> getSkk(String sessionId);
+	public List<SkkDto> getSkk(String SSTORECODE);
 }

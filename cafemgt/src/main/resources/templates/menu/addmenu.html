@@ -37,7 +37,7 @@
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="menuName">메뉴 명 <span class="required">*</span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="hidden" name="storeInfoCode" th:value ="${sessionId}" >
+										<input type="text" name="storeInfoCode" th:value ="${session.OID}" >
 										<input type="text" id="menuName" name="menuName" required="required" class="form-control ">
 									</div>
 								</div>

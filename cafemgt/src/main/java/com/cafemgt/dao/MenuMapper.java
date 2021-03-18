@@ -8,7 +8,7 @@ import com.cafemgt.dto.MenuDto;
 
 @Mapper
 public interface MenuMapper {
-	public List<MenuDto> getMenu(String sessionId);
+	public List<MenuDto> getMenu(String SSTORECODE);
 	
 	public int addMenu(MenuDto menuDto);
 }

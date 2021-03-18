@@ -4,14 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafemgt.dao.OwnerMapper">
 	<resultMap type="OwnerDto" id="ownerResultMap">
-		<result property="ownerId" 		column="owner_id" />
-		<result property="ownerPw" 		column="owner_pw" />
-		<result property="ownerName" 	column="owner_name" />
-		<result property="levelCode" 	column="level_code" />
+		<result property="ownerId" 			column="owner_id" />
+		<result property="ownerPw" 			column="owner_pw" />
+		<result property="ownerName" 		column="owner_name" />
+		<result property="levelCode" 		column="level_code" />
 		<result property="ownerPhone" 		column="owner_phone" />
 		<result property="ownerEmail" 		column="owner_email" />
 		<result property="ownerBirth" 		column="owner_birth" />
-		<result property="ownerRegDate" 		column="owner_reg_date" />
+		<result property="ownerRegDate" 	column="owner_reg_date" />
 	</resultMap>
 	
 	<select id="getinfoOwner" parameterType="String" resultMap="ownerResultMap">
