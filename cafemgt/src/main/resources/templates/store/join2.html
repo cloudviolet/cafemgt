@@ -1,7 +1,5 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -9,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>로그인 </title>
+    <title>회원가입 </title>
 
-    <!-- Bootstrap -->
+     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -30,39 +28,39 @@
         <div class="animate form login_form">
           <section class="login_content">
             <form>
-              <h1>로그인</h1>
+              <h1>회원가입</h1>
               <div>
                 <input type="text" class="form-control" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="email" class="form-control" placeholder="Email" required="" />
               </div>
               <div>
                 <input type="password" class="form-control" placeholder="Password" required="" />
               </div>
               <div>
-                <a class="btn btn-round btn-success submit" th:href="@{/}">로그인</a>
+                <a class="btn btn-round btn-info submit" th:href="@{login}">회원가입</a>
               </div>
 
               <div class="clearfix"></div>
 
               <div class="separator">
-                <p class="change_link">도움이 필요하신가요?
-                  <a th:href="@{join}" class="btn btn-round btn-info btn-block btn-md "> 회원가입 </a>
-                  <a href="#" class="btn btn-round btn-dark btn-block btn-md"> 비밀번호 찾기 </a>
+                <p class="change_link">이미 회원이신가요 ?
+                  <a th:href="@{login}" class="btn btn-round btn-success btn-block btn-md " > 로그인 </a>
                 </p>
 
                 <div class="clearfix"></div>
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-smile-o"></i> CAFE MGT </h1>
-                  <p>©2021 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                  <h1><i class="fa fa-smile-o"></i> CAFE MGT</h1>
+                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
                 </div>
               </div>
             </form>
-            </section>
+          </section>
         </div>
-
-  
+		</div>
       </div>
-    </div>
   </body>
 </html>

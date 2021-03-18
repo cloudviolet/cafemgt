@@ -9,17 +9,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.cafemgt.dto.CustomerDto;
 import com.cafemgt.dto.UserDto;
+import com.cafemgt.service.CustomerService;
 import com.cafemgt.service.UserService;
 
 @Controller
 public class StoreController {
 	
 	private final UserService userService;
+	private final CustomerService customerService;
+	
 	
 	@Autowired
-	public StoreController(UserService userService) {
+	public StoreController(UserService userService
+						  ,CustomerService customerService) {
 		this.userService = userService;
+		this.customerService = customerService;
 	}
 	
 	@PostConstruct
@@ -64,6 +70,20 @@ public class StoreController {
 		return "store/getusermy";	
 	}
 	
+	@GetMapping("/getcustomer")
+	public String getcustomer(Model model) {
+		List<CustomerDto> customerDtoList = customerService.getCustomer();
+		model.addAttribute("customerList", customerDtoList);
+		
+		return "store/getcustomer";	
+	}
+	
+	@GetMapping("/getcustomeradmin")
+	public String getcustomeradmin() {
+		
+		return "admin/getcustomeradmin";	
+	}
+	
 	@GetMapping("/addstore")
 	public String addstore(Model model) {
 		
@@ -93,16 +113,8 @@ public class StoreController {
 		return "admin/getstoreadmin";	
 	}
 	
-	@GetMapping("/getcustomer")
-	public String getcustomer() {
-		
-		return "store/getcustomer";	
-	}
-	@GetMapping("/getcustomeradmin")
-	public String getcustomeradmin() {
-		
-		return "admin/getcustomeradmin";	
-	}
+	
+
 	
 
 

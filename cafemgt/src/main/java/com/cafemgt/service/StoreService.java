@@ -18,9 +18,9 @@ public class StoreService {
 	}
 	
 	public List<StoreDto> getStore(){
-		List<StoreDto> StoreDtoList = storeMapper.getStore();
+		List<StoreDto> storeDtoList = storeMapper.getStore();
 		
-		return StoreDtoList;
+		return storeDtoList;
 	}
 
 }
