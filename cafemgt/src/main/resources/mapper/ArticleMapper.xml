@@ -43,4 +43,33 @@
 		WHERE
 			st.store_info_code= #{sessionId}
 	</select>
+	<insert id="addArticle" parameterType="ArticleDto">
+		INSERT INTO tb_article
+			(article_code
+			,store_info_code
+			,article_name
+			,article_tax_cate
+			,artcle_big
+			,artcle_big_dan
+			,artcle_middle
+			,artcle_middle_dan
+			,article_volume
+			,article_dan
+			,article_etc
+			,article_reg_date)
+		VALUES 
+			(sf_new_article_code()
+			,#{storeInfoCode}
+			,#{articleName}
+			,#{articleTaxCate}
+			,${artcleBig}
+			,#{artcleBigDan}
+			,${artcleMiddle}
+			,#{artcleMiddleDan}
+			,${articleVolume}
+			,#{articleDan}
+			,#{articleEtc}
+			,NOW())
+	
+	</insert>
 </mapper>

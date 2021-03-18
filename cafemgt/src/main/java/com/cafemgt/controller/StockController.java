@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.SkkDto;
@@ -47,14 +48,28 @@ public class StockController {
 	}
 	
 	@GetMapping("/addarticle")
-	public String addarticle() {
-		
+	public String addarticle(Model model, HttpSession session) {
+		String sessionId = (String)session.getAttribute("S_ID");
+		model.addAttribute("sessionId",sessionId);
 		return "stock/addarticle";
+	}
+	@PostMapping("/addarticle")
+	public String addarticle(ArticleDto articleDto) {
+		System.out.println(articleDto.getStoreInfoCode());
+		System.out.println(articleDto.getArticleTaxCate());
+		System.out.println(articleDto.getArtcleBig());
+		
+		
+		articleService.addArticle(articleDto);
+		return "redirect:/getarticle";
 	}
 	
 	@GetMapping("/addskk")
-	public String addskk() {
-		
+	public String addskk(Model model, HttpSession session) {
+		String sessionId = (String)session.getAttribute("S_ID");
+		List<ArticleDto> articleList = articleService.getArticle(sessionId);
+		model.addAttribute("articleList",articleList);
+		model.addAttribute("sessionId",sessionId);
 		return "stock/addskk";
 	}
 	

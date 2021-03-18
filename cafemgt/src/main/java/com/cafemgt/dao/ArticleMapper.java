@@ -8,5 +8,8 @@ import com.cafemgt.dto.ArticleDto;
 
 @Mapper
 public interface ArticleMapper {
+	
 	public List<ArticleDto> getArticle(String sessionId);
+	
+	public int addArticle(ArticleDto articleDto);
 }
