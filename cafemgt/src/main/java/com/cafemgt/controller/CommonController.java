@@ -28,6 +28,7 @@ public class CommonController {
 	}
 	
 	@GetMapping("/")
+	
 	public String main(HttpSession session) {
 		if(session.getAttribute("S_ID") == null) {
 			session.setAttribute("S_ID", "owner_01");
@@ -35,6 +36,7 @@ public class CommonController {
 		return "index";
 	}
 	@GetMapping("/index")
+	
 	public String index(HttpSession session) {
 		if(session.getAttribute("S_ID") == null) {
 			session.setAttribute("S_ID", "owner_01");

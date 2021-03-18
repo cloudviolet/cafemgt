@@ -154,9 +154,10 @@
 						</li>	
 						<li><a><i class="fa fa-bar-chart-o"></i> #세무 관리(장현진) <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="#">기간별 매출매입 조회</a></li>
-								<li><a href="#">부가세 조회</a></li>
-								<li><a href="#">손익계산서 조회</a></li>
+								<li class="sub_menu"><a th:href="@{gettotalpands}">기간별 매출매입 조회</a></li>
+								<li class="sub_menu"><a th:href="@{gettotalsalary}">기간별 급여 조회</a></li>
+								<li class="sub_menu"><a th:href="@{getvat}">부가세 조회</a></li>
+								<li class="sub_menu"><a th:href="@{getincomestatement}">손익계산서 조회</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-bar-chart-o"></i> #관리자 설정 <span class="fa fa-chevron-down"></span></a>

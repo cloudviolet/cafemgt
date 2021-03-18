@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.OtherPurchasesMapper">
+
+	<resultMap type="OtherPurchasesDto" id="purchasesDtoResultMap">
+		<result property="oeCode" 			column="oe_code"/>
+		<result property="storeInfoCode" 	column="store_info_code"/>
+		<result property="oeStoreName" 		column="oe_store_name"/>
+		<result property="oeVatType" 		column="oe_vat_type"/>
+		<result property="oeTotal" 			column="oe_total"/>
+		<result property="oeSupplyValue" 	column="oe_supply_value"/>
+		<result property="oeTax" 			column="oe_tax"/>
+		<result property="atDebitCode" 		column="at_debit_code"/>
+		<result property="atCreditCode" 	column="at_credit_code"/>
+		<result property="oeEtc" 			column="oe_etc"/>
+		<result property="oeDate" 			column="oe_date"/>
+		<result property="oeRegDate" 		column="oe_reg_date"/>
+	</resultMap>
+	
+	<insert id="addOtherPurchases" parameterType="OtherPurchasesDto">
+		INSERT INTO tb_other_expense
+		(oe_code, store_info_code, oe_store_name, oe_vat_type, oe_total, oe_supply_value, oe_tax, at_debit_code, at_credit_code, oe_etc, oe_date, oe_reg_date)
+		VALUES (sf_new_otherexpense_code(), 'owner_01', #{oeStoreName}, #{oeVatType}, #{oeTotal}, #{oeTotal}/1.1, oe_total-oe_supply_value, #{atDebitCode}, #{atCreditCode}, #{oeEtc}, #{oeDate}, NOW())
+	</insert>
+	
+	<select id="getOtherPurchases" resultMap="purchasesDtoResultMap">
+		SELECT 
+			oe_code, 
+			store_info_code, 
+			oe_store_name, 
+			oe_vat_type, 
+			oe_total, 
+			oe_supply_value, 
+			oe_tax, 
+			at_debit_code, 
+			at_credit_code, 
+			oe_etc, 
+			oe_date, 
+			oe_reg_date
+		FROM 
+			tb_other_expense;
+	</select>
+</mapper>

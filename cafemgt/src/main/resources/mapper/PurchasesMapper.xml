@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.PurchasesMapper">
+
+	<resultMap type="PurchasesDto" id="purchasesDtoResultMap">
+		<result property="incoCode" 				column="inco_code"/>
+		<result property="storeInfoCode" 			column="store_info_code"/>
+		<result property="articleCode" 				column="article_code "/>
+		<result property="custCode" 				column="cust_code"/>
+		<result property="incoVatType" 				column="inco_vat_type"/>
+		<result property="incoPayType" 				column="inco_pay_type"/>
+		<result property="incoTotal" 				column="inco_total"/>
+		<result property="incoCount" 				column="inco_count"/>
+		<result property="incoVolumeSubtotal" 		column="inco_volume_subtotal"/>
+		<result property="incoSupplyValue" 			column="inco_supply_value"/>
+		<result property="incoTax" 					column="inco_tax"/>
+		<result property="incoDealingGroupCode" 	column="inco_dealing_group_code"/>
+		<result property="incoStockGroupCode" 		column="inco_stock_group_code"/>
+		<result property="incoDate" 				column="inco_date"/>
+		<result property="incoRegDate" 				column="inco_reg_date"/>
+		<result property="incoCheck" 				column="inco_check"/>
+		<result property="incoSystemId" 			column="inco_system_id"/>
+		<result property="incoSystemName" 			column="inco_system_name"/>
+		<result property="detailvolCheck" 			column="detailvol_check"/>
+	</resultMap>
+	
+	<select id="getPurchases" resultMap="purchasesDtoResultMap">
+		SELECT 
+			inco_code, 
+			store_info_code, 
+			article_code, 
+			cust_code, 
+			inco_vat_type, 
+			inco_pay_type, 
+			inco_total, 
+			inco_count, 
+			inco_volume_subtotal, 
+			inco_supply_value, 
+			inco_tax, 
+			inco_dealing_group_code, 
+			inco_stock_group_code, 
+			inco_date, inco_reg_date, 
+			inco_check, 
+			inco_system_id, 
+			inco_system_name, 
+			detailvol_check
+		FROM 
+			tb_incoming;
+	</select>
+</mapper>

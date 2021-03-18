@@ -36,11 +36,13 @@ public class MenuController {
 	}
 	//메뉴 등록
 	@GetMapping("/addmenu")
+
 	public String addmenu(Model model, HttpSession session) {
 		String sessionId = (String)session.getAttribute("S_ID");
 		model.addAttribute("sessionId",sessionId);
 		return "menu/addmenu";
 	}
+	
 	@PostMapping("/addmenu")
 	public String addmenu(MenuDto menuDto) {
 		menuService.addMenu(menuDto);
