@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.SalesMapper">
+	<resultMap type="SalesDto" id="salesDtoResultMap">
+		<result property="salesCode" 				column="sales_code"/>
+		<result property="storeInfoCode" 			column="store_info_code"/>
+		<result property="menuCode" 				column="menu_code"/>
+		<result property="salesCount"	 			column="sales_count"/>
+		<result property="salesTotal" 				column="sales_total"/>
+		<result property="salesSupplyValue" 		column="sales_supply_value"/>
+		<result property="salesTax" 				column="sales_tax"/>
+		<result property="salesVatType" 			column="sales_vat_type"/>
+		<result property="salesPayType" 			column="sales_pay_type"/>
+		<result property="CustCode" 				column="cust_code"/>
+		<result property="salesDate" 				column="sales_date"/>
+		<result property="salesRegDate" 			column="sales_reg_date"/>
+		<result property="salesDeadline" 			column="sales_deadline"/>
+		<result property="salesDealingGroupCode"	column="sales_dealing_group_code"/>
+		<result property="salesDeadlineCheck" 		column="sales_deadline_check"/>
+		<result property="salesDaliyvolGroupCode" 	column="sales_daliyvol_group_code"/>
+		<result property="salesSystemId" 			column="sales_system_id"/>
+		<result property="salesSystemName" 			column="sales_system_name"/>
+	</resultMap>
+	
+	<select id="getSales" resultMap="salesDtoResultMap">
+		SELECT 
+			sales_code, 
+			store_info_code, 
+			menu_code, 
+			sales_count, 
+			sales_total, 
+			sales_supply_value, 
+			sales_tax, 
+			sales_vat_type, 
+			sales_pay_type, 
+			cust_code, 
+			sales_date, 
+			sales_reg_date, 
+			sales_deadline, 
+			sales_dealing_group_code, 
+			sales_deadline_check, 
+			sales_daliyvol_group_code, 
+			sales_system_id, 
+			sales_system_name
+		FROM 
+			tb_sales;
+	</select>
+</mapper>

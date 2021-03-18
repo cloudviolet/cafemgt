@@ -17,9 +17,13 @@ public class ArticleService {
 		this.articleMapper= articleMapper;
 	}
 	
-	public List<ArticleDto> getArticle(){
-		List<ArticleDto> articleDto = articleMapper.getArticle();
+	public List<ArticleDto> getArticle(String sessionId){
+		List<ArticleDto> articleDto = articleMapper.getArticle(sessionId);
 		
 		return articleDto;
+	}
+	public int addArticle(ArticleDto articleDto) {
+		
+		return articleMapper.addArticle(articleDto);
 	}
 }

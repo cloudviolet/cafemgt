@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CommonController {
 	
-	
 	@PostConstruct
 	public void initialize() {
 		System.out.println("======================================");
-		System.out.println("======= CommonController bean 등록 ======");
+		System.out.println("======= CommonController bean 등록======");
 		System.out.println("======================================");
 	}
 	
 	@GetMapping("/addowner")
 	public String addowner() {
+		
 		return "owner/addowner";		
 	}
 	
@@ -29,8 +29,11 @@ public class CommonController {
 	}
 	
 	@GetMapping("/")
-	public String main() {
-		
+	
+	public String main(HttpSession session) {
+		if(session.getAttribute("S_ID") == null) {
+			session.setAttribute("S_ID", "owner_01");
+		}
 		return "index";
 	}
 	@GetMapping("/index")
@@ -39,9 +42,9 @@ public class CommonController {
 		String oname = (String)session.getAttribute("ONAME");
 		model.addAttribute("oid",oid);
 		model.addAttribute("oname",oname);
+
 		return "index";
 	}
-	//required = get방식으로 전달하지 않아도 받기위해서  값이 필수적인가?,defaultValue= "get방식"
 	
 	
 }

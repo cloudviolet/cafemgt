@@ -108,26 +108,26 @@
 							<ul class="nav child_menu">
 								<li><a>#추가수당 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a href="#">추가수당 등록</a></li>
-										<li class="sub_menu"><a href="#">추가수당 조회</a></li>
+										<li class="sub_menu"><a th:href="@{addbonus}">추가수당 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getbonus}">추가수당 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#상용직 급여 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a href="#">급여 등록</a></li>
-										<li class="sub_menu"><a href="#">급여 조회</a></li>
+										<li class="sub_menu"><a th:href="@{addsalary}">급여 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getsalary}">급여 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#일용직 급여 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a href="#">급여 등록</a></li>
-										<li class="sub_menu"><a href="#">급여 조회</a></li>
+										<li class="sub_menu"><a th:href="@{adddsalary}">급여 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getdsalary}">급여 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#출퇴근 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a href="#">출퇴근 등록</a></li>
-										<li class="sub_menu"><a href="#">출퇴근 조회</a></li>
+										<li class="sub_menu"><a th:href="@{addwtime}">출퇴근 등록</a></li>
+										<li class="sub_menu"><a th:href="@{getwtime}">출퇴근 조회</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -156,9 +156,10 @@
 						</li>	
 						<li><a><i class="fa fa-bar-chart-o"></i> #세무 관리(장현진) <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a href="#">기간별 매출매입 조회</a></li>
-								<li><a href="#">부가세 조회</a></li>
-								<li><a href="#">손익계산서 조회</a></li>
+								<li class="sub_menu"><a th:href="@{gettotalpands}">기간별 매출매입 조회</a></li>
+								<li class="sub_menu"><a th:href="@{gettotalsalary}">기간별 급여 조회</a></li>
+								<li class="sub_menu"><a th:href="@{getvat}">부가세 조회</a></li>
+								<li class="sub_menu"><a th:href="@{getincomestatement}">손익계산서 조회</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-bar-chart-o"></i> #관리자 설정 <span class="fa fa-chevron-down"></span></a>
