@@ -34,7 +34,7 @@ public class TaxController {
 	@PostConstruct
 	public void initialize() {				
 		System.out.println("======================================");
-		System.out.println("======= TaxController bean 등록 ======");
+		System.out.println("======= TaxController bean 등록!!!! ======");
 		System.out.println("======================================");
 	}
 	

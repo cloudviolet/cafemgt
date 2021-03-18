@@ -34,7 +34,6 @@ public class CommonController {
 	}
 	@GetMapping("/index")
 	public String index() {
-		
 		return "index";
 	}
 	
