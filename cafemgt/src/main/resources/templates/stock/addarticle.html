@@ -6,12 +6,155 @@
 	<th:block layout:fragment="customTitle">
 		<title>품목 등록</title>
 	</th:block>
-
+	
+	<th:block layout:fragment="customCss">
+		<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
+	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
+		<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>품목 등록 <small>different form elements</small></h2>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<br />
+									<form id="demo-form2" th:action="@{addarticle}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
+
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="articleName">품목 명 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="articleName" name="articleName" required="required" class="form-control ">
+												<input type="hidden" name="storeInfoCode" th:value="${sessionId}">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align">과세 • 면세 분류  <span class="required">*</span></label>
+											<div class="col-md-6 col-sm-6 ">
+												<select class="form-control" id="articleTaxCate" name="articleTaxCate" required="required">
+													<option value="">choice plz</option>
+													<option value="과세">* 과세 *</option>
+													<option value="면세">* 면세 *</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="artcleBig">대분류 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="number" id="artcleBig" name="artcleBig" required="required" class="form-control ">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align">대분류 단위  <span class="required">*</span></label>
+											<div class="col-md-6 col-sm-6 ">
+												<select class="form-control" name="artcleBigDan" required="required">
+													<option value="">choice plz</option>
+													<option value="box">* box *</option>
+													<option value="ea">* ea *</option>
+													<option value="L">* L *</option>
+													<option value="Kg">* Kg *</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="artcleMiddle">중분류  <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="number" id="artcleMiddle" name="artcleMiddle" required="required" class="form-control ">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align">중분류 단위 *</label>
+											<div class="col-md-6 col-sm-6 ">
+												<select class="form-control" name="artcleMiddleDan" required="required">
+													<option value="">choice plz</option>
+													<option value="ea">* ea *</option>
+													<option value="L">* L *</option>
+													<option value="ml">* ml *</option>
+													<option value="Kg">* Kg *</option>
+													<option value="g">* g *</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="articleVolume">용량 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="number" id="articleVolume" name="articleVolume" required="required" class="form-control ">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align">단위 *</label>
+											<div class="col-md-6 col-sm-6 ">
+												<select class="form-control" name="articleDan" required="required">
+													<option value="">choice plz</option>
+													<option value="ea">* ea *</option>
+													<option value="ml">* ml *</option>
+													<option value="g">* g *</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align">상세
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<textarea class="form-control" name="articleEtc" rows="3" placeholder="자세한 사항을 기입해주세요"></textarea>
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="form-group row">
+											<div class="col-md-6 col-sm-6 offset-sm-3 text-center">
+												<button class="btn btn-primary" type="button">Cancel</button>
+												<button class="btn btn-primary" type="reset">Reset</button>
+												<button type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 		
 		</div>
-
 	</th:block>
-
+	
+	<th:block layout:fragment="customJs">
+		<!-- bootstrap-daterangepicker -->
+		<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+		<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+		<!-- bootstrap-wysiwyg -->
+		<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+		<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+		<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+		<!-- jQuery Tags Input -->
+		<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+		<!-- Switchery -->
+		<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+		<!-- Select2 -->
+		<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+		<!-- Parsley -->
+		<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+		<!-- Autosize -->
+		<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+		<!-- jQuery autocomplete -->
+		<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+		<!-- starrr -->
+		<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	</th:block>
+		
 </html>

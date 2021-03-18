@@ -12,7 +12,7 @@
 		<result property="menuPrice" 		column="menu_price" />
 		<result property="menuRegDate" 		column="menu_reg_date" />
 	</resultMap>
-	<select id="getMenu" resultMap="menuResultMap">
+	<select id="getMenu" parameterType="String" resultMap="menuResultMap">
 		SELECT
 			 m.menu_code
 			,st.store_info_code
@@ -26,5 +26,23 @@
 			LEFT JOIN
 			tb_store_info as st
 			ON m.store_info_code = st.store_info_code
+		WHERE
+			st.store_info_code= #{sessionId}
 	</select>
+	<insert id="addMenu" parameterType="MenuDto" >
+		INSERT INTO tb_menu
+			(menu_code
+			,store_info_code
+			,menu_name
+			,menu_cate
+			,menu_price
+			,menu_reg_date)
+		VALUES 
+			(sf_new_menu_code()
+			,#{storeInfoCode}
+			,#{menuName}
+			,#{menuCate}
+			,${menuPrice}
+			,NOW())
+	</insert>
 </mapper>
