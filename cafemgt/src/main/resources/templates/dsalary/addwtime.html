@@ -18,6 +18,7 @@
 		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
 		<!-- bootstrap-daterangepicker -->
 		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+		
 	</th:block>
 	
 	<th:block layout:fragment="customContents">
@@ -26,7 +27,7 @@
 						<div class="col-md-12 col-sm-12 ">
 							<div class="x_panel">
 								<div class="x_title">
-									<h2>Form Design <small>different form elements</small></h2>
+									<h2>출퇴근 등록 <small>different form elements</small></h2>
 									<ul class="nav navbar-right panel_toolbox">
 										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 										</li>
@@ -69,19 +70,18 @@
 												</script>
 											</div>
 										</div>
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">출근시간 <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
-											</div>
-										</div>
-										<div class="item form-group">
-											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">퇴근시간</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name">
-											</div>
-										</div>
+										<div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">출근시간<span class="required">*</span></label>
+	                                        <div class="col-md-6 col-sm-6">
+	                                            <input class="form-control" type="time" name="time" required="required">
+	                                        </div>
+                                        </div>
+										<div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">퇴근시간<span class="required">*</span></label>
+	                                        <div class="col-md-6 col-sm-6">
+	                                            <input class="form-control" type="time" name="time" required="required">
+	                                        </div>
+                                        </div>
 										<div class="item form-group">
 											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">당일 근무시간</label>
 											<div class="col-md-6 col-sm-6 ">

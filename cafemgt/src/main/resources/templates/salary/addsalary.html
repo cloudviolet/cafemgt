@@ -26,18 +26,18 @@
 						<div class="col-md-12 col-sm-12 ">
 							<div class="x_panel">
 								<div class="x_title">
-									<h2>Form Design <small>different form elements</small></h2>
+									<h2>상용직 급여등록 <!-- <small>different form elements</small> --></h2>
 									<ul class="nav navbar-right panel_toolbox">
 										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 										</li>
 										<li class="dropdown">
-											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-											<ul class="dropdown-menu" role="menu">
-												<li><a class="dropdown-item" href="#">Settings 1</a>
-												</li>
-												<li><a class="dropdown-item" href="#">Settings 2</a>
-												</li>
-											</ul>
+											<!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+												<ul class="dropdown-menu" role="menu">
+													<li><a class="dropdown-item" href="#">Settings 1</a>
+													</li>
+													<li><a class="dropdown-item" href="#">Settings 2</a>
+													</li>
+												</ul> -->
 										</li>
 										<li><a class="close-link"><i class="fa fa-close"></i></a>
 										</li>
@@ -49,40 +49,103 @@
 									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First Name <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">사업장 코드 <span class="required" >*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control ">
+												<input type="text" id="first-name" required="required" class="form-control">
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last Name <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">상호명 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="first-name" required="required" class="form-control">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">직원 아이디 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
 											</div>
 										</div>
 										<div class="item form-group">
-											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Middle Name / Initial</label>
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">직원 이름</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input id="middle-name" class="form-control" type="text" name="middle-name">
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align">Gender</label>
+											<label class="col-form-label col-md-3 col-sm-3 label-align">귀속년월 <span class="required">*</span>
+											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<div id="gender" class="btn-group" data-toggle="buttons">
-													<label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-														<input type="radio" name="gender" value="male" class="jo	in-btn"> &nbsp; Male &nbsp;
-													</label>
-													<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-														<input type="radio" name="gender" value="female" class="join-btn"> Female
-													</label>
-												</div>
+												<input id="birthday" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align">Date Of Birth <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">급여 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">과세수당합계</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="귀속년월 일치하는 과세추가수당 자동으로 불러와서 합암">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">비과세수당합계</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="귀속년월 일치하는 비과세추가수당 자동으로 불러와서 합함">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">지급합계</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="월급+과세+비과세 합계 계산해서 삽입" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">근로소득세</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="월급+과세로 계산해서 맞는 구간검색해서 삽입" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">근로지방소득세</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="근로소득세*0.1해서 삽입" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">4대보험 합계 세율 계산금</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="(월급+과세)*0.0913으로 계산해서 삽입" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">공제합계</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="근로소득세+근로지방소득세+4대보험 합계 세율 계산금액" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">실수령금액</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="월급+과세로 계산해서 맞는 구간검색해서 삽입" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">지급일자<span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input id="birthday" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
