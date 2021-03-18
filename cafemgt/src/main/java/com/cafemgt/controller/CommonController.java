@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -36,11 +37,12 @@ public class CommonController {
 		return "index";
 	}
 	@GetMapping("/index")
-	
-	public String index(HttpSession session) {
-		if(session.getAttribute("S_ID") == null) {
-			session.setAttribute("S_ID", "owner_01");
-		}
+	public String index(HttpSession session ,Model model) {
+		String oid = (String)session.getAttribute("OID");
+		String oname = (String)session.getAttribute("ONAME");
+		model.addAttribute("oid",oid);
+		model.addAttribute("oname",oname);
+
 		return "index";
 	}
 	
