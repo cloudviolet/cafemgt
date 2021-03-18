@@ -55,7 +55,7 @@ public class TaxController {
 	
 	@PostMapping("/addotherpurchases")
 	public String addOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
-		/* otherPurchasesService.addOtherPurchases(otherPurchasesDto); */
+		otherPurchasesService.addOtherPurchases(otherPurchasesDto);
 		return "redirect:/getotherpurchases";		
 	}
 	
@@ -78,5 +78,25 @@ public class TaxController {
 		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesService.getOtherPurchases();
 		model.addAttribute("otherPurchasesList", otherPurchasesList);
 		return "pands/getotherpurchases";
+	}
+	
+	@GetMapping("/gettotalpands")
+	public String getTotalPandS() {
+		return "tax/gettotalpands";
+	}
+	
+	@GetMapping("/gettotalsalary")
+	public String getTotalSalary() {
+		return "tax/gettotalsalary";
+	}
+	
+	@GetMapping("/getvat")
+	public String getVat() {
+		return "tax/getvat";
+	}
+	
+	@GetMapping("/getincomestatement")
+	public String getIncomeStatement() {
+		return "tax/getincomestatement";
 	}
 }

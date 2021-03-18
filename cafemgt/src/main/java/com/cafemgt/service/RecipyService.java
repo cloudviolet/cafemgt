@@ -17,8 +17,8 @@ public class RecipyService {
 		this.recipyMapper= recipyMapper;
 	}
 	
-	public List<RecipyDto> getRecipy() {
+	public List<RecipyDto> getRecipy(String sessionId) {
 		
-		return recipyMapper.getRecipy();
+		return recipyMapper.getRecipy(sessionId);
 	}
 }

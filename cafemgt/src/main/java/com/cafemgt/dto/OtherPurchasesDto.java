@@ -11,7 +11,7 @@ public class OtherPurchasesDto {
 	private String atDebitCode;
 	private String atCreditCode;
 	private String oeEtc;
-	private String oedate;
+	private String oeDate;
 	private String oeRegDate;
 	
 	public String getOeCode() {
@@ -74,11 +74,11 @@ public class OtherPurchasesDto {
 	public void setOeEtc(String oeEtc) {
 		this.oeEtc = oeEtc;
 	}
-	public String getOedate() {
-		return oedate;
+	public String getOeDate() {
+		return oeDate;
 	}
-	public void setOedate(String oedate) {
-		this.oedate = oedate;
+	public void setOedate(String oeDate) {
+		this.oeDate = oeDate;
 	}
 	public String getOeRegDate() {
 		return oeRegDate;
@@ -92,7 +92,7 @@ public class OtherPurchasesDto {
 		return "OtherPurchasesDto [oeCode=" + oeCode + ", storeInfoCode=" + storeInfoCode + ", oeStoreName="
 				+ oeStoreName + ", oeVatType=" + oeVatType + ", oeTotal=" + oeTotal + ", oeSupplyValue=" + oeSupplyValue
 				+ ", oeTax=" + oeTax + ", atDebitCode=" + atDebitCode + ", atCreditCode=" + atCreditCode + ", atEtc="
-				+ oeEtc + ", oedate=" + oedate + ", oeRegDate=" + oeRegDate + "]";
+				+ oeEtc + ", oedate=" + oeDate + ", oeRegDate=" + oeRegDate + "]";
 	}
 	
 }

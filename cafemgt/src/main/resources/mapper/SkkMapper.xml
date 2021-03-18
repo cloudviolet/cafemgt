@@ -21,7 +21,7 @@
 		<result property="skSystemId" 			column="sk_system_id" />
 		<result property="skSystemName" 		column="sk_system_name" />
 	</resultMap>
-	<select id="getSkk" resultMap="SkkResultMap">
+	<select id="getSkk" parameterType="String" resultMap="SkkResultMap">
 		SELECT
 			 sk.sk_code
 			,st.store_info_code
@@ -53,5 +53,7 @@
 			tb_stock AS s
 			on
 			sk.stock_code = s.stock_code
+		WHERE
+			st.store_info_code= #{sessionId}
 	</select>
 </mapper>
