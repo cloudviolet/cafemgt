@@ -40,8 +40,8 @@ public class OwnerService {
 		
 	}
 	
-	public List<OwnerDto> getOwner(){
-		List<OwnerDto> ownerDtolist = ownerMapper.getOwner();
+	public List<OwnerDto> getOwner(String ownerId){
+		List<OwnerDto> ownerDtolist = ownerMapper.getOwner(ownerId);
 		
 		return ownerDtolist;	
 	}

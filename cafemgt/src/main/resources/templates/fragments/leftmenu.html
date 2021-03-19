@@ -48,9 +48,9 @@
 							<ul class="nav child_menu">							
 								<li><a>#사업장 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
+										<li class="sub_menu"><a th:href="@{getowner}">내정보 조회</a></li>
 										<li class="sub_menu"><a th:href="@{addstore}">사업장 등록</a></li>
 										<li class="sub_menu"><a th:href="@{getstore}">사업장 조회(사업주)</a></li>
-										<li class="sub_menu"><a th:href="@{getstoreadmin}">사업장 조회(관리자)</a></li>
 									</ul>
 								</li>
 								<li><a>#직원 관리<span class="fa fa-chevron-down"></span></a>
@@ -58,7 +58,6 @@
 										<li class="sub_menu"><a th:href="@{adduser}">직원 등록</a></li>
 										<li class="sub_menu"><a th:href="@{getuser}">직원 조회(사업주)</a></li>
 										<li class="sub_menu"><a th:href="@{getusermy}">직원 조회(직원마이페이지)</a></li>
-										<li class="sub_menu"><a th:href="@{getuseradmin}">직원 조회(관리자)</a></li>
 									</ul>
 								</li>
 								<li><a>#거래처 관리<span class="fa fa-chevron-down"></span></a>
@@ -162,11 +161,17 @@
 								<li class="sub_menu"><a th:href="@{getincomestatement}">손익계산서 조회</a></li>
 							</ul>
 						</li>
-						<li><a><i class="fa fa-bar-chart-o"></i> #관리자 설정 <span class="fa fa-chevron-down"></span></a>
-							<ul class="nav child_menu">
+						<li><a><i class="fa fa-bar-chart-o"></i> #고객센터 <span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu">	
 								<li><a href="#">고객센터</a></li>
 								<li><a href="#">1:1문의</a></li>
 								<li><a href="#">자주묻는질문(FAQ)</a></li>
+							</ul>
+						<li><a><i class="fa fa-bar-chart-o"></i> #관리자 설정 <span class="fa fa-chevron-down"></span></a>
+							<ul class="nav child_menu">
+								<li class="sub_menu"><a th:href="@{getowneradmin}">사업주 조회(관리자)</a></li>
+								<li class="sub_menu"><a th:href="@{getstoreadmin}">사업장 조회(관리자)</a></li>
+								<li class="sub_menu"><a th:href="@{getuseradmin}">직원 조회(관리자)</a></li>
 							</ul>
 						</li>
 					</ul>

@@ -1,14 +1,15 @@
 package com.cafemgt.controller;
 
+
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 public class CommonController {
+	
 	
 	@PostConstruct
 	public void initialize() {
@@ -17,16 +18,6 @@ public class CommonController {
 		System.out.println("======================================");
 	}
 	
-	@GetMapping("/addowner")
-	public String addowner() {
-		
-		return "owner/addowner";		
-	}
-	
-	@GetMapping("/getowner")
-	public String getowner() {
-		return "owner/getowner";		
-	}
 	
 	@GetMapping("/")
 		public String main() {
