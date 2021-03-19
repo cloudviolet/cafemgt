@@ -21,4 +21,9 @@ public class RecipyService {
 		
 		return recipyMapper.getRecipy(SSTORECODE);
 	}
+	
+	public int addRecipy(RecipyDto recipyDto) {
+		
+		return recipyMapper.addRecipy(recipyDto);
+	}
 }

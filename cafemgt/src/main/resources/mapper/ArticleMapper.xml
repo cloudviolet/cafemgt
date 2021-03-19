@@ -41,7 +41,7 @@
 			ON
 			atc.store_info_code = st.store_info_code
 		WHERE
-			st.store_info_code= #{sessionId}
+			st.store_info_code= #{SSTORECODE}
 	</select>
 	<insert id="addArticle" parameterType="ArticleDto">
 		INSERT INTO tb_article

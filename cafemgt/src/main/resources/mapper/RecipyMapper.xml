@@ -32,7 +32,23 @@
 			tb_store_info st
 			ON m.store_info_code = st.store_info_code
 		WHERE
-			st.store_info_code= #{sessionId}
+			st.store_info_code= #{SSTORECODE}
 		
 	</select>
+	<insert id="addRecipy" parameterType="RecipyDto">
+		INSERT INTO tb_consumption
+			(con_code
+			,store_info_code
+			,menu_code
+			,con_name
+			,con_volume
+			,con_dan)
+		VALUES 
+			(sf_new_con_code()
+			,#{storeInfoCode}
+			,#{menuCode}
+			,#{conName}
+			,${conVolume}
+			,#{conDan})
+	</insert>
 </mapper>
