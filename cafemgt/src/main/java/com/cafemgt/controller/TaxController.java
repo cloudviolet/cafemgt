@@ -3,12 +3,15 @@ package com.cafemgt.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.cafemgt.dao.MenuMapper;
+import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.OtherPurchasesDto;
 import com.cafemgt.dto.PurchasesDto;
 import com.cafemgt.dto.SalesDto;
@@ -22,11 +25,16 @@ public class TaxController {
 	private final SalesService salesService;
 	private final PurchasesService purchasesService;
 	private final OtherPurchasesService otherPurchasesService;
+	private final MenuMapper menuMapper;
 	
-	public TaxController(SalesService salesService,PurchasesService purchasesService,OtherPurchasesService otherPurchasesService) {
+	public TaxController(SalesService salesService
+						 ,PurchasesService purchasesService
+						 ,OtherPurchasesService otherPurchasesService
+						 ,MenuMapper menuMapper) {
 		this.salesService = salesService;
 		this.purchasesService = purchasesService;
 		this.otherPurchasesService = otherPurchasesService;
+		this.menuMapper = menuMapper;
 	}
 	
 	@PostConstruct
@@ -37,7 +45,10 @@ public class TaxController {
 	}
 	
 	@GetMapping("/addsales")
-	public String addsales() {
+	public String addsales(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<MenuDto> menuList = menuMapper.getMenu(SSTORECODE);
+		model.addAttribute("menuList", menuList);
 		return "pands/addsales";
 	}
 	

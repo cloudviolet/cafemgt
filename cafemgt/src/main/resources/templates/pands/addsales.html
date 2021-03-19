@@ -32,29 +32,20 @@
 								<div class="x_content">
 									<br />
 									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+										
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
+										
 										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">매출 유형  *</label>
+											<label class="control-label col-md-3 col-sm-3 label-align" for="menuCode">메뉴 명  *</label>
 												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" style="text-align-last : center;" required>
-														<option value="">:::매출 유형 선택:::</option>
-														<option value="card">카드</option>
-														<option value="cash">현금</option>
-														<option value="taxInvoice">세금계산서</option>
+													<select id="menuCode" class="form-control" name="menuCode" style="text-align-last : center;" required>
+														<option value="">:::메뉴 선택:::</option>
+														<th:block th:if="${#lists.size(menuList) > 0}" th:each="ml : ${menuList}">
+															<option th:value="${ml.menuCode}" th:data-price="${ml.menuPrice}" th:text="${ml.menuName}"></option>														
+														</th:block>														
 													</select>
 												</div>
 										</div>
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">메뉴 명  *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
-										</div>
-																	
 										<div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">거래처 명 *</label>
 												<div class="col-md-6 col-sm-6 ">
@@ -66,37 +57,46 @@
 													</select>
 												</div>
 										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align" for="salesVatType">매출 유형  *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="salesVatType" name="salesVatType" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::매출 유형 선택:::</option>
+														<option value="카드">카드</option>
+														<option value="현금">현금</option>
+														<option value="세금계산서">세금계산서</option>
+													</select>
+												</div>
+										</div>																	
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 외상 *</label>
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="salesPayType" value="상품매출" required class="flat" > 예
+												</div>						
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="salesPayType" value="외상매출금" required class="flat" checked="checked"> 아니요													
+												</div>
+										</div>																		
 										
 										<div class="form-group row">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">판매수량 * <span class="required"></span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="salesCount">판매수량 * <span class="required"></span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control ">
+												<input type="number" id="salesCount" name="salesCount" required="required" class="form-control ">
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">판매금액 *
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="salesTotal">판매금액 *
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
+												<input type="text" id="salesTotal" name="salesTotal" required="required" class="form-control" readonly="readonly">
 											</div>
-										</div>										
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">결제유형  *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
 										</div>										
 										<div class="form-group row">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">매출 날짜 * 
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="birthday" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input id="salesDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -146,6 +146,22 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script type="text/javascript">
+		$(function(){
+			$('#salesCount').keyup(function(){
+				var count = $(this).val();
+				var menuPrice = $('#menuCode').find("option:selected").data("price");
+				console.log(count, menuPrice);
+				var totalPrice = count * menuPrice;
+				console.log(totalPrice);
+				$('#salesTotal').val(totalPrice);
+			});
+		});
+		
+		
+	</script>
+	
 	</th:block>
 		
 </html>
