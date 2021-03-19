@@ -33,5 +33,7 @@
 		tb_store_info AS st
 		on
 		cr.store_info_code = st.store_info_code
+	WHERE
+		st.store_info_code= #{sessionId}
 	</select>
 </mapper>

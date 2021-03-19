@@ -59,7 +59,9 @@
 									<thead>
 										<tr>
 											<th>사업주아이디</th>
+											<th>사업주 비밀번호</th>
 											<th>사업주 이름</th>
+											<th>레벨 코드</th>
 											<th>사업주 핸드폰 번호</th>
 											<th>사업주 이메일 주소</th>
 											<th>사업주 생년월일</th>	
@@ -69,7 +71,9 @@
 									<tbody>
 										<tr th:each="ol : ${ownerList}">
 											<td th:text="${ol.ownerId}">
-											<td th:text="${ol.ownerName}">	
+											<td th:text="${ol.ownerPw}">
+											<td th:text="${ol.ownerName}">								 		
+											<td th:text="${ol.levelCode}">
 											<td th:text="${ol.ownerPhone}">
 											<td th:text="${ol.ownerEmail}">
 											<td th:text="${ol.ownerBirth}">

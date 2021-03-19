@@ -8,6 +8,7 @@ import com.cafemgt.dto.CustomerDto;
 
 @Mapper
 public interface CustomerMapper {
-	public List<CustomerDto> getCustomer();
+	
+	public List<CustomerDto> getCustomer(String SSTORECODE);
 
 }
