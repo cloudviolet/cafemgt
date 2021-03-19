@@ -31,9 +31,12 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" th:action="@{/addsales}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 										
-										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
+										<input type="hidden" name="salesSystemId" th:value="${session.OID}">
+										<input type="hidden" name="salesSystemName" th:value="${session.ONAME}">
+										
 										
 										<div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align" for="menuCode">메뉴 명  *</label>
@@ -46,18 +49,30 @@
 													</select>
 												</div>
 										</div>
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 매출유형 *</label>
+												<div class="col-md-2 col-sm-2" style="text-align: center;">
+													<input type="radio" name="salesVatType" value="카드" required  > 카드
+												</div>						
+												<div class="col-md-2 col-sm-2" style="text-align: center;">
+													<input type="radio" name="salesVatType" value="현금" required > 현금												
+												</div>
+												<div class="col-md-2 col-sm-2 " style="text-align: center;">
+													<input type="radio" name="salesVatType" value="세금계산서" required > 세금계산서											
+												</div>
+										</div>	
 										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">거래처 명 *</label>
+											<label class="control-label col-md-3 col-sm-3 label-align" for="CustCode">거래처 명 *</label>
 												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
+													<select id="CustCode" name="CustCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::거래처 명 선택:::</option>
+														<th:block th:if="${#lists.size(customerList) > 0}" th:each="cl : ${customerList}">														
+															<option th:value="${cl.custCode}" th:text="${cl.custName}"></option>
+														</th:block>
 													</select>
 												</div>
 										</div>
-										<div class="form-group row">
+										<!-- <div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align" for="salesVatType">매출 유형  *</label>
 												<div class="col-md-6 col-sm-6 ">
 													<select id="salesVatType" name="salesVatType" class="form-control" style="text-align-last : center;" required>
@@ -67,14 +82,14 @@
 														<option value="세금계산서">세금계산서</option>
 													</select>
 												</div>
-										</div>																	
+										</div>	 -->	
 										<div class="form-group row ">
 											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 외상 *</label>
 												<div class="col-md-3 col-sm-3" style="text-align: center;">
-													<input type="radio" name="salesPayType" value="상품매출" required class="flat" > 예
+													<input type="radio" name="salesPayType" value="외상매출금" required class="flat" > 예
 												</div>						
 												<div class="col-md-3 col-sm-3" style="text-align: center;">
-													<input type="radio" name="salesPayType" value="외상매출금" required class="flat" checked="checked"> 아니요													
+													<input type="radio" name="salesPayType" value="상품매출" required class="flat" checked="checked"> 아니요													
 												</div>
 										</div>																		
 										
@@ -96,7 +111,7 @@
 											<label class="col-form-label col-md-3 col-sm-3 label-align">매출 날짜 * 
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="salesDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input name="salesDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -106,6 +121,7 @@
 												</script>
 											</div>
 										</div>
+									
 										<div class="ln_solid"></div>
 										<div class="form-group row">
 											<div class="col-md-6 col-sm-6 offset-md-3 text-center">
@@ -114,7 +130,6 @@
 												<button type="submit" class="btn btn-success">매출 등록</button>
 											</div>
 										</div>
-
 									</form>
 								</div>
 							</div>
@@ -148,6 +163,15 @@
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
 	
 	<script type="text/javascript">
+		var radio = $('#demo-form2').find("input[name='salesVatType']");
+		console.log(radio);
+		$(function(){
+			radio.click(function(){
+				console.log('a');	
+			});
+		});
+		
+	
 		$(function(){
 			$('#salesCount').keyup(function(){
 				var count = $(this).val();

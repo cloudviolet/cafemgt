@@ -16,10 +16,8 @@ public class OtherPurchasesService {
 		this.otherPurchasesMapper = otherPurchasesMapper;
 	}
 	
-	public int addOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
-		otherPurchasesMapper.addOtherPurchases(otherPurchasesDto);
-		
-		return 0;		
+	public int addOtherPurchases(OtherPurchasesDto otherPurchasesDto) {				
+		return otherPurchasesMapper.addOtherPurchases(otherPurchasesDto);
 	}
 
 	public List<OtherPurchasesDto> getOtherPurchases(){
