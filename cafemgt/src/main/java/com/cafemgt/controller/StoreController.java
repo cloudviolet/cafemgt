@@ -83,7 +83,6 @@ public class StoreController {
 		return "redirect:/login";
 	}
 	
-	
 	@GetMapping("/login")
 	public String login(Model model) {
 		
@@ -100,25 +99,47 @@ public class StoreController {
 		return "redirect:/index";	
 	}
 	
+	@GetMapping("/addowner")
+	public String addowner() {
+		
+		return "owner/addowner";		
+	}
+	
+	@GetMapping("/getowner")
+	public String getowner(Model model, HttpSession session) {
+		String OID = (String)session.getAttribute("OID");
+		List<OwnerDto> ownerDtoList = ownerService.getOwner(OID);
+		model.addAttribute("ownerList", ownerDtoList);
+		
+		return "owner/getowner";		
+	}
+	
+	
+	@GetMapping("/getowneradmin")
+	public String getowneradmin() {
+
+		return "admin/getowneradmin";		
+	}
+		
 	@GetMapping("/getuser")
-	public String getuser(Model model) {
-		List<UserDto> userDtoList = userService.getUser();
+	public String getuser(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
 		model.addAttribute("userList", userDtoList);
 		
 		return "store/getuser";	
 	}
 	
 	@GetMapping("/getuseradmin")
-	public String getuseradmin(Model model) {
-		List<UserDto> userDtoList = userService.getUser();
-		model.addAttribute("userList", userDtoList);
-		
+	public String getuseradmin() {
+	
 		return "admin/getuseradmin";	
 	}
 	
 	@GetMapping("/getcustomer")
-	public String getcustomer(Model model) {
-		List<CustomerDto> customerDtoList = customerService.getCustomer();
+	public String getcustomer(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<CustomerDto> customerDtoList = customerService.getCustomer(SSTORECODE);
 		model.addAttribute("customerList", customerDtoList);
 		
 		return "store/getcustomer";	
@@ -126,16 +147,16 @@ public class StoreController {
 
 	
 	@GetMapping("/getcustomeradmin")
-	public String getcustomeradmin(Model model) {
-		List<CustomerDto> customerDtoList = customerService.getCustomer();
-		model.addAttribute("customerList", customerDtoList);
+	public String getcustomeradmin() {
+	
 		
 		return "admin/getcustomeradmin";	
 	}
 	
 	@GetMapping("/getusermy")
-	public String getusermy(Model model) {
-		List<UserDto> userDtoList = userService.getUser();
+	public String getusermy(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
 		model.addAttribute("userList", userDtoList);
 		
 		return "store/getusermy";	

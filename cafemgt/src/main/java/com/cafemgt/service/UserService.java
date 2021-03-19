@@ -18,8 +18,8 @@ public class UserService {
 		this.userMapper= userMapper;
 	}
 	
-	public List<UserDto> getUser(){
-		List<UserDto> userDtoList = userMapper.getUser();
+	public List<UserDto> getUser(String SSTORECODE){
+		List<UserDto> userDtoList = userMapper.getUser(SSTORECODE);
 		
 		return userDtoList;
 	}

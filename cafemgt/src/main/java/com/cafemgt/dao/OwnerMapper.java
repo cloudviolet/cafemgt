@@ -11,7 +11,7 @@ public interface OwnerMapper {
 	
 	public OwnerDto getinfoOwner(String ownerId);
 	
-	public List<OwnerDto> getOwner();
+	public List<OwnerDto> getOwner(String ownerId);
 	
 
 }
