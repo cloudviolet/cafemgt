@@ -8,6 +8,7 @@
 		<result property="userId" 			column="user_id"/>
 		<result property="userPw" 			column="user_pw"/>
 		<result property="storeInfoCode" 	column="store_info_code"/>
+		<result property="storeInfoName" 	column="store_info_name"/>
 		<result property="userName" 		column="user_name"/>
 		<result property="levelCode" 		column="level_code"/>
 		<result property="userJoinDate" 	column="user_join_date"/>
@@ -22,6 +23,30 @@
 		<result property="userRegDate" 		column="user_reg_date"/>
 	</resultMap>
 	
+	<!-- User 직원 등록 -->
+	<insert id="addUser" parameterType="UserDto">
+		INSERT INTO tb_user
+			(user_id
+			, user_pw
+			, store_info_code
+			, user_name
+			, level_code
+			, user_join_date
+			, user_out_date
+			, user_phone
+			, user_pay
+			, user_work_time
+			, user_bank_name
+			, user_bank_acount
+			, user_agreement
+			, user_health_card
+			, user_reg_date)
+		VALUES 
+			(#{userId}, #{userPw}, #{storeInfoCode}, #{storeInfoName}, #{userName}, #{levelCode}, #{memberAddr},
+			 #{userJoinDate}, #{userOutDate}, #{userPhone}, #{userPay}, #{userWorkTime},
+			 #{userBankName}, #{userBankAcount}, #{userAgreement}, #{userHealthCard}, NOW())
+	</insert>
+	<!-- User 직원 조회  -->
 	<select id="getUser" resultMap="userResulMap">
 		SELECT 
 			ur.user_id

@@ -64,7 +64,6 @@
 									<ul class="nav child_menu">
 										<li class="sub_menu"><a th:href="@{addcustomer}">거래처 등록</a></li>
 										<li class="sub_menu"><a th:href="@{getcustomer}">거래처 조회(사업주+직원)</a></li>
-										<li class="sub_menu"><a th:href="@{getcustomeradmin}">거래처 조회(관리자)</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -94,6 +93,9 @@
 										<li class="sub_menu"><a th:href="@{addskk}">재고 조사 내역 등록</a></li>
 										<li class="sub_menu"><a th:href="@{getskk}">재고 조사 내역 조회</a></li>
 									</ul>
+								</li>
+								<li>
+									<a th:href="@{getdailyvolume}">#일일 품목 소모량 조회<span class="nav child_menu"></span></a>
 								</li>
 								<li>
 									<a th:href="@{getstock}">#매입별 품목 재고 조회<span class="nav child_menu"></span></a>

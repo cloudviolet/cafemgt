@@ -145,14 +145,7 @@ public class StoreController {
 		return "store/getcustomer";	
 	}
 
-	
-	@GetMapping("/getcustomeradmin")
-	public String getcustomeradmin() {
-	
-		
-		return "admin/getcustomeradmin";	
-	}
-	
+
 	@GetMapping("/getusermy")
 	public String getusermy(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -177,8 +170,14 @@ public class StoreController {
 	
 	@GetMapping("/adduser")
 	public String adduser() {
-		
 		return "store/adduser";	
+	}
+	
+	@PostMapping("/adduser")
+	public String adduser(UserDto userDto) {
+		userService.addUser(userDto);
+		
+		return "redirect:/getuser";			
 	}
 	
 	@GetMapping("/getstore")
