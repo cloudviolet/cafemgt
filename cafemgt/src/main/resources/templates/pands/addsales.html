@@ -164,10 +164,16 @@
 	
 	<script type="text/javascript">
 		var radio = $('#demo-form2').find("input[name='salesVatType']");
+		var custCode = $('#CustCode');
 		console.log(radio);
 		$(function(){
-			radio.click(function(){
-				console.log('a');	
+			radio.change(function(){
+				var radioValue = $("input[name='salesVatType']:checked").val();
+				console.log(radioValue);
+				if(radioValue=='현금'){
+					custCode.prop('disabled', true);
+					custCode.val('현금매출');
+				}
 			});
 		});
 		
