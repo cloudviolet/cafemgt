@@ -24,6 +24,12 @@ public class UserService {
 		return 0;
 	}
 	
+	public List<UserDto> getUseradmin(){
+		List<UserDto> userDtoList = userMapper.getUseradmin();
+		
+		return userDtoList;
+	}
+	
 	public List<UserDto> getUser(String SSTORECODE){
 		List<UserDto> userDtoList = userMapper.getUser(SSTORECODE);
 		

@@ -46,6 +46,35 @@
 			 #{userJoinDate}, #{userOutDate}, #{userPhone}, #{userPay}, #{userWorkTime},
 			 #{userBankName}, #{userBankAcount}, #{userAgreement}, #{userHealthCard}, NOW())
 	</insert>
+	<!-- User 직원 조회 관리 -->
+	<select id="getUseradmin" resultMap="userResulMap">
+		SELECT 
+			ur.user_id
+			, ur.user_pw
+			, st.store_info_code
+			, ur.user_name
+			, le.level_code
+			, ur.user_join_date
+			, ur.user_out_date
+			, ur.user_phone
+			, ur.user_pay
+			, ur.user_work_time
+			, ur.user_bank_name
+			, ur.user_bank_acount
+			, ur.user_agreement
+			, ur.user_health_card
+			, ur.user_reg_date
+		FROM 
+			tb_user AS ur
+			LEFT join
+			tb_store_info AS st
+			on
+			ur.store_info_code = st.store_info_code
+			LEFT join
+			tb_level AS le
+			on
+			ur.level_code = le.level_code
+	</select>
 	<!-- User 직원 조회  -->
 	<select id="getUser" resultMap="userResulMap">
 		SELECT 

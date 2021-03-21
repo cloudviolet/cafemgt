@@ -17,6 +17,12 @@ public class StoreService {
 		this.storeMapper = storeMapper;
 	}
 	
+	public List<StoreDto> getStoreadmin(){
+		List<StoreDto> storeDtoList = storeMapper.getStoreadmin();
+		
+		return storeDtoList;
+	}
+	
 	public List<StoreDto> getStore(){
 		List<StoreDto> storeDtoList = storeMapper.getStore();
 		

@@ -35,6 +35,12 @@ public class OwnerService {
 		return result;
 	}
 	
+	public List<OwnerDto> getOwneradmin(){
+		List<OwnerDto> ownerDtolist = ownerMapper.getOwneradmin();
+		
+		return ownerDtolist;	
+	}
+	
 	public OwnerDto getinfoOwner(String ownerId) {
 		return ownerMapper.getinfoOwner(ownerId);
 		
