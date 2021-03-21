@@ -86,10 +86,10 @@
 										<div class="form-group row ">
 											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 외상 *</label>
 												<div class="col-md-3 col-sm-3" style="text-align: center;">
-													<input type="radio" name="salesPayType" value="외상매출금" required class="flat" > 예
+													<input type="radio" name="salesPayType" value="외상매출금" required> 예
 												</div>						
 												<div class="col-md-3 col-sm-3" style="text-align: center;">
-													<input type="radio" name="salesPayType" value="상품매출" required class="flat" checked="checked"> 아니요													
+													<input type="radio" name="salesPayType" value="상품매출" required> 아니요													
 												</div>
 										</div>																		
 										
@@ -164,6 +164,7 @@
 	
 	<script type="text/javascript">
 		var radio = $('#demo-form2').find("input[name='salesVatType']");
+		var salesPayType = $('#demo-form2').find("input:radio[name='salesPayType']");
 		var custCode = $('#CustCode');
 		console.log(radio);
 		$(function(){
@@ -172,7 +173,18 @@
 				console.log(radioValue);
 				if(radioValue=='현금'){
 					custCode.prop('disabled', true);
-					custCode.val('현금매출');
+					custCode.val('cust_998').prop("selected", true);
+					console.log(custCode.val());
+					salesPayType.val('상품매출').prop("checked", true);
+				}else if(radioValue=='카드'){
+					custCode.prop('disabled', true);
+					custCode.val('cust_999').prop("selected", true);
+					salesPayType.val('상품매출').prop("checked", true);
+					console.log(custCode.val());
+				}else{
+					custCode.prop('disabled', false);
+					custCode.val('').prop("selected", true);
+					salesPayType.val('상품매출').prop("checked", false);
 				}
 			});
 		});
