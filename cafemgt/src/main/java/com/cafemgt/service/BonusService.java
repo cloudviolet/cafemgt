@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafemgt.dao.BonusMapper;
 import com.cafemgt.dto.BonusDto;
 
 @Service
+@Transactional
 public class BonusService {
 	
 	private final  BonusMapper  bonusMapper;
