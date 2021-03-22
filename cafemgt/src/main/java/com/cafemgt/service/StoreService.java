@@ -23,8 +23,8 @@ public class StoreService {
 		return storeDtoList;
 	}
 	
-	public List<StoreDto> getStore(){
-		List<StoreDto> storeDtoList = storeMapper.getStore();
+	public List<StoreDto> getStore(String SSTORECODE){
+		List<StoreDto> storeDtoList = storeMapper.getStore(SSTORECODE);
 		
 		return storeDtoList;
 	}

@@ -123,9 +123,10 @@ public class StoreController {
 	}
 	
 	@GetMapping("/getstore")
-	public String getstore(Model model) {
-		List<StoreDto> storeDtoList = storeService.getStore();
-		model.addAttribute(storeDtoList);
+	public String getstore(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<StoreDto> storeDtoList = storeService.getStore(SSTORECODE);
+		model.addAttribute("storeDtoList",storeDtoList);
 		
 		return "store/getstore";	
 	}
@@ -183,7 +184,10 @@ public class StoreController {
 	}
 	
 	@PostMapping("/adduser")
-	public String adduser(UserDto userDto) {
+	public String adduser(UserDto userDto, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		userDto.toString();
+		System.out.println(userDto.toString());
 		userService.addUser(userDto);
 		
 		return "redirect:/getuser";			

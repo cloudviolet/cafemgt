@@ -18,6 +18,7 @@ public class UserDto {
 	private String userAgreement;
 	private String userHealthCard;
 	private String userRegDate;
+
 	public String getUserId() {
 		return userId;
 	}
