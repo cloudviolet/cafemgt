@@ -116,9 +116,19 @@ public class StoreController {
 	
 	
 	@GetMapping("/getowneradmin")
-	public String getowneradmin() {
-
+	public String getowneradmin(Model model) {
+		List<OwnerDto> ownerDtoList = ownerService.getOwneradmin();
+		model.addAttribute("ownerList", ownerDtoList);
 		return "admin/getowneradmin";		
+	}
+	
+	@GetMapping("/getstore")
+	public String getstore(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<StoreDto> storeDtoList = storeService.getStore(SSTORECODE);
+		model.addAttribute("storeDtoList",storeDtoList);
+		
+		return "store/getstore";	
 	}
 		
 	@GetMapping("/getuser")
@@ -131,9 +141,20 @@ public class StoreController {
 	}
 	
 	@GetMapping("/getuseradmin")
-	public String getuseradmin() {
-	
+	public String getuseradmin(Model model) {
+		List<UserDto> userDtoList = userService.getUseradmin();
+		model.addAttribute("userList", userDtoList);
+		
 		return "admin/getuseradmin";	
+	}
+
+	@GetMapping("/getusermy")
+	public String getusermy(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
+		model.addAttribute("userList", userDtoList);
+		
+		return "store/getusermy";	
 	}
 	
 	@GetMapping("/getcustomer")
@@ -144,24 +165,6 @@ public class StoreController {
 		
 		return "store/getcustomer";	
 	}
-
-	
-	@GetMapping("/getcustomeradmin")
-	public String getcustomeradmin() {
-	
-		
-		return "admin/getcustomeradmin";	
-	}
-	
-	@GetMapping("/getusermy")
-	public String getusermy(Model model, HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
-		model.addAttribute("userList", userDtoList);
-		
-		return "store/getusermy";	
-	}
-	
 	
 	@GetMapping("/addstore")
 	public String addstore(Model model) {
@@ -177,18 +180,24 @@ public class StoreController {
 	
 	@GetMapping("/adduser")
 	public String adduser() {
-		
 		return "store/adduser";	
 	}
 	
-	@GetMapping("/getstore")
-	public String getstore(Model model) {
-		List<StoreDto> storeDtoList = storeService.getStore();
-		model.addAttribute(storeDtoList);
-		return "store/getstore";	
+	@PostMapping("/adduser")
+	public String adduser(UserDto userDto, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		userDto.toString();
+		System.out.println(userDto.toString());
+		userService.addUser(userDto);
+		
+		return "redirect:/getuser";			
 	}
+	
+
 	@GetMapping("/getstoreadmin")
-	public String getstoreadmin() {
+	public String getstoreadmin(Model model) {
+		List<StoreDto> storeDtoList = storeService.getStoreadmin();
+		model.addAttribute(storeDtoList);
 		
 		return "admin/getstoreadmin";	
 	}

@@ -9,4 +9,6 @@ import com.cafemgt.dto.RecipyDto;
 @Mapper
 public interface RecipyMapper {
 	public List<RecipyDto> getRecipy(String SSTORECODE);
+	
+	public int addRecipy(RecipyDto recipyDto);
 }

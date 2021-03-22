@@ -3,12 +3,14 @@ package com.cafemgt.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafemgt.dao.TotalStockMapper;
 import com.cafemgt.dto.TotalStockDto;
 
 
 @Service
+@Transactional
 public class TotalStockService {
 
 	private final TotalStockMapper totalStockMapper;

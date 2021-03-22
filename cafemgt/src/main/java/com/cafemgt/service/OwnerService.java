@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafemgt.dao.OwnerMapper;
 import com.cafemgt.dto.OwnerDto;
 
 @Service
+@Transactional
 public class OwnerService {
 	
 	private final OwnerMapper ownerMapper;
@@ -33,6 +35,12 @@ public class OwnerService {
 			}
 		}		
 		return result;
+	}
+	
+	public List<OwnerDto> getOwneradmin(){
+		List<OwnerDto> ownerDtolist = ownerMapper.getOwneradmin();
+		
+		return ownerDtolist;	
 	}
 	
 	public OwnerDto getinfoOwner(String ownerId) {
