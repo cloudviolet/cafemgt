@@ -66,10 +66,10 @@
 										<label class="col-form-label col-md-3 col-sm-3 label-align">메뉴 소모 품목명 <span class="required">*</span>
 										</label>
 										<div class="col-md-6 col-sm-6 ">
-											<select class="form-control" name="conName" required="required">
+											<select class="form-control" name="articleCode" required="required">
 												<option value="" disabled selected>choice plz</option>
 												<th:block th:each="al : ${articleList}">
-													<option th:value="${al.articleName}" th:text="${al.articleName}"></option>
+													<option th:value="${al.articleCode}" th:text="${al.articleName}"></option>
 												</th:block>
 											</select>
 										</div>
@@ -183,7 +183,7 @@
 					arrayRecipy.push(recipyInfo);
 					
 					//select 입력
-					var selectConName = addForm.eq(i).find('select[name="conName"]');
+					var selectConName = addForm.eq(i).find('select[name="articleCode"]');
 					recipyInfo[selectConName.attr('name')] = selectConName.val();
 					arrayRecipy.push(recipyInfo);
 					

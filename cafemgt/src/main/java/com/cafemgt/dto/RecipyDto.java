@@ -6,7 +6,8 @@ public class RecipyDto {
 	private String storeInfoName;
 	private String menuCode;
 	private String menuName;
-	private String conName;
+	private String articleCode;
+	private String articleName;
 	private String conVolume;
 	private String conDan;
 	public String getConCode() {
@@ -39,11 +40,17 @@ public class RecipyDto {
 	public void setMenuName(String menuName) {
 		this.menuName = menuName;
 	}
-	public String getConName() {
-		return conName;
+	public String getArticleCode() {
+		return articleCode;
 	}
-	public void setConName(String conName) {
-		this.conName = conName;
+	public void setArticleCode(String articleCode) {
+		this.articleCode = articleCode;
+	}
+	public String getArticleName() {
+		return articleName;
+	}
+	public void setArticleName(String articleName) {
+		this.articleName = articleName;
 	}
 	public String getConVolume() {
 		return conVolume;
@@ -57,7 +64,6 @@ public class RecipyDto {
 	public void setConDan(String conDan) {
 		this.conDan = conDan;
 	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -71,36 +77,17 @@ public class RecipyDto {
 		builder.append(menuCode);
 		builder.append(", menuName=");
 		builder.append(menuName);
-		builder.append(", conName=");
-		builder.append(conName);
+		builder.append(", articleCode=");
+		builder.append(articleCode);
+		builder.append(", articleName=");
+		builder.append(articleName);
 		builder.append(", conVolume=");
 		builder.append(conVolume);
 		builder.append(", conDan=");
 		builder.append(conDan);
-		builder.append(", getConCode()=");
-		builder.append(getConCode());
-		builder.append(", getStoreInfoCode()=");
-		builder.append(getStoreInfoCode());
-		builder.append(", getStoreInfoName()=");
-		builder.append(getStoreInfoName());
-		builder.append(", getMenuCode()=");
-		builder.append(getMenuCode());
-		builder.append(", getMenuName()=");
-		builder.append(getMenuName());
-		builder.append(", getConName()=");
-		builder.append(getConName());
-		builder.append(", getConVolume()=");
-		builder.append(getConVolume());
-		builder.append(", getConDan()=");
-		builder.append(getConDan());
-		builder.append(", getClass()=");
-		builder.append(getClass());
-		builder.append(", hashCode()=");
-		builder.append(hashCode());
-		builder.append(", toString()=");
-		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}
 	
-}
+	
+	}

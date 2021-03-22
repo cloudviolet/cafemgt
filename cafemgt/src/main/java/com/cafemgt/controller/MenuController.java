@@ -1,8 +1,6 @@
 package com.cafemgt.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -64,18 +62,18 @@ public class MenuController {
 		return "menu/addrecipy";
 	}
 	@PostMapping("/addrecipy")
-	public String addrecipy(@RequestParam(value="conName")List<String> conName
+	public String addrecipy(@RequestParam(value="articleCode")List<String> articleCode
 							,@RequestParam(value="conVolume")List<String> conVolume
 							,@RequestParam(value="conDan")List<String> conDan
 							,RecipyDto inputRecipyDto) {
 		String storeCode = inputRecipyDto.getStoreInfoCode();
 		String menuCode = inputRecipyDto.getMenuCode();
-		System.out.println(conName);
-		for(int i = 0 ; i < conName.size(); i++) {
+		System.out.println(articleCode);
+		for(int i = 0 ; i < articleCode.size(); i++) {
 			RecipyDto recipyDto = new RecipyDto();
 			recipyDto.setStoreInfoCode(storeCode);
 			recipyDto.setMenuCode(menuCode);
-			recipyDto.setConName(conName.get(i));
+			recipyDto.setArticleCode(articleCode.get(i));
 			recipyDto.setConVolume(conVolume.get(i));
 			recipyDto.setConDan(conDan.get(i));
 			recipyService.addRecipy(recipyDto);
