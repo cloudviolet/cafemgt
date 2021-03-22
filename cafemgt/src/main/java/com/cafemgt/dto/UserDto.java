@@ -5,6 +5,7 @@ public class UserDto {
 	private String userId;
 	private String userPw;
 	private String storeInfoCode;
+	private String storeInfoName;
 	private String userName;
 	private String levelCode;
 	private String userJoinDate;
@@ -17,6 +18,7 @@ public class UserDto {
 	private String userAgreement;
 	private String userHealthCard;
 	private String userRegDate;
+
 	public String getUserId() {
 		return userId;
 	}
@@ -34,6 +36,12 @@ public class UserDto {
 	}
 	public void setStoreInfoCode(String storeInfoCode) {
 		this.storeInfoCode = storeInfoCode;
+	}
+	public String getStoreInfoName() {
+		return storeInfoName;
+	}
+	public void setStoreInfoName(String storeInfoName) {
+		this.storeInfoName = storeInfoName;
 	}
 	public String getUserName() {
 		return userName;
@@ -116,6 +124,8 @@ public class UserDto {
 		builder.append(userPw);
 		builder.append(", storeInfoCode=");
 		builder.append(storeInfoCode);
+		builder.append(", storeInfoName=");
+		builder.append(storeInfoName);
 		builder.append(", userName=");
 		builder.append(userName);
 		builder.append(", levelCode=");
@@ -149,6 +159,7 @@ public class UserDto {
 		int result = 1;
 		result = prime * result + ((levelCode == null) ? 0 : levelCode.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
+		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
 		result = prime * result + ((userAgreement == null) ? 0 : userAgreement.hashCode());
 		result = prime * result + ((userBankAcount == null) ? 0 : userBankAcount.hashCode());
 		result = prime * result + ((userBankName == null) ? 0 : userBankName.hashCode());
@@ -182,6 +193,11 @@ public class UserDto {
 			if (other.storeInfoCode != null)
 				return false;
 		} else if (!storeInfoCode.equals(other.storeInfoCode))
+			return false;
+		if (storeInfoName == null) {
+			if (other.storeInfoName != null)
+				return false;
+		} else if (!storeInfoName.equals(other.storeInfoName))
 			return false;
 		if (userAgreement == null) {
 			if (other.userAgreement != null)

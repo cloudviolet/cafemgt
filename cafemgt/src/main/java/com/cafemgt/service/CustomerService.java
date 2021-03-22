@@ -16,7 +16,8 @@ public class CustomerService {
 	public CustomerService(CustomerMapper customerMapper) {
 		this.customerMapper = customerMapper;
 	}
-	
+
+	//거래처 조회
 	public List<CustomerDto> getCustomer(String SSTORECODE){
 		List<CustomerDto> customerDtoList = customerMapper.getCustomer(SSTORECODE);
 		

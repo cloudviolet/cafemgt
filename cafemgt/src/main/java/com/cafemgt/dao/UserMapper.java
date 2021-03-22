@@ -8,6 +8,11 @@ import com.cafemgt.dto.UserDto;
 
 @Mapper
 public interface UserMapper {
+	
+	public int addUser(UserDto userDto);
+	
+	public List<UserDto> getUseradmin();
+	
 	public List<UserDto> getUser(String SSTORECODE);
 
 }

@@ -18,6 +18,18 @@ public class UserService {
 		this.userMapper= userMapper;
 	}
 	
+	public int addUser(UserDto userDto) {
+		userMapper.addUser(userDto);
+		
+		return 0;
+	}
+	
+	public List<UserDto> getUseradmin(){
+		List<UserDto> userDtoList = userMapper.getUseradmin();
+		
+		return userDtoList;
+	}
+	
 	public List<UserDto> getUser(String SSTORECODE){
 		List<UserDto> userDtoList = userMapper.getUser(SSTORECODE);
 		
