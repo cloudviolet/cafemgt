@@ -10,9 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.RecipyDto;
+import com.cafemgt.service.ArticleService;
 import com.cafemgt.service.MenuService;
 import com.cafemgt.service.RecipyService;
 
@@ -21,10 +24,12 @@ public class MenuController {
 	
 	private final MenuService menuService;
 	private final RecipyService recipyService;
+	private final ArticleService articleService;
 	@Autowired
-	public MenuController(MenuService menuService,RecipyService recipyService) {
+	public MenuController(MenuService menuService,RecipyService recipyService,ArticleService articleService) {
 		this.menuService = menuService;
 		this.recipyService=recipyService;
+		this.articleService=articleService;
 	}
 
 	@PostConstruct
@@ -51,8 +56,30 @@ public class MenuController {
 	public String addrecipy(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<MenuDto> menuList = menuService.getMenu(SSTORECODE);
+		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
 		model.addAttribute("menuList",menuList);
+		model.addAttribute("articleList",articleList);
 		return "menu/addrecipy";
+	}
+	@PostMapping("/addrecipy")
+	public String addrecipy(@RequestParam(value="articleCode")List<String> articleCode
+							,@RequestParam(value="conVolume")List<String> conVolume
+							,@RequestParam(value="conDan")List<String> conDan
+							,RecipyDto inputRecipyDto) {
+		String storeCode = inputRecipyDto.getStoreInfoCode();
+		String menuCode = inputRecipyDto.getMenuCode();
+		System.out.println(articleCode);
+		for(int i = 0 ; i < articleCode.size(); i++) {
+			RecipyDto recipyDto = new RecipyDto();
+			recipyDto.setStoreInfoCode(storeCode);
+			recipyDto.setMenuCode(menuCode);
+			recipyDto.setArticleCode(articleCode.get(i));
+			recipyDto.setConVolume(conVolume.get(i));
+			recipyDto.setConDan(conDan.get(i));
+			recipyService.addRecipy(recipyDto);
+		}
+		
+		return "redirect:/getrecipy";
 	}
 	
 	@GetMapping("/getmenu")

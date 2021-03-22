@@ -5,10 +5,11 @@ public class SkkDto {
 	private String  skCode;
 	private String  storeInfoCode;
 	private String  storeInfoName;
+	private String  incoCode;
+	private String  stockCode;
 	private String  articleCode;
 	private String  articleName;
-	private String  stockCode;
-	private int 	stockNowVolume;
+	private int 	detailvolRemainVolume;
 	private int 	skProbeVolume;
 	private int 	skErrorVolume;
 	private String  stockMinUnit;
@@ -18,7 +19,6 @@ public class SkkDto {
 	private String  skRegDate;
 	private String  skSystemId;
 	private String  skSystemName;
-	
 	public String getSkCode() {
 		return skCode;
 	}
@@ -37,6 +37,18 @@ public class SkkDto {
 	public void setStoreInfoName(String storeInfoName) {
 		this.storeInfoName = storeInfoName;
 	}
+	public String getIncoCode() {
+		return incoCode;
+	}
+	public void setIncoCode(String incoCode) {
+		this.incoCode = incoCode;
+	}
+	public String getStockCode() {
+		return stockCode;
+	}
+	public void setStockCode(String stockCode) {
+		this.stockCode = stockCode;
+	}
 	public String getArticleCode() {
 		return articleCode;
 	}
@@ -49,17 +61,11 @@ public class SkkDto {
 	public void setArticleName(String articleName) {
 		this.articleName = articleName;
 	}
-	public String getStockCode() {
-		return stockCode;
+	public int getDetailvolRemainVolume() {
+		return detailvolRemainVolume;
 	}
-	public void setStockCode(String stockCode) {
-		this.stockCode = stockCode;
-	}
-	public int getStockNowVolume() {
-		return stockNowVolume;
-	}
-	public void setStockNowVolume(int stockNowVolume) {
-		this.stockNowVolume = stockNowVolume;
+	public void setDetailvolRemainVolume(int detailvolRemainVolume) {
+		this.detailvolRemainVolume = detailvolRemainVolume;
 	}
 	public int getSkProbeVolume() {
 		return skProbeVolume;
@@ -124,14 +130,16 @@ public class SkkDto {
 		builder.append(storeInfoCode);
 		builder.append(", storeInfoName=");
 		builder.append(storeInfoName);
+		builder.append(", incoCode=");
+		builder.append(incoCode);
+		builder.append(", stockCode=");
+		builder.append(stockCode);
 		builder.append(", articleCode=");
 		builder.append(articleCode);
 		builder.append(", articleName=");
 		builder.append(articleName);
-		builder.append(", stockCode=");
-		builder.append(stockCode);
-		builder.append(", stockNowVolume=");
-		builder.append(stockNowVolume);
+		builder.append(", detailvolRemainVolume=");
+		builder.append(detailvolRemainVolume);
 		builder.append(", skProbeVolume=");
 		builder.append(skProbeVolume);
 		builder.append(", skErrorVolume=");

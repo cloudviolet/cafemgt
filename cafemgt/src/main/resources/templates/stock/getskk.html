@@ -64,9 +64,10 @@
 												<th>재고조사코드</th>
 												<th>상호코드</th>
 												<th>상호명</th>
+												<th>입고코드</th>
+												<th>재고코드</th>
 												<th>품목코드</th>
 												<th>품목명</th>
-												<th>재고코드</th>
 												<th>현재재고용량</th>
 												<th>조사재고용량</th>
 												<th>오차재고용량</th>
@@ -84,10 +85,11 @@
 												<td th:text="${skkl.skCode}"></td>
 												<td th:text="${skkl.storeInfoCode}"></td>
 												<td th:text="${skkl.storeInfoName}"></td>
+												<td th:text="${skkl.incoCode}"></td>
+												<td th:text="${skkl.stockCode}"></td>
 												<td th:text="${skkl.articleCode}"></td>
 												<td th:text="${skkl.articleName}"></td>
-												<td th:text="${skkl.stockCode}"></td>
-												<td th:text="${skkl.stockNowVolume}"></td>
+												<td th:text="${skkl.detailvolRemainVolume}"></td>
 												<td th:text="${skkl.skProbeVolume}"></td>
 												<td th:text="${skkl.skErrorVolume}"></td>
 												<td th:text="${skkl.stockMinUnit}"></td>

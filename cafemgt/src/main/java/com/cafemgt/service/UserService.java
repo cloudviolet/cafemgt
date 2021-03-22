@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafemgt.dao.UserMapper;
 import com.cafemgt.dto.UserDto;
 
 @Service
+@Transactional
 public class UserService {
 	
 	private final UserMapper userMapper;

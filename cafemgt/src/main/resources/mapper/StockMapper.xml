@@ -57,6 +57,6 @@
 			on
 			s.article_code = atc.article_code
 		WHERE
-			st.store_info_code = #{sessionId}
+			st.store_info_code = #{SSTORECODE}
 	</select>
 </mapper>
