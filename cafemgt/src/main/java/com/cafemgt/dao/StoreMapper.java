@@ -8,7 +8,9 @@ import com.cafemgt.dto.StoreDto;
 
 @Mapper
 public interface StoreMapper {
-	public List<StoreDto> getStore();
+	public List<StoreDto> getStoreadmin();
+	
+	public List<StoreDto> getStore(String SSTORECODE);
 	
 	public List<StoreDto> getStoreInfoByOwnerId(String ownerId);
 
