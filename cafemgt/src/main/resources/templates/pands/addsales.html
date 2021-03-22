@@ -31,7 +31,7 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" th:action="@{/addsales}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" method="post" data-parsley-validate class="form-horizontal form-label-left">
 										
 										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
 										<input type="hidden" name="salesSystemId" th:value="${session.OID}">
@@ -62,9 +62,9 @@
 												</div>
 										</div>	
 										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="CustCode">거래처 명 *</label>
+											<label class="control-label col-md-3 col-sm-3 label-align" for="custCode">거래처 명 *</label>
 												<div class="col-md-6 col-sm-6 ">
-													<select id="CustCode" name="CustCode" class="form-control" style="text-align-last : center;" required>
+													<select id="custCode" name="custCode" class="form-control" style="text-align-last : center;" required>
 														<option value="">:::거래처 명 선택:::</option>
 														<th:block th:if="${#lists.size(customerList) > 0}" th:each="cl : ${customerList}">														
 															<option th:value="${cl.custCode}" th:text="${cl.custName}"></option>
@@ -72,17 +72,6 @@
 													</select>
 												</div>
 										</div>
-										<!-- <div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="salesVatType">매출 유형  *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="salesVatType" name="salesVatType" class="form-control" style="text-align-last : center;" required>
-														<option value="">:::매출 유형 선택:::</option>
-														<option value="카드">카드</option>
-														<option value="현금">현금</option>
-														<option value="세금계산서">세금계산서</option>
-													</select>
-												</div>
-										</div>	 -->	
 										<div class="form-group row ">
 											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 외상 *</label>
 												<div class="col-md-3 col-sm-3" style="text-align: center;">
@@ -127,7 +116,8 @@
 											<div class="col-md-6 col-sm-6 offset-md-3 text-center">
 												<button class="btn btn-primary" type="button">등록 취소</button>
 												<button class="btn btn-primary" type="reset">다시 작성</button>
-												<button type="submit" class="btn btn-success">매출 등록</button>
+												<button type="button" id="submitBtn" class="btn btn-success">매출 등록</button>
+												
 											</div>
 										</div>
 									</form>
@@ -165,7 +155,8 @@
 	<script type="text/javascript">
 		var radio = $('#demo-form2').find("input[name='salesVatType']");
 		var salesPayType = $('#demo-form2').find("input:radio[name='salesPayType']");
-		var custCode = $('#CustCode');
+		var custCode = $('#custCode');
+		
 		console.log(radio);
 		$(function(){
 			radio.change(function(){
@@ -174,11 +165,13 @@
 				if(radioValue=='현금'){
 					custCode.prop('disabled', true);
 					custCode.val('cust_998').prop("selected", true);
+					custCode.val('cust_998');
 					console.log(custCode.val());
 					salesPayType.val('상품매출').prop("checked", true);
 				}else if(radioValue=='카드'){
 					custCode.prop('disabled', true);
 					custCode.val('cust_999').prop("selected", true);
+					custCode.val('cust_999')
 					salesPayType.val('상품매출').prop("checked", true);
 					console.log(custCode.val());
 				}else{
@@ -198,6 +191,13 @@
 				var totalPrice = count * menuPrice;
 				console.log(totalPrice);
 				$('#salesTotal').val(totalPrice);
+			});
+		});
+		
+		$(function(){
+			$('#submitBtn').click(function(){
+				custCode.prop('disabled', false);
+				$('#demo-form2').submit();
 			});
 		});
 		

@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.cafemgt.dao.ArticleMapper;
 import com.cafemgt.dao.CustomerMapper;
 import com.cafemgt.dao.MenuMapper;
+import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.CustomerDto;
 import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.OtherPurchasesDto;
@@ -29,17 +31,20 @@ public class TaxController {
 	private final OtherPurchasesService otherPurchasesService;
 	private final MenuMapper menuMapper;
 	private final CustomerMapper customerMapper;
+	private final ArticleMapper articleMapper;
 	
 	public TaxController(SalesService salesService
 						 ,PurchasesService purchasesService
 						 ,OtherPurchasesService otherPurchasesService
 						 ,MenuMapper menuMapper
-						 ,CustomerMapper customerMapper) {
+						 ,CustomerMapper customerMapper
+						 ,ArticleMapper articleMapper) {
 		this.salesService = salesService;
 		this.purchasesService = purchasesService;
 		this.otherPurchasesService = otherPurchasesService;
 		this.menuMapper = menuMapper;
 		this.customerMapper = customerMapper;
+		this.articleMapper = articleMapper;
 	}
 	
 	@PostConstruct
@@ -68,7 +73,14 @@ public class TaxController {
 	}
 	
 	@GetMapping("/addpurchases")
-	public String addpurchases() {
+	public String addpurchases(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		String OID = (String)session.getAttribute("OID");
+		String ONAME = (String)session.getAttribute("ONAME");
+		List<ArticleDto> articleList = articleMapper.getArticle(SSTORECODE);
+		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
+		model.addAttribute("articleList", articleList);
+		model.addAttribute("customerList", customerList);
 		return "pands/addpurchases";
 	}
 	

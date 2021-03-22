@@ -33,39 +33,49 @@
 									<br />
 									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">매입 유형  *</label>
+											<label class="control-label col-md-3 col-sm-3 label-align" for="articleCode">품목 명  *</label>
 												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
+													<select id="articleCode" name="articleCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::품목명선택:::</option>
+														<th:block th:if="${#lists.size(articleList) > 0}" th:each="al : ${articleList}">
+															<option th:value="${al.articleCode}" th:text="${al.articleName}"></option>														
+														</th:block>
 													</select>
 												</div>
 										</div>
 										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">품목 명  *</label>
+											<label class="control-label col-md-3 col-sm-3 label-align" for="custCode">거래처 명 *</label>
 												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
+													<select id="custCode" name="custCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::거래처 선택:::</option>
+														<th:block th:if="${#lists.size(customerList) > 0}" th:each="cl : ${customerList}">														
+															<option th:value="${cl.custCode}" th:text="${cl.custName}"></option>
+														</th:block>
 													</select>
 												</div>
 										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 매입유형 *</label>
+												<div class="col-md-2 col-sm-2" style="text-align: center;">
+													<input type="radio" name="incoVatType" value="카드" required  > 카드
+												</div>						
+												<div class="col-md-2 col-sm-2" style="text-align: center;">
+													<input type="radio" name="incoVatType" value="현금" required > 현금												
+												</div>
+												<div class="col-md-2 col-sm-2 " style="text-align: center;">
+													<input type="radio" name="incoVatType" value="세금계산서" required > 세금계산서											
+												</div>
+										</div>
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 외상 *</label>
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="salesPayType" value="외상매입금" required> 예
+												</div>						
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="salesPayType" value="원재료" required> 아니요													
+												</div>
+										</div>		
 																	
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">거래처 명 *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
-										</div>
 										
 										<div class="form-group row">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">입고수량 * <span class="required"></span>

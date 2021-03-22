@@ -13,7 +13,7 @@
 		<result property="salesTax" 				column="sales_tax"/>
 		<result property="salesVatType" 			column="sales_vat_type"/>
 		<result property="salesPayType" 			column="sales_pay_type"/>
-		<result property="CustCode" 				column="cust_code"/>
+		<result property="custCode" 				column="cust_code"/>
 		<result property="salesDate" 				column="sales_date"/>
 		<result property="salesRegDate" 			column="sales_reg_date"/>
 		<result property="salesDeadline" 			column="sales_deadline"/>
@@ -27,7 +27,7 @@
 	<insert id="addSales" parameterType="SalesDto">
 		INSERT INTO tb_sales
 	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline, sales_dealing_group_code, sales_deadline_check, sales_daliyvol_group_code, sales_system_id, sales_system_name)
-	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{CustCode}, #{salesDate}, NOW(), '', '', '', '', #{salesSystemId}, #{salesSystemName})
+	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), '', '', '', '', #{salesSystemId}, #{salesSystemName})
 	</insert>
 	
 	<select id="getSales" resultMap="salesDtoResultMap">
