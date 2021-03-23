@@ -8,8 +8,8 @@
 		<result property="ubCode" 			column="ub_code"/>
 		<result property="storeInfoCode" 	column="store_info_code"/>
 		<result property="storeInfoName" 	column="store_info_name"/>
-		<result property="userId" 			column="user_id"/>
-		<result property="userName" 		column="user_name"/>
+		<result property="memberId" 		column="member_id"/>
+		<result property="memberName" 		column="member_name"/>
 		<result property="ubYearMonth"		column="ub_year_month"/>
 		<result property="btaxCode"			column="btax_code"/>
 		<result property="btaxOption" 		column="btax_option"/>
@@ -24,8 +24,8 @@
 			ub.ub_code
 			,st.store_info_code
 			,st.store_info_name
-			,us.user_id
-			,us.user_name
+			,us.member_id
+			,us.member_name
 			,ub.ub_year_month
 			,bt.btax_code
 			,bt.btax_option
@@ -40,9 +40,9 @@
 		ON
 			ub.store_info_code = st.store_info_code
 		LEFT JOIN
-			tb_user AS us
+			tb_member AS us
 		ON
-			ub.user_id = us.user_id
+			ub.member_id = us.member_id
 		LEFT JOIN
 			tb_bonus_tax AS bt
 		ON

@@ -4,8 +4,8 @@ public class SalaryDto {
 	private String salaryCode;
 	private String storeInfoCode;
 	private String storeInfoName;
-	private String userId;
-	private String userName;
+	private String memberId;
+	private String memberName;
 	private String salaryYearMonth;
 	private int salaryPay;
 	private int salaryBtaxTotal;
@@ -22,7 +22,6 @@ public class SalaryDto {
 	private int salaryReceipts;
 	private String salaryPayDate;
 	private String salaryRegDate;
-	
 	public String getSalaryCode() {
 		return salaryCode;
 	}
@@ -41,17 +40,17 @@ public class SalaryDto {
 	public void setStoreInfoName(String storeInfoName) {
 		this.storeInfoName = storeInfoName;
 	}
-	public String getUserId() {
-		return userId;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getMemberName() {
+		return memberName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 	public String getSalaryYearMonth() {
 		return salaryYearMonth;
@@ -149,8 +148,6 @@ public class SalaryDto {
 	public void setSalaryRegDate(String salaryRegDate) {
 		this.salaryRegDate = salaryRegDate;
 	}
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -161,6 +158,8 @@ public class SalaryDto {
 		result = prime * result + intaxMax;
 		result = prime * result + intaxMin;
 		result = prime * result + intaxWork;
+		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
+		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + salaryBntaxTotal;
 		result = prime * result + salaryBtaxTotal;
 		result = prime * result + ((salaryCode == null) ? 0 : salaryCode.hashCode());
@@ -174,12 +173,8 @@ public class SalaryDto {
 		result = prime * result + ((salaryYearMonth == null) ? 0 : salaryYearMonth.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
 		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
-	
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -206,6 +201,16 @@ public class SalaryDto {
 		if (intaxMin != other.intaxMin)
 			return false;
 		if (intaxWork != other.intaxWork)
+			return false;
+		if (memberId == null) {
+			if (other.memberId != null)
+				return false;
+		} else if (!memberId.equals(other.memberId))
+			return false;
+		if (memberName == null) {
+			if (other.memberName != null)
+				return false;
+		} else if (!memberName.equals(other.memberName))
 			return false;
 		if (salaryBntaxTotal != other.salaryBntaxTotal)
 			return false;
@@ -251,24 +256,12 @@ public class SalaryDto {
 				return false;
 		} else if (!storeInfoName.equals(other.storeInfoName))
 			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
 		return true;
 	}
-	
-	
 	@Override
 	public String toString() {
 		return "SalaryDto [salaryCode=" + salaryCode + ", storeInfoCode=" + storeInfoCode + ", storeInfoName="
-				+ storeInfoName + ", userId=" + userId + ", userName=" + userName + ", salaryYearMonth="
+				+ storeInfoName + ", memberId=" + memberId + ", memberName=" + memberName + ", salaryYearMonth="
 				+ salaryYearMonth + ", salaryPay=" + salaryPay + ", salaryBtaxTotal=" + salaryBtaxTotal
 				+ ", salaryBntaxTotal=" + salaryBntaxTotal + ", salaryTotal=" + salaryTotal + ", intaxCode=" + intaxCode
 				+ ", intaxMin=" + intaxMin + ", intaxMax=" + intaxMax + ", intaxWork=" + intaxWork + ", intaxLocal="
@@ -276,5 +269,9 @@ public class SalaryDto {
 				+ salaryDeduction + ", salaryReceipts=" + salaryReceipts + ", salaryPayDate=" + salaryPayDate
 				+ ", salaryRegDate=" + salaryRegDate + "]";
 	}
+	
+	
+	
+	
 	
 }
