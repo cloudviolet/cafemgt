@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.MemberMapper">
+	<resultMap type="MemberDto" id="memberResultMap">
+		<result property="memberId" 			column="member_id" />
+		<result property="memberPw" 			column="member_pw" />
+		<result property="memberName" 		column="member_name" />
+		<result property="levelCode" 		column="level_code" />
+		<result property="memberPhone" 		column="member_phone" />
+		<result property="memberEmail" 		column="member_email" />
+		<result property="memberBirth" 		column="member_birth" />
+		<result property="memberRegDate" 	column="member_reg_date" />
+	</resultMap>
+	
+	<select id="getMemberadmin" resultMap="memberResultMap">
+	SELECT 
+		member_id
+		, member_pw
+		, member_name
+		, level_code
+		, member_phone
+		, member_email
+		, member_birth
+		, member_reg_date
+	FROM
+		tb_member	
+	</select>
+	
+	<select id="getMember" resultMap="memberResultMap">
+	SELECT 
+		member_id
+		, member_pw
+		, member_name
+		, level_code
+		, member_phone
+		, member_email
+		, member_birth
+		, member_reg_date
+	FROM
+		tb_member
+	WHERE 
+		member_id = #{memberId}		
+	</select>
+	
+	<select id="getinfoMember" parameterType="String" resultMap="memberResultMap">
+	SELECT 
+		member_id
+		, member_pw
+		, member_name
+		, level_code
+		, member_phone
+		, member_email
+		, member_birth
+	FROM tb_member
+		WHERE member_id = #{memberId}	
+	</select>
+
+</mapper>
