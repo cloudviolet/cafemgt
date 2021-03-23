@@ -11,5 +11,7 @@ public interface PurchasesMapper {
 	
 	public int addPurchases(PurchasesDto purchasesDto);
 	
+	public List<PurchasesDto> getPurchasesByArticleCode(String SSTORECODE, String articleCode);
+	
 	public List<PurchasesDto> getPurchases(String SSTORECODE);
 }

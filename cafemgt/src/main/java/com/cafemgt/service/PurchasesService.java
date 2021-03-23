@@ -18,6 +18,9 @@ public class PurchasesService {
 		this.purchasesMapper = purchasesMapper;
 	}
 	
+	public List<PurchasesDto> getPurchasesByArticleCode(String SSTORECODE, String articleCode){
+		return purchasesMapper.getPurchasesByArticleCode(SSTORECODE, articleCode);
+	}
 	
 	public int addPurchases(PurchasesDto purchasesDto) {
 		return purchasesMapper.addPurchases(purchasesDto);

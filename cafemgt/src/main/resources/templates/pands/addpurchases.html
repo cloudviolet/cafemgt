@@ -32,6 +32,9 @@
 								<div class="x_content">
 									<br />
 									<form id="demo-form2" th:action="@{/addpurchases}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+										
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">	
+										
 										<div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align" for="articleCode">품목 명  *</label>
 												<div class="col-md-6 col-sm-6 ">
@@ -56,20 +59,19 @@
 										</div>
 										<div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 매입유형 *</label>
-												<div class="col-md-3 col-sm-3" style="text-align: center;">
-													<input type="radio" name="incoVatType" value="카드" required  > 카드
-												</div>						
-												<div class="col-md-3 col-sm-3" style="text-align: center;">
-													<input type="radio" name="incoVatType" value="현금" required > 현금												
-												</div>
-										</div>
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"></label>
-												<div class="col-md-3 col-sm-3 " style="text-align: center;">
-													<input type="radio" name="incoVatType" value="세금계산서" required > 세금계산서											
-												</div>
-												<div class="col-md-3 col-sm-3 " style="text-align: center;">
-													<input type="radio" name="incoVatType" value="세금계산서" required > 계산서										
+												<div class="col-md-8 col-sm-8">
+													<div class="col-md-2 col-sm-2" style="text-align: center;">
+														<input type="radio" name="incoVatType" value="카드" required  > 카드
+													</div>						
+													<div class="col-md-2 col-sm-2" style="text-align: center;">
+														<input type="radio" name="incoVatType" value="현금" required > 현금												
+													</div>
+													<div class="col-md-2 col-sm-2 " style="text-align: center;">
+														<input type="radio" name="incoVatType" value="세금계산서" required > 세금계산서											
+													</div>
+													<div class="col-md-2 col-sm-2 " style="text-align: center;">
+														<input type="radio" name="incoVatType" value="계산서" required > 계산서										
+													</div>
 												</div>
 										</div>
 										<div class="form-group row ">
@@ -99,7 +101,11 @@
 											<div class="col-md-6 col-sm-6 ">
 												<input type="text" id="incoTotal" name="incoTotal" required="required" class="form-control">
 											</div>
-										</div>																		
+										</div>
+										
+										<input type="hidden" id="incoSupplyValue" name="incoSupplyValue">
+										<input type="hidden" id="incoTax" name="incoTax">
+																										
 										<div class="form-group row">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">입고 날짜 * </label>
 											<div class="col-md-6 col-sm-6 ">
@@ -156,20 +162,41 @@
 	<script type="text/javascript">		
 		var incoVatType = $('#demo-form2').find("input[name='incoVatType']");
 		var incoPayType = $('#demo-form2').find("input[name='incoPayType']");
-				
-		$(function(){					
-			incoVatType.click(function(){
-				var incoVatTypeValue = $("input[name='incoVatType']:checked").val();				
+		var incoTotal = $('#incoTotal');
+		var incoSupplyValue = $('#incoSupplyValue');
+		var incoTax = $('#incoTax');
+		
+		$(function(){
+			$('input[name="incoVatType"], #incoTotal').on('change keyup', function(){
+				console.log('이벤트발동');
+				var incoVatTypeValue =  $("input[name='incoVatType']:checked").val();
+				var incoTotalValue = Number(incoTotal.val());
+				var supplyValue = parseInt(incoTotalValue/1.1);
+				var tax = incoTotalValue-supplyValue;
+				console.log(incoTotalValue);
 				console.log(incoVatTypeValue);
-				if(incoVatTypeValue=='카드'){
-					incoPayType.eq(0).prop("checked", true);					
-				}else if(incoVatTypeValue=='현금'){
-					incoPayType.eq(0).prop("checked", true);		
+				if(incoVatTypeValue=='현금'||incoVatTypeValue=='카드'){
+					incoPayType.eq(0).prop("checked", true);
+					incoSupplyValue.val(supplyValue);
+					incoTax.val(tax);
+					console.log(supplyValue);
+					console.log(tax);
 				}else{
-					incoPayType.prop("checked", false);	
+					incoPayType.eq(0).prop("checked", false);
+					if(incoVatTypeValue=='세금계산서'){
+						incoSupplyValue.val(supplyValue);
+						incoTax.val(tax);
+						console.log(supplyValue);
+						console.log(tax);
+					}else{
+						incoSupplyValue.val(incoTotalValue);
+						incoTax.val(0);
+						console.log(incoSupplyValue.val());
+						console.log(incoTax.val());
+					}
 				}
-			});
-		});
+			})
+		})
 		
 		$(function(){
 			$('#articleCode').change(function(){
@@ -186,6 +213,9 @@
 				});
 			});
 		});
+		
+
+		
 	</script>
 	
 	</th:block>

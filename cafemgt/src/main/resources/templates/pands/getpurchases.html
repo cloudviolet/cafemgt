@@ -42,6 +42,7 @@
 												<th><input type="checkbox" id="check-all"></th>
 												<th>매입 유형</th>
 												<th>입고 수량</th>
+												<th>품목 명</th>
 												<th>거래처 명</th>
 												<th>공급 가액</th>
 												<th>공급 세액</th>
@@ -55,7 +56,8 @@
 												<td><input type="checkbox" id="check-all"></td>
 												<td th:text="${pl.incoVatType}"></td>
 												<td th:text="${pl.incoCount}"></td>
-												<td th:text="${pl.custCode}"></td>
+												<td th:text="${pl.articleName}"></td>
+												<td th:text="${pl.custName}"></td>
 												<td th:text="${pl.incoSupplyValue}"></td>
 												<td th:text="${pl.incoTax}"></td>
 												<td th:text="${pl.incoTotal}"></td>
