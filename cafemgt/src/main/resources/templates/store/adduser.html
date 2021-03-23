@@ -96,17 +96,17 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userBankAcount">연락처 * <span class="required"></span>
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userPhone">연락처
 									</label>
-									<div class="col-md-6 col-sm-6 ">								
-										<input type="text" id="userBankAcount" data-parsley-required="(?=.*[1-9])"
-										name="userPhone" data-parsley-error-message="*필수 입력사항 : 숫자만 입력해주세요." class="form-control userBankAcount" required='required' />
+									<div class="col-md-2 col-sm-2">								
+										<input type="text" id="userPhone" Pattern="(^[0-9]*$)" data-parsley="(^[0-9]*$)"
+										name="userPhone" data-parsley-error-message="*숫자만 입력해주세요." class="form-control phoneNumber userPhone" />
 									</div>
 								</div>		
 								<div class="form-group row horizontal">
 									<label class="control-label col-md-3 col-sm-3 label-align" for="userPay">기본급여 / 시급 *<span class="required"></span></label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="text" id="userPay" data-parsley-required="(?=.*[1-9])"
+										<input type="text" id="userPay" Pattern = "(^[0-9]*$)" data-parsley-required="(^[0-9]*$)"
 										data-parsley-error-message="*필수 입력사항 : 숫자만 입력해주세요." name="userPay" class="form-control userPay" required="required" />
 									</div>
 									<label class="control-label label-align" style="font-size: 15px;">원</label>
@@ -114,7 +114,7 @@
 								<div class="form-group row horizontal">
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userWorkTime">소정 근로시간(일일) *</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="text" id="userWorkTime" data-parsley-required="(?=.*[1-9])"
+										<input type="text" id="userWorkTime" Pattern = "(^[0-9]*$)" data-parsley-required="(^[0-9]*$)"
 										name="userWorkTime" data-parsley-error-message="숫자만 입력해주세요." class="form-control userWorkTime" required='required' />
 									</div>
 									<label class="control-label label-align" style="font-size: 15px;">시간</label>
@@ -131,7 +131,7 @@
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userBankAcount">계좌번호 * <span class="required"></span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">								
-										<input type="text" id="userBankAcount" data-parsley-required="(?=.*[1-9])"
+										<input type="text" id="userBankAcount" Pattern = "(^[0-9]*$)" data-parsley-required="(^[0-9]*$)"
 										name="userBankAcount" data-parsley-error-message="*필수 입력사항 : 숫자만 입력해주세요." class="form-control userBankAcount" required='required' />
 									</div>
 								</div>					
@@ -170,27 +170,32 @@
 	
 	
 	<th:block layout:fragment="customJs">
-	<!-- bootstrap-daterangepicker -->
-	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
-	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
-	<!-- bootstrap-wysiwyg -->
-	<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
-	<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
-	<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
-	<!-- jQuery Tags Input -->
-	<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
-	<!-- Switchery -->
-	<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
-	<!-- Select2 -->
-	<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
-	<!-- Parsley -->
-	<script th:src="@{/vendors/parsleyjs/dist/parsley.js}"></script>
-	<!-- Autosize -->
-	<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
-	<!-- jQuery autocomplete -->
-	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
-	<!-- starrr -->
-	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+		<!-- bootstrap-daterangepicker -->
+		<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+		<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+		<!-- bootstrap-wysiwyg -->
+		<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+		<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+		<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+		<!-- jQuery Tags Input -->
+		<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+		<!-- Switchery -->
+		<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+		<!-- Select2 -->
+		<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+		<!-- Parsley -->
+		<script th:src="@{/vendors/parsleyjs/dist/parsley.js}"></script>
+		<!-- Autosize -->
+		<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+		<!-- jQuery autocomplete -->
+		<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+		<!-- starrr -->
+		<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+		<script type="text/javascript">
+			$(document).on("keyup", ".phoneNumber", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); });
+
+		
+		</script>
 	
 	</th:block>	
 	

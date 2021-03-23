@@ -3,25 +3,24 @@ package com.cafemgt.dto;
 public class StoreDto {
 	
 	private String storeInfoCode;
-	private String ownerId;
+	private String memberId;
 	private String storeInfoName;
 	private String storeInfoLicenseNumber;
 	private String storeInfoIndustryType;
 	private String storeInfoAddr;
 	private String storeInfoPhone;
 	private String storeInfoRegDate;
-	
 	public String getStoreInfoCode() {
 		return storeInfoCode;
 	}
 	public void setStoreInfoCode(String storeInfoCode) {
 		this.storeInfoCode = storeInfoCode;
 	}
-	public String getOwnerId() {
-		return ownerId;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 	public String getStoreInfoName() {
 		return storeInfoName;
@@ -62,10 +61,10 @@ public class StoreDto {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("StoreInfoDto [storeInfoCode=");
+		builder.append("StoreDto [storeInfoCode=");
 		builder.append(storeInfoCode);
-		builder.append(", ownerId=");
-		builder.append(ownerId);
+		builder.append(", memberId=");
+		builder.append(memberId);
 		builder.append(", storeInfoName=");
 		builder.append(storeInfoName);
 		builder.append(", storeInfoLicenseNumber=");
@@ -85,7 +84,7 @@ public class StoreDto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((ownerId == null) ? 0 : ownerId.hashCode());
+		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((storeInfoAddr == null) ? 0 : storeInfoAddr.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
 		result = prime * result + ((storeInfoIndustryType == null) ? 0 : storeInfoIndustryType.hashCode());
@@ -104,10 +103,10 @@ public class StoreDto {
 		if (getClass() != obj.getClass())
 			return false;
 		StoreDto other = (StoreDto) obj;
-		if (ownerId == null) {
-			if (other.ownerId != null)
+		if (memberId == null) {
+			if (other.memberId != null)
 				return false;
-		} else if (!ownerId.equals(other.ownerId))
+		} else if (!memberId.equals(other.memberId))
 			return false;
 		if (storeInfoAddr == null) {
 			if (other.storeInfoAddr != null)
@@ -146,5 +145,5 @@ public class StoreDto {
 			return false;
 		return true;
 	}
-
+	
 }
