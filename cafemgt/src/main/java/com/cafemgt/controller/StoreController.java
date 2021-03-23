@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafemgt.dto.CustomerDto;
-import com.cafemgt.dto.OwnerDto;
+import com.cafemgt.dto.MemberDto;
 import com.cafemgt.dto.StoreDto;
 import com.cafemgt.dto.UserDto;
 import com.cafemgt.service.CustomerService;
-import com.cafemgt.service.OwnerService;
+import com.cafemgt.service.MemberService;
 import com.cafemgt.service.StoreService;
 import com.cafemgt.service.UserService;
 
@@ -26,18 +26,18 @@ public class StoreController {
 	
 	private final UserService userService;
 	private final CustomerService customerService;
-	private final OwnerService ownerService;
+	private final MemberService memberService;
 	private final StoreService storeService;
 	
 	
 	@Autowired
 	public StoreController(UserService userService
 						  ,CustomerService customerService
-						  ,OwnerService ownerService
+						  ,MemberService memberService
 						  ,StoreService storeService) {
 		this.userService = userService;
 		this.customerService = customerService;
-		this.ownerService = ownerService;
+		this.memberService = memberService;
 		this.storeService = storeService;
 	}
 	
@@ -55,27 +55,27 @@ public class StoreController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestParam(value="inId", required = false)String ownerId
-					   ,@RequestParam(value="inPw", required = false)String ownerPw
+	public String login(@RequestParam(value="inId", required = false)String memberId
+					   ,@RequestParam(value="inPw", required = false)String memberPw
 					   ,HttpSession session) {
-		System.out.println(ownerId + "++++++++++++++++++++++++id");
-		System.out.println(ownerPw + "++++++++++++++++++++++++pw");
-		if((ownerId != null && !"".equals(ownerId)) &&
-		   (ownerPw != null && !"".equals(ownerPw))) {
-			String result = ownerService.login(ownerId, ownerPw);
+		System.out.println(memberId + "++++++++++++++++++++++++id");
+		System.out.println(memberPw + "++++++++++++++++++++++++pw");
+		if((memberId != null && !"".equals(memberId)) &&
+		   (memberPw != null && !"".equals(memberPw))) {
+			String result = memberService.login(memberId, memberPw);
 			System.out.println(result +"++++++로그인성공++++++");
 			if(result.equals("로그인 성공")) {				
-				  OwnerDto ownerDto = ownerService.getinfoOwner(ownerId);
+				  MemberDto memberDto = memberService.getinfoMember(memberId);
 				  
-				  List<StoreDto> storeDtoList = storeService.getStoreInfoByOwnerId(ownerId);
+				  List<StoreDto> storeDtoList = storeService.getStoreInfoBymemberId(memberId);
 				  String storeInfoCode = storeDtoList.get(0).getStoreInfoCode();
 				  
-				  System.out.println(ownerDto.getOwnerId());
-				  System.out.println(ownerDto.getOwnerName());
+				  System.out.println(memberDto.getMemberId());
+				  System.out.println(memberDto.getMemberName());
 				  System.out.println(storeInfoCode);
 				  
-				  session.setAttribute("OID", ownerDto.getOwnerId());
-				  session.setAttribute("ONAME", ownerDto.getOwnerName());				 
+				  session.setAttribute("MID", memberDto.getMemberId());
+				  session.setAttribute("MNAME", memberDto.getMemberName());				 
 				  session.setAttribute("SSTORECODE", storeInfoCode);				 
 			}		
 			return "redirect:/";			
@@ -91,7 +91,7 @@ public class StoreController {
 	@GetMapping("/join")
 	public String join() {
 		
-		return "owner/join";	
+		return "member/join";	
 	}
 	@PostMapping("/join")
 	public String join(Model model) {
@@ -99,27 +99,27 @@ public class StoreController {
 		return "redirect:/index";	
 	}
 	
-	@GetMapping("/addowner")
-	public String addowner() {
+	@GetMapping("/addmember")
+	public String addmember() {
 		
-		return "owner/addowner";		
+		return "member/addmember";		
 	}
 	
-	@GetMapping("/getowner")
-	public String getowner(Model model, HttpSession session) {
-		String OID = (String)session.getAttribute("OID");
-		List<OwnerDto> ownerDtoList = ownerService.getOwner(OID);
-		model.addAttribute("ownerList", ownerDtoList);
+	@GetMapping("/getmember")
+	public String getmember(Model model, HttpSession session) {
+		String MID = (String)session.getAttribute("MID");
+		List<MemberDto> memberDtoList = memberService.getMember(MID);
+		model.addAttribute("memberList", memberDtoList);
 		
-		return "owner/getowner";		
+		return "member/getmember";		
 	}
 	
 	
-	@GetMapping("/getowneradmin")
-	public String getowneradmin(Model model) {
-		List<OwnerDto> ownerDtoList = ownerService.getOwneradmin();
-		model.addAttribute("ownerList", ownerDtoList);
-		return "admin/getowneradmin";		
+	@GetMapping("/getmemberadmin")
+	public String getmemberadmin(Model model) {
+		List<MemberDto> memberDtoList = memberService.getMemberadmin();
+		model.addAttribute("memberList", memberDtoList);
+		return "admin/getmemberadmin";		
 	}
 	
 	@GetMapping("/getstore")

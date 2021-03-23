@@ -31,8 +31,8 @@ public class StoreService {
 		return storeDtoList;
 	}
 	
-	public List<StoreDto> getStoreInfoByOwnerId(String ownerId){
-		List<StoreDto> storeDtoList = storeMapper.getStoreInfoByOwnerId(ownerId);
+	public List<StoreDto> getStoreInfoBymemberId(String memberId){
+		List<StoreDto> storeDtoList = storeMapper.getStoreInfoByMemberId(memberId);
 		
 		return storeDtoList;
 	}

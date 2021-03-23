@@ -11,5 +11,5 @@ public interface OtherPurchasesMapper {
 	
 	public int addOtherPurchases(OtherPurchasesDto otherPurchasesDto);
 	
-	public List<OtherPurchasesDto> getOtherPurchases();
+	public List<OtherPurchasesDto> getOtherPurchases(String SSTORECODE);
 }

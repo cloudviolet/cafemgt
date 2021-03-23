@@ -9,6 +9,8 @@ import com.cafemgt.dto.SalesDto;
 @Mapper
 public interface SalesMapper {
 	
-	public List<SalesDto> getSales();
+	public int addSales(SalesDto salesDto);
+	
+	public List<SalesDto> getSales(String SSTORECODE);
 	
 }

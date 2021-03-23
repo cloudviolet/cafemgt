@@ -5,7 +5,7 @@
 <mapper namespace="com.cafemgt.dao.StoreMapper">
 	<resultMap type="StoreDto" id="StoreResultMap">
 		<result property="storeInfoCode"	 			column="store_info_code" />
-		<result property="ownerId"	 					column="owner_id" />
+		<result property="memberId"	 					column="member_id" />
 		<result property="storeInfoName"	 			column="store_info_name" />
 		<result property="storeInfoLicenseNumber"	 	column="store_info_license_number" />
 		<result property="storeInfoIndustryType"	 	column="store_info_industry_type" />
@@ -13,10 +13,10 @@
 		<result property="storeInfoPhone"	 			column="store_info_phone" />
 		<result property="storeInfoRegDate"	 			column="store_info_reg_date" />		
 	</resultMap>
-	<select id="getStoreInfoByOwnerId" parameterType="String" resultMap="StoreResultMap">
+	<select id="getStoreInfoByMemberId" parameterType="String" resultMap="StoreResultMap">
 		SELECT 
 			 store_info_code
-			,owner_id
+			,member_id
 			,store_info_name
 			,store_info_license_number
 			,store_info_industry_type
@@ -26,13 +26,13 @@
 		FROM 
 			tb_store_info
 		WHERE
-			owner_id=#{ownerId}
+			member_id=#{memberId}
 	</select>
 	
 	<select id="getStoreadmin" resultMap="StoreResultMap">
 		SELECT 
 			 store_info_code
-			,owner_id
+			,member_id
 			,store_info_name
 			,store_info_license_number
 			,store_info_industry_type
@@ -46,7 +46,7 @@
 	<select id="getStore" parameterType="String" resultMap="StoreResultMap">
 		SELECT 
 			store_info_code
-			, owner_id
+			, member_id
 			, store_info_name
 			, store_info_license_number
 			, store_info_industry_type
