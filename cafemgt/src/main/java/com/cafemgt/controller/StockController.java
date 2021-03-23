@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cafemgt.dto.ArticleDto;
+import com.cafemgt.dto.DailyVolDto;
 import com.cafemgt.dto.SkkDto;
 import com.cafemgt.dto.StockDto;
 import com.cafemgt.dto.TotalStockDto;
 import com.cafemgt.service.ArticleService;
+import com.cafemgt.service.DailyVolService;
 import com.cafemgt.service.SkkService;
 import com.cafemgt.service.StockService;
 import com.cafemgt.service.TotalStockService;
@@ -27,17 +29,19 @@ public class StockController {
 	private final SkkService skkService;
 	private final StockService stockService;
 	private final TotalStockService totalStockService;
-	
+	private final DailyVolService dailyVolService;
 	
 	@Autowired
 	public StockController(ArticleService articleService
 						  ,SkkService skkService
 						  ,StockService stockService
-						  ,TotalStockService totalStockService) {
+						  ,TotalStockService totalStockService
+						  ,DailyVolService dailyVolService) {
 		this.articleService = articleService;
 		this.skkService = skkService;
 		this.stockService = stockService;
 		this.totalStockService = totalStockService;
+		this.dailyVolService = dailyVolService;
 	}
 	
 	@PostConstruct
@@ -48,18 +52,18 @@ public class StockController {
 	}
 	
 	@GetMapping("/addarticle")
-	public String addarticle() {
+	public String addArticle() {
 
 		return "stock/addarticle";
 	}
 	@PostMapping("/addarticle")
-	public String addarticle(ArticleDto articleDto) {
+	public String addArticle(ArticleDto articleDto) {
 		articleService.addArticle(articleDto);
 		return "redirect:/getarticle";
 	}
 	
 	@GetMapping("/addskk")
-	public String addskk(Model model, HttpSession session) {
+	public String addSkk(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
 		model.addAttribute("articleList",articleList);
@@ -67,7 +71,7 @@ public class StockController {
 	}
 	
 	@GetMapping("/getarticle")
-	public String getarticle(Model model, HttpSession session) {
+	public String getArticle(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
 		model.addAttribute("articleList",articleList);
@@ -75,7 +79,7 @@ public class StockController {
 	}
 	
 	@GetMapping("/getskk")
-	public String getskk(Model model, HttpSession session) {
+	public String getSkk(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<SkkDto> skkList = skkService.getSkk(SSTORECODE);
 		model.addAttribute("skkList",skkList);
@@ -83,15 +87,34 @@ public class StockController {
 	}
 	
 	@GetMapping("/getstock")
-	public String getstock(Model model, HttpSession session) {
+	public String getStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<StockDto> stockList = stockService.getStock(SSTORECODE);
 		model.addAttribute("stockList",stockList);
 		return "stock/getstock";
 	}
 	
+	@GetMapping("/getdailyvolume")
+	public String getDailyVol(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		
+		List<DailyVolDto> dailyVolList = dailyVolService.getDailyVol(SSTORECODE);
+		model.addAttribute("dailyVolList",dailyVolList);
+		return "stock/getdailyvol";
+	}
+	
+	@GetMapping("/getdailyvolDeadLine")
+	public String getDailyVolDeadLine(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		
+		List<DailyVolDto> dailyVolDeadLineList = dailyVolService.getDailyVolDeadLine(SSTORECODE);
+		dailyVolDeadLineList.get(0).getIncoDto().getInco_code();
+		model.addAttribute("dailyVolDeadLineList",dailyVolDeadLineList);
+		return "stock/getdailyvolDeadLine";
+	}
+	
 	@GetMapping("/gettotalstock")
-	public String gettotalstock(Model model, HttpSession session) {
+	public String getTotalStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
 		model.addAttribute("totalStockList",totalStockList);

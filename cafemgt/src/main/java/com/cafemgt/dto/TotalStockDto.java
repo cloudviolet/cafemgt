@@ -7,7 +7,6 @@ public class TotalStockDto {
 	private String	storeInfoCode;
 	private String 	storeInfoName;
 	private String 	conCode;
-	private String 	conName;
 	private String 	incoCode;
 	private String 	articleCode;
 	private String 	articleName;
@@ -25,7 +24,7 @@ public class TotalStockDto {
 	private String 	detailvolRegDate;
 	private String 	detailvolDeadlineCheck;
 	private String 	detailvolCheckString;
-	private int 	detailvolCheck;
+	private int 	incoCheck;
 	private String 	detailvolStockGroupCode;
 	private String 	detailvolSystemId;
 	private String 	detailvolSystemName;
@@ -52,12 +51,6 @@ public class TotalStockDto {
 	}
 	public void setConCode(String conCode) {
 		this.conCode = conCode;
-	}
-	public String getConName() {
-		return conName;
-	}
-	public void setConName(String conName) {
-		this.conName = conName;
 	}
 	public String getIncoCode() {
 		return incoCode;
@@ -155,17 +148,17 @@ public class TotalStockDto {
 	public void setDetailvolDeadlineCheck(String detailvolDeadlineCheck) {
 		this.detailvolDeadlineCheck = detailvolDeadlineCheck;
 	}
-	public int getDetailvolCheck() {
-		return detailvolCheck;
-	}
 	public String getDetailvolCheckString() {
 		return detailvolCheckString;
 	}
 	public void setDetailvolCheckString(String detailvolCheckString) {
 		this.detailvolCheckString = detailvolCheckString;
 	}
-	public void setDetailvolCheck(int detailvolCheck) {
-		this.detailvolCheck = detailvolCheck;
+	public int getIncoCheck() {
+		return incoCheck;
+	}
+	public void setIncoCheck(int incoCheck) {
+		this.incoCheck = incoCheck;
 	}
 	public String getDetailvolStockGroupCode() {
 		return detailvolStockGroupCode;
@@ -196,8 +189,6 @@ public class TotalStockDto {
 		builder.append(storeInfoName);
 		builder.append(", conCode=");
 		builder.append(conCode);
-		builder.append(", conName=");
-		builder.append(conName);
 		builder.append(", incoCode=");
 		builder.append(incoCode);
 		builder.append(", articleCode=");
@@ -230,8 +221,10 @@ public class TotalStockDto {
 		builder.append(detailvolRegDate);
 		builder.append(", detailvolDeadlineCheck=");
 		builder.append(detailvolDeadlineCheck);
-		builder.append(", detailvolCheck=");
-		builder.append(detailvolCheck);
+		builder.append(", detailvolCheckString=");
+		builder.append(detailvolCheckString);
+		builder.append(", incoCheck=");
+		builder.append(incoCheck);
 		builder.append(", detailvolStockGroupCode=");
 		builder.append(detailvolStockGroupCode);
 		builder.append(", detailvolSystemId=");
@@ -241,6 +234,7 @@ public class TotalStockDto {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 	
 }

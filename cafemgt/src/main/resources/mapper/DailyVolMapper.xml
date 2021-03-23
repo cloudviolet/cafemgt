@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.DailyVolMapper">
+	<resultMap type="DailyVolDto" id="DailyVolResultMap">
+		<result property="dailyvolCode"	 			column="dailyvol_code" />
+		<result property="storeInfoCode"	 		column="store_info_code" />
+		<result property="storeInfoName"	 		column="store_info_name" />
+		<result property="menuCode"	 				column="menu_code" />
+		<result property="menuName"	 				column="menu_name" />
+		<result property="conCode"	 				column="con_code" />
+		<result property="conVolume"	 			column="con_volume" />
+		<result property="conDan"	 				column="con_dan" />
+		<result property="articleCode"	 			column="article_code" />
+		<result property="articleName"	 			column="article_name" />
+		<result property="salesCount"	 			column="sales_count" />
+		<result property="dailyvolSubtotal"	 		column="dailyvol_subtotal" />
+		<result property="dailyvolDeadlineCheck" 	column="dailyvol_deadline_check" />
+		<result property="dailyvolRegDate"	 		column="dailyvol_reg_date" />
+		<result property="dailyvolGroupCode"		column="dailyvol_group_code" />
+		<result property="dailyvolRelGroupCode"	 	column="dailyvol_rel_group_code" />
+		<association property="incoDto" javaType="PurchasesDto">
+			<result	property="incoCode" 			column="inco_code"/>
+			<result	property="incoCount" 			column="inco_count"/>
+			<result	property="incoVolumeSubtotal"	column="inco_volume_subtotal"/>
+			<result	property="incoDate" 			column="inco_date"/>
+			<result	property="incoCheck" 			column="inco_check"/>
+		</association>
+	</resultMap>
+	<select id="getDailyVol" parameterType="String" resultMap="DailyVolResultMap">
+		SELECT
+			 dv.dailyvol_code
+			,st.store_info_code
+			,st.store_info_name
+			,m.menu_code
+			,m.menu_name
+			,c.con_code
+			,c.con_volume
+			,c.con_dan
+			,a.article_code
+			,a.article_name
+			,dv.sales_count
+			,dv.dailyvol_subtotal
+			,dv.dailyvol_deadline_check
+			,dv.dailyvol_reg_date
+			,dv.dailyvol_group_code
+			,dv.dailyvol_rel_group_code
+		FROM
+			tb_daily_volume AS dv
+			LEFT JOIN 
+			tb_store_info AS st
+			on
+			dv.store_info_code = st.store_info_code
+			LEFT JOIN 
+			tb_menu AS m
+			on
+			dv.menu_code = m.menu_code
+			LEFT join
+			tb_consumption AS c
+			on
+			dv.con_code = c.con_code
+			LEFT JOIN 
+			tb_article AS a
+			on
+			c.article_code = a.article_code
+	</select>
+	<select id="getDailyVolDeadLine" parameterType="String" resultMap="DailyVolResultMap">
+		SELECT 
+			 dv.dailyvol_code
+			,st.store_info_code
+			,st.store_info_name
+			,m.menu_code
+			,m.menu_name
+			,group_concat(distinct(inc.inco_code)) AS 'inc.inco_code'
+			,a.article_code
+			,a.article_name
+			,inc.inco_count
+			,a.article_volume
+			,inc.inco_volume_subtotal
+			,SUM(dv.dailyvol_subtotal) AS 'dailyvol_subtotal' 
+			,inc.inco_volume_subtotal - SUM(dv.dailyvol_subtotal) AS 'dailyvol_group_code'
+			,inc.inco_date
+			,inc.inco_check
+		FROM
+			tb_daily_volume AS dv
+			LEFT join
+			tb_menu AS m
+			ON
+			dv.menu_code = m.menu_code
+			LEFT join
+			tb_consumption AS c
+			on
+			dv.con_code = c.con_code
+			LEFT join
+			tb_article AS a
+			on
+			c.article_code = a.article_code
+			LEFT join
+			tb_incoming AS inc
+			on
+			a.article_code = inc.article_code
+			LEFT JOIN 
+			tb_store_info AS st
+			on
+			dv.store_info_code = st.store_info_code
+		GROUP BY c.article_code
+	</select>
+</mapper>

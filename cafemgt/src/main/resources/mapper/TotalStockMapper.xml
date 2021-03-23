@@ -8,7 +8,6 @@
 		<result property="storeInfoCode" 			column="store_info_code" />
 		<result property="storeInfoName" 			column="store_info_name" />
 		<result property="conCode" 					column="con_code" />
-		<result property="conName" 					column="con_name" />
 		<result property="incoCode" 				column="inco_code" />
 		<result property="articleCode" 				column="article_code" />
 		<result property="articleName" 				column="article_name" />
@@ -25,7 +24,7 @@
 		<result property="incoDate" 				column="inco_date" />
 		<result property="detailvolRegDate" 		column="detailvol_reg_date" />
 		<result property="detailvolDeadlineCheck" 	column="detailvol_deadline_check" />
-		<result property="detailvolCheck" 			column="detailvol_check" />
+		<result property="incoCheck" 				column="inco_check" />
 		<result property="detailvolStockGroupCode" 	column="detailvol_stock_group_code" />
 		<result property="detailvolSystemId" 		column="detailvol_system_id" />
 		<result property="detailvolSystemName" 		column="detailvol_system_name" />
@@ -36,7 +35,6 @@
 			,st.store_info_code
 			,st.store_info_name
 			,c.con_code
-			,c.con_name
 			,inc.inco_code
 			,inc.article_code
 			,ar.article_name
@@ -53,7 +51,7 @@
 			,inc.inco_date
 			,dtv.detailvol_reg_date
 			,dtv.detailvol_deadline_check
-			,dtv.detailvol_check
+			,inc.inco_check
 			,dtv.detailvol_stock_group_code
 			,dtv.detailvol_system_id
 			,dtv.detailvol_system_name

@@ -22,11 +22,11 @@ public class TotalStockService {
 	public List<TotalStockDto> getTotalStock(String sessionId) {
 		List<TotalStockDto> totalStockList = totalStockMapper.getTotalStock(sessionId);
 		for(int i = 0 ; i < totalStockList.size(); i++) {
-			if(totalStockList.get(i).getDetailvolCheck() == 1) {
+			if(totalStockList.get(i).getIncoCheck() == 1) {
 				totalStockList.get(i).setDetailvolCheckString("사용전");
-			}else if(totalStockList.get(i).getDetailvolCheck() == 2) {
+			}else if(totalStockList.get(i).getIncoCheck() == 2) {
 				totalStockList.get(i).setDetailvolCheckString("사용중");
-			}else if(totalStockList.get(i).getDetailvolCheck() == 3) {
+			}else if(totalStockList.get(i).getIncoCheck() == 3) {
 				totalStockList.get(i).setDetailvolCheckString("사용완료");
 			}
 		}
