@@ -23,8 +23,12 @@
 		<result property="incoDeadline" 			column="inco_deadline"/>
 		<result property="incoSystemId" 			column="inco_system_id"/>
 		<result property="incoSystemName" 			column="inco_system_name"/>
-		<result property="IncoCheck" 				column="inco_check"/>
+		<result property="incoCheck" 				column="inco_check"/>
 	</resultMap>
+	
+	<insert id="addPurchases" parameterType="PurchasesDto">
+		
+	</insert>
 	
 	<select id="getPurchases" parameterType="String" resultMap="purchasesDtoResultMap">
 		SELECT 

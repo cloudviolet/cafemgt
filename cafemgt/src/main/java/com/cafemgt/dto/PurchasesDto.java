@@ -20,6 +20,7 @@ public class PurchasesDto {
 	private String incoSystemId;
 	private String incoSystemName;
 	private int incoCheck;
+	
 	public String getIncoCode() {
 		return incoCode;
 	}

@@ -31,14 +31,14 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" th:action="@{/addpurchases}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 										<div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align" for="articleCode">품목 명  *</label>
 												<div class="col-md-6 col-sm-6 ">
 													<select id="articleCode" name="articleCode" class="form-control" style="text-align-last : center;" required>
 														<option value="">:::품목명선택:::</option>
 														<th:block th:if="${#lists.size(articleList) > 0}" th:each="al : ${articleList}">
-															<option th:value="${al.articleCode}" th:data-big="${al.artcleBigDan}" th:text="${al.articleName}"></option>														
+															<option th:value="${al.articleCode}" th:data-big="${al.artcleBigDan}" th:data-volume="${al.articleVolume}" th:text="${al.articleName}"></option>														
 														</th:block>
 													</select>
 												</div>
@@ -56,14 +56,20 @@
 										</div>
 										<div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 매입유형 *</label>
-												<div class="col-md-2 col-sm-2" style="text-align: center;">
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
 													<input type="radio" name="incoVatType" value="카드" required  > 카드
 												</div>						
-												<div class="col-md-2 col-sm-2" style="text-align: center;">
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
 													<input type="radio" name="incoVatType" value="현금" required > 현금												
 												</div>
-												<div class="col-md-2 col-sm-2 " style="text-align: center;">
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"></label>
+												<div class="col-md-3 col-sm-3 " style="text-align: center;">
 													<input type="radio" name="incoVatType" value="세금계산서" required > 세금계산서											
+												</div>
+												<div class="col-md-3 col-sm-3 " style="text-align: center;">
+													<input type="radio" name="incoVatType" value="세금계산서" required > 계산서										
 												</div>
 										</div>
 										<div class="form-group row ">
@@ -82,8 +88,11 @@
 											<div class="col-md-6 col-sm-6 ">
 												<input type="text" id="incoCount" name="incoCount" required="required" class="form-control ">
 											</div>
-											<div><label id="articlebigdan" class="control-label label-align"></label></div>
+											<div><label id="articlebigdan" style="font-size: medium; color: black;" class="control-label label-align"></label></div>
 										</div>
+										
+										<input type="hidden" id="incoVolumeSubtotal" name="incoVolumeSubtotal">
+										
 										<div class="form-group row">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="incoTotal">입고금액 *
 											</label>
@@ -112,7 +121,6 @@
 												<button type="submit" class="btn btn-success">매출 등록</button>
 											</div>
 										</div>
-
 									</form>
 								</div>
 							</div>
@@ -160,16 +168,24 @@
 				}else{
 					incoPayType.prop("checked", false);	
 				}
-			})
-		})
+			});
+		});
 		
 		$(function(){
 			$('#articleCode').change(function(){
-				var artcleBigDan = $('#articleCode').find("option:selected").data("big");
-				console.log(artcleBigDan);
-				$('#articlebigdan').text(artcleBigDan);
-			})
-		})
+				var articleBigDan = $('#articleCode').find("option:selected").data("big");
+				console.log(articleBigDan);
+				$('#articlebigdan').text(articleBigDan);
+				var articleVolume =  $('#articleCode').find("option:selected").data("volume");
+				console.log(articleVolume);
+				$('#incoCount').keyup(function(){
+					var incoCountValue = $('#incoCount').val();
+					var sum = articleVolume * incoCountValue;
+					console.log(sum);
+					$('#incoVolumeSubtotal').val(sum);
+				});
+			});
+		});
 	</script>
 	
 	</th:block>

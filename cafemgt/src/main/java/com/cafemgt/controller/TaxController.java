@@ -84,6 +84,11 @@ public class TaxController {
 		return "pands/addpurchases";
 	}
 	
+	public String addPurchases(PurchasesDto purchasesDto) {
+		purchasesService.addPurchases(purchasesDto);
+		return "redirect:/getpurchases";
+	}
+	
 	@GetMapping("/addotherpurchases")
 	public String addOtherPurchases() {
 		return "pands/addotherpurchases";
