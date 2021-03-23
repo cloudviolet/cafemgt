@@ -11,6 +11,6 @@ public interface SalesMapper {
 	
 	public int addSales(SalesDto salesDto);
 	
-	public List<SalesDto> getSales();
+	public List<SalesDto> getSales(String SSTORECODE);
 	
 }

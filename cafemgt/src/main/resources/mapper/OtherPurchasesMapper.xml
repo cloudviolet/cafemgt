@@ -25,7 +25,7 @@
 		VALUES (sf_new_otherexpense_code(), 'owner_01', #{oeStoreName}, #{oeVatType}, #{oeTotal}, #{oeTotal}/1.1, oe_total-oe_supply_value, #{atDebitCode}, #{atCreditCode}, #{oeEtc}, #{oeDate}, NOW())
 	</insert>
 	
-	<select id="getOtherPurchases" resultMap="purchasesDtoResultMap">
+	<select id="getOtherPurchases" parameterType="String" resultMap="purchasesDtoResultMap">
 		SELECT 
 			oe_code, 
 			store_info_code, 
@@ -40,6 +40,8 @@
 			oe_date, 
 			oe_reg_date
 		FROM 
-			tb_other_expense;
+			tb_other_expense
+		WHERE
+			store_info_code = #{SSTORECODE};
 	</select>
 </mapper>

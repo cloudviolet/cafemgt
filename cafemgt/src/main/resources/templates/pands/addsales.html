@@ -73,12 +73,12 @@
 												</div>
 										</div>
 										<div class="form-group row ">
-											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 외상 *</label>
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 수금 *</label>
 												<div class="col-md-3 col-sm-3" style="text-align: center;">
-													<input type="radio" name="salesPayType" value="외상매출금" required> 예
+													<input type="radio" name="salesPayType" value="완료" required> 완료
 												</div>						
 												<div class="col-md-3 col-sm-3" style="text-align: center;">
-													<input type="radio" name="salesPayType" value="상품매출" required> 아니요													
+													<input type="radio" name="salesPayType" value="미수" required> 미수													
 												</div>
 										</div>																		
 										
@@ -167,17 +167,17 @@
 					custCode.val('cust_998').prop("selected", true);
 					custCode.val('cust_998');
 					console.log(custCode.val());
-					salesPayType.val('상품매출').prop("checked", true);
+					salesPayType.val('완료').prop("checked", true);
 				}else if(radioValue=='카드'){
 					custCode.prop('disabled', true);
 					custCode.val('cust_999').prop("selected", true);
 					custCode.val('cust_999')
-					salesPayType.val('상품매출').prop("checked", true);
+					salesPayType.val('완료').prop("checked", true);
 					console.log(custCode.val());
 				}else{
 					custCode.prop('disabled', false);
 					custCode.val('').prop("selected", true);
-					salesPayType.val('상품매출').prop("checked", false);
+					salesPayType.val('완료').prop("checked", false);
 				}
 			});
 		});

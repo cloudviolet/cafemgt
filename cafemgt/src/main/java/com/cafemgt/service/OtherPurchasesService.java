@@ -22,8 +22,8 @@ public class OtherPurchasesService {
 		return otherPurchasesMapper.addOtherPurchases(otherPurchasesDto);
 	}
 
-	public List<OtherPurchasesDto> getOtherPurchases(){
-		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesMapper.getOtherPurchases();
+	public List<OtherPurchasesDto> getOtherPurchases(String SSTORECODE){
+		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesMapper.getOtherPurchases(SSTORECODE);
 		return otherPurchasesList;		
 	}
 }

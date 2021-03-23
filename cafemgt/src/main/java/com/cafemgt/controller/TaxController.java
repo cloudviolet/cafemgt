@@ -96,22 +96,25 @@ public class TaxController {
 	}
 	
 	@GetMapping("/getsales")
-	public String getSales(Model model) {
-		List<SalesDto> salesList = salesService.getSales();
+	public String getSales(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SalesDto> salesList = salesService.getSales(SSTORECODE);
 		model.addAttribute("salesList", salesList);
 		return "pands/getsales";
 	}
 	
 	@GetMapping("/getpurchases")
-	public String getPurchases(Model model) {
-		List<PurchasesDto> purchasesList = purchasesService.getPurchases();
+	public String getPurchases(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<PurchasesDto> purchasesList = purchasesService.getPurchases(SSTORECODE);
 		model.addAttribute("purchasesList", purchasesList);
 		return "pands/getpurchases";
 	}
 	
 	@GetMapping("/getotherpurchases")
-	public String getOtherPurchases(Model model) {
-		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesService.getOtherPurchases();
+	public String getOtherPurchases(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesService.getOtherPurchases(SSTORECODE);
 		model.addAttribute("otherPurchasesList", otherPurchasesList);
 		return "pands/getotherpurchases";
 	}

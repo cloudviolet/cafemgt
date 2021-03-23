@@ -9,5 +9,5 @@ import com.cafemgt.dto.PurchasesDto;
 @Mapper
 public interface PurchasesMapper {
 	
-	public List<PurchasesDto> getPurchases();
+	public List<PurchasesDto> getPurchases(String SSTORECODE);
 }
