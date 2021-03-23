@@ -28,10 +28,32 @@
 		<result property="detailvolStockGroupCode" 	column="detailvol_stock_group_code" />
 		<result property="detailvolSystemId" 		column="detailvol_system_id" />
 		<result property="detailvolSystemName" 		column="detailvol_system_name" />
+		<association property="incoDto" javaType="PurchasesDto">
+			<id property="incoCode" 				column="inco_code" />
+			<result property="storeInfoCode" 		column="store_info_code" />
+			<result property="articleCode" 			column="article_code" />
+			<result property="custCode" 			column="cust_code" />
+			<result property="custName" 			column="cust_name" />
+			<result property="incoVatType" 			column="inco_vat_type" />
+			<result property="incoPayType" 			column="inco_pay_type" />
+			<result property="incoTotal" 			column="inco_total" />
+			<result property="incoCount" 			column="inco_count" />
+			<result property="incoVolumeSubtotal" 	column="inco_volume_subtotal" />
+			<result property="incoSupplyValue" 		column="inco_supply_value" />
+			<result property="incoTax" 				column="inco_tax" />
+			<result property="incoDealingGroupCode" column="inco_dealing_group_code" />
+			<result property="incoStockGroupCode" 	column="inco_stock_group_code" />
+			<result property="incoDate" 			column="inco_date" />
+			<result property="incoRegDate" 			column="inco_reg_date" />
+			<result property="incoDeadline" 		column="inco_deadline" />
+			<result property="incoSystemId" 		column="inco_system_id" />
+			<result property="incoSystemName" 		column="inco_system_name" />
+			<result property="incoCheck" 			column="inco_check" />
+		</association>
 	</resultMap>
 	<select id="getTotalStock" parameterType="String" resultMap="TotalStockResultMap">
 		SELECT 
-				 dtv.detailvol_code
+			 dtv.detailvol_code
 			,st.store_info_code
 			,st.store_info_name
 			,c.con_code
@@ -75,5 +97,9 @@
 			inc.article_code = ar.article_code
 		WHERE
 			st.store_info_code = #{sessionId}
+	</select>
+	<select id="getTotalStockByIncoCode" parameterType="String" resultMap="TotalStockResultMap">
+
+
 	</select>
 </mapper>

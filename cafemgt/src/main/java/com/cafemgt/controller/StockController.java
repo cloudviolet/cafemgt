@@ -1,8 +1,6 @@
 package com.cafemgt.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -122,24 +120,22 @@ public class StockController {
 		return "stock/getdailyvolDeadLine";
 	}
 	
-	
-	@ResponseBody
-	@PostMapping("/getIncomeList")
-	public List<PurchasesDto> getIncomeList(@RequestParam (value = "articleCode",required = false) String articleCode
-							   ,Model model , HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		System.out.println(articleCode);
-		List<PurchasesDto> purchasesDtoList = purchasesService.getPurchasesByArticleCode(SSTORECODE, articleCode);
-		//model.addAttribute("purchasesDtoList",purchasesDtoList);
-		return purchasesDtoList;
-	}
-	
-	
 	@GetMapping("/gettotalstock")
 	public String getTotalStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
+		//System.out.println(totalStockList.get(0).getIncoDto().getIncoCount());
 		model.addAttribute("totalStockList",totalStockList);
 		return "stock/gettotalstock";
 	}
+	
+	@ResponseBody
+	@PostMapping("/getIncomeList")
+	public List<PurchasesDto> getIncomeList(@RequestParam (value = "articleCode",required = false) String articleCode
+			,Model model , HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<PurchasesDto> purchasesDtoList = purchasesService.getPurchasesByArticleCode(SSTORECODE, articleCode);
+		return purchasesDtoList;
+	}
+	
 }

@@ -28,6 +28,14 @@ public class TotalStockDto {
 	private String 	detailvolStockGroupCode;
 	private String 	detailvolSystemId;
 	private String 	detailvolSystemName;
+	private PurchasesDto incoDto;	
+	
+	public PurchasesDto getIncoDto() {
+		return incoDto;
+	}
+	public void setIncoDto(PurchasesDto incoDto) {
+		this.incoDto = incoDto;
+	}
 	public String getDetailvolCode() {
 		return detailvolCode;
 	}

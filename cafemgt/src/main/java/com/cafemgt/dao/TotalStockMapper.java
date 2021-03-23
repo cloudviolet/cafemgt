@@ -9,4 +9,6 @@ import com.cafemgt.dto.TotalStockDto;
 @Mapper
 public interface TotalStockMapper {
 	public List<TotalStockDto> getTotalStock(String sessionId);
+	
+	public List<TotalStockDto> getTotalStockByIncoCode(String sessionId);
 }

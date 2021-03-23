@@ -14,6 +14,15 @@
 		<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+		
+		<style>
+			#selectInco{
+				margin-bottom: 10px;
+			}
+			.modal-body-text{
+				margin-left: 5px;
+			}
+		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customContents">
@@ -63,9 +72,9 @@
 												<td th:text="${dvl.dailyvolSubtotal}"></td>
 												<td th:text="${dvl.conDan}"></td>
 												<td> 
-													<a type="button" class="deadLineBtn" data-toggle="modal" data-target="#deadLine"
-													 th:value="${dvl.articleCode}">
-													 마감</a>
+													<a type="button" class="deadLineBtn" data-toggle="modal" data-target="#deadLine"	 th:value="${dvl.articleCode}">
+														 마감
+													</a>
 												</td>
 											</tr>
 										</tbody>
@@ -86,20 +95,22 @@
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			      </div>
 			      <div class="modal-body">
-			   	   사용할 입고품목을 선택해주세요
-			   	  <select class="form-control" id="selectInco">
-			   	  </select>
+				   	   사용할 입고품목을 선택해주세요
+				   	  <select class="form-control" id="selectInco">
+				   	 	 <!-- option = ajax 실행결과값 -->
+				   	  </select>
+				   	  <div class="modal-body-text">
+				   	   
+				   	  </div>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-			        <button type="button" class="btn btn-primary">마감</button>
+			        <button type="button" class="btn btn-primary" id="submitBtn">마감</button>
 			      </div>
 			    </div>
 		 	</div>
 		</div>
-		
 	</th:block>
-	
 	<th:block layout:fragment="customJs">
 		<!-- customJs -->
 		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
@@ -119,12 +130,11 @@
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
 		
 		<script>
- 		
+			var incoData ; 
 			$('.deadLineBtn').click(function(){
 				var selectInco = $('#selectInco');
 				var articleCode = $(this).attr('value');
-				
-				
+				var modalBody = $('.modal-body');
 				var request = $.ajax({
 					url: "getIncomeList", 
 					method: "POST",
@@ -132,17 +142,42 @@
 					dataType: "json"
 				});
 				request.done(function( data ) {
-					console.log(data);
+					selectInco.children('option').remove();
+					selectInco.append('<option value="null">품목을 선택해주세요</option>');
 					for(var i = 0 ; i < data.length; i++){
-						console.log(data[i])
-						selectInco.append('<option>'+ data[i].articleName+' 입고 날짜 : '+data[i].incoDate +'</option>');
+						console.log(data[i].incoCheck)
+						if(data[i].incoCheck < 3){
+							selectInco.append('<option data-change="'
+												+ i +'" value="' 
+												+ data[i].incoCode +'"> '
+												+ data[i].articleName
+												+'  , 입고 날짜 : [ '
+												+ data[i].incoDate 
+												+' ]</option>'
+											);
+						}
 					}
-
+					selectInco.change(function(){
+						var selectIncoNum = $('#selectInco option:selected').attr('data-change');
+						modalBody.children('div').remove();
+						if(selectIncoNum != null){
+							modalBody.append('<div class="modal-body-text">' 
+									+	'<h5> 입고날짜 : '+data[selectIncoNum].incoDate + '</h5>' 
+									+	'<h5> 입고용량 : '+data[selectIncoNum].incoVolumeSubtotal + '</h5>' 
+									+	'</div>'
+									);
+						}
+					});
+					
 				});
 				request.fail(function( data ) {
 					console.log('a'	);
 				});
 			});
+			$('#submitBtn').click(function(){
+				
+			});
+
 		</script>
 	</th:block>
 </html>
