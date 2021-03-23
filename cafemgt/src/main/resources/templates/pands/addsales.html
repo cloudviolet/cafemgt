@@ -31,72 +31,76 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">매출 유형  *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" style="text-align-last : center;" required>
-														<option value="">:::매출 유형 선택:::</option>
-														<option value="card">카드</option>
-														<option value="cash">현금</option>
-														<option value="taxInvoice">세금계산서</option>
-													</select>
-												</div>
-										</div>
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">메뉴 명  *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
-										</div>
-																	
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">거래처 명 *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
-										</div>
+									<form id="demo-form2" method="post" data-parsley-validate class="form-horizontal form-label-left">
+										
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
+										<input type="hidden" name="salesSystemId" th:value="${session.OID}">
+										<input type="hidden" name="salesSystemName" th:value="${session.ONAME}">
+										
 										
 										<div class="form-group row">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">판매수량 * <span class="required"></span>
+											<label class="control-label col-md-3 col-sm-3 label-align" for="menuCode">메뉴 명  *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="menuCode" class="form-control" name="menuCode" style="text-align-last : center;" required>
+														<option value="">:::메뉴 선택:::</option>
+														<th:block th:if="${#lists.size(menuList) > 0}" th:each="ml : ${menuList}">
+															<option th:value="${ml.menuCode}" th:data-price="${ml.menuPrice}" th:text="${ml.menuName}"></option>														
+														</th:block>														
+													</select>
+												</div>
+										</div>
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 매출유형 *</label>
+												<div class="col-md-2 col-sm-2" style="text-align: center;">
+													<input type="radio" name="salesVatType" value="카드" required  > 카드
+												</div>						
+												<div class="col-md-2 col-sm-2" style="text-align: center;">
+													<input type="radio" name="salesVatType" value="현금" required > 현금												
+												</div>
+												<div class="col-md-2 col-sm-2 " style="text-align: center;">
+													<input type="radio" name="salesVatType" value="세금계산서" required > 세금계산서											
+												</div>
+										</div>	
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align" for="custCode">거래처 명 *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="custCode" name="custCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::거래처 명 선택:::</option>
+														<th:block th:if="${#lists.size(customerList) > 0}" th:each="cl : ${customerList}">														
+															<option th:value="${cl.custCode}" th:text="${cl.custName}"></option>
+														</th:block>
+													</select>
+												</div>
+										</div>
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 수금 *</label>
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="salesPayType" value="완료" required> 완료
+												</div>						
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="salesPayType" value="미수" required> 미수													
+												</div>
+										</div>																		
+										
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="salesCount">판매수량 * <span class="required"></span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control ">
+												<input type="number" id="salesCount" name="salesCount" required="required" class="form-control ">
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">판매금액 *
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="salesTotal">판매금액 *
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
+												<input type="text" id="salesTotal" name="salesTotal" required="required" class="form-control" readonly="readonly">
 											</div>
-										</div>										
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">결제유형  *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
 										</div>										
 										<div class="form-group row">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">매출 날짜 * 
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="birthday" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input name="salesDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -106,15 +110,16 @@
 												</script>
 											</div>
 										</div>
+									
 										<div class="ln_solid"></div>
 										<div class="form-group row">
 											<div class="col-md-6 col-sm-6 offset-md-3 text-center">
 												<button class="btn btn-primary" type="button">등록 취소</button>
 												<button class="btn btn-primary" type="reset">다시 작성</button>
-												<button type="submit" class="btn btn-success">매출 등록</button>
+												<button type="button" id="submitBtn" class="btn btn-success">매출 등록</button>
+												
 											</div>
 										</div>
-
 									</form>
 								</div>
 							</div>
@@ -146,6 +151,59 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script type="text/javascript">
+		var radio = $('#demo-form2').find("input[name='salesVatType']");
+		var salesPayType = $('#demo-form2').find("input:radio[name='salesPayType']");
+		var custCode = $('#custCode');
+		
+		console.log(radio);
+		$(function(){
+			radio.change(function(){
+				var radioValue = $("input[name='salesVatType']:checked").val();
+				console.log(radioValue);
+				if(radioValue=='현금'){
+					custCode.prop('disabled', true);
+					custCode.val('cust_998').prop("selected", true);
+					custCode.val('cust_998');
+					console.log(custCode.val());
+					salesPayType.val('완료').prop("checked", true);
+				}else if(radioValue=='카드'){
+					custCode.prop('disabled', true);
+					custCode.val('cust_999').prop("selected", true);
+					custCode.val('cust_999')
+					salesPayType.val('완료').prop("checked", true);
+					console.log(custCode.val());
+				}else{
+					custCode.prop('disabled', false);
+					custCode.val('').prop("selected", true);
+					salesPayType.val('완료').prop("checked", false);
+				}
+			});
+		});
+		
+	
+		$(function(){
+			$('#salesCount').keyup(function(){
+				var count = $(this).val();
+				var menuPrice = $('#menuCode').find("option:selected").data("price");
+				console.log(count, menuPrice);
+				var totalPrice = count * menuPrice;
+				console.log(totalPrice);
+				$('#salesTotal').val(totalPrice);
+			});
+		});
+		
+		$(function(){
+			$('#submitBtn').click(function(){
+				custCode.prop('disabled', false);
+				$('#demo-form2').submit();
+			});
+		});
+		
+		
+	</script>
+	
 	</th:block>
 		
 </html>

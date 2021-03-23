@@ -19,9 +19,12 @@ public class SalesService {
 		this.salesMapper = salesMapper;
 	}
 
+	public int addSales(SalesDto salesDto) {
+		return salesMapper.addSales(salesDto);
+	}
 	
-	public List<SalesDto> getSales(){
-		List<SalesDto> salesList = salesMapper.getSales();
+	public List<SalesDto> getSales(String SSTORECODE){
+		List<SalesDto> salesList = salesMapper.getSales(SSTORECODE);
 		return salesList;		
 	}
 }

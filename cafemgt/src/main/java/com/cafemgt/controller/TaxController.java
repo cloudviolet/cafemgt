@@ -3,12 +3,19 @@ package com.cafemgt.controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.cafemgt.dao.ArticleMapper;
+import com.cafemgt.dao.CustomerMapper;
+import com.cafemgt.dao.MenuMapper;
+import com.cafemgt.dto.ArticleDto;
+import com.cafemgt.dto.CustomerDto;
+import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.OtherPurchasesDto;
 import com.cafemgt.dto.PurchasesDto;
 import com.cafemgt.dto.SalesDto;
@@ -22,11 +29,22 @@ public class TaxController {
 	private final SalesService salesService;
 	private final PurchasesService purchasesService;
 	private final OtherPurchasesService otherPurchasesService;
+	private final MenuMapper menuMapper;
+	private final CustomerMapper customerMapper;
+	private final ArticleMapper articleMapper;
 	
-	public TaxController(SalesService salesService,PurchasesService purchasesService,OtherPurchasesService otherPurchasesService) {
+	public TaxController(SalesService salesService
+						 ,PurchasesService purchasesService
+						 ,OtherPurchasesService otherPurchasesService
+						 ,MenuMapper menuMapper
+						 ,CustomerMapper customerMapper
+						 ,ArticleMapper articleMapper) {
 		this.salesService = salesService;
 		this.purchasesService = purchasesService;
 		this.otherPurchasesService = otherPurchasesService;
+		this.menuMapper = menuMapper;
+		this.customerMapper = customerMapper;
+		this.articleMapper = articleMapper;
 	}
 	
 	@PostConstruct
@@ -37,13 +55,38 @@ public class TaxController {
 	}
 	
 	@GetMapping("/addsales")
-	public String addsales() {
+	public String addsales(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		String OID = (String)session.getAttribute("OID");
+		String ONAME = (String)session.getAttribute("ONAME");
+		List<MenuDto> menuList = menuMapper.getMenu(SSTORECODE);
+		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
+		model.addAttribute("menuList", menuList);
+		model.addAttribute("customerList", customerList);
 		return "pands/addsales";
 	}
 	
+	@PostMapping("/addsales")
+	public String addSales(SalesDto salesDto) {
+		salesService.addSales(salesDto);
+		return "redirect:/getsales";
+	}
+	
 	@GetMapping("/addpurchases")
-	public String addpurchases() {
+	public String addpurchases(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		String OID = (String)session.getAttribute("OID");
+		String ONAME = (String)session.getAttribute("ONAME");
+		List<ArticleDto> articleList = articleMapper.getArticle(SSTORECODE);
+		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
+		model.addAttribute("articleList", articleList);
+		model.addAttribute("customerList", customerList);
 		return "pands/addpurchases";
+	}
+	
+	public String addPurchases(PurchasesDto purchasesDto) {
+		purchasesService.addPurchases(purchasesDto);
+		return "redirect:/getpurchases";
 	}
 	
 	@GetMapping("/addotherpurchases")
@@ -58,22 +101,25 @@ public class TaxController {
 	}
 	
 	@GetMapping("/getsales")
-	public String getSales(Model model) {
-		List<SalesDto> salesList = salesService.getSales();
+	public String getSales(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SalesDto> salesList = salesService.getSales(SSTORECODE);
 		model.addAttribute("salesList", salesList);
 		return "pands/getsales";
 	}
 	
 	@GetMapping("/getpurchases")
-	public String getPurchases(Model model) {
-		List<PurchasesDto> purchasesList = purchasesService.getPurchases();
+	public String getPurchases(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<PurchasesDto> purchasesList = purchasesService.getPurchases(SSTORECODE);
 		model.addAttribute("purchasesList", purchasesList);
 		return "pands/getpurchases";
 	}
 	
 	@GetMapping("/getotherpurchases")
-	public String getOtherPurchases(Model model) {
-		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesService.getOtherPurchases();
+	public String getOtherPurchases(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesService.getOtherPurchases(SSTORECODE);
 		model.addAttribute("otherPurchasesList", otherPurchasesList);
 		return "pands/getotherpurchases";
 	}

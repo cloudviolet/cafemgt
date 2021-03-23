@@ -10,7 +10,7 @@ public class SalesDto {
 	private int salesTax;
 	private String salesVatType;
 	private String salesPayType;
-	private String CustCode;
+	private String custCode;
 	private String salesDate; 
 	private String salesRegDate;
 	private String salesDeadline; 
@@ -19,7 +19,6 @@ public class SalesDto {
 	private String salesDaliyvolGroupCode;
 	private String salesSystemId;
 	private String salesSystemName;
-	
 	public String getSalesCode() {
 		return salesCode;
 	}
@@ -75,10 +74,10 @@ public class SalesDto {
 		this.salesPayType = salesPayType;
 	}
 	public String getCustCode() {
-		return CustCode;
+		return custCode;
 	}
 	public void setCustCode(String custCode) {
-		CustCode = custCode;
+		this.custCode = custCode;
 	}
 	public String getSalesDate() {
 		return salesDate;
@@ -128,15 +127,16 @@ public class SalesDto {
 	public void setSalesSystemName(String salesSystemName) {
 		this.salesSystemName = salesSystemName;
 	}
-	
 	@Override
 	public String toString() {
 		return "SalesDto [salesCode=" + salesCode + ", storeInfoCode=" + storeInfoCode + ", menuCode=" + menuCode
 				+ ", salesCount=" + salesCount + ", salesTotal=" + salesTotal + ", salesSupplyValue=" + salesSupplyValue
 				+ ", salesTax=" + salesTax + ", salesVatType=" + salesVatType + ", salesPayType=" + salesPayType
-				+ ", CustCode=" + CustCode + ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate
+				+ ", custCode=" + custCode + ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate
 				+ ", salesDeadline=" + salesDeadline + ", salesDealingGroupCode=" + salesDealingGroupCode
 				+ ", salesDeadlineCheck=" + salesDeadlineCheck + ", salesDaliyvolGroupCode=" + salesDaliyvolGroupCode
 				+ ", salesSystemId=" + salesSystemId + ", salesSystemName=" + salesSystemName + "]";
 	}
+	
+
 }
