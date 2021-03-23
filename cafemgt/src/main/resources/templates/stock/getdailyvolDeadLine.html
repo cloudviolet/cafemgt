@@ -87,9 +87,7 @@
 			      </div>
 			      <div class="modal-body">
 			   	   사용할 입고품목을 선택해주세요
-			   	   [[${articleCode}]]
 			   	  <select class="form-control" id="selectInco">
-			   	  	<option></option>
 			   	  </select>
 			      </div>
 			      <div class="modal-footer">
@@ -126,6 +124,7 @@
 				var selectInco = $('#selectInco');
 				var articleCode = $(this).attr('value');
 				
+				
 				var request = $.ajax({
 					url: "getIncomeList", 
 					method: "POST",
@@ -136,7 +135,7 @@
 					console.log(data);
 					for(var i = 0 ; i < data.length; i++){
 						console.log(data[i])
-						selectInco.append('<option>'+ data[i].incoCode +'</option>');
+						selectInco.append('<option>'+ data[i].articleName+' 입고 날짜 : '+data[i].incoDate +'</option>');
 					}
 
 				});

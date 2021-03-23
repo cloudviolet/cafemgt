@@ -129,7 +129,7 @@ public class StockController {
 							   ,Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		System.out.println(articleCode);
-		List<PurchasesDto> purchasesDtoList = purchasesService.getPurchases(SSTORECODE);
+		List<PurchasesDto> purchasesDtoList = purchasesService.getPurchasesByArticleCode(SSTORECODE, articleCode);
 		//model.addAttribute("purchasesDtoList",purchasesDtoList);
 		return purchasesDtoList;
 	}
