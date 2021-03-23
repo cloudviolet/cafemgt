@@ -20,13 +20,6 @@
 		<result property="dailyvolRegDate"	 		column="dailyvol_reg_date" />
 		<result property="dailyvolGroupCode"		column="dailyvol_group_code" />
 		<result property="dailyvolRelGroupCode"	 	column="dailyvol_rel_group_code" />
-		<association property="incoDto" javaType="PurchasesDto">
-			<result	property="incoCode" 			column="inco_code"/>
-			<result	property="incoCount" 			column="inco_count"/>
-			<result	property="incoVolumeSubtotal"	column="inco_volume_subtotal"/>
-			<result	property="incoDate" 			column="inco_date"/>
-			<result	property="incoCheck" 			column="inco_check"/>
-		</association>
 	</resultMap>
 	<select id="getDailyVol" parameterType="String" resultMap="DailyVolResultMap">
 		SELECT
@@ -70,24 +63,12 @@
 			 dv.dailyvol_code
 			,st.store_info_code
 			,st.store_info_name
-			,m.menu_code
-			,m.menu_name
-			,group_concat(distinct(inc.inco_code)) AS 'inc.inco_code'
 			,a.article_code
 			,a.article_name
-			,inc.inco_count
-			,a.article_volume
-			,inc.inco_volume_subtotal
 			,SUM(dv.dailyvol_subtotal) AS 'dailyvol_subtotal' 
-			,inc.inco_volume_subtotal - SUM(dv.dailyvol_subtotal) AS 'dailyvol_group_code'
-			,inc.inco_date
-			,inc.inco_check
+			,c.con_dan
 		FROM
 			tb_daily_volume AS dv
-			LEFT join
-			tb_menu AS m
-			ON
-			dv.menu_code = m.menu_code
 			LEFT join
 			tb_consumption AS c
 			on
@@ -96,14 +77,11 @@
 			tb_article AS a
 			on
 			c.article_code = a.article_code
-			LEFT join
-			tb_incoming AS inc
-			on
-			a.article_code = inc.article_code
 			LEFT JOIN 
 			tb_store_info AS st
 			on
 			dv.store_info_code = st.store_info_code
+			WHERE dv.dailyvol_deadline_check IN ('x','')
 		GROUP BY c.article_code
 	</select>
 </mapper>

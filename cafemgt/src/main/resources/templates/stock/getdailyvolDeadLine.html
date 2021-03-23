@@ -26,8 +26,7 @@
 		                <!-- 상단 옵션네비바 시작 -->
 						<ul class="nav navbar-right panel_toolbox">
 							<li>
-								<button type="button" id="deadLineBtn" class="btn btn-warning" 
-									data-toggle="modal" data-target="#deadLine" >마감</button>
+								<a id="deadLineBtn" class="btn btn-warning" th:href="@{getdailyvolDeadLine}">마감</a>
 							</li>
 						</ul>
 						<!-- 상단 옵션네비바 끝 -->
@@ -49,37 +48,25 @@
 												<th>일 품목소모량 코드</th>
 												<th>사업장 코드</th>
 												<th>상호명</th>
-												<th>메뉴코드</th>
-												<th>메뉴명</th>
-												<th>소모량코드</th>
-												<th>품목코드</th>
 												<th>품목명</th>
-												<th>용량</th>
-												<th>단위</th>
-												<th>판매수량</th>
 												<th>소모용량 소계</th>
-												<th>마감 유무</th>
-												<th>등록 날짜</th>
-												<th>그룹 코드</th>
-												<th>그룹 코드2</th>
+												<th>단위</th>
+												<th>마감</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="dvdl : ${dailyVolDeadLineList}">
-												<td th:text="${dvdl.dailyvolCode}"></td>
-												<td th:text="${dvdl.storeInfoCode}"></td>
-												<td th:text="${dvdl.storeInfoName}"></td>
-												<td th:text="${dvdl.menuCode}"></td>
-												<td th:text="${dvdl.menuName}"></td>
-												<td th:text="${dvdl.incoDto.incoCode}"></td>
-												<td th:text="${dvdl.articleCode}"></td>
-												<td th:text="${dvdl.articleName}"></td>
-												<td th:text="${dvdl.incoDto.incoCount}"></td>
-												<td th:text="${dvdl.incoDto.incoVolumeSubtotal}"></td>
-												<td th:text="${dvdl.dailyvolSubtotal}"></td>
-												<td th:text="${dvdl.dailyvolGroupCode}"></td>
-												<td th:text="${dvdl.incoDto.incoDate}"></td>
-												<td th:text="${dvdl.incoDto.incoCheck}"></td>
+											<tr th:each="dvl : ${dailyVolDeadLineList}">
+												<td th:text="${dvl.dailyvolCode}"></td>
+												<td th:text="${dvl.storeInfoCode}"></td>
+												<td th:text="${dvl.storeInfoName}"></td>
+												<td th:text="${dvl.articleName}"></td>
+												<td th:text="${dvl.dailyvolSubtotal}"></td>
+												<td th:text="${dvl.conDan}"></td>
+												<td> 
+													<a type="button" class="deadLineBtn" data-toggle="modal" data-target="#deadLine"
+													 th:value="${dvl.articleCode}">
+													 마감</a>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -95,11 +82,15 @@
 			<div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <h4 class="modal-title" id="myModalLabel">마감</h4>
+			        <h4 class="modal-title" id="myModalLabel">사용할 입고품목을 선택해주세요</h4>
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			      </div>
 			      <div class="modal-body">
-			      
+			   	   사용할 입고품목을 선택해주세요
+			   	   [[${articleCode}]]
+			   	  <select class="form-control" id="selectInco">
+			   	  	<option></option>
+			   	  </select>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
@@ -128,5 +119,31 @@
 		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+		
+		<script>
+ 		
+			$('.deadLineBtn').click(function(){
+				var selectInco = $('#selectInco');
+				var articleCode = $(this).attr('value');
+				
+				var request = $.ajax({
+					url: "getIncomeList", 
+					method: "POST",
+					data: { articleCode : articleCode },
+					dataType: "json"
+				});
+				request.done(function( data ) {
+					console.log(data);
+					for(var i = 0 ; i < data.length; i++){
+						console.log(data[i])
+						selectInco.append('<option>'+ data[i].incoCode +'</option>');
+					}
+
+				});
+				request.fail(function( data ) {
+					console.log('a'	);
+				});
+			});
+		</script>
 	</th:block>
 </html>
