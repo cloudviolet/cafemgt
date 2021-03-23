@@ -108,7 +108,8 @@ public class StockController {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		
 		List<DailyVolDto> dailyVolDeadLineList = dailyVolService.getDailyVolDeadLine(SSTORECODE);
-		dailyVolDeadLineList.get(0).getIncoDto().getInco_code();
+		String asd = dailyVolDeadLineList.get(0).getIncoDto().getIncoCode();
+		System.out.println(asd);
 		model.addAttribute("dailyVolDeadLineList",dailyVolDeadLineList);
 		return "stock/getdailyvolDeadLine";
 	}
