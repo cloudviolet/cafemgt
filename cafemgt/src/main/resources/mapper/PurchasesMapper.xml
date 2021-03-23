@@ -53,6 +53,45 @@
 			(sf_new_inco_code(), #{storeInfoCode}, #{articleCode}, #{custCode}, #{incoVatType}, #{incoPayType}, #{incoTotal} ,#{incoCount}, #{incoVolumeSubtotal}, #{incoSupplyValue}, #{incoTax}, '', '', #{incoDate}, NOW(), '', '', '', 1)
 	</insert>
 	
+	<select id="getPurchasesByArticleCode" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			i.inco_code, 
+			i.store_info_code, 
+			i.article_code, 
+			a.article_name,
+			i.cust_code, 
+			c.cust_name,
+			i.inco_vat_type, 
+			i.inco_pay_type, 
+			i.inco_total, 
+			i.inco_count, 
+			i.inco_volume_subtotal, 
+			i.inco_supply_value, 
+			i.inco_tax, 
+			i.inco_dealing_group_code, 
+			i.inco_stock_group_code, 
+			i.inco_date, 
+			i.inco_reg_date, 
+			i.inco_deadline, 
+			i.inco_system_id, 
+			i.inco_system_name, 
+			i.inco_check
+		FROM 
+			tb_incoming AS i
+			LEFT JOIN 
+			tb_customer AS c
+			ON 
+			i.cust_code = c.cust_code
+			LEFT JOIN
+			tb_article AS a
+			ON
+			i.article_code = a.article_code
+		WHERE
+			i.store_info_code = #{SSTORECODE}
+		AND
+			i.article_code = #{articleCode};
+	</select>
+	
 	<select id="getPurchases" parameterType="String" resultMap="purchasesDtoResultMap">
 		SELECT 
 			i.inco_code, 
