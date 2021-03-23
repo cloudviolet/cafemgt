@@ -3,8 +3,10 @@ package com.cafemgt.dto;
 public class PurchasesDto {
 	private String incoCode;
 	private String storeInfoCode;
-	private String articleCode ;
+	private String articleCode;
+	private String articleName;
 	private String custCode;
+	private String custName;
 	private String incoVatType;
 	private String incoPayType;
 	private int incoTotal;
@@ -39,11 +41,23 @@ public class PurchasesDto {
 	public void setArticleCode(String articleCode) {
 		this.articleCode = articleCode;
 	}
+	public String getArticleName() {
+		return articleName;
+	}
+	public void setArticleName(String articleName) {
+		this.articleName = articleName;
+	}
 	public String getCustCode() {
 		return custCode;
 	}
 	public void setCustCode(String custCode) {
 		this.custCode = custCode;
+	}
+	public String getCustName() {
+		return custName;
+	}
+	public void setCustName(String custName) {
+		this.custName = custName;
 	}
 	public String getIncoVatType() {
 		return incoVatType;
@@ -138,14 +152,13 @@ public class PurchasesDto {
 	@Override
 	public String toString() {
 		return "PurchasesDto [incoCode=" + incoCode + ", storeInfoCode=" + storeInfoCode + ", articleCode="
-				+ articleCode + ", custCode=" + custCode + ", incoVatType=" + incoVatType + ", incoPayType="
-				+ incoPayType + ", incoTotal=" + incoTotal + ", incoCount=" + incoCount + ", incoVolumeSubtotal="
-				+ incoVolumeSubtotal + ", incoSupplyValue=" + incoSupplyValue + ", incoTax=" + incoTax
-				+ ", incoDealingGroupCode=" + incoDealingGroupCode + ", incoStockGroupCode=" + incoStockGroupCode
-				+ ", incoDate=" + incoDate + ", incoRegDate=" + incoRegDate + ", incoDeadline=" + incoDeadline
-				+ ", incoSystemId=" + incoSystemId + ", incoSystemName=" + incoSystemName + ", incoCheck=" + incoCheck
-				+ "]";
+				+ articleCode + ", articleName=" + articleName + ", custCode=" + custCode + ", custName=" + custName
+				+ ", incoVatType=" + incoVatType + ", incoPayType=" + incoPayType + ", incoTotal=" + incoTotal
+				+ ", incoCount=" + incoCount + ", incoVolumeSubtotal=" + incoVolumeSubtotal + ", incoSupplyValue="
+				+ incoSupplyValue + ", incoTax=" + incoTax + ", incoDealingGroupCode=" + incoDealingGroupCode
+				+ ", incoStockGroupCode=" + incoStockGroupCode + ", incoDate=" + incoDate + ", incoRegDate="
+				+ incoRegDate + ", incoDeadline=" + incoDeadline + ", incoSystemId=" + incoSystemId
+				+ ", incoSystemName=" + incoSystemName + ", incoCheck=" + incoCheck + "]";
 	}
-	
 	
 }

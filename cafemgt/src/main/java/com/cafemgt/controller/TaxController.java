@@ -84,6 +84,7 @@ public class TaxController {
 		return "pands/addpurchases";
 	}
 	
+	@PostMapping("/addpurchases")
 	public String addPurchases(PurchasesDto purchasesDto) {
 		purchasesService.addPurchases(purchasesDto);
 		return "redirect:/getpurchases";
