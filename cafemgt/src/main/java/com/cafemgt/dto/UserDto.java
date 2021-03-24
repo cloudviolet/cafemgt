@@ -1,7 +1,7 @@
 package com.cafemgt.dto;
 
 public class UserDto {
-	
+		
 	private String userId;
 	private String userPw;
 	private String storeInfoCode;
@@ -18,7 +18,8 @@ public class UserDto {
 	private String userAgreement;
 	private String userHealthCard;
 	private String userRegDate;
-
+	private MemberDto memberDto;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -115,49 +116,18 @@ public class UserDto {
 	public void setUserRegDate(String userRegDate) {
 		this.userRegDate = userRegDate;
 	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UserDto [userId=");
-		builder.append(userId);
-		builder.append(", userPw=");
-		builder.append(userPw);
-		builder.append(", storeInfoCode=");
-		builder.append(storeInfoCode);
-		builder.append(", storeInfoName=");
-		builder.append(storeInfoName);
-		builder.append(", userName=");
-		builder.append(userName);
-		builder.append(", levelCode=");
-		builder.append(levelCode);
-		builder.append(", userJoinDate=");
-		builder.append(userJoinDate);
-		builder.append(", userOutDate=");
-		builder.append(userOutDate);
-		builder.append(", userPhone=");
-		builder.append(userPhone);
-		builder.append(", userPay=");
-		builder.append(userPay);
-		builder.append(", userWorkTime=");
-		builder.append(userWorkTime);
-		builder.append(", userBankName=");
-		builder.append(userBankName);
-		builder.append(", userBankAcount=");
-		builder.append(userBankAcount);
-		builder.append(", userAgreement=");
-		builder.append(userAgreement);
-		builder.append(", userHealthCard=");
-		builder.append(userHealthCard);
-		builder.append(", userRegDate=");
-		builder.append(userRegDate);
-		builder.append("]");
-		return builder.toString();
+	public MemberDto getMemberDto() {
+		return memberDto;
+	}
+	public void setMemberDto(MemberDto memberDto) {
+		this.memberDto = memberDto;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((levelCode == null) ? 0 : levelCode.hashCode());
+		result = prime * result + ((memberDto == null) ? 0 : memberDto.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
 		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
 		result = prime * result + ((userAgreement == null) ? 0 : userAgreement.hashCode());
@@ -188,6 +158,11 @@ public class UserDto {
 			if (other.levelCode != null)
 				return false;
 		} else if (!levelCode.equals(other.levelCode))
+			return false;
+		if (memberDto == null) {
+			if (other.memberDto != null)
+				return false;
+		} else if (!memberDto.equals(other.memberDto))
 			return false;
 		if (storeInfoCode == null) {
 			if (other.storeInfoCode != null)
@@ -260,5 +235,45 @@ public class UserDto {
 			return false;
 		return true;
 	}
-	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UserDto [userId=");
+		builder.append(userId);
+		builder.append(", userPw=");
+		builder.append(userPw);
+		builder.append(", storeInfoCode=");
+		builder.append(storeInfoCode);
+		builder.append(", storeInfoName=");
+		builder.append(storeInfoName);
+		builder.append(", userName=");
+		builder.append(userName);
+		builder.append(", levelCode=");
+		builder.append(levelCode);
+		builder.append(", userJoinDate=");
+		builder.append(userJoinDate);
+		builder.append(", userOutDate=");
+		builder.append(userOutDate);
+		builder.append(", userPhone=");
+		builder.append(userPhone);
+		builder.append(", userPay=");
+		builder.append(userPay);
+		builder.append(", userWorkTime=");
+		builder.append(userWorkTime);
+		builder.append(", userBankName=");
+		builder.append(userBankName);
+		builder.append(", userBankAcount=");
+		builder.append(userBankAcount);
+		builder.append(", userAgreement=");
+		builder.append(userAgreement);
+		builder.append(", userHealthCard=");
+		builder.append(userHealthCard);
+		builder.append(", userRegDate=");
+		builder.append(userRegDate);
+		builder.append(", memberDto=");
+		builder.append(memberDto);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
