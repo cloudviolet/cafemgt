@@ -111,7 +111,7 @@
 										<div class="item form-group">
 											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">지급합계</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="paytotal" class="form-control" type="text" name="middle-name" placeholder="월급+과세+비과세 합계 계산해서 삽입" readonly="readonly">
+												<input id="paytotal" class="form-control" type="text" name="middle-name" readonly="readonly">
 											</div>
 										</div>
 										<div class="item form-group">
@@ -129,7 +129,7 @@
 										<div class="item form-group">
 											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">4대보험 합계 세율 계산금</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="4tax" class="form-control" type="text" name="middle-name" placeholder="(월급+과세)*0.0913으로 계산해서 삽입" readonly="readonly">
+												<input id="tax4" class="form-control" type="text" name="middle-name" placeholder="(월급+과세)*0.0913으로 계산해서 삽입" readonly="readonly">
 											</div>
 										</div>
 										<div class="item form-group">
@@ -172,7 +172,9 @@
 						</div>
 					</div>
 				</div>
+	
 	</th:block>
+	
 	
 	<th:block layout:fragment="customJs">
 	<!-- bootstrap-daterangepicker -->
@@ -196,8 +198,64 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
-	</th:block>
+	
 		
+	<script type="text/javascript">
+		var pay=$('#pay');
+		var tbonus=$('#tbonus');
+		var nbonus=$('#nbonus');
+		var paytotal=$('#paytotal');
+		var intax=$('#intax');
+		var intaxlocal=$('#intaxlocal');
+		var tax4=$('#tax4');
+		var taxtotal=$('#taxtotal');
+		var realpay=$('#realpay');
 		
+		$(function(){
+			$('#pay,#tbonus,#nbonus').on('change keyup',function(){
+				var pt=Math.round(Number(pay.val())+Number(tbonus.val())+Number(nbonus.val()));
+				paytotal.val(pt);
+			});
+			//근로소득세 구간 계산
+			$('#pay,#tbonus').on('change keyup',function(){
+				if(Number(pay.val())*12+Number(tbonus.val())<=12000000){
+					var it=Math.round((Number(pay.val())+Number(tbonus.val()))*0.06);
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(12000000<Number(pay.val())*12+Number(tbonus.val())<=46000000){
+					var it=Math.round((Number(pay.val())+Number(tbonus.val()))*0.15-1080000/12);
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(46000000<Number(pay.val())*12+Number(tbonus.val())<=88000000){
+					var it=Math.round((Number(pay.val())+Number(tbonus.val()))*0.24-5220000/12);
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(88000000<Number(pay.val())*12+Number(tbonus.val())<=150000000){
+					var it=Math.round((Number(pay.val())+Number(tbonus.val()))*0.35-14900000/12);
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}
+			});
+	
+			$('#pay,#tbonus').on('change keyup',function(){
+					var t4=Math.round((Number(pay.val())+Number(tbonus.val()))*0.0913);
+					tax4.val(t4);
+			});
 
+			$('#pay,#tbonus').on('change keyup',function(){
+					var tt=Number(intax.val())+Number(intaxlocal.val())+Number(tax4.val());
+					taxtotal.val(tt);
+			});
+
+			$('#pay,#tbonus,#nbonus').on('change keyup',function(){
+					var rp=Number(paytotal.val())-Number(taxtotal.val());
+					realpay.val(rp);
+			});
+					
+			
+			
+			
+		});
+	</script>
+</th:block>
 </html>
