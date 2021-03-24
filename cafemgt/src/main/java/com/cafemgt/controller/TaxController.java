@@ -117,6 +117,14 @@ public class TaxController {
 		return "pands/getpurchases";
 	}
 	
+	@GetMapping("/purchasesdeadline")
+	public String purchasesDeadline(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<PurchasesDto> purchasesCheckList = purchasesService.purchasesDeadline(SSTORECODE);
+		model.addAttribute("purchasesCheckList", purchasesCheckList);
+		return "pands/purchasesdeadline";
+	}
+	
 	@GetMapping("/getotherpurchases")
 	public String getOtherPurchases(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
