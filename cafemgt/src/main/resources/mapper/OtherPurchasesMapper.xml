@@ -17,6 +17,7 @@
 		<result property="oeEtc" 			column="oe_etc"/>
 		<result property="oeDate" 			column="oe_date"/>
 		<result property="oeRegDate" 		column="oe_reg_date"/>
+		<result property="oeDeadline" 		column="oe_deadline"/>
 	</resultMap>
 	
 	<insert id="addOtherPurchases" parameterType="OtherPurchasesDto">
@@ -24,6 +25,28 @@
 		(oe_code, store_info_code, oe_store_name, oe_vat_type, oe_total, oe_supply_value, oe_tax, at_debit_code, at_credit_code, oe_etc, oe_date, oe_reg_date)
 		VALUES (sf_new_otherexpense_code(), 'owner_01', #{oeStoreName}, #{oeVatType}, #{oeTotal}, #{oeTotal}/1.1, oe_total-oe_supply_value, #{atDebitCode}, #{atCreditCode}, #{oeEtc}, #{oeDate}, NOW())
 	</insert>
+	
+	<select id="otherPurchasesDeadline" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			oe_code, 
+			store_info_code, 
+			oe_store_name, 
+			oe_vat_type, 
+			oe_total, 
+			oe_supply_value, 
+			oe_tax, 
+			at_debit_code, 
+			at_credit_code, 
+			oe_etc, 
+			oe_date, 
+			oe_reg_date
+		FROM 
+			tb_other_expense
+		WHERE
+			store_info_code = #{SSTORECODE}
+		AND
+			oe_deadline = 'x';
+	</select>
 	
 	<select id="getOtherPurchases" parameterType="String" resultMap="purchasesDtoResultMap">
 		SELECT 

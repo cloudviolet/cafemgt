@@ -23,8 +23,7 @@
 					 <div class="x_title">
 	                    <h2>매입 재고 마감</h2>
 						<ul class="nav navbar-right panel_toolbox">
-							<li><a th:href="@{/purchasesdeadline}" class="btn btn-info">마감</a></li>
-							<li><a class="btn btn-info">전체마감</a></li>
+							<li><a id="stockDeadline" class="btn btn-info">재고마감</a></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -40,10 +39,10 @@
 										<thead>
 											<tr>
 												<th><input type="checkbox" id="check-all"></th>
-												<th>매입 유형</th>
-												<th>입고 수량</th>
 												<th>품목 명</th>
 												<th>거래처 명</th>
+												<th>매입 유형</th>
+												<th>입고 수량</th>
 												<th>공급 가액</th>
 												<th>공급 세액</th>
 												<th>공급 합계</th>
@@ -53,11 +52,11 @@
 										</thead>
 										<tbody>
 											<tr th:if="${#lists.size(purchasesCheckList)>0}" th:each="pcl : ${purchasesCheckList}">
-												<td><input type="checkbox" id="check-all"></td>
-												<td th:text="${pcl.incoVatType}"></td>
-												<td th:text="${pcl.incoCount}"></td>
+												<td><input type="checkbox" class="checkBox" name="checkBox" id="check-all"></td>
 												<td th:text="${pcl.articleName}"></td>
 												<td th:text="${pcl.custName}"></td>
+												<td th:text="${pcl.incoVatType}"></td>
+												<td th:text="${pcl.incoCount}"></td>
 												<td th:text="${pcl.incoSupplyValue}"></td>
 												<td th:text="${pcl.incoTax}"></td>
 												<td th:text="${pcl.incoTotal}"></td>
@@ -71,9 +70,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
-	
-	
+			</div>	
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
@@ -100,6 +97,27 @@
 		<script th:src="@{../vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
+		
+		<script type="text/javascript">
+		var checkBoxLength = $('.checkBox').length;		
+		
+			$('#check-all').click(function(){
+				if($('#check-all').is(":checked")){
+					$('.checkBox').prop("checked", true);
+				}else{
+					$('.checkBox').prop("checked", false);
+				}
+			});			
+			$('.checkBox').click(function(){
+				if($("input[name=checkBox]:checked").length==checkBoxLength){
+					$('#check-all').prop("checked", true);
+				}else {
+					$('#check-all').prop("checked", false);
+				}
+			});
+			
+			
+		</script>
 	</th:block>
 
 </html>

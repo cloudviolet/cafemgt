@@ -181,6 +181,7 @@
 					incoTax.val(tax);
 					console.log(supplyValue);
 					console.log(tax);
+					$('#custCode option[value="현금매출"]').prop('disabled', true);
 				}else{
 					incoPayType.eq(0).prop("checked", false);
 					if(incoVatTypeValue=='세금계산서'){

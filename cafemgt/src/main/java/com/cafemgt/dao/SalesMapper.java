@@ -11,6 +11,10 @@ public interface SalesMapper {
 	
 	public int addSales(SalesDto salesDto);
 	
+	public List<SalesDto> salesDeadlineForTax(String SSTORECODE);
+	
+	public List<SalesDto> salesDeadlineForStock(String SSTORECODE);
+	
 	public List<SalesDto> getSales(String SSTORECODE);
 	
 }

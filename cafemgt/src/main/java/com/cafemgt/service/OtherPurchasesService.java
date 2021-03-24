@@ -21,6 +21,10 @@ public class OtherPurchasesService {
 	public int addOtherPurchases(OtherPurchasesDto otherPurchasesDto) {				
 		return otherPurchasesMapper.addOtherPurchases(otherPurchasesDto);
 	}
+	
+	public List<OtherPurchasesDto> otherPurchasesDeadline(String SSTORECODE){
+		return otherPurchasesMapper.otherPurchasesDeadline(SSTORECODE);
+	}
 
 	public List<OtherPurchasesDto> getOtherPurchases(String SSTORECODE){
 		List<OtherPurchasesDto> otherPurchasesList = otherPurchasesMapper.getOtherPurchases(SSTORECODE);

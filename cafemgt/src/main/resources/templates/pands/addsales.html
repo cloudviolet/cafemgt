@@ -167,17 +167,17 @@
 					custCode.val('cust_998').prop("selected", true);
 					custCode.val('cust_998');
 					console.log(custCode.val());
-					salesPayType.val('완료').prop("checked", true);
+					salesPayType.eq(0).prop("checked", true);
 				}else if(radioValue=='카드'){
 					custCode.prop('disabled', true);
 					custCode.val('cust_999').prop("selected", true);
 					custCode.val('cust_999')
-					salesPayType.val('완료').prop("checked", true);
+					salesPayType.eq(0).prop("checked", true);
 					console.log(custCode.val());
 				}else{
 					custCode.prop('disabled', false);
 					custCode.val('').prop("selected", true);
-					salesPayType.val('완료').prop("checked", false);
+					salesPayType.eq(0).prop("checked", false);
 				}
 			});
 		});

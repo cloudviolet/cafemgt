@@ -23,6 +23,14 @@ public class SalesService {
 		return salesMapper.addSales(salesDto);
 	}
 	
+	public List<SalesDto> salesDeadlineForTax(String SSTORECODE){
+		return salesMapper.salesDeadlineForTax(SSTORECODE);
+	}
+	
+	public List<SalesDto> salesDeadlineForStock(String SSTORECODE){
+		return salesMapper.salesDeadlineForStock(SSTORECODE);
+	}
+	
 	public List<SalesDto> getSales(String SSTORECODE){
 		List<SalesDto> salesList = salesMapper.getSales(SSTORECODE);
 		return salesList;		

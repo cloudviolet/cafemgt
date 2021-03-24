@@ -125,6 +125,30 @@ public class TaxController {
 		return "pands/purchasesdeadline";
 	}
 	
+	@GetMapping("/salesdeadlineforstock")
+	public String salesDeadlineForStock(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SalesDto> salesCheckList = salesService.salesDeadlineForStock(SSTORECODE);
+		model.addAttribute("salesCheckList", salesCheckList);
+		return "pands/salesdeadlineforstock";
+	}
+	
+	@GetMapping("/salesdeadlinefortax")
+	public String salesDeadlineForTax(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SalesDto> salesTaxCheckList = salesService.salesDeadlineForTax(SSTORECODE);
+		model.addAttribute("salesTaxCheckList", salesTaxCheckList);
+		return "pands/salesdeadlinefortax";
+	}
+	
+	@GetMapping("/otherpurchasesdeadline")
+	public String otherPurchasesDeadline(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<OtherPurchasesDto> otherPurchasesCheckList = otherPurchasesService.otherPurchasesDeadline(SSTORECODE);
+		model.addAttribute("otherPurchasesCheckList", otherPurchasesCheckList);
+		return "pands/otherpurchasesdeadline";
+	}
+	
 	@GetMapping("/getotherpurchases")
 	public String getOtherPurchases(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
