@@ -19,9 +19,7 @@
 			#selectInco{
 				margin-bottom: 10px;
 			}
-			.modal-body-text{
-				margin-left: 5px;
-			}
+
 		</style>
 	</th:block>
 	
@@ -69,7 +67,7 @@
 												<td th:text="${dvl.storeInfoCode}"></td>
 												<td th:text="${dvl.storeInfoName}"></td>
 												<td th:text="${dvl.articleName}"></td>
-												<td th:text="${dvl.dailyvolSubtotal}"></td>
+												<td class="dailySubtotal" th:text="${dvl.dailyvolSubtotal}"></td>
 												<td th:text="${dvl.conDan}"></td>
 												<td> 
 													<a type="button" class="deadLineBtn" data-toggle="modal" data-target="#deadLine"	 th:value="${dvl.articleCode}">
@@ -95,13 +93,23 @@
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			      </div>
 			      <div class="modal-body">
-				   	   사용할 입고품목을 선택해주세요
-				   	  <select class="form-control" id="selectInco">
-				   	 	 <!-- option = ajax 실행결과값 -->
-				   	  </select>
-				   	  <div class="modal-body-text">
-				   	   
-				   	  </div>
+			        <div class="container-fluid">
+            			<div class="row">
+					      	<div class="col-md-1">
+					      	</div>
+					      	<div class="col-md-10">
+								사용할 입고품목을 선택해주세요
+								<select class="form-control" id="selectInco">
+								<!-- option = ajax 실행결과값 -->	
+								</select>
+								<div class="modal-body-text">
+									<div>
+									
+									</div>
+								</div>
+					      	</div>
+					   	</div>
+					</div>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
@@ -134,7 +142,7 @@
 			$('.deadLineBtn').click(function(){
 				var selectInco = $('#selectInco');
 				var articleCode = $(this).attr('value');
-				var modalBody = $('.modal-body');
+				var modalBody = $('.modal-body-text');
 				var request = $.ajax({
 					url: "getIncomeList", 
 					method: "POST",
@@ -154,16 +162,20 @@
 												+'  , 입고 날짜 : [ '
 												+ data[i].incoDate 
 												+' ]</option>'
-											);
+												);
 						}
 					}
 					selectInco.change(function(){
-						var selectIncoNum = $('#selectInco option:selected').attr('data-change');
+						var inum = $('#selectInco option:selected').attr('data-change');
+						var dailySubtotal = $('.dailySubtotal');
 						modalBody.children('div').remove();
-						if(selectIncoNum != null){
-							modalBody.append('<div class="modal-body-text">' 
-									+	'<h5> 입고날짜 : '+data[selectIncoNum].incoDate + '</h5>' 
-									+	'<h5> 입고용량 : '+data[selectIncoNum].incoVolumeSubtotal + '</h5>' 
+						if(inum != null){
+							modalBody.append('<div>' 
+									+	' 입고날짜 : <input type="text" class="form-control" value="'+data[inum].incoDate + '"/>' 
+									+	' 입고날짜 : <input type="text" class="form-control" value="'+data[inum].incoVolumeSubtotal + '"/>' 
+									+	'<div><label id="articlebigdan" class="control-label label-align"></label></div>'
+									+	'<h5> 잔여용량 : '+data[inum].detailvolRemainVolume +' '+ data[inum].articleDan + '</h5>' 
+									+	'<h5> 사용용량 : '+dailySubtotal.eq(inum).text() +' '+ data[inum].articleDan + '</h5>' 
 									+	'</div>'
 									);
 						}

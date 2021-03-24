@@ -131,11 +131,11 @@ public class StockController {
 	
 	@ResponseBody
 	@PostMapping("/getIncomeList")
-	public List<PurchasesDto> getIncomeList(@RequestParam (value = "articleCode",required = false) String articleCode
+	public List<TotalStockDto> getIncomeList(@RequestParam (value = "articleCode",required = false) String articleCode
 			,Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<PurchasesDto> purchasesDtoList = purchasesService.getPurchasesByArticleCode(SSTORECODE, articleCode);
-		return purchasesDtoList;
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, articleCode);
+		return totalStockList;
 	}
 	
 }

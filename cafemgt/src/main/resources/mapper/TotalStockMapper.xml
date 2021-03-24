@@ -96,10 +96,56 @@
 			on
 			inc.article_code = ar.article_code
 		WHERE
-			st.store_info_code = #{sessionId}
+			st.store_info_code = #{SSTORECODE}
 	</select>
 	<select id="getTotalStockByIncoCode" parameterType="String" resultMap="TotalStockResultMap">
-
+		SELECT 
+			 dtv.detailvol_code
+			,st.store_info_code
+			,st.store_info_name
+			,c.con_code
+			,inc.inco_code
+			,inc.article_code
+			,ar.article_name
+			,inc.inco_count
+			,ar.article_volume
+			,ar.article_dan
+			,inc.inco_volume_subtotal
+			,dtv.detailvol_group_code	
+			,dtv.detailvol_volume_total
+			,dtv.detailvol_final_total
+			,dtv.detailvol_con_count
+			,dtv.detailvol_remain_volume
+			,dtv.detailvol_remain_count
+			,inc.inco_date
+			,dtv.detailvol_reg_date
+			,dtv.detailvol_deadline_check
+			,inc.inco_check
+			,dtv.detailvol_stock_group_code
+			,dtv.detailvol_system_id
+			,dtv.detailvol_system_name
+		FROM 
+			tb_detail_volume AS dtv
+			LEFT join
+			tb_store_info AS st
+			on
+			dtv.store_info_code = st.store_info_code
+			LEFT join
+			tb_consumption AS c
+			ON 
+			dtv.con_code = c.con_code
+			LEFT join
+			tb_incoming AS inc
+			ON 
+			dtv.inco_code = inc.inco_code
+			LEFT join
+			tb_article AS ar
+			on
+			inc.article_code = ar.article_code
+		WHERE 
+			st.store_info_code = #{SSTORECODE}
+			AND
+			ar.article_code = #{articleCode}
 
 	</select>
 </mapper>
