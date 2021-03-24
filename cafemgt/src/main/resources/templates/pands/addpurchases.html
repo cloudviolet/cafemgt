@@ -31,71 +31,85 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">매입 유형  *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
-										</div>
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">품목 명  *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
-										</div>
-																	
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">거래처 명 *</label>
-												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
-													</select>
-												</div>
-										</div>
+									<form id="demo-form2" th:action="@{/addpurchases}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+										
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">	
 										
 										<div class="form-group row">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">입고수량 * <span class="required"></span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control ">
-											</div>
-										</div>
-										<div class="form-group row">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">입고금액 *
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
-											</div>
-										</div>										
-										<div class="form-group row">
-											<label class="control-label col-md-3 col-sm-3 label-align" for="heard">결제 유형  *</label>
+											<label class="control-label col-md-3 col-sm-3 label-align" for="articleCode">품목 명  *</label>
 												<div class="col-md-6 col-sm-6 ">
-													<select id="heard" class="form-control" required>
-														<option value="">Choose..</option>
-														<option value="press">Press</option>
-														<option value="net">Internet</option>
-														<option value="mouth">Word of mouth</option>
+													<select id="articleCode" name="articleCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::품목명선택:::</option>
+														<th:block th:if="${#lists.size(articleList) > 0}" th:each="al : ${articleList}">
+															<option th:value="${al.articleCode}" th:data-big="${al.artcleBigDan}" th:data-volume="${al.articleVolume}" th:text="${al.articleName}"></option>														
+														</th:block>
 													</select>
 												</div>
-										</div>										
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align" for="custCode">거래처 명 *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="custCode" name="custCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::거래처 선택:::</option>
+														<th:block th:if="${#lists.size(customerList) > 0}" th:each="cl : ${customerList}">														
+															<option th:value="${cl.custCode}" th:text="${cl.custName}"></option>
+														</th:block>
+													</select>
+												</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 매입유형 *</label>
+												<div class="col-md-8 col-sm-8">
+													<div class="col-md-2 col-sm-2" style="text-align: center;">
+														<input type="radio" name="incoVatType" value="카드" required  > 카드
+													</div>						
+													<div class="col-md-2 col-sm-2" style="text-align: center;">
+														<input type="radio" name="incoVatType" value="현금" required > 현금												
+													</div>
+													<div class="col-md-2 col-sm-2 " style="text-align: center;">
+														<input type="radio" name="incoVatType" value="세금계산서" required > 세금계산서											
+													</div>
+													<div class="col-md-2 col-sm-2 " style="text-align: center;">
+														<input type="radio" name="incoVatType" value="계산서" required > 계산서										
+													</div>
+												</div>
+										</div>
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 지급 *</label>
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="incoPayType" value="완료" required> 완료
+												</div>						
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="incoPayType" value="미지급" required> 미지급												
+												</div>
+										</div>																		
+										
+										<div class="form-group row horizontal">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="incoCount">입고수량 * <span class="required"></span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="incoCount" name="incoCount" required="required" class="form-control ">
+											</div>
+											<div><label id="articlebigdan" style="font-size: medium; color: black;" class="control-label label-align"></label></div>
+										</div>
+										
+										<input type="hidden" id="incoVolumeSubtotal" name="incoVolumeSubtotal">
+										
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="incoTotal">입고금액 *
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="incoTotal" name="incoTotal" required="required" class="form-control">
+											</div>
+										</div>
+										
+										<input type="hidden" id="incoSupplyValue" name="incoSupplyValue">
+										<input type="hidden" id="incoTax" name="incoTax">
+																										
 										<div class="form-group row">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">입고 날짜 * </label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="birthday" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input name="incoDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -113,7 +127,6 @@
 												<button type="submit" class="btn btn-success">매출 등록</button>
 											</div>
 										</div>
-
 									</form>
 								</div>
 							</div>
@@ -145,6 +158,66 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script type="text/javascript">		
+		var incoVatType = $('#demo-form2').find("input[name='incoVatType']");
+		var incoPayType = $('#demo-form2').find("input[name='incoPayType']");
+		var incoTotal = $('#incoTotal');
+		var incoSupplyValue = $('#incoSupplyValue');
+		var incoTax = $('#incoTax');
+		
+		$(function(){
+			$('input[name="incoVatType"], #incoTotal').on('change keyup', function(){
+				console.log('이벤트발동');
+				var incoVatTypeValue =  $("input[name='incoVatType']:checked").val();
+				var incoTotalValue = Number(incoTotal.val());
+				var supplyValue = parseInt(incoTotalValue/1.1);
+				var tax = incoTotalValue-supplyValue;
+				console.log(incoTotalValue);
+				console.log(incoVatTypeValue);
+				if(incoVatTypeValue=='현금'||incoVatTypeValue=='카드'){
+					incoPayType.eq(0).prop("checked", true);
+					incoSupplyValue.val(supplyValue);
+					incoTax.val(tax);
+					console.log(supplyValue);
+					console.log(tax);
+				}else{
+					incoPayType.eq(0).prop("checked", false);
+					if(incoVatTypeValue=='세금계산서'){
+						incoSupplyValue.val(supplyValue);
+						incoTax.val(tax);
+						console.log(supplyValue);
+						console.log(tax);
+					}else{
+						incoSupplyValue.val(incoTotalValue);
+						incoTax.val(0);
+						console.log(incoSupplyValue.val());
+						console.log(incoTax.val());
+					}
+				}
+			})
+		})
+		
+		$(function(){
+			$('#articleCode').change(function(){
+				var articleBigDan = $('#articleCode').find("option:selected").data("big");
+				console.log(articleBigDan);
+				$('#articlebigdan').text(articleBigDan);
+				var articleVolume =  $('#articleCode').find("option:selected").data("volume");
+				console.log(articleVolume);
+				$('#incoCount').keyup(function(){
+					var incoCountValue = $('#incoCount').val();
+					var sum = articleVolume * incoCountValue;
+					console.log(sum);
+					$('#incoVolumeSubtotal').val(sum);
+				});
+			});
+		});
+		
+
+		
+	</script>
+	
 	</th:block>
 		
 </html>

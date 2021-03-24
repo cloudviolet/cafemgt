@@ -3,8 +3,10 @@ package com.cafemgt.dto;
 public class PurchasesDto {
 	private String incoCode;
 	private String storeInfoCode;
-	private String articleCode ;
+	private String articleCode;
+	private String articleName;
 	private String custCode;
+	private String custName;
 	private String incoVatType;
 	private String incoPayType;
 	private int incoTotal;
@@ -16,15 +18,15 @@ public class PurchasesDto {
 	private String incoStockGroupCode;
 	private String incoDate;
 	private String incoRegDate;
-	private String incoCheck;
+	private String incoDeadline;
 	private String incoSystemId;
 	private String incoSystemName;
-	private int detailvolCheck;
+	private int incoCheck;
 	
-	public String getInco_code() {
+	public String getIncoCode() {
 		return incoCode;
 	}
-	public void setInco_code(String incoCode) {
+	public void setIncoCode(String incoCode) {
 		this.incoCode = incoCode;
 	}
 	public String getStoreInfoCode() {
@@ -39,11 +41,23 @@ public class PurchasesDto {
 	public void setArticleCode(String articleCode) {
 		this.articleCode = articleCode;
 	}
+	public String getArticleName() {
+		return articleName;
+	}
+	public void setArticleName(String articleName) {
+		this.articleName = articleName;
+	}
 	public String getCustCode() {
 		return custCode;
 	}
 	public void setCustCode(String custCode) {
 		this.custCode = custCode;
+	}
+	public String getCustName() {
+		return custName;
+	}
+	public void setCustName(String custName) {
+		this.custName = custName;
 	}
 	public String getIncoVatType() {
 		return incoVatType;
@@ -111,11 +125,11 @@ public class PurchasesDto {
 	public void setIncoRegDate(String incoRegDate) {
 		this.incoRegDate = incoRegDate;
 	}
-	public String getIncoCheck() {
-		return incoCheck;
+	public String getIncoDeadline() {
+		return incoDeadline;
 	}
-	public void setIncoCheck(String incoCheck) {
-		this.incoCheck = incoCheck;
+	public void setIncoDeadline(String incoDeadline) {
+		this.incoDeadline = incoDeadline;
 	}
 	public String getIncoSystemId() {
 		return incoSystemId;
@@ -129,22 +143,22 @@ public class PurchasesDto {
 	public void setIncoSystemName(String incoSystemName) {
 		this.incoSystemName = incoSystemName;
 	}
-	public int getDetailvolCheck() {
-		return detailvolCheck;
+	public int getIncoCheck() {
+		return incoCheck;
 	}
-	public void setDetailvolCheck(int detailvolCheck) {
-		this.detailvolCheck = detailvolCheck;
+	public void setIncoCheck(int incoCheck) {
+		this.incoCheck = incoCheck;
 	}
-	
 	@Override
 	public String toString() {
 		return "PurchasesDto [incoCode=" + incoCode + ", storeInfoCode=" + storeInfoCode + ", articleCode="
-				+ articleCode + ", custCode=" + custCode + ", incoVatType=" + incoVatType + ", incoPayType="
-				+ incoPayType + ", incoTotal=" + incoTotal + ", incoCount=" + incoCount + ", incoVolumeSubtotal="
-				+ incoVolumeSubtotal + ", incoSupplyValue=" + incoSupplyValue + ", incoTax=" + incoTax
-				+ ", incoDealingGroupCode=" + incoDealingGroupCode + ", incoStockGroupCode=" + incoStockGroupCode
-				+ ", incoDate=" + incoDate + ", incoRegDate=" + incoRegDate + ", incoCheck=" + incoCheck
-				+ ", incoSystemId=" + incoSystemId + ", incoSystemName=" + incoSystemName + ", detailvolCheck="
-				+ detailvolCheck + "]";
+				+ articleCode + ", articleName=" + articleName + ", custCode=" + custCode + ", custName=" + custName
+				+ ", incoVatType=" + incoVatType + ", incoPayType=" + incoPayType + ", incoTotal=" + incoTotal
+				+ ", incoCount=" + incoCount + ", incoVolumeSubtotal=" + incoVolumeSubtotal + ", incoSupplyValue="
+				+ incoSupplyValue + ", incoTax=" + incoTax + ", incoDealingGroupCode=" + incoDealingGroupCode
+				+ ", incoStockGroupCode=" + incoStockGroupCode + ", incoDate=" + incoDate + ", incoRegDate="
+				+ incoRegDate + ", incoDeadline=" + incoDeadline + ", incoSystemId=" + incoSystemId
+				+ ", incoSystemName=" + incoSystemName + ", incoCheck=" + incoCheck + "]";
 	}
+	
 }

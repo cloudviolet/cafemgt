@@ -4,13 +4,15 @@ public class SalesDto {
 	private String salesCode;
 	private String storeInfoCode;
 	private String menuCode;
+	private String menuName;
 	private int salesCount;
 	private int salesTotal;
 	private int salesSupplyValue;
 	private int salesTax;
 	private String salesVatType;
 	private String salesPayType;
-	private String CustCode;
+	private String custCode;
+	private String custName;
 	private String salesDate; 
 	private String salesRegDate;
 	private String salesDeadline; 
@@ -37,6 +39,12 @@ public class SalesDto {
 	}
 	public void setMenuCode(String menuCode) {
 		this.menuCode = menuCode;
+	}
+	public String getMenuName() {
+		return menuName;
+	}
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
 	public int getSalesCount() {
 		return salesCount;
@@ -75,10 +83,16 @@ public class SalesDto {
 		this.salesPayType = salesPayType;
 	}
 	public String getCustCode() {
-		return CustCode;
+		return custCode;
 	}
 	public void setCustCode(String custCode) {
-		CustCode = custCode;
+		this.custCode = custCode;
+	}
+	public String getCustName() {
+		return custName;
+	}
+	public void setCustName(String custName) {
+		this.custName = custName;
 	}
 	public String getSalesDate() {
 		return salesDate;
@@ -128,15 +142,16 @@ public class SalesDto {
 	public void setSalesSystemName(String salesSystemName) {
 		this.salesSystemName = salesSystemName;
 	}
-	
 	@Override
 	public String toString() {
 		return "SalesDto [salesCode=" + salesCode + ", storeInfoCode=" + storeInfoCode + ", menuCode=" + menuCode
-				+ ", salesCount=" + salesCount + ", salesTotal=" + salesTotal + ", salesSupplyValue=" + salesSupplyValue
-				+ ", salesTax=" + salesTax + ", salesVatType=" + salesVatType + ", salesPayType=" + salesPayType
-				+ ", CustCode=" + CustCode + ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate
-				+ ", salesDeadline=" + salesDeadline + ", salesDealingGroupCode=" + salesDealingGroupCode
-				+ ", salesDeadlineCheck=" + salesDeadlineCheck + ", salesDaliyvolGroupCode=" + salesDaliyvolGroupCode
-				+ ", salesSystemId=" + salesSystemId + ", salesSystemName=" + salesSystemName + "]";
+				+ ", menuName=" + menuName + ", salesCount=" + salesCount + ", salesTotal=" + salesTotal
+				+ ", salesSupplyValue=" + salesSupplyValue + ", salesTax=" + salesTax + ", salesVatType=" + salesVatType
+				+ ", salesPayType=" + salesPayType + ", custCode=" + custCode + ", custName=" + custName
+				+ ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate + ", salesDeadline=" + salesDeadline
+				+ ", salesDealingGroupCode=" + salesDealingGroupCode + ", salesDeadlineCheck=" + salesDeadlineCheck
+				+ ", salesDaliyvolGroupCode=" + salesDaliyvolGroupCode + ", salesSystemId=" + salesSystemId
+				+ ", salesSystemName=" + salesSystemName + "]";
 	}
+	
 }

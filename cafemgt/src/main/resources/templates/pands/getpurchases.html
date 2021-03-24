@@ -23,27 +23,8 @@
 					 <div class="x_title">
 	                    <h2>매입 조회</h2>
 						<ul class="nav navbar-right panel_toolbox">
-							<li>
-								<a class="collapse-link">
-									<i class="fa fa-chevron-up"></i>
-								</a>
-							</li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle"	data-toggle="dropdown" role="button" aria-expanded="false">
-									<i class="fa fa-wrench"></i>
-								</a>
-									
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<a class="dropdown-item" href="#">Settings 1</a> 
-									<a class="dropdown-item" href="#">Settings 2</a>
-								</div>
-							</li>
-							<li>
-								<a class="close-link">
-									<i class="fa fa-close">
-									</i>
-								</a>
-							</li>
+							<li><a th:href="@{/purchasesdeadline}" class="btn btn-info">마감</a></li>
+							<li><a class="btn btn-info">전체마감</a></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -61,6 +42,7 @@
 												<th><input type="checkbox" id="check-all"></th>
 												<th>매입 유형</th>
 												<th>입고 수량</th>
+												<th>품목 명</th>
 												<th>거래처 명</th>
 												<th>공급 가액</th>
 												<th>공급 세액</th>
@@ -74,7 +56,8 @@
 												<td><input type="checkbox" id="check-all"></td>
 												<td th:text="${pl.incoVatType}"></td>
 												<td th:text="${pl.incoCount}"></td>
-												<td th:text="${pl.custCode}"></td>
+												<td th:text="${pl.articleName}"></td>
+												<td th:text="${pl.custName}"></td>
 												<td th:text="${pl.incoSupplyValue}"></td>
 												<td th:text="${pl.incoTax}"></td>
 												<td th:text="${pl.incoTotal}"></td>

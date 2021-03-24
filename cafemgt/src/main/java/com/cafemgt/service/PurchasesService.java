@@ -18,8 +18,16 @@ public class PurchasesService {
 		this.purchasesMapper = purchasesMapper;
 	}
 	
-	public List<PurchasesDto> getPurchases(){
-		List<PurchasesDto> purchasesList = purchasesMapper.getPurchases();
+	public List<PurchasesDto> getPurchasesByArticleCode(String SSTORECODE, String articleCode){
+		return purchasesMapper.getPurchasesByArticleCode(SSTORECODE, articleCode);
+	}
+	
+	public int addPurchases(PurchasesDto purchasesDto) {
+		return purchasesMapper.addPurchases(purchasesDto);
+	}
+	
+	public List<PurchasesDto> getPurchases(String SSTORECODE){
+		List<PurchasesDto> purchasesList = purchasesMapper.getPurchases(SSTORECODE);
 		return purchasesList;		
 	}
 }

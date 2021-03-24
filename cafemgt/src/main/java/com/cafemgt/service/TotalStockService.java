@@ -19,18 +19,21 @@ public class TotalStockService {
 		this.totalStockMapper= totalStockMapper;
 	}
 	
-	public List<TotalStockDto> getTotalStock(String sessionId) {
-		List<TotalStockDto> totalStockList = totalStockMapper.getTotalStock(sessionId);
+	public List<TotalStockDto> getTotalStock(String SSTORECODE) {
+		List<TotalStockDto> totalStockList = totalStockMapper.getTotalStock(SSTORECODE);
 		for(int i = 0 ; i < totalStockList.size(); i++) {
-			if(totalStockList.get(i).getDetailvolCheck() == 1) {
+			if(totalStockList.get(i).getIncoCheck() == 1) {
 				totalStockList.get(i).setDetailvolCheckString("사용전");
-			}else if(totalStockList.get(i).getDetailvolCheck() == 2) {
+			}else if(totalStockList.get(i).getIncoCheck() == 2) {
 				totalStockList.get(i).setDetailvolCheckString("사용중");
-			}else if(totalStockList.get(i).getDetailvolCheck() == 3) {
+			}else if(totalStockList.get(i).getIncoCheck() == 3) {
 				totalStockList.get(i).setDetailvolCheckString("사용완료");
 			}
 		}
 		return totalStockList;
+	}
+	public List<TotalStockDto> getTotalStockByIncoCode(String SSTORECODE, String articleCode){
+		return totalStockMapper.getTotalStockByIncoCode(SSTORECODE,articleCode);
 	}
 	
 }

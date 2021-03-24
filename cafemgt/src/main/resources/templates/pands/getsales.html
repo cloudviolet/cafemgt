@@ -22,29 +22,6 @@
 				<div class="x_panel">
 					 <div class="x_title">
 	                    <h2>매출 조회</h2>
-						<ul class="nav navbar-right panel_toolbox">
-							<li>
-								<a class="collapse-link">
-									<i class="fa fa-chevron-up"></i>
-								</a>
-							</li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle"	data-toggle="dropdown" role="button" aria-expanded="false">
-									<i class="fa fa-wrench"></i>
-								</a>
-									
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<a class="dropdown-item" href="#">Settings 1</a> 
-									<a class="dropdown-item" href="#">Settings 2</a>
-								</div>
-							</li>
-							<li>
-								<a class="close-link">
-									<i class="fa fa-close">
-									</i>
-								</a>
-							</li>
-						</ul>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
@@ -60,6 +37,7 @@
 											<tr>
 												<th><input type="checkbox" id="check-all"></th>
 												<th>매출 유형</th>
+												<th>판매 메뉴</th>
 												<th>판매 수량</th>
 												<th>거래처 명</th>
 												<th>공급 가액</th>
@@ -73,8 +51,9 @@
 											<tr th:if="${#lists.size(salesList)>0}" th:each="sl : ${salesList}">
 												<td><input type="checkbox" id="check-all"></td>
 												<td th:text="${sl.salesVatType}"></td>
+												<td th:text="${sl.menuName}"></td>
 												<td th:text="${sl.salesCount}"></td>
-												<td th:text="${sl.CustCode}"></td>
+												<td th:text="${sl.custName}"></td>
 												<td th:text="${sl.salesSupplyValue}"></td>
 												<td th:text="${sl.salesTax}"></td>
 												<td th:text="${sl.salesTotal}"></td>
