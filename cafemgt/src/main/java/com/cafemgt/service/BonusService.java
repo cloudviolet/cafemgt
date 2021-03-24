@@ -20,9 +20,14 @@ public class BonusService {
 		this.bonusMapper= bonusMapper;
 	}
 	
-	public List<BonusDto> getBonus(){
-		List<BonusDto> bonusDto = bonusMapper.getBonus();
+	public List<BonusDto> getBonus(String SSTORECODE){
+		List<BonusDto> bonusDto = bonusMapper.getBonus(SSTORECODE);
 		
 		return bonusDto;
+	}
+	
+	public int addBonus(BonusDto bonusDto) {
+		
+		return bonusMapper.addBonus(bonusDto);
 	}
 }

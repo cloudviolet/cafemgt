@@ -8,5 +8,7 @@ import com.cafemgt.dto.BonusDto;
 
 @Mapper
 public interface BonusMapper {
-	public List<BonusDto> getBonus();
+	public List<BonusDto> getBonus(String SSTORECODE);
+	
+	public int addBonus(BonusDto bonusDto);
 }

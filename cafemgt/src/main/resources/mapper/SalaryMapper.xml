@@ -8,8 +8,8 @@
 		<result property="salaryCode" 		column="salary_code"/>
 		<result property="storeInfoCode" 	column="store_info_code"/>
 		<result property="storeInfoName" 	column="store_info_name"/>
-		<result property="userId" 			column="user_id"/>
-		<result property="userName" 		column="user_name"/>
+		<result property="memberId"			column="member_id"/>
+		<result property="memberName" 		column="member_name"/>
 		<result property="salaryYearMonth"	column="salary_year_month"/>
 		<result property="salaryPay"		column="salary_pay"/>
 		<result property="salaryBtaxTotal" 	column="salary_btax_total"/>
@@ -33,8 +33,8 @@
 			slr.salary_code
 			,slr.store_info_code
 			,st.store_info_name
-			,slr.user_id
-			,us.user_name
+			,slr.member_id
+			,us.member_name
 			,slr.salary_year_month
 			,slr.salary_pay
 			,slr.salary_btax_total
@@ -58,9 +58,9 @@
 		ON
 			slr.store_info_code = st.store_info_code
 		LEFT JOIN
-			tb_user AS us
+			tb_member AS us
 		ON
-			slr.user_id=us.user_id
+			slr.member_id=us.member_id
 		LEFT JOIN
 			tb_insurance AS insu
 		ON

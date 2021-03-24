@@ -8,8 +8,8 @@
 		<result property="sdCode" 			column="sd_code"/>
 		<result property="storeInfoCode" 	column="store_info_code"/>
 		<result property="storeInfoName" 	column="store_info_name"/>
-		<result property="userId" 			column="user_id"/>
-		<result property="userName" 		column="user_name"/>
+		<result property="memberId" 		column="member_id"/>
+		<result property="memberName" 		column="member_name"/>
 		<result property="sdYearMonth"		column="sd_year_month"/>
 		<result property="sdWorktime"		column="sd_worktime"/>
 		<result property="sdPay" 			column="sd_pay"/>
@@ -29,8 +29,8 @@
 			ds.sd_code
 			,st.store_info_code
 			,st.store_info_name
-			,us.user_id
-			,us.user_name
+			,us.member_id
+			,us.member_name
 			,ds.sd_year_month
 			,ds.sd_worktime
 			,ds.sd_pay
@@ -50,9 +50,9 @@
 		ON
 			ds.store_info_code = st.store_info_code
 		LEFT JOIN
-			tb_user AS us
+			tb_member AS us
 		ON
-			ds.user_id=us.user_id
+			ds.member_id=us.member_id
 		LEFT JOIN
 			tb_income_tax_2021 AS intax
 		ON

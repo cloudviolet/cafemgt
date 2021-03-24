@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>사업주 조회</title>
+	<title>회원 조회</title>
 </th:block>
 
 <th:block layout:fragment="customCss">
@@ -21,7 +21,7 @@
 		<div class="col-md-12 col-sm-12 ">
 			<div class="x_panel">
 				 <div class="x_title">
-                    <h2>사업주 조회</h2>
+                    <h2>회원 조회</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li>
 							<a class="collapse-link">
@@ -60,20 +60,26 @@
 										<tr>
 											<th>아이디</th>
 											<th>이름</th>
+											<th>회원 구분</th>
+											<th>상호명</th>
 											<th>핸드폰 번호</th>
 											<th>이메일</th>
 											<th>생년월일</th>	
 											<th>등록날짜</th>
+											<th>상세</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="ol : ${ownerList}">
-											<td th:text="${ol.ownerId}">
-											<td th:text="${ol.ownerName}">	
-											<td th:text="${ol.ownerPhone}">
-											<td th:text="${ol.ownerEmail}">
-											<td th:text="${ol.ownerBirth}">
-											<td th:text="${ol.ownerRegDate}">
+										<tr th:each="ml : ${memberList}">
+											<td th:text="${ml.memberId}">
+											<td th:text="${ml.memberName}">								 		
+											<td th:text="${ml.levelName}">
+											<td th:text="${ml.storeInfoName}">
+											<td th:text="${ml.memberPhone}">
+											<td th:text="${ml.memberEmail}">
+											<td th:text="${ml.memberBirth}">
+											<td th:text="${ml.memberRegDate}">
+											<td th:text="${ml.memberEtc}">
 										</tr>
 									</tbody>
 								</table>								

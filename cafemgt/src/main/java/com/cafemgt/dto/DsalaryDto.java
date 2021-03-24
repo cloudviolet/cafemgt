@@ -4,8 +4,8 @@ public class DsalaryDto {
 	private String sdCode;
 	private String storeInfoCode;
 	private String storeInfoName;
-	private String userId;
-	private String userName;
+	private String memberId;
+	private String memberName;
 	private String sdYearMonth;
 	private String sdWorktime;
 	private int sdPay;
@@ -18,8 +18,6 @@ public class DsalaryDto {
 	private int sdReceipts;
 	private String sdPayDate;
 	private String sdRegDate;
-	
-	
 	public String getSdCode() {
 		return sdCode;
 	}
@@ -38,17 +36,17 @@ public class DsalaryDto {
 	public void setStoreInfoName(String storeInfoName) {
 		this.storeInfoName = storeInfoName;
 	}
-	public String getUserId() {
-		return userId;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getMemberName() {
+		return memberName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 	public String getSdYearMonth() {
 		return sdYearMonth;
@@ -131,6 +129,8 @@ public class DsalaryDto {
 		result = prime * result + intaxMax;
 		result = prime * result + intaxMin;
 		result = prime * result + intaxWork;
+		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
+		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((sdCode == null) ? 0 : sdCode.hashCode());
 		result = prime * result + sdDeduction;
 		result = prime * result + sdPay;
@@ -141,12 +141,8 @@ public class DsalaryDto {
 		result = prime * result + ((sdYearMonth == null) ? 0 : sdYearMonth.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
 		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
-	
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -168,6 +164,16 @@ public class DsalaryDto {
 		if (intaxMin != other.intaxMin)
 			return false;
 		if (intaxWork != other.intaxWork)
+			return false;
+		if (memberId == null) {
+			if (other.memberId != null)
+				return false;
+		} else if (!memberId.equals(other.memberId))
+			return false;
+		if (memberName == null) {
+			if (other.memberName != null)
+				return false;
+		} else if (!memberName.equals(other.memberName))
 			return false;
 		if (sdCode == null) {
 			if (other.sdCode != null)
@@ -210,29 +216,19 @@ public class DsalaryDto {
 				return false;
 		} else if (!storeInfoName.equals(other.storeInfoName))
 			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
 		return true;
 	}
-	
-	
 	@Override
 	public String toString() {
 		return "DsalaryDto [sdCode=" + sdCode + ", storeInfoCode=" + storeInfoCode + ", storeInfoName=" + storeInfoName
-				+ ", userId=" + userId + ", userName=" + userName + ", sdYearMonth=" + sdYearMonth + ", sdWorktime="
-				+ sdWorktime + ", sdPay=" + sdPay + ", intaxCode=" + intaxCode + ", intaxMin=" + intaxMin
-				+ ", intaxMax=" + intaxMax + ", intaxWork=" + intaxWork + ", intaxLocal=" + intaxLocal
+				+ ", memberId=" + memberId + ", memberName=" + memberName + ", sdYearMonth=" + sdYearMonth
+				+ ", sdWorktime=" + sdWorktime + ", sdPay=" + sdPay + ", intaxCode=" + intaxCode + ", intaxMin="
+				+ intaxMin + ", intaxMax=" + intaxMax + ", intaxWork=" + intaxWork + ", intaxLocal=" + intaxLocal
 				+ ", sdDeduction=" + sdDeduction + ", sdReceipts=" + sdReceipts + ", sdPayDate=" + sdPayDate
 				+ ", sdRegDate=" + sdRegDate + "]";
 	}
-
+	
+	
+	
 
 }
