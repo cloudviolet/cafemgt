@@ -21,6 +21,12 @@
 		<result property="dailyvolGroupCode"		column="dailyvol_group_code" />
 		<result property="dailyvolRelGroupCode"	 	column="dailyvol_rel_group_code" />
 	</resultMap>
+	<update id="modifyDailyVolDeadLine" parameterType="String">
+		UPDATE tb_daily_volume
+		SET
+			dailyvol_deadline_check='o'
+		WHERE dailyvol_code = #{dailyVolCode}
+	</update>
 	<select id="getDailyVol" parameterType="String" resultMap="DailyVolResultMap">
 		SELECT
 			 dv.dailyvol_code
@@ -63,6 +69,7 @@
 			 dv.dailyvol_code
 			,st.store_info_code
 			,st.store_info_name
+			,dv.sales_count
 			,a.article_code
 			,a.article_name
 			,SUM(dv.dailyvol_subtotal) AS 'dailyvol_subtotal' 

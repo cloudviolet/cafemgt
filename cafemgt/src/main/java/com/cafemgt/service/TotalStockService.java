@@ -36,4 +36,11 @@ public class TotalStockService {
 		return totalStockMapper.getTotalStockByIncoCode(SSTORECODE,articleCode);
 	}
 	
+	public int addTotalStockOverVolume(TotalStockDto totalStockDto) {
+		totalStockMapper.addTotalStockOverVolume(totalStockDto);
+		totalStockMapper.modifyTotalStockDeadLine(totalStockDto);
+		totalStockMapper.modifyIncoCheck(totalStockDto);
+		
+		return 0;
+	}
 }

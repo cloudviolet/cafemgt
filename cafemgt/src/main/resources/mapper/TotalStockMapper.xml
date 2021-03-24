@@ -7,7 +7,6 @@
 		<result property="detailvolCode" 			column="detailvol_code" />
 		<result property="storeInfoCode" 			column="store_info_code" />
 		<result property="storeInfoName" 			column="store_info_name" />
-		<result property="conCode" 					column="con_code" />
 		<result property="incoCode" 				column="inco_code" />
 		<result property="articleCode" 				column="article_code" />
 		<result property="articleName" 				column="article_name" />
@@ -51,12 +50,51 @@
 			<result property="incoCheck" 			column="inco_check" />
 		</association>
 	</resultMap>
+	<insert id="addTotalStockOverVolume" parameterType="TotalStockDto">
+		INSERT INTO tb_detail_volume
+			(detailvol_code
+			,store_info_code
+			,inco_code
+			,article_code
+			,detailvol_volume_total
+			,detailvol_final_total
+			,detailvol_con_count
+			,detailvol_remain_volume
+			,detailvol_remain_count
+			,detailvol_reg_date
+			,detailvol_deadline_check)
+		VALUES 
+			(sf_new_detailvol_code()
+			,#{storeInfoCode}
+			,#{incoCode}
+			,#{articleCode}
+			,${detailvolVolumeTotal}
+			,${detailvolFinalTotal}
+			,${detailvolConCount}
+			,${detailvolRemainVolume}
+			,${detailvolRemainCount}
+			,NOW()
+			,'x')
+	</insert>
+	<update id="modifyTotalStockDeadLine" parameterType="TotalStockDto">
+		UPDATE tb_detail_volume
+		SET
+			detailvol_deadline_check='o'
+		WHERE 
+			detailvol_code = #{detailvolCode}
+	</update>
+	<update id="modifyIncoCheck" parameterType="TotalStockDto">
+		UPDATE tb_incoming
+		SET
+			inco_check='3'
+		WHERE 
+			inco_code = #{incoCode}
+	</update>
 	<select id="getTotalStock" parameterType="String" resultMap="TotalStockResultMap">
 		SELECT 
 			 dtv.detailvol_code
 			,st.store_info_code
 			,st.store_info_name
-			,c.con_code
 			,inc.inco_code
 			,inc.article_code
 			,ar.article_name
@@ -83,10 +121,6 @@
 			tb_store_info AS st
 			on
 			dtv.store_info_code = st.store_info_code
-			LEFT join
-			tb_consumption AS c
-			ON 
-			dtv.con_code = c.con_code
 			LEFT join
 			tb_incoming AS inc
 			ON 
@@ -103,7 +137,6 @@
 			 dtv.detailvol_code
 			,st.store_info_code
 			,st.store_info_name
-			,c.con_code
 			,inc.inco_code
 			,inc.article_code
 			,ar.article_name
@@ -131,10 +164,6 @@
 			on
 			dtv.store_info_code = st.store_info_code
 			LEFT join
-			tb_consumption AS c
-			ON 
-			dtv.con_code = c.con_code
-			LEFT join
 			tb_incoming AS inc
 			ON 
 			dtv.inco_code = inc.inco_code
@@ -146,6 +175,7 @@
 			st.store_info_code = #{SSTORECODE}
 			AND
 			ar.article_code = #{articleCode}
-
+			AND
+			dtv.detailvol_deadline_check = 'x'			
 	</select>
 </mapper>

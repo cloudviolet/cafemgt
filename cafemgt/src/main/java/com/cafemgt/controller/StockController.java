@@ -109,7 +109,7 @@ public class StockController {
 		model.addAttribute("dailyVolList",dailyVolList);
 		return "stock/getdailyvol";
 	}
-	
+
 	@GetMapping("/getdailyvolDeadLine")
 	public String getDailyVolDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -118,6 +118,77 @@ public class StockController {
 		model.addAttribute("dailyVolDeadLineList",dailyVolDeadLineList);
 		model.addAttribute("purchasesDtoList",purchasesDtoList);
 		return "stock/getdailyvolDeadLine";
+	}
+	/* 이거  */
+	@PostMapping("/getdailyvolDeadLine")
+	public String getDailyVolDeadLine(
+									  @RequestParam (value="volumeTotal", required = false) int volumeTotal
+									 ,@RequestParam (value="salesTotal", required = false) int salesTotal
+									 ,DailyVolDto dailyVolDto
+									 ,TotalStockDto totalStockDto) {
+		
+		int incoCheck = totalStockDto.getIncoCheck();
+		int articleVolume = totalStockDto.getArticleVolume();
+		int dtvVolumeTotal = totalStockDto.getDetailvolVolumeTotal();
+		int div = dtvVolumeTotal/articleVolume;
+
+		
+		System.out.println(div);
+		if(volumeTotal >= 0) {
+			/* 소모량이 잔여량보다 작음 
+			 * detailvol에 소모량(volumeTotal) insert
+			 * incoCheck 2단계로
+			 * */
+			
+			if(incoCheck == 1) {
+				/* 1이면 입고용량에서 빼기 */
+				if(div > totalStockDto.getIncoCount() ) {
+					//소모수량이 입고수량보다 클 경우  div를 입고용량으로
+					div = totalStockDto.getIncoCount();
+				}
+				
+			}else if(incoCheck == 2){
+				/* 2이면 잔여용량에서 빼기*/
+				if(div > totalStockDto.getDetailvolRemainCount()) {
+					//소모수량이 잔여수량보다 클 경우 div를 잔여용량으로
+					div = totalStockDto.getDetailvolRemainCount();
+				}
+				
+			}
+			
+		}else {
+			/* 소모량이 잔여량보다 큼
+			 * dailyvol에 -된만큼 insert
+			 * detailvol에 소모량(volumeTotal) insert
+			 * incoCheck에 단계 3으로
+			 * */
+			if(incoCheck == 1) {
+				/* 1이면 입고용량에서 빼기 */
+				if(div > totalStockDto.getIncoCount() ) {
+					//소모수량이 입고수량보다 클 경우  div를 입고용량으로
+					div = totalStockDto.getIncoCount();
+				}
+				
+			}else if(incoCheck == 2){
+				/* 2이면 잔여용량에서 빼기*/
+				if(div > totalStockDto.getDetailvolRemainCount()) {
+					//소모수량이 잔여수량보다 클 경우 div를 잔여용량으로
+					div = totalStockDto.getDetailvolRemainCount();
+				}
+				totalStockDto.setDetailvolConCount(div);
+				totalStockDto.setDetailvolVolumeTotal(totalStockDto.getDetailvolRemainVolume());
+				totalStockDto.setDetailvolRemainVolume(0);
+				totalStockDto.setDetailvolRemainCount(0);
+				
+			}else {
+				System.out.println("예상치 못한 에러");
+			}
+			System.out.println(dailyVolDto);
+			//totalStockService.addTotalStockOverVolume(totalStockDto);
+			volumeTotal = (volumeTotal * -1);
+		}
+		
+		return "redirect:/getdailyvolDeadLine";
 	}
 	
 	@GetMapping("/gettotalstock")

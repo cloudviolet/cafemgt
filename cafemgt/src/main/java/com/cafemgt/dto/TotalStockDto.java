@@ -6,7 +6,6 @@ public class TotalStockDto {
 	private String	detailvolCode;
 	private String	storeInfoCode;
 	private String 	storeInfoName;
-	private String 	conCode;
 	private String 	incoCode;
 	private String 	articleCode;
 	private String 	articleName;
@@ -53,12 +52,6 @@ public class TotalStockDto {
 	}
 	public void setStoreInfoName(String storeInfoName) {
 		this.storeInfoName = storeInfoName;
-	}
-	public String getConCode() {
-		return conCode;
-	}
-	public void setConCode(String conCode) {
-		this.conCode = conCode;
 	}
 	public String getIncoCode() {
 		return incoCode;
@@ -195,8 +188,6 @@ public class TotalStockDto {
 		builder.append(storeInfoCode);
 		builder.append(", storeInfoName=");
 		builder.append(storeInfoName);
-		builder.append(", conCode=");
-		builder.append(conCode);
 		builder.append(", incoCode=");
 		builder.append(incoCode);
 		builder.append(", articleCode=");

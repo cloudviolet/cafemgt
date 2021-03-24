@@ -28,4 +28,14 @@ public class DailyVolService {
 		return dailyVolMapper.getDailyVolDeadLine(SSTORECODE);
 	}
 	
+	public int addDailyVolDeadLine(DailyVolDto dailyVolDto) {
+		dailyVolMapper.addDailyVolDeadLine(dailyVolDto);
+		return 0;
+	}
+	
+	public int modifyDailyVolDeadLine(String dailyVolCode) {
+		dailyVolMapper.modifyDailyVolDeadLine(dailyVolCode);
+		return 0;
+	}
+	
 }
