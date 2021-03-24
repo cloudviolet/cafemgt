@@ -4,15 +4,13 @@ public class WtimeDto {
 	private String attCode;
 	private String storeInfoCode;
 	private String storeInfoName;
-	private String userId;
-	private String userName;
+	private String memberId;
+	private String memberName;
 	private String attDate;
 	private String attStart;
 	private String attEnd;
 	private String attTodailyTime;
 	private String attRegDate;
-	
-	
 	public String getAttCode() {
 		return attCode;
 	}
@@ -31,17 +29,17 @@ public class WtimeDto {
 	public void setStoreInfoName(String storeInfoName) {
 		this.storeInfoName = storeInfoName;
 	}
-	public String getUserId() {
-		return userId;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getMemberName() {
+		return memberName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 	public String getAttDate() {
 		return attDate;
@@ -73,7 +71,6 @@ public class WtimeDto {
 	public void setAttRegDate(String attRegDate) {
 		this.attRegDate = attRegDate;
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -84,13 +81,12 @@ public class WtimeDto {
 		result = prime * result + ((attRegDate == null) ? 0 : attRegDate.hashCode());
 		result = prime * result + ((attStart == null) ? 0 : attStart.hashCode());
 		result = prime * result + ((attTodailyTime == null) ? 0 : attTodailyTime.hashCode());
+		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
+		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
 		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -130,6 +126,16 @@ public class WtimeDto {
 				return false;
 		} else if (!attTodailyTime.equals(other.attTodailyTime))
 			return false;
+		if (memberId == null) {
+			if (other.memberId != null)
+				return false;
+		} else if (!memberId.equals(other.memberId))
+			return false;
+		if (memberName == null) {
+			if (other.memberName != null)
+				return false;
+		} else if (!memberName.equals(other.memberName))
+			return false;
 		if (storeInfoCode == null) {
 			if (other.storeInfoCode != null)
 				return false;
@@ -140,25 +146,17 @@ public class WtimeDto {
 				return false;
 		} else if (!storeInfoName.equals(other.storeInfoName))
 			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
 		return true;
 	}
-	
 	@Override
 	public String toString() {
 		return "WtimeDto [attCode=" + attCode + ", storeInfoCode=" + storeInfoCode + ", storeInfoName=" + storeInfoName
-				+ ", userId=" + userId + ", userName=" + userName + ", attDate=" + attDate + ", attStart=" + attStart
-				+ ", attEnd=" + attEnd + ", attTodailyTime=" + attTodailyTime + ", attRegDate=" + attRegDate + "]";
+				+ ", memberId=" + memberId + ", memberName=" + memberName + ", attDate=" + attDate + ", attStart="
+				+ attStart + ", attEnd=" + attEnd + ", attTodailyTime=" + attTodailyTime + ", attRegDate=" + attRegDate
+				+ "]";
 	}
+	
+	
 	
 	
 	

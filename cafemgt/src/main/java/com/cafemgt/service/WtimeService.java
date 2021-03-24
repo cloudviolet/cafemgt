@@ -20,9 +20,14 @@ public class WtimeService {
 		this.wtimeMapper= wtimeMapper;
 	}
 	
-	public List<WtimeDto> getWtime(){
-		List<WtimeDto> wtimeDto = wtimeMapper.getWtime();
+	public List<WtimeDto> getWtime(String SSTORECODE){
+		List<WtimeDto> wtimeDto = wtimeMapper.getWtime(SSTORECODE);
 		
 		return wtimeDto;
+	}
+	
+	public int addWtime(WtimeDto wtimeDto) {
+			
+		return wtimeMapper.addWtime(wtimeDto);
 	}
 }

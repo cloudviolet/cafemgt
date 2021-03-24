@@ -8,5 +8,7 @@ import com.cafemgt.dto.WtimeDto;
 
 @Mapper
 public interface WtimeMapper {
-	public List<WtimeDto> getWtime();
+	public List<WtimeDto> getWtime(String SSTORECODE);
+	
+	public int addWtime(WtimeDto wtimeDto);
 }

@@ -4,8 +4,8 @@ public class BonusDto {
 	private String ubCode;
 	private String storeInfoCode;
 	private String storeInfoName;
-	private String userId;
-	private String userName;
+	private String memberId;
+	private String memberName;
 	private String ubYearMonth;
 	private String btaxCode;
 	private String btaxOption;
@@ -13,7 +13,6 @@ public class BonusDto {
 	private int ubPay;
 	private String ubEtc;
 	private String ubRegDate;
-	
 	
 	public String getUbCode() {
 		return ubCode;
@@ -33,17 +32,17 @@ public class BonusDto {
 	public void setStoreInfoName(String storeInfoName) {
 		this.storeInfoName = storeInfoName;
 	}
-	public String getUserId() {
-		return userId;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getMemberName() {
+		return memberName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 	public String getUbYearMonth() {
 		return ubYearMonth;
@@ -87,7 +86,6 @@ public class BonusDto {
 	public void setUbRegDate(String ubRegDate) {
 		this.ubRegDate = ubRegDate;
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -95,6 +93,8 @@ public class BonusDto {
 		result = prime * result + ((btaxCate == null) ? 0 : btaxCate.hashCode());
 		result = prime * result + ((btaxCode == null) ? 0 : btaxCode.hashCode());
 		result = prime * result + ((btaxOption == null) ? 0 : btaxOption.hashCode());
+		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
+		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
 		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
 		result = prime * result + ((ubCode == null) ? 0 : ubCode.hashCode());
@@ -102,11 +102,8 @@ public class BonusDto {
 		result = prime * result + ubPay;
 		result = prime * result + ((ubRegDate == null) ? 0 : ubRegDate.hashCode());
 		result = prime * result + ((ubYearMonth == null) ? 0 : ubYearMonth.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -130,6 +127,16 @@ public class BonusDto {
 			if (other.btaxOption != null)
 				return false;
 		} else if (!btaxOption.equals(other.btaxOption))
+			return false;
+		if (memberId == null) {
+			if (other.memberId != null)
+				return false;
+		} else if (!memberId.equals(other.memberId))
+			return false;
+		if (memberName == null) {
+			if (other.memberName != null)
+				return false;
+		} else if (!memberName.equals(other.memberName))
 			return false;
 		if (storeInfoCode == null) {
 			if (other.storeInfoCode != null)
@@ -163,26 +170,17 @@ public class BonusDto {
 				return false;
 		} else if (!ubYearMonth.equals(other.ubYearMonth))
 			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
 		return true;
 	}
-	
 	@Override
 	public String toString() {
 		return "BonusDto [ubCode=" + ubCode + ", storeInfoCode=" + storeInfoCode + ", storeInfoName=" + storeInfoName
-				+ ", userId=" + userId + ", userName=" + userName + ", ubYearMonth=" + ubYearMonth + ", btaxCode="
-				+ btaxCode + ", btaxOption=" + btaxOption + ", btaxCate=" + btaxCate + ", ubPay=" + ubPay + ", ubEtc="
-				+ ubEtc + ", ubRegDate=" + ubRegDate + "]";
+				+ ", memberId=" + memberId + ", memberName=" + memberName + ", ubYearMonth=" + ubYearMonth
+				+ ", btaxCode=" + btaxCode + ", btaxOption=" + btaxOption + ", btaxCate=" + btaxCate + ", ubPay="
+				+ ubPay + ", ubEtc=" + ubEtc + ", ubRegDate=" + ubRegDate + "]";
 	}
+	
+	
 
 	
 }
