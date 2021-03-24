@@ -48,8 +48,8 @@ public class MemberService {
 		
 	}
 	
-	public List<MemberDto> getMember(String memberId){
-		List<MemberDto> memberDtolist = memberMapper.getMember(memberId);
+	public List<MemberDto> getMember(String MID){
+		List<MemberDto> memberDtolist = memberMapper.getMember(MID);
 		
 		return memberDtolist;	
 	}

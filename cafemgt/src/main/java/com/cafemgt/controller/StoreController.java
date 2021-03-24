@@ -75,7 +75,7 @@ public class StoreController {
 				  System.out.println(storeInfoCode);
 				  
 				  session.setAttribute("MID", memberDto.getMemberId());
-				  session.setAttribute("MNAME", memberDto.getMemberName());				 
+				  session.setAttribute("MNAME", memberDto.getMemberName());				 		 
 				  session.setAttribute("SSTORECODE", storeInfoCode);				 
 			}		
 			return "redirect:/";			
