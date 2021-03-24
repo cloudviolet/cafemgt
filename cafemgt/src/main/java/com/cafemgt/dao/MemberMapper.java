@@ -13,7 +13,7 @@ public interface MemberMapper {
 	
 	public MemberDto getinfoMember(String memberId);
 	
-	public List<MemberDto> getMember(String memberId);
+	public List<MemberDto> getMember(String MID);
 	
 
 }

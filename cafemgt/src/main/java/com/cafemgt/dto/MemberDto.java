@@ -5,10 +5,15 @@ public class MemberDto {
 	private String memberPw;
 	private String memberName;
 	private String levelCode;
+	private String levelName;
+	private String storeInfoCode;
+	private String storeInfoName;
 	private String memberPhone;
 	private String memberEmail;
 	private String memberBirth;
 	private String memberRegDate;
+	private String memberEtc;
+	
 	public String getMemberId() {
 		return memberId;
 	}
@@ -32,6 +37,24 @@ public class MemberDto {
 	}
 	public void setLevelCode(String levelCode) {
 		this.levelCode = levelCode;
+	}
+	public String getLevelName() {
+		return levelName;
+	}
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
+	}
+	public String getStoreInfoCode() {
+		return storeInfoCode;
+	}
+	public void setStoreInfoCode(String storeInfoCode) {
+		this.storeInfoCode = storeInfoCode;
+	}
+	public String getStoreInfoName() {
+		return storeInfoName;
+	}
+	public void setStoreInfoName(String storeInfoName) {
+		this.storeInfoName = storeInfoName;
 	}
 	public String getMemberPhone() {
 		return memberPhone;
@@ -57,40 +80,28 @@ public class MemberDto {
 	public void setMemberRegDate(String memberRegDate) {
 		this.memberRegDate = memberRegDate;
 	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MemberDto [memberId=");
-		builder.append(memberId);
-		builder.append(", memberPw=");
-		builder.append(memberPw);
-		builder.append(", memberName=");
-		builder.append(memberName);
-		builder.append(", levelCode=");
-		builder.append(levelCode);
-		builder.append(", memberPhone=");
-		builder.append(memberPhone);
-		builder.append(", memberEmail=");
-		builder.append(memberEmail);
-		builder.append(", memberBirth=");
-		builder.append(memberBirth);
-		builder.append(", memberRegDate=");
-		builder.append(memberRegDate);
-		builder.append("]");
-		return builder.toString();
+	public String getMemberEtc() {
+		return memberEtc;
+	}
+	public void setMemberEtc(String memberEtc) {
+		this.memberEtc = memberEtc;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((levelCode == null) ? 0 : levelCode.hashCode());
+		result = prime * result + ((levelName == null) ? 0 : levelName.hashCode());
 		result = prime * result + ((memberBirth == null) ? 0 : memberBirth.hashCode());
 		result = prime * result + ((memberEmail == null) ? 0 : memberEmail.hashCode());
+		result = prime * result + ((memberEtc == null) ? 0 : memberEtc.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((memberPhone == null) ? 0 : memberPhone.hashCode());
 		result = prime * result + ((memberPw == null) ? 0 : memberPw.hashCode());
 		result = prime * result + ((memberRegDate == null) ? 0 : memberRegDate.hashCode());
+		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
+		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
 		return result;
 	}
 	@Override
@@ -107,6 +118,11 @@ public class MemberDto {
 				return false;
 		} else if (!levelCode.equals(other.levelCode))
 			return false;
+		if (levelName == null) {
+			if (other.levelName != null)
+				return false;
+		} else if (!levelName.equals(other.levelName))
+			return false;
 		if (memberBirth == null) {
 			if (other.memberBirth != null)
 				return false;
@@ -116,6 +132,11 @@ public class MemberDto {
 			if (other.memberEmail != null)
 				return false;
 		} else if (!memberEmail.equals(other.memberEmail))
+			return false;
+		if (memberEtc == null) {
+			if (other.memberEtc != null)
+				return false;
+		} else if (!memberEtc.equals(other.memberEtc))
 			return false;
 		if (memberId == null) {
 			if (other.memberId != null)
@@ -142,7 +163,47 @@ public class MemberDto {
 				return false;
 		} else if (!memberRegDate.equals(other.memberRegDate))
 			return false;
+		if (storeInfoCode == null) {
+			if (other.storeInfoCode != null)
+				return false;
+		} else if (!storeInfoCode.equals(other.storeInfoCode))
+			return false;
+		if (storeInfoName == null) {
+			if (other.storeInfoName != null)
+				return false;
+		} else if (!storeInfoName.equals(other.storeInfoName))
+			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MemberDto [memberId=");
+		builder.append(memberId);
+		builder.append(", memberPw=");
+		builder.append(memberPw);
+		builder.append(", memberName=");
+		builder.append(memberName);
+		builder.append(", levelCode=");
+		builder.append(levelCode);
+		builder.append(", levelName=");
+		builder.append(levelName);
+		builder.append(", storeInfoCode=");
+		builder.append(storeInfoCode);
+		builder.append(", storeInfoName=");
+		builder.append(storeInfoName);
+		builder.append(", memberPhone=");
+		builder.append(memberPhone);
+		builder.append(", memberEmail=");
+		builder.append(memberEmail);
+		builder.append(", memberBirth=");
+		builder.append(memberBirth);
+		builder.append(", memberRegDate=");
+		builder.append(memberRegDate);
+		builder.append(", memberEtc=");
+		builder.append(memberEtc);
+		builder.append("]");
+		return builder.toString();
 	}
 	
 }
