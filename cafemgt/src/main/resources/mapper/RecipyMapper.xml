@@ -14,6 +14,31 @@
 		<result property="conVolume" 		column="con_volume" />
 		<result property="conDan" 			column="con_dan" />
 	</resultMap>
+	<select id="getRecipyByConCode" parameterType="String" resultMap="recipyResultMap">
+		SELECT
+			 c.con_code
+		 	,st.store_info_code
+			,st.store_info_name
+			,m.menu_code
+			,m.menu_name
+			,c.article_code
+			,a.article_name
+			,c.con_volume
+			,c.con_dan
+		FROM
+			tb_consumption c
+			LEFT join
+			tb_menu m
+			ON c.menu_code = m.menu_code
+			LEFT JOIN
+			tb_store_info st
+			ON m.store_info_code = st.store_info_code
+			LEFT JOIN
+			tb_article a
+			ON c.article_code = a.article_code
+		WHERE
+			c.con_code= #{conCode}
+	</select>
 	<select id="getRecipy" parameterType="String" resultMap="recipyResultMap">
 		SELECT
 			 c.con_code
@@ -38,7 +63,6 @@
 			ON c.article_code = a.article_code
 		WHERE
 			st.store_info_code= #{SSTORECODE}
-		
 	</select>
 	<insert id="addRecipy" parameterType="RecipyDto">
 		INSERT INTO tb_consumption
@@ -56,4 +80,13 @@
 			,${conVolume}
 			,#{conDan})
 	</insert>
+	<update id="modifyRecipy" parameterType="RecipyDto">
+		UPDATE tb_consumption
+		SET
+			 menu_code=#{menuCode}
+			,article_code=#{articleCode}
+			,con_volume=${conVolume}
+			,con_dan=#{conDan}
+		WHERE con_code=#{conCode}
+	</update>
 </mapper>

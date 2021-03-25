@@ -118,7 +118,7 @@
 								<select class="form-control" id="selectInco" required="required">
 								<!-- option = ajax 실행결과값 -->	
 								</select>
-								<input type="text" name="storeInfoCode" th:value="${session.SSTORECODE}">
+								<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 								<div class="modal-body-text">
 									<div>
 									<!-- 스크립트에서 option 선택값 가져옴 -->
@@ -157,11 +157,19 @@
 		<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
 		<script>
 			$('.deadLineBtn').click(function(){
+				var deadLineBtn = $('.deadLineBtn');
+				for(var j = 0 ; j < deadLineBtn.length; j++){
+					deadLineBtn.eq(j).attr('data-index',j);
+				}
+			});
+				
+			$('.deadLineBtn').click(function(){
 				var selectInco = $('#selectInco');
 				var articleCode = $(this).attr('value');
 				var modalBody = $('.modal-body-text');
 				var deadLineBtn =$(this).attr('data-index');
-				
+		
+				console.log(deadLineBtn);
 				var request = $.ajax({
 					url: "getIncomeList", 
 					method: "POST",
@@ -212,7 +220,7 @@
 									
 									/* 사용 용량 */
 									+'<div class="form-group row horizontal">'
-									+'<label class="col-form-label label-align input-label">사용수량 * <span class="required"></span>	</label>'
+									+'<label class="col-form-label label-align input-label">사용용량 * <span class="required"></span>	</label>'
 									+'<div class="col-md-9 col-sm-9 ">'
 									+'<input type="text" name="detailvolVolumeTotal" readonly="readonly" value="'+dailySubtotal.eq(deadLineBtn).text()+'" class="form-control ">'
 									+'</div>'
@@ -220,15 +228,14 @@
 									+'</div>'
 									
 									/* 데이터를 위한 */
-									+'<input type="text" name="volumeTotal" readonly="readonly" value="'		 +(data[inum].detailvolRemainVolume-dailySubtotal.eq(deadLineBtn).text())+'" class="form-control ">'
 									+'<input type="text" name="incoCode" readonly="readonly" value="'			 +data[inum].incoCode+'" class="form-control ">'
 									+'<input type="text" name="articleCode" readonly="readonly" value="'		 +data[inum].articleCode+'" class="form-control ">'
-									+'<input type="text" name="detailvolFinalTotal" readonly="readonly" value="' +data[inum].detailvolFinalTotal+'" class="form-control ">'
 									+'<input type="text" name="incoCheck" readonly="readonly" value="'			 +data[inum].incoCheck+'" class="form-control ">'
 									+'<input type="text" name="incoCount" readonly="readonly" value="'			 +data[inum].incoCount+'" class="form-control ">'
 									+'<input type="text" name="articleVolume" readonly="readonly" value="'		 +(data[inum].incoVolumeSubtotal/data[inum].incoCount)+'" class="form-control ">'
 									+'<input type="text" name="detailvolRemainCount" readonly="readonly" value="'+data[inum].detailvolRemainCount+'" class="form-control ">'
 									+'<input type="text" name="detailvolCode" readonly="readonly" value="'		 +data[inum].detailvolCode+'" class="form-control ">'
+									+'<input type="text" name="volumeTotal" readonly="readonly" value="'		 +(data[inum].detailvolRemainVolume-dailySubtotal.eq(deadLineBtn).text())+'" class="form-control ">'
 									+'<input type="text" name="dailyvolCode" readonly="readonly" value="'		 +dailyVolCode.eq(deadLineBtn).text()+'" class="form-control ">'
 									+'<input type="text" name="salesCount" readonly="readonly" value="'			 +salesCount.eq(deadLineBtn).text()+'" class="form-control ">'
 									

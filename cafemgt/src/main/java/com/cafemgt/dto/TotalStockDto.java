@@ -15,7 +15,6 @@ public class TotalStockDto {
 	private int 	incoVolumeSubtotal;
 	private String 	detailvolGroupCode;
 	private int 	detailvolVolumeTotal;
-	private int 	detailvolFinalTotal;
 	private int 	detailvolConCount;
 	private int 	detailvolRemainVolume;
 	private int 	detailvolRemainCount;
@@ -106,12 +105,6 @@ public class TotalStockDto {
 	}
 	public void setDetailvolVolumeTotal(int detailvolVolumeTotal) {
 		this.detailvolVolumeTotal = detailvolVolumeTotal;
-	}
-	public int getDetailvolFinalTotal() {
-		return detailvolFinalTotal;
-	}
-	public void setDetailvolFinalTotal(int detailvolFinalTotal) {
-		this.detailvolFinalTotal = detailvolFinalTotal;
 	}
 	public int getDetailvolConCount() {
 		return detailvolConCount;
@@ -206,8 +199,6 @@ public class TotalStockDto {
 		builder.append(detailvolGroupCode);
 		builder.append(", detailvolVolumeTotal=");
 		builder.append(detailvolVolumeTotal);
-		builder.append(", detailvolFinalTotal=");
-		builder.append(detailvolFinalTotal);
 		builder.append(", detailvolConCount=");
 		builder.append(detailvolConCount);
 		builder.append(", detailvolRemainVolume=");

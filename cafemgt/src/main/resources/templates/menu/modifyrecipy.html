@@ -4,14 +4,127 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-		<title>메뉴 수정 </title>
+		<title>메뉴 레시피 수정</title>
 	</th:block>
-
+	
+	<th:block layout:fragment="customCss">
+		<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
+	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-		
+			<div class="row">
+				<div class="col-md-12 col-sm-12 ">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>메뉴 레시피 수정 </h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<br />
+							<form id="demo-form2" th:action="@{/modifyRecipy}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 label-align">메뉴 명 <span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 ">
+										<select class="form-control" name="menuCode" required="required" id="menuCode">
+											<th:block th:each="ml : ${menuList}">
+												<option th:value="${ml.menuCode}" th:text="${ml.menuName}"></option>
+											</th:block>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 label-align">메뉴 소모 품목 명 <span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 ">
+										<select class="form-control" name="articleCode" required="required" id="articleCode">
+											<th:block th:each="al : ${articleList}">
+												<option th:value="${al.articleCode}" th:text="${al.articleName}"></option>
+											</th:block>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="articleName">소모 용량 <span class="required">*</span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="hidden" name="conCode" 	th:value="${recipyDto.conCode}" >
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}" >
+										<input type="text" 	 name="conVolume" th:value="${recipyDto.conVolume}" class="form-control" >
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 label-align">단위 *</label>
+									<div class="col-md-6 col-sm-6 ">
+										<select class="form-control" name="conDan" required="required" id="conDan">
+											<th:block th:each="rl : ${recipyList}">
+												<option th:value="${rl.conDan}" th:text="${rl.conDan}"></option>
+											</th:block>
+										</select>
+									</div>
+								</div>
+								<div class="ln_solid"></div>
+								<div class="form-group row">
+									<div class="col-md-6 col-sm-6 offset-sm-3 text-center">
+										<button class="btn btn-primary" type="button">Cancel</button>
+										<button class="btn btn-primary" type="reset">Reset</button>
+										<button class="btn btn-success" type="submit" >Submit</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-
 	</th:block>
-
+	
+	<th:block layout:fragment="customJs">
+		<!-- Select2 -->
+		<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+		<!-- Parsley 여기 required 값 바꿀수 있음 parsley.min.js -> parsley.js 바꿔야함 -->
+		<script th:src="@{/vendors/parsleyjs/dist/parsley.js}"></script>
+		<!-- Autosize -->
+		<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+		<!-- jQuery autocomplete -->
+		<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+		
+		<script>
+			var getMenuCodeVal = '[[${recipyDto.menuCode}]]';
+			var getArticleCodeVal = '[[${recipyDto.articleCode}]]';
+			var getConDanVal = '[[${recipyDto.conDan}]]';
+			var menuCode = $('#menuCode').children();
+			var articleCode = $('#articleCode').children();
+			var conDan = $('#conDan').children();
+			console.log(getArticleCodeVal);
+			console.log(articleCode.length);
+ 			for(var i = 0 ; i < menuCode.length ; i++){
+				if(menuCode.eq(i).val()==getMenuCodeVal){
+					menuCode.eq(i).attr("selected","selected");
+					break;
+				}
+			}
+			for(var j = 0 ; j < articleCode.length ; j++){
+				if(articleCode.eq(j).val()==getArticleCodeVal){
+					articleCode.eq(j).attr("selected","selected");
+					break;
+				}
+			}
+			for(var k = 0 ; k < conDan.length ; k++){
+				if(conDan.eq(k).val()==getConDanVal){
+					conDan.eq(k).attr("selected","selected");
+					break;
+				}				
+			}
+		</script>
+	</th:block>
+		
 </html>

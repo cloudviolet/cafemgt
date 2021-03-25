@@ -50,6 +50,7 @@
 												<th>소모량</th>
 												<th>소모단위</th>
 												<th>수정</th>
+												<th>삭제</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -63,6 +64,10 @@
 												<td th:text="${rl.articleName}"></td>
 												<td th:text="${rl.conVolume}"></td>
 												<td th:text="${rl.conDan}"></td>
+												<td>
+													<a class="btn btn-primary btn-sm" th:href="@{modifyRecipy(conCode=${rl.conCode})}">수정</a>
+
+												</td>
 												<td>
 													<button type="button" class="btn btn-link">asd</button>
 												</td>

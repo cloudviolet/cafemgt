@@ -16,7 +16,6 @@
 		<result property="incoVolumeSubtotal" 		column="inco_volume_subtotal" />
 		<result property="detailvolGroupCode" 		column="detailvol_group_code" />
 		<result property="detailvolVolumeTotal" 	column="detailvol_volume_total" />
-		<result property="detailvolFinalTotal" 		column="detailvol_final_total" />
 		<result property="detailvolConCount" 		column="detailvol_con_count" />
 		<result property="detailvolRemainVolume" 	column="detailvol_remain_volume" />
 		<result property="detailvolRemainCount" 	column="detailvol_remain_count" />
@@ -57,7 +56,6 @@
 			,inco_code
 			,article_code
 			,detailvol_volume_total
-			,detailvol_final_total
 			,detailvol_con_count
 			,detailvol_remain_volume
 			,detailvol_remain_count
@@ -69,7 +67,6 @@
 			,#{incoCode}
 			,#{articleCode}
 			,${detailvolVolumeTotal}
-			,${detailvolFinalTotal}
 			,${detailvolConCount}
 			,${detailvolRemainVolume}
 			,${detailvolRemainCount}
@@ -83,10 +80,10 @@
 		WHERE 
 			detailvol_code = #{detailvolCode}
 	</update>
-	<update id="modifyIncoCheck" parameterType="TotalStockDto">
+	<update id="modifyIncoCheck" parameterType="hashMap">
 		UPDATE tb_incoming
 		SET
-			inco_check='3'
+			inco_check= #{incoCheck}
 		WHERE 
 			inco_code = #{incoCode}
 	</update>
@@ -104,7 +101,6 @@
 			,inc.inco_volume_subtotal
 			,dtv.detailvol_group_code	
 			,dtv.detailvol_volume_total
-			,dtv.detailvol_final_total
 			,dtv.detailvol_con_count
 			,dtv.detailvol_remain_volume
 			,dtv.detailvol_remain_count
@@ -146,7 +142,6 @@
 			,inc.inco_volume_subtotal
 			,dtv.detailvol_group_code	
 			,dtv.detailvol_volume_total
-			,dtv.detailvol_final_total
 			,dtv.detailvol_con_count
 			,dtv.detailvol_remain_volume
 			,dtv.detailvol_remain_count
