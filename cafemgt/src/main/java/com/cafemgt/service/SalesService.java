@@ -1,6 +1,8 @@
 package com.cafemgt.service;
 
+
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,21 @@ public class SalesService {
 	public SalesService(SalesMapper salesMapper) {
 		this.salesMapper = salesMapper;
 	}
+	
+	public Map<String,Object> getTotalPandS(String searchFirstDate,String searchLastDate, String SSTORECODE){
+		return salesMapper.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
+	}
 
 	public int addSales(SalesDto salesDto) {
 		return salesMapper.addSales(salesDto);
+	}
+	
+	public List<SalesDto> salesDeadlineForTax(String SSTORECODE){
+		return salesMapper.salesDeadlineForTax(SSTORECODE);
+	}
+	
+	public List<SalesDto> salesDeadlineForStock(String SSTORECODE){
+		return salesMapper.salesDeadlineForStock(SSTORECODE);
 	}
 	
 	public List<SalesDto> getSales(String SSTORECODE){
