@@ -53,8 +53,6 @@ public class MenuDto {
 		public void setMenuRegDate(String menuRegDate) {
 			this.menuRegDate = menuRegDate;
 		}
-		
-		
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
@@ -72,27 +70,8 @@ public class MenuDto {
 			builder.append(menuPrice);
 			builder.append(", menuRegDate=");
 			builder.append(menuRegDate);
-			builder.append(", getMenuCode()=");
-			builder.append(getMenuCode());
-			builder.append(", getStoreInfoCode()=");
-			builder.append(getStoreInfoCode());
-			builder.append(", getStoreInfoName()=");
-			builder.append(getStoreInfoName());
-			builder.append(", getMenuName()=");
-			builder.append(getMenuName());
-			builder.append(", getMenuCate()=");
-			builder.append(getMenuCate());
-			builder.append(", getMenuPrice()=");
-			builder.append(getMenuPrice());
-			builder.append(", getMenuRegDate()=");
-			builder.append(getMenuRegDate());
-			builder.append(", getClass()=");
-			builder.append(getClass());
-			builder.append(", hashCode()=");
-			builder.append(hashCode());
-			builder.append(", toString()=");
-			builder.append(super.toString());
 			builder.append("]");
 			return builder.toString();
 		}
+		
 }

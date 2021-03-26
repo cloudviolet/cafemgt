@@ -1,6 +1,8 @@
 package com.cafemgt.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -104,27 +106,91 @@ public class StockController {
 	@GetMapping("/getdailyvolume")
 	public String getDailyVol(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		
 		List<DailyVolDto> dailyVolList = dailyVolService.getDailyVol(SSTORECODE);
 		model.addAttribute("dailyVolList",dailyVolList);
 		return "stock/getdailyvol";
 	}
-	
+
 	@GetMapping("/getdailyvolDeadLine")
 	public String getDailyVolDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<DailyVolDto> dailyVolDeadLineList = dailyVolService.getDailyVolDeadLine(SSTORECODE);
-		List<PurchasesDto> purchasesDtoList = purchasesService.getPurchases(SSTORECODE);
 		model.addAttribute("dailyVolDeadLineList",dailyVolDeadLineList);
-		model.addAttribute("purchasesDtoList",purchasesDtoList);
 		return "stock/getdailyvolDeadLine";
+	}
+	/* 일일 품목 소모량 조회에서 마감처리시 품목별 재고 총 수량 조회에 등록하는 컨트롤러  */
+	@PostMapping("/getdailyvolDeadLine")
+	public String getDailyVolDeadLine(
+									  @RequestParam (value="volumeTotal", required = false) int volumeTotal
+									 ,DailyVolDto dailyVolDto
+									 ,TotalStockDto totalStockDto) {
+		Map<String , String> incoMap = new HashMap<>();
+		//이전용량
+		int preVolume =(totalStockDto.getIncoVolumeSubtotal() - totalStockDto.getDetailvolRemainVolume());
+		//소모용량
+		int dtvVolumeTotal = totalStockDto.getDetailvolVolumeTotal();
+		//(이전용량+소모용량) / 품목용량 = 몇개품목사용갯수 계산
+		int conCount = (preVolume+dtvVolumeTotal)/totalStockDto.getArticleVolume();
+			System.out.println((double)dtvVolumeTotal/totalStockDto.getArticleVolume());
+			System.out.println(totalStockDto);
+		System.out.println(conCount);
+		if(conCount > totalStockDto.getDetailvolRemainCount()) {
+			//소모수량이 잔여수량보다 클 경우 div를 잔여용량으로
+			conCount = totalStockDto.getDetailvolRemainCount();
+		}
+		incoMap.put("incoCode", totalStockDto.getIncoCode());
+		if(volumeTotal >= 0) {
+			/* 소모량이 잔여량보다 작음 
+			 * detailvol에 소모량(volumeTotal) insert
+			 * incoCheck 2단계로
+			 * */
+			int haveVolTotal = (totalStockDto.getDetailvolRemainVolume() - dtvVolumeTotal);//(전)잔여용량 - 소모용량
+			totalStockDto.setDetailvolRemainVolume(haveVolTotal);//(현)잔여용량 input
+			totalStockDto.setDetailvolConCount(conCount);//소모수량 input
+			
+			//(전)잔여수량 -소모수량 => (현)잔여수량 input
+			totalStockDto.setDetailvolRemainCount(totalStockDto.getDetailvolRemainCount()-conCount);
+			
+			if(volumeTotal ==0) {
+				incoMap.put("incoCheck", "3");
+			}else {
+				incoMap.put("incoCheck", "2");
+			}
+			
+		}else {
+			/* 소모량이 잔여량보다 큼
+			 * dailyvol에 -된만큼 insert
+			 * detailvol에 소모량(volumeTotal) insert
+			 * incoCheck에 단계 3으로
+			 * */
+			
+			incoMap.put("incoCheck", "3");
+			
+			if(volumeTotal < 0) {
+				volumeTotal = (volumeTotal * -1);
+			}
+			int haveSalesCount = (volumeTotal/(dtvVolumeTotal/dailyVolDto.getSalesCount()));
+			
+			totalStockDto.setDetailvolVolumeTotal(totalStockDto.getDetailvolRemainVolume());
+			totalStockDto.setDetailvolConCount(conCount);
+			totalStockDto.setDetailvolRemainVolume(0);
+			totalStockDto.setDetailvolRemainCount(0);
+			
+			dailyVolDto.setDailyvolSubtotal(volumeTotal); //계산 후 남은용량 insert 하기위해서
+			dailyVolDto.setSalesCount(haveSalesCount);//계산 후 남은 판매수량 insert 하기위해서
+			dailyVolDto.setDailyvolEtc("사용용량 > 잔액용량으로 처리됨");
+			dailyVolService.addDailyVolDeadLine(dailyVolDto);
+		}
+		totalStockService.modifyIncoCheck(incoMap);
+		dailyVolService.modifyDailyVolDeadLine(dailyVolDto.getDailyvolCode());
+		totalStockService.addTotalStockOverVolume(totalStockDto);
+		return "redirect:/getdailyvolDeadLine";
 	}
 	
 	@GetMapping("/gettotalstock")
 	public String getTotalStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
-		//System.out.println(totalStockList.get(0).getIncoDto().getIncoCount());
 		model.addAttribute("totalStockList",totalStockList);
 		return "stock/gettotalstock";
 	}
@@ -136,6 +202,19 @@ public class StockController {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, articleCode);
 		return totalStockList;
+	}
+	
+	@GetMapping("/modifyArticle")
+	public String modifyArticle(@RequestParam (value="articleCode", required = false) String articleCode
+							   ,Model model) {
+		ArticleDto articleDto = articleService.getArticleByArticleCode(articleCode);
+		model.addAttribute("articleDto",articleDto);
+		return "stock/modifyarticle";
+	}
+	
+	@PostMapping("/modifyArticle")
+	public String modifyArticle(ArticleDto articleDto,Model model) {
+		return "redirect:/getarticle";
 	}
 	
 }

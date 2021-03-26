@@ -25,25 +25,6 @@
 		                
 		                <!-- 상단 옵션네비바 시작 -->
 						<ul class="nav navbar-right panel_toolbox">
-							<li>
-								<a class="collapse-link">
-									<i class="fa fa-chevron-up"></i>
-								</a>
-							</li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle"	data-toggle="dropdown" role="button" aria-expanded="false">
-									<i class="fa fa-wrench"></i>
-								</a>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<a class="dropdown-item" href="#">Settings 1</a> 
-									<a class="dropdown-item" href="#">Settings 2</a>
-								</div>
-							</li>
-							<li>
-								<a class="close-link">
-									<i class="fa fa-close"></i>
-								</a>
-							</li>
 						</ul>
 						<!-- 상단 옵션네비바 끝 -->
 							
@@ -74,6 +55,7 @@
 												<th>단위</th>
 												<th>상세</th>
 												<th>등록날짜</th>
+												<th>등록날짜</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -83,14 +65,17 @@
 												<td th:text="${al.storeInfoName}"></td>
 												<td th:text="${al.articleName}"></td>
 												<td th:text="${al.articleTaxCate}"></td>
-												<td th:text="${al.artcleBig}"></td>
-												<td th:text="${al.artcleBigDan}"></td>
-												<td th:text="${al.artcleMiddle}"></td>
-												<td th:text="${al.artcleMiddleDan}"></td>
+												<td th:text="${al.articleBig}"></td>
+												<td th:text="${al.articleBigDan}"></td>
+												<td th:text="${al.articleMiddle}"></td>
+												<td th:text="${al.articleMiddleDan}"></td>
 												<td th:text="${al.articleVolume}"></td>
 												<td th:text="${al.articleDan}"></td>
 												<td th:text="${al.articleEtc}"></td>
 												<td th:text="${al.articleRegDate}"></td>
+												<td>
+													<a class="btn btn-primary btn-sm" th:href="@{/modifyArticle(articleCode=${al.articleCode})}">수정</a>
+												</td>
 											</tr>
 										</tbody>
 									</table>

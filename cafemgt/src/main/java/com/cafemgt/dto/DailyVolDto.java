@@ -16,7 +16,7 @@ public class DailyVolDto {
 	private int 	dailyvolSubtotal;
 	private String 	dailyvolDeadlineCheck;
 	private String 	dailyvolRegDate;
-	private String 	dailyvolGroupCode;
+	private String 	dailyvolEtc;
 	private String 	dailyvolRelGroupCode;
 	private PurchasesDto incoDto;
 	
@@ -104,11 +104,11 @@ public class DailyVolDto {
 	public void setDailyvolRegDate(String dailyvolRegDate) {
 		this.dailyvolRegDate = dailyvolRegDate;
 	}
-	public String getDailyvolGroupCode() {
-		return dailyvolGroupCode;
+	public String getDailyvolEtc() {
+		return dailyvolEtc;
 	}
-	public void setDailyvolGroupCode(String dailyvolGroupCode) {
-		this.dailyvolGroupCode = dailyvolGroupCode;
+	public void setDailyvolEtc(String dailyvolEtc) {
+		this.dailyvolEtc = dailyvolEtc;
 	}
 	public String getDailyvolRelGroupCode() {
 		return dailyvolRelGroupCode;
@@ -153,8 +153,8 @@ public class DailyVolDto {
 		builder.append(dailyvolDeadlineCheck);
 		builder.append(", dailyvolRegDate=");
 		builder.append(dailyvolRegDate);
-		builder.append(", dailyvolGroupCode=");
-		builder.append(dailyvolGroupCode);
+		builder.append(", dailyvolEtc=");
+		builder.append(dailyvolEtc);
 		builder.append(", dailyvolRelGroupCode=");
 		builder.append(dailyvolRelGroupCode);
 		builder.append(", incoDto=");

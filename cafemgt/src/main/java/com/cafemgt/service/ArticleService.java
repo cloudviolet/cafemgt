@@ -24,6 +24,11 @@ public class ArticleService {
 		
 		return articleDto;
 	}
+	public ArticleDto getArticleByArticleCode(String articleCode) {
+		
+		return articleMapper.getArticleByArticleCode(articleCode);
+	}
+	
 	public int addArticle(ArticleDto articleDto) {
 		
 		return articleMapper.addArticle(articleDto);

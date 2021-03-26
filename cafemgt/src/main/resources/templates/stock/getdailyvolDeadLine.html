@@ -17,9 +17,26 @@
 		
 		<style>
 			#selectInco{
+				margin-bottom: 20px;
+			}
+			div input{
 				margin-bottom: 10px;
 			}
-
+			
+			.articledan{
+				font-size: medium;
+				color: black;
+				padding-top: 6px;
+				padding-right: 6px;
+			}
+			.input-label{
+				padding-left : 10px;
+			}
+			
+			.right-padding-remove{
+				padding-right : 0px;
+			}
+			
 		</style>
 	</th:block>
 	
@@ -32,9 +49,6 @@
 		                
 		                <!-- 상단 옵션네비바 시작 -->
 						<ul class="nav navbar-right panel_toolbox">
-							<li>
-								<a id="deadLineBtn" class="btn btn-warning" th:href="@{getdailyvolDeadLine}">마감</a>
-							</li>
 						</ul>
 						<!-- 상단 옵션네비바 끝 -->
 							
@@ -56,21 +70,23 @@
 												<th>사업장 코드</th>
 												<th>상호명</th>
 												<th>품목명</th>
+												<th>판매 수량</th>
 												<th>소모용량 소계</th>
 												<th>단위</th>
 												<th>마감</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="dvl : ${dailyVolDeadLineList}">
-												<td th:text="${dvl.dailyvolCode}"></td>
+											<tr th:each="dvl, index : ${dailyVolDeadLineList}">
+												<td class="dailyVolCode" th:text="${dvl.dailyvolCode}"></td>
 												<td th:text="${dvl.storeInfoCode}"></td>
 												<td th:text="${dvl.storeInfoName}"></td>
 												<td th:text="${dvl.articleName}"></td>
+												<td class="salesCount" th:text="${dvl.salesCount}"></td>
 												<td class="dailySubtotal" th:text="${dvl.dailyvolSubtotal}"></td>
 												<td th:text="${dvl.conDan}"></td>
 												<td> 
-													<a type="button" class="deadLineBtn" data-toggle="modal" data-target="#deadLine"	 th:value="${dvl.articleCode}">
+													<a class="btn btn-primary btn-sm deadLineBtn" th:data-index="${index.index}" data-toggle="modal" data-target="#deadLine" th:value="${dvl.articleCode}">
 														 마감
 													</a>
 												</td>
@@ -87,7 +103,7 @@
 		<!-- deadLine Modal -->
 		<div class="modal fade" id="deadLine" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
-			    <div class="modal-content">
+			    <form class="modal-content"  id="demo-form2" th:action="@{getdailyvolDeadLine}" method="POST">
 			      <div class="modal-header">
 			        <h4 class="modal-title" id="myModalLabel">사용할 입고품목을 선택해주세요</h4>
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -97,14 +113,15 @@
             			<div class="row">
 					      	<div class="col-md-1">
 					      	</div>
-					      	<div class="col-md-10">
-								사용할 입고품목을 선택해주세요
-								<select class="form-control" id="selectInco">
+					      	<div class="col-md-10 right-padding-remove">
+								사용할 품목을 선택해주세요
+								<select class="form-control" id="selectInco" required="required">
 								<!-- option = ajax 실행결과값 -->	
 								</select>
+								<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 								<div class="modal-body-text">
 									<div>
-									
+									<!-- 스크립트에서 option 선택값 가져옴 -->
 									</div>
 								</div>
 					      	</div>
@@ -113,9 +130,9 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-			        <button type="button" class="btn btn-primary" id="submitBtn">마감</button>
+			        <button type="submit" class="btn btn-primary" id="submitBtn">마감</button>
 			      </div>
-			    </div>
+			    </form>
 		 	</div>
 		</div>
 	</th:block>
@@ -136,13 +153,23 @@
 		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
-		
+		<!-- Parsley -->
+		<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
 		<script>
-			var incoData ; 
+			$('.deadLineBtn').click(function(){
+				var deadLineBtn = $('.deadLineBtn');
+				for(var j = 0 ; j < deadLineBtn.length; j++){
+					deadLineBtn.eq(j).attr('data-index',j);
+				}
+			});
+				
 			$('.deadLineBtn').click(function(){
 				var selectInco = $('#selectInco');
 				var articleCode = $(this).attr('value');
 				var modalBody = $('.modal-body-text');
+				var deadLineBtn =$(this).attr('data-index');
+		
+				console.log(deadLineBtn);
 				var request = $.ajax({
 					url: "getIncomeList", 
 					method: "POST",
@@ -151,9 +178,9 @@
 				});
 				request.done(function( data ) {
 					selectInco.children('option').remove();
-					selectInco.append('<option value="null">품목을 선택해주세요</option>');
+					selectInco.append('<option value="">품목을 선택해주세요</option>');
 					for(var i = 0 ; i < data.length; i++){
-						console.log(data[i].incoCheck)
+						//console.log(data[i].incoCheck)
 						if(data[i].incoCheck < 3){
 							selectInco.append('<option data-change="'
 												+ i +'" value="' 
@@ -165,18 +192,54 @@
 												);
 						}
 					}
-					selectInco.change(function(){
+					selectInco.click(function(){
 						var inum = $('#selectInco option:selected').attr('data-change');
 						var dailySubtotal = $('.dailySubtotal');
+						var dailyVolCode = $('.dailyVolCode');
+						var salesCount = $('.salesCount');
 						modalBody.children('div').remove();
 						if(inum != null){
 							modalBody.append('<div>' 
-									+	' 입고날짜 : <input type="text" class="form-control" value="'+data[inum].incoDate + '"/>' 
-									+	' 입고날짜 : <input type="text" class="form-control" value="'+data[inum].incoVolumeSubtotal + '"/>' 
-									+	'<div><label id="articlebigdan" class="control-label label-align"></label></div>'
-									+	'<h5> 잔여용량 : '+data[inum].detailvolRemainVolume +' '+ data[inum].articleDan + '</h5>' 
-									+	'<h5> 사용용량 : '+dailySubtotal.eq(inum).text() +' '+ data[inum].articleDan + '</h5>' 
-									+	'</div>'
+									/* 입고 용량 */
+									+'<div class="form-group row horizontal">'
+									+'<label class="col-form-label label-align input-label">입고용량 * <span class="required"></span>	</label>'
+									+'<div class="col-md-9 col-sm-9 ">'
+									+'<input type="text" name="incoVolumeSubtotal" readonly="readonly" value="'+data[inum].incoVolumeSubtotal+'" class="form-control ">'
+									+'</div>'
+									+'<div><label class="control-label label-align articledan">'+data[inum].articleDan+'</label></div>'
+									+'</div>'
+									
+									/* 잔여 용량 */
+									+'<div class="form-group row horizontal">'
+									+'<label class="col-form-label label-align input-label">잔여수량 * <span class="required"></span>	</label>'
+									+'<div class="col-md-9 col-sm-9 ">'
+									+'<input type="text" name="detailvolRemainVolume" readonly="readonly" value="'+data[inum].detailvolRemainVolume+'" class="form-control ">'
+									+'</div>'
+									+'<div><label class="control-label label-align articledan">'+data[inum].articleDan+'</label></div>'
+									+'</div>'
+									
+									/* 사용 용량 */
+									+'<div class="form-group row horizontal">'
+									+'<label class="col-form-label label-align input-label">사용용량 * <span class="required"></span>	</label>'
+									+'<div class="col-md-9 col-sm-9 ">'
+									+'<input type="text" name="detailvolVolumeTotal" readonly="readonly" value="'+dailySubtotal.eq(deadLineBtn).text()+'" class="form-control ">'
+									+'</div>'
+									+'<div><label class="control-label label-align articledan">'+data[inum].articleDan+'</label></div>'
+									+'</div>'
+									
+									/* 데이터를 위한 */
+									+'<input type="text" name="incoCode" readonly="readonly" value="'			 +data[inum].incoCode+'" class="form-control ">'
+									+'<input type="text" name="articleCode" readonly="readonly" value="'		 +data[inum].articleCode+'" class="form-control ">'
+									+'<input type="text" name="incoCheck" readonly="readonly" value="'			 +data[inum].incoCheck+'" class="form-control ">'
+									+'<input type="text" name="incoCount" readonly="readonly" value="'			 +data[inum].incoCount+'" class="form-control ">'
+									+'<input type="text" name="articleVolume" readonly="readonly" value="'		 +(data[inum].incoVolumeSubtotal/data[inum].incoCount)+'" class="form-control ">'
+									+'<input type="text" name="detailvolRemainCount" readonly="readonly" value="'+data[inum].detailvolRemainCount+'" class="form-control ">'
+									+'<input type="text" name="detailvolCode" readonly="readonly" value="'		 +data[inum].detailvolCode+'" class="form-control ">'
+									+'<input type="text" name="volumeTotal" readonly="readonly" value="'		 +(data[inum].detailvolRemainVolume-dailySubtotal.eq(deadLineBtn).text())+'" class="form-control ">'
+									+'<input type="text" name="dailyvolCode" readonly="readonly" value="'		 +dailyVolCode.eq(deadLineBtn).text()+'" class="form-control ">'
+									+'<input type="text" name="salesCount" readonly="readonly" value="'			 +salesCount.eq(deadLineBtn).text()+'" class="form-control ">'
+									
+									+'</div>'
 									);
 						}
 					});
@@ -186,8 +249,11 @@
 					console.log('a'	);
 				});
 			});
+			$('.deadLineBtn').click(function(){
+				$('.modal-body-text').children('div').remove();
+			});
+			
 			$('#submitBtn').click(function(){
-				
 			});
 
 		</script>
