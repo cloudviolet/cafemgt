@@ -11,4 +11,8 @@ public interface DailyVolMapper {
 	public List<DailyVolDto> getDailyVol(String SSTORECODE);
 
 	public List<DailyVolDto> getDailyVolDeadLine(String SSTORECODE);
+	
+	public int addDailyVolDeadLine(DailyVolDto dailyVolDto);
+	
+	public int modifyDailyVolDeadLine(String dailyVolCode);
 }

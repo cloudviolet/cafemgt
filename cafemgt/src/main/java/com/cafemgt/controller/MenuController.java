@@ -62,7 +62,7 @@ public class MenuController {
 		return "menu/addrecipy";
 	}
 	@PostMapping("/addrecipy")
-	public String addrecipy(@RequestParam(value="articleCode")List<String> articleCode
+	public String addrecipy( @RequestParam(value="articleCode")List<String> articleCode
 							,@RequestParam(value="conVolume")List<String> conVolume
 							,@RequestParam(value="conDan")List<String> conDan
 							,RecipyDto inputRecipyDto) {
@@ -98,6 +98,36 @@ public class MenuController {
 		return "menu/getrecipy";
 	}
 	
+	@GetMapping("/modifyMenu")
+	public String modifyMenu(Model model, String menuCode) {
+		MenuDto menuDto = menuService.getMenuByMenuCode(menuCode);
+		model.addAttribute("menuDto",menuDto);
+		return "menu/modifymenu";
+	}
 	
+	@PostMapping("/modifyMenu")
+	public String modifyMenu(MenuDto menuDto) {
+		menuService.modifyMenu(menuDto);
+		return "redirect:/getmenu";
+	}
 	
+	@GetMapping("/modifyRecipy")
+	public String modifyRecipy(Model model, String conCode, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		RecipyDto recipyDto = recipyService.getRecipyByConCode(conCode);
+		List<MenuDto> menuList = menuService.getMenu(SSTORECODE);
+		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
+		List<RecipyDto> recipyList = recipyService.getRecipy(SSTORECODE);
+		model.addAttribute("recipyDto",recipyDto);
+		model.addAttribute("menuList",menuList);
+		model.addAttribute("articleList",articleList);
+		model.addAttribute("recipyList",recipyList);
+		return "menu/modifyrecipy";
+	}
+	
+	@PostMapping("/modifyRecipy")
+	public String modifyRecipy(RecipyDto recipyDto) {
+		recipyService.modifyRecipy(recipyDto);
+		return "redirect:/getrecipy";
+	}
 }

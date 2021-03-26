@@ -10,5 +10,9 @@ import com.cafemgt.dto.MenuDto;
 public interface MenuMapper {
 	public List<MenuDto> getMenu(String SSTORECODE);
 	
+	public MenuDto getMenuByMenuCode(String menuCode);
+	
+	public int modifyMenu(MenuDto menuDto);
+
 	public int addMenu(MenuDto menuDto);
 }
