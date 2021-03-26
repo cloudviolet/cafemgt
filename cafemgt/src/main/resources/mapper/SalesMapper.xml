@@ -26,6 +26,19 @@
 		<result property="salesSystemName" 			column="sales_system_name"/>
 	</resultMap>
 	
+	<select id="getTotalPandS" parameterType="String">
+		SELECT
+			SUM(if(d.deal_cate='매출', d.deal_total, 0)) 
+			,SUM(if(d.deal_cate='매입', d.deal_total, 0))
+			,SUM(if(d.deal_cate='기타매입', d.deal_total, 0))
+		FROM 
+			tb_dealing AS d
+		WHERE 
+			d.deal_date BETWEEN #{searchFirstDate} AND #{searchLastDate}
+		AND
+			d.store_info_code = #{SSTORECODE};
+	</select>
+	
 	<insert id="addSales" parameterType="SalesDto">
 		INSERT INTO tb_sales
 	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline, sales_dealing_group_code, sales_deadline_check, sales_daliyvol_group_code, sales_system_id, sales_system_name)

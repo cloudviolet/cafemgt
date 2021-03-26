@@ -1,6 +1,8 @@
 package com.cafemgt.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafemgt.dao.ArticleMapper;
 import com.cafemgt.dao.CustomerMapper;
@@ -57,8 +62,8 @@ public class TaxController {
 	@GetMapping("/addsales")
 	public String addsales(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		String OID = (String)session.getAttribute("OID");
-		String ONAME = (String)session.getAttribute("ONAME");
+		String MID = (String)session.getAttribute("MID");
+		String MNAME = (String)session.getAttribute("MNAME");
 		List<MenuDto> menuList = menuMapper.getMenu(SSTORECODE);
 		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
 		model.addAttribute("menuList", menuList);
@@ -75,8 +80,8 @@ public class TaxController {
 	@GetMapping("/addpurchases")
 	public String addpurchases(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		String OID = (String)session.getAttribute("OID");
-		String ONAME = (String)session.getAttribute("ONAME");
+		String MID = (String)session.getAttribute("MID");
+		String MNAME = (String)session.getAttribute("MNAME");
 		List<ArticleDto> articleList = articleMapper.getArticle(SSTORECODE);
 		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
 		model.addAttribute("articleList", articleList);
@@ -161,6 +166,23 @@ public class TaxController {
 	public String getTotalPandS() {
 		return "tax/gettotalpands";
 	}
+	
+	@ResponseBody
+	@PostMapping("/gettotalpands")
+	public void getTotalPandS(
+			@RequestParam (value = "searchFirstDate",required = false)String searchFirstDate ,Model model , HttpSession session){
+		System.out.println(searchFirstDate);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		//String paramName =  String.valueOf(param.get(0).get("searchFirstDate"));
+		//System.out.println(paramName + "<<<<<<<<<<<<<<<<<");
+		/*
+		 * Map<String, Object> result = salesService.getTotalPandS(param ,SSTORECODE);
+		 */
+
+		//return null;
+		
+	}
+	
 	
 	@GetMapping("/gettotalsalary")
 	public String getTotalSalary() {
