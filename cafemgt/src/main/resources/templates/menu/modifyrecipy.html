@@ -98,31 +98,23 @@
 		<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 		
 		<script>
-			var getMenuCodeVal = '[[${recipyDto.menuCode}]]';
-			var getArticleCodeVal = '[[${recipyDto.articleCode}]]';
-			var getConDanVal = '[[${recipyDto.conDan}]]';
-			var menuCode = $('#menuCode').children();
+			var ValArr = ['[[${recipyDto.menuCode}]]'
+						 ,'[[${recipyDto.articleCode}]]'
+						 ,'[[${recipyDto.conDan}]]' ]
+		
+			var menuCode 	= $('#menuCode').children();
 			var articleCode = $('#articleCode').children();
-			var conDan = $('#conDan').children();
-			console.log(getArticleCodeVal);
-			console.log(articleCode.length);
- 			for(var i = 0 ; i < menuCode.length ; i++){
-				if(menuCode.eq(i).val()==getMenuCodeVal){
-					menuCode.eq(i).attr("selected","selected");
-					break;
+			var conDan 		= $('#conDan').children();
+
+			var Arr = [menuCode,articleCode,conDan]
+			
+			for(var j = 0 ; j < Arr.length ; j ++){
+				for(var i = 0 ; i < Arr[j].length ; i ++){
+					if(Arr[j].eq(i).val()==ValArr[j]){
+						Arr[j].eq(i).attr("selected","selected");
+						break;
+					}
 				}
-			}
-			for(var j = 0 ; j < articleCode.length ; j++){
-				if(articleCode.eq(j).val()==getArticleCodeVal){
-					articleCode.eq(j).attr("selected","selected");
-					break;
-				}
-			}
-			for(var k = 0 ; k < conDan.length ; k++){
-				if(conDan.eq(k).val()==getConDanVal){
-					conDan.eq(k).attr("selected","selected");
-					break;
-				}				
 			}
 		</script>
 	</th:block>

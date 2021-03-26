@@ -118,7 +118,7 @@ public class StockController {
 		model.addAttribute("dailyVolDeadLineList",dailyVolDeadLineList);
 		return "stock/getdailyvolDeadLine";
 	}
-	/* 이거  */
+	/* 일일 품목 소모량 조회에서 마감처리시 품목별 재고 총 수량 조회에 등록하는 컨트롤러  */
 	@PostMapping("/getdailyvolDeadLine")
 	public String getDailyVolDeadLine(
 									  @RequestParam (value="volumeTotal", required = false) int volumeTotal
@@ -191,7 +191,6 @@ public class StockController {
 	public String getTotalStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
-		//System.out.println(totalStockList.get(0).getIncoDto().getIncoCount());
 		model.addAttribute("totalStockList",totalStockList);
 		return "stock/gettotalstock";
 	}
@@ -203,6 +202,19 @@ public class StockController {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, articleCode);
 		return totalStockList;
+	}
+	
+	@GetMapping("/modifyArticle")
+	public String modifyArticle(@RequestParam (value="articleCode", required = false) String articleCode
+							   ,Model model) {
+		ArticleDto articleDto = articleService.getArticleByArticleCode(articleCode);
+		model.addAttribute("articleDto",articleDto);
+		return "stock/modifyarticle";
+	}
+	
+	@PostMapping("/modifyArticle")
+	public String modifyArticle(ArticleDto articleDto,Model model) {
+		return "redirect:/getarticle";
 	}
 	
 }
