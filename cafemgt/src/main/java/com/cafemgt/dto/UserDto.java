@@ -14,8 +14,8 @@ public class UserDto {
 	private String userBankAcount;
 	private String userAgreement;
 	private String userHealthCard;
+	private String userEtc;
 	private MemberDto memberDto;
-	
 	public String getMemberId() {
 		return memberId;
 	}
@@ -94,6 +94,12 @@ public class UserDto {
 	public void setUserHealthCard(String userHealthCard) {
 		this.userHealthCard = userHealthCard;
 	}
+	public String getUserEtc() {
+		return userEtc;
+	}
+	public void setUserEtc(String userEtc) {
+		this.userEtc = userEtc;
+	}
 	public MemberDto getMemberDto() {
 		return memberDto;
 	}
@@ -113,6 +119,7 @@ public class UserDto {
 		result = prime * result + ((userAgreement == null) ? 0 : userAgreement.hashCode());
 		result = prime * result + ((userBankAcount == null) ? 0 : userBankAcount.hashCode());
 		result = prime * result + ((userBankName == null) ? 0 : userBankName.hashCode());
+		result = prime * result + ((userEtc == null) ? 0 : userEtc.hashCode());
 		result = prime * result + ((userHealthCard == null) ? 0 : userHealthCard.hashCode());
 		result = prime * result + ((userJoinDate == null) ? 0 : userJoinDate.hashCode());
 		result = prime * result + ((userOutDate == null) ? 0 : userOutDate.hashCode());
@@ -174,6 +181,11 @@ public class UserDto {
 				return false;
 		} else if (!userBankName.equals(other.userBankName))
 			return false;
+		if (userEtc == null) {
+			if (other.userEtc != null)
+				return false;
+		} else if (!userEtc.equals(other.userEtc))
+			return false;
 		if (userHealthCard == null) {
 			if (other.userHealthCard != null)
 				return false;
@@ -224,6 +236,8 @@ public class UserDto {
 		builder.append(userAgreement);
 		builder.append(", userHealthCard=");
 		builder.append(userHealthCard);
+		builder.append(", userEtc=");
+		builder.append(userEtc);
 		builder.append(", memberDto=");
 		builder.append(memberDto);
 		builder.append("]");

@@ -3,11 +3,11 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
 
-<th:block layout:fragment="customTitle">
-	<title>추가 정보등록 / 수정</title>
-</th:block>
+	<th:block layout:fragment="customTitle">
+		<title>직원 등록</title>
+	</th:block>
 
-<th:block layout:fragment="customCss">
+	<th:block layout:fragment="customCss">
 			<!-- bootstrap-wysiwyg -->
 		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
 		<!-- Select2 -->
@@ -22,43 +22,70 @@
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
 			<div class="row">
-				<div class="col-md-12 col-sm-12 ">				
-					<div class="x_panel">					 
+				<div class="col-md-12 col-sm-12 ">
+					<div class="x_panel">
 						<div class="x_title">
-							<h2>기본 정보</h2>
+							<h2>직원 추가 정보 등록</h2>
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
 							<br />
-						<form th:action="@{/modifyuser}" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-							<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
-							<!-- 기본정보 콘텐츠 Start -->
-							
+							<!-- 메인콘텐츠 Start -->
+							<form th:action="@{/adduser}" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+								<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 								<div class="form-group row">
-									<label class="col-form-label col-md-3 col-sm-3 label-align" for="memberId">아이디 * <span class="required"></span>
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userId">아이디 * <span class="required"></span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="text" id="memberId" data-parsley-error-message="*필수 입력사항 " th:value="${memberDto.memberId}"
-										name="memberId" required="required" class="form-control memberId"/>												
+										<input type="text" id="userId" name="userId" required="required" class="form-control id"/>												
+									</div>
+								</div>
+								<!-- password -->
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userPw">비밀번호 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="password" id="userPw" name="userPw" pattern="(?=.*\d)(?=.*[a-z]).{5,}" placeholder="소문자, 숫자 포함하여 최소 5자" required="required" class="form-control pw">												
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userPw">비밀번호 확인 *	</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="password" class="form-control pwCheck" name="rePassword" data-parsley-equalto="#userPw"
+											   data-parsley-error-message="비밀번호를 확인해주세요" placeholder="비밀번호 확인 *" data-validate-linked='password' required='required' />
+									</div>
+								</div>
+								<!-- /password -->
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userName">이름 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="userName" name="userName" required="required" class="form-control Name"/>												
 									</div>	
 								</div>
-							
-							<!-- 기본정보 콘텐츠 End -->
-
-						
-						<div class="x_title">
-							<h2>추가 정보</h2>
-							<div class="clearfix"></div>
-						</div>
-							<br />
-							<!-- 추가정보 콘텐츠 Start -->							
+								<div class="form-group row horizontal">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="levelNmae">구분 * <span class="required"></span>
+									</label>
+									<div class="col-md-1 col-sm-3">
+										<div class="radio">
+											<label>
+												<input type="radio" checked value="level_02" name="levelCode"> 상용직
+											</label>
+										</div>
+									</div>
+									<div class="col-md-1 col-sm-3">
+										<div>
+											<label class="radio-inline">
+												<input type="radio" value="level_03" name="levelCode"> 일용직
+											</label>
+										</div>		
+									</div>
+								</div>
 								<div class="form-group row">									
 									<label class="col-form-label col-md-3 col-sm-3 label-align">입사 날짜 * 
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input id="userJoinDate" name="userJoinDate" class="date-picker form-control" data-parsley-error-message="*필수 입력사항 "
-										placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" 
-										onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+										<input id="userJoinDate" name="userJoinDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 										<script>
 											function timeFunctionLong(input) {
 												setTimeout(function() {
@@ -67,36 +94,28 @@
 											}
 										</script>
 									</div>
-								</div>	
-								<div class="form-group row">									
-									<label class="col-form-label col-md-3 col-sm-3 label-align">퇴사 날짜  
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userPhone">연락처
 									</label>
-									<div class="col-md-6 col-sm-6 ">
-										<input id="userJoinDate" name="userOutDate" class="date-picker form-control"
-										placeholder="dd-mm-yyyy" type="text" onfocus="this.type='date'" onmouseover="this.type='date'" 
-										onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
-										<script>
-											function timeFunctionLong(input) {
-												setTimeout(function() {
-													input.type = 'text';
-												}, 60000);
-											}
-										</script>
+									<div class="col-md-2 col-sm-2">								
+										<input type="text" id="userPhone" Pattern="(^[0-9]*$)" data-parsley="(^[0-9]*$)"
+										name="userPhone" data-parsley-error-message="*숫자만 입력해주세요." class="form-control phoneNumber userPhone" />
 									</div>
-								</div>	
+								</div>		
 								<div class="form-group row horizontal">
 									<label class="control-label col-md-3 col-sm-3 label-align" for="userPay">기본급여 / 시급 *<span class="required"></span></label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="text" id="userPay" data-parsley-error-message="*필수 입력사항  :숫자만 입력해주세요." 
-										name="userPay" class="form-control userPay" required="required" />
+										<input type="text" id="userPay" Pattern = "(^[0-9]*$)" data-parsley-required="(^[0-9]*$)"
+										data-parsley-error-message="*필수 입력사항 : 숫자만 입력해주세요." name="userPay" class="form-control userPay" required="required" />
 									</div>
 									<label class="control-label label-align" style="font-size: 15px;">원</label>
 								</div>								
 								<div class="form-group row horizontal">
-									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userWorkTime">소정 근로시간(일일)</label>
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userWorkTime">소정 근로시간(일일) *</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="text" id="userWorkTime"
-										name="userWorkTime" data-parsley-error-message="*숫자만 입력해주세요." class="form-control userWorkTime" required='required' />
+										<input type="text" id="userWorkTime" Pattern = "(^[0-9]*$)" data-parsley-required="(^[0-9]*$)"
+										name="userWorkTime" data-parsley-error-message="숫자만 입력해주세요." class="form-control userWorkTime" required='required' />
 									</div>
 									<label class="control-label label-align" style="font-size: 15px;">시간</label>
 								</div>
@@ -105,16 +124,15 @@
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userBankName">은행명 * <span class="required"></span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="text" id="userBankName" data-parsley-error-message="*필수 입력사항 " 
-										name="userBankName" required="required" class="form-control userBankName"/>												
+										<input type="text" id="userBankName" name="userBankName" required="required" class="form-control userBankName"/>												
 									</div>	
 								</div>
 								<div class="form-group row">
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userBankAcount">계좌번호 * <span class="required"></span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">								
-										<input type="text" id="userBankAcount" data-parsley-error-message="*필수 입력사항  :숫자만 입력해주세요." 
-										name="userBankAcount" class="form-control userBankAcount" required='required' />
+										<input type="text" id="userBankAcount" Pattern = "(^[0-9]*$)" data-parsley-required="(^[0-9]*$)"
+										name="userBankAcount" data-parsley-error-message="*필수 입력사항 : 숫자만 입력해주세요." class="form-control userBankAcount" required='required' />
 									</div>
 								</div>					
 								<div class="form-group row">
@@ -130,18 +148,19 @@
 										<a class="btn" title="Insert picture (or just drag & drop)" id="userHealthCard"></a>
 										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="userHealthCard" />
 									</div>		
-								</div>
+								</div>								
+
 								<div class="ln_solid"></div>
 								<div class="form-group row">
 									<div class="col-md-4 col-sm-8 offset-md-4 text-center">
+										<button class="btn btn-primary" type="button">등록 취소</button>
 										<button class="btn btn-primary" type="reset">다시 작성</button>
 										<button type="submit" class="btn btn-success">등록 하기</button>
 									</div>
 								</div>
 							</form>
-							<!-- 추가정보 콘텐츠 End -->
+							<!-- 메인콘텐츠 End -->
 						</div>
-					
 					</div>
 				</div>
 			</div>		
@@ -174,15 +193,7 @@
 		<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
 		<!-- 연락처 스크립트 -->
 		<script type="text/javascript">
-		$(document).on("keyup", ".userWorkTime", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "") ); });
-
-		</script>
-		<script type="text/javascript">
-		$(document).on("keyup", ".userBankAcount", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "").replace("--", "-") ); });
-
-		</script>
-		<script type="text/javascript">
-		$(document).on("keyup", ".userPay", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "")); });
+			$(document).on("keyup", ".phoneNumber", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); });
 
 		</script>
 	

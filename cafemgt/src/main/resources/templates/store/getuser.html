@@ -71,7 +71,9 @@
 											<th>계좌번호</th>
 											<th>근로계약서</th>
 											<th>직원보건증</th>
-
+											<th>상세</th>											
+											<th>추가 정보등록/수정</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -89,6 +91,13 @@
 											<td th:text="${ul.userBankAcount}">
 											<td th:text="${ul.userAgreement}">
 											<td th:text="${ul.userHealthCard}">
+											<td th:text="${ul.userEtc}">
+											<td>
+												<a class="btn btn-primary btn-sm" th:href="@{/modifyuser(memberId=${ul.memberDto.memberId})}">수정</a> 
+											</td>
+											<td>
+												<a class="btn btn-dark btn-sm" th:href="@{/}">삭제</a> 
+											</td>
 										</tr>
 									</tbody>
 								</table>								

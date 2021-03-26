@@ -34,7 +34,7 @@
 			<!-- sidebar menu -->
 			<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 				<div class="menu_section">
-					<h3>-</h3>
+				<h6>.</h6>
 					<ul class="nav side-menu">
 						<li><a><i class="fa fa-home"></i> #기초 등록(??) <span	class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
@@ -46,8 +46,8 @@
 						</li>
 						<li><a><i class="fa fa-home"></i> 마이페이지(최영은) <span	class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li class="sub_menu"><a th:href="@{getmember}">내정보 조회(사업주)</a></li>
-								<li class="sub_menu"><a th:href="@{getmember}">내정보 조회(직원)</a></li>
+								<li class="sub_menu" th:if="${session.SLEVEL =='level_01'}"><a th:href="@{getmember}">내정보 조회(사업주)</a></li>
+								<li class="sub_menu" th:if="${session.SLEVEL =='level_02' or session.SLEVEL =='level_03'}"><a th:href="@{getmemberU}">내정보 조회(직원)</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-desktop"></i> #매장 관리(최영은)<span	class="fa fa-chevron-down"></span></a>
