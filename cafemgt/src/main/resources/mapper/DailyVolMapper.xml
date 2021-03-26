@@ -18,9 +18,43 @@
 		<result property="dailyvolSubtotal"	 		column="dailyvol_subtotal" />
 		<result property="dailyvolDeadlineCheck" 	column="dailyvol_deadline_check" />
 		<result property="dailyvolRegDate"	 		column="dailyvol_reg_date" />
-		<result property="dailyvolGroupCode"		column="dailyvol_group_code" />
+		<result property="dailyvolEtc"				column="dailyvol_group_code" />
 		<result property="dailyvolRelGroupCode"	 	column="dailyvol_rel_group_code" />
 	</resultMap>
+	<update id="modifyDailyVolDeadLine" parameterType="String">
+		UPDATE tb_daily_volume
+		SET
+			dailyvol_deadline_check='o'
+		WHERE dailyvol_code = #{dailyVolCode}
+	</update>
+	<insert id="addDailyVolDeadLine" parameterType="DailyVolDto">
+		INSERT INTO tb_daily_volume 
+			(dailyvol_code
+			,store_info_code
+			,menu_code
+			,con_code
+			,sales_count
+			,dailyvol_subtotal
+			,dailyvol_deadline_check
+			,dailyvol_reg_date
+			,dailyvol_group_code
+			,dailyvol_rel_group_code
+			)
+		SELECT 
+			 sf_new_dailyvol_code()
+			,store_info_code
+			,menu_code
+			,con_code
+			,#{salesCount}
+			,#{dailyvolSubtotal}
+			,dailyvol_deadline_check
+			,dailyvol_reg_date
+			,#{dailyvolEtc}
+			,dailyvol_rel_group_code
+		FROM tb_daily_volume
+			WHERE 
+				dailyvol_code = #{dailyvolCode}
+	</insert>
 	<select id="getDailyVol" parameterType="String" resultMap="DailyVolResultMap">
 		SELECT
 			 dv.dailyvol_code
@@ -63,6 +97,7 @@
 			 dv.dailyvol_code
 			,st.store_info_code
 			,st.store_info_name
+			,SUM(dv.sales_count) AS 'sales_count' 
 			,a.article_code
 			,a.article_name
 			,SUM(dv.dailyvol_subtotal) AS 'dailyvol_subtotal' 
@@ -83,5 +118,6 @@
 			dv.store_info_code = st.store_info_code
 			WHERE dv.dailyvol_deadline_check IN ('x','')
 		GROUP BY c.article_code
+		ORDER BY dailyvol_code
 	</select>
 </mapper>

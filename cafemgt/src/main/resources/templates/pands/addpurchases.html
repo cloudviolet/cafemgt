@@ -41,7 +41,7 @@
 													<select id="articleCode" name="articleCode" class="form-control" style="text-align-last : center;" required>
 														<option value="">:::품목명선택:::</option>
 														<th:block th:if="${#lists.size(articleList) > 0}" th:each="al : ${articleList}">
-															<option th:value="${al.articleCode}" th:data-big="${al.artcleBigDan}" th:data-volume="${al.articleVolume}" th:text="${al.articleName}"></option>														
+															<option th:value="${al.articleCode}" th:data-big="${al.articleBigDan}" th:data-volume="${al.articleVolume}" th:text="${al.articleName}"></option>														
 														</th:block>
 													</select>
 												</div>
@@ -181,6 +181,7 @@
 					incoTax.val(tax);
 					console.log(supplyValue);
 					console.log(tax);
+					$('#custCode option[value="현금매출"]').prop('disabled', true);
 				}else{
 					incoPayType.eq(0).prop("checked", false);
 					if(incoVatTypeValue=='세금계산서'){

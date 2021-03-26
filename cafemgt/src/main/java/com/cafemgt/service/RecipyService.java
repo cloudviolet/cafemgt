@@ -28,4 +28,14 @@ public class RecipyService {
 		
 		return recipyMapper.addRecipy(recipyDto);
 	}
+	
+	public int modifyRecipy(RecipyDto recipyDto) {
+		
+		return recipyMapper.modifyRecipy(recipyDto);
+	}
+
+	public RecipyDto getRecipyByConCode(String conCode) {
+		
+		return recipyMapper.getRecipyByConCode(conCode);
+	}
 }
