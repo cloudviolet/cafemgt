@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.DailyVolDto;
-import com.cafemgt.dto.PurchasesDto;
 import com.cafemgt.dto.SkkDto;
 import com.cafemgt.dto.StockDto;
 import com.cafemgt.dto.TotalStockDto;
 import com.cafemgt.service.ArticleService;
 import com.cafemgt.service.DailyVolService;
-import com.cafemgt.service.PurchasesService;
 import com.cafemgt.service.SkkService;
 import com.cafemgt.service.StockService;
 import com.cafemgt.service.TotalStockService;
@@ -36,21 +34,18 @@ public class StockController {
 	private final StockService stockService;
 	private final TotalStockService totalStockService;
 	private final DailyVolService dailyVolService;
-	private final PurchasesService purchasesService;
 	
 	@Autowired
 	public StockController(ArticleService articleService
 						  ,SkkService skkService
 						  ,StockService stockService
 						  ,TotalStockService totalStockService
-						  ,DailyVolService dailyVolService
-						  ,PurchasesService purchasesService) {
+						  ,DailyVolService dailyVolService) {
 		this.articleService = articleService;
 		this.skkService = skkService;
 		this.stockService = stockService;
 		this.totalStockService = totalStockService;
 		this.dailyVolService = dailyVolService;
-		this.purchasesService = purchasesService;
 	}
 	
 	@PostConstruct
@@ -124,6 +119,7 @@ public class StockController {
 									  @RequestParam (value="volumeTotal", required = false) int volumeTotal
 									 ,DailyVolDto dailyVolDto
 									 ,TotalStockDto totalStockDto) {
+		
 		Map<String , String> incoMap = new HashMap<>();
 		//이전용량
 		int preVolume =(totalStockDto.getIncoVolumeSubtotal() - totalStockDto.getDetailvolRemainVolume());
@@ -133,7 +129,7 @@ public class StockController {
 		int conCount = (preVolume+dtvVolumeTotal)/totalStockDto.getArticleVolume();
 			System.out.println((double)dtvVolumeTotal/totalStockDto.getArticleVolume());
 			System.out.println(totalStockDto);
-		System.out.println(conCount);
+			System.out.println(conCount);
 		if(conCount > totalStockDto.getDetailvolRemainCount()) {
 			//소모수량이 잔여수량보다 클 경우 div를 잔여용량으로
 			conCount = totalStockDto.getDetailvolRemainCount();
@@ -213,7 +209,8 @@ public class StockController {
 	}
 	
 	@PostMapping("/modifyArticle")
-	public String modifyArticle(ArticleDto articleDto,Model model) {
+	public String modifyArticle(ArticleDto articleDto) {
+		articleService.modifyArticle(articleDto);
 		return "redirect:/getarticle";
 	}
 	

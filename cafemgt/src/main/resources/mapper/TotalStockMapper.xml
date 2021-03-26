@@ -14,7 +14,6 @@
 		<result property="articleVolume" 			column="article_volume" />
 		<result property="articleDan" 				column="article_dan" />
 		<result property="incoVolumeSubtotal" 		column="inco_volume_subtotal" />
-		<result property="detailvolGroupCode" 		column="detailvol_group_code" />
 		<result property="detailvolVolumeTotal" 	column="detailvol_volume_total" />
 		<result property="detailvolConCount" 		column="detailvol_con_count" />
 		<result property="detailvolRemainVolume" 	column="detailvol_remain_volume" />
@@ -23,7 +22,6 @@
 		<result property="detailvolRegDate" 		column="detailvol_reg_date" />
 		<result property="detailvolDeadlineCheck" 	column="detailvol_deadline_check" />
 		<result property="incoCheck" 				column="inco_check" />
-		<result property="detailvolStockGroupCode" 	column="detailvol_stock_group_code" />
 		<result property="detailvolSystemId" 		column="detailvol_system_id" />
 		<result property="detailvolSystemName" 		column="detailvol_system_name" />
 		<association property="incoDto" javaType="PurchasesDto">
@@ -71,7 +69,14 @@
 			,${detailvolRemainVolume}
 			,${detailvolRemainCount}
 			,NOW()
-			,'x')
+			,
+			<if test='detailvolRemainVolume == 0'>
+				'o'
+			</if>
+			<if test='detailvolRemainVolume != 0'>
+				'x'
+			</if>
+			)
 	</insert>
 	<update id="modifyTotalStockDeadLine" parameterType="TotalStockDto">
 		UPDATE tb_detail_volume
@@ -99,7 +104,6 @@
 			,ar.article_volume
 			,ar.article_dan
 			,inc.inco_volume_subtotal
-			,dtv.detailvol_group_code	
 			,dtv.detailvol_volume_total
 			,dtv.detailvol_con_count
 			,dtv.detailvol_remain_volume
@@ -108,7 +112,6 @@
 			,dtv.detailvol_reg_date
 			,dtv.detailvol_deadline_check
 			,inc.inco_check
-			,dtv.detailvol_stock_group_code
 			,dtv.detailvol_system_id
 			,dtv.detailvol_system_name
 		FROM 
@@ -140,7 +143,6 @@
 			,ar.article_volume
 			,ar.article_dan
 			,inc.inco_volume_subtotal
-			,dtv.detailvol_group_code	
 			,dtv.detailvol_volume_total
 			,dtv.detailvol_con_count
 			,dtv.detailvol_remain_volume
@@ -149,7 +151,6 @@
 			,dtv.detailvol_reg_date
 			,dtv.detailvol_deadline_check
 			,inc.inco_check
-			,dtv.detailvol_stock_group_code
 			,dtv.detailvol_system_id
 			,dtv.detailvol_system_name
 		FROM 
