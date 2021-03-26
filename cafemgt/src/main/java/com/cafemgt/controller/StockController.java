@@ -1,5 +1,6 @@
 package com.cafemgt.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,5 +214,12 @@ public class StockController {
 		articleService.modifyArticle(articleDto);
 		return "redirect:/getarticle";
 	}
+	
+	@PostMapping("/salesDeadline")
+	public String salesDeadline(ArrayList<Object> arraySales) {
+		System.out.println(arraySales);
+		return "redirect:/getsales";
+	}
+	
 	
 }
