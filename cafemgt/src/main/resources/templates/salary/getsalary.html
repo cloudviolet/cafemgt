@@ -9,11 +9,11 @@
 
 <th:block layout:fragment="customCss">
 	<!-- Datatables -->
-	<link href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
-	<link href="@{/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
-	<link href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
-	<link href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
-	<link href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
 </th:block>
 <th:block layout:fragment="customContents">
 	<div class="right_col" role="main">
@@ -62,16 +62,12 @@
 											<th>직원아이디</th>
 											<th>직원이름</th>
 											<th>귀속연월</th>
-											<th>월급</th>
+											<th>급여</th>
 											<th>과세추가수당</th>
 											<th>비과세추가수당</th>
 											<th>지급합계</th>
-											<th>근로소득세 코드</th>
-											<th>근로소득세 최소</th>
-											<th>근로소득세 최대</th>
 											<th>근로소득세</th>
 											<th>근로지방소득세</th>
-											<th>4대보험 코드</th>						
 											<th>4대보험 합계 세율 계산 금액</th>
 											<th>공제합계</th>
 											<th>실수령액</th>
@@ -90,12 +86,8 @@
 											<td th:text="${slr.salaryBtaxTotal}">
 											<td th:text="${slr.salaryBntaxTotal}">
 											<td th:text="${slr.salaryTotal}">
-											<td th:text="${slr.intaxCode}">
-											<td th:text="${slr.intaxMin}">
-											<td th:text="${slr.intaxMax}">
-											<td th:text="${slr.intaxWork}">
-											<td th:text="${slr.intaxLocal}">
-											<td th:text="${slr.insuCode}">
+											<td th:text="${slr.salaryIncome}">
+											<td th:text="${slr.salaryIncomeLocal}">
 											<td th:text="${slr.salaryInsuCalc}">
 											<td th:text="${slr.salaryDeduction}">
 											<td th:text="${slr.salaryReceipts}">
@@ -113,28 +105,20 @@
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
-		<script src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
-		<script src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
-		<script src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
-		<script src="@{/vendors/jszip/dist/jszip.min.js}"></script>
-		<script src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
-		<script src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
+		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
+		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
 	</th:block>
 </html>

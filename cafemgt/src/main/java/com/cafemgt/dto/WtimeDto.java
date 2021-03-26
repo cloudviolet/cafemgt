@@ -3,9 +3,7 @@ package com.cafemgt.dto;
 public class WtimeDto {
 	private String attCode;
 	private String storeInfoCode;
-	private String storeInfoName;
 	private String memberId;
-	private String memberName;
 	private String attDate;
 	private String attStart;
 	private String attEnd;
@@ -23,23 +21,11 @@ public class WtimeDto {
 	public void setStoreInfoCode(String storeInfoCode) {
 		this.storeInfoCode = storeInfoCode;
 	}
-	public String getStoreInfoName() {
-		return storeInfoName;
-	}
-	public void setStoreInfoName(String storeInfoName) {
-		this.storeInfoName = storeInfoName;
-	}
 	public String getMemberId() {
 		return memberId;
 	}
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
-	}
-	public String getMemberName() {
-		return memberName;
-	}
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
 	}
 	public String getAttDate() {
 		return attDate;
@@ -82,9 +68,7 @@ public class WtimeDto {
 		result = prime * result + ((attStart == null) ? 0 : attStart.hashCode());
 		result = prime * result + ((attTodailyTime == null) ? 0 : attTodailyTime.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
-		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
-		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
 		return result;
 	}
 	@Override
@@ -131,32 +115,20 @@ public class WtimeDto {
 				return false;
 		} else if (!memberId.equals(other.memberId))
 			return false;
-		if (memberName == null) {
-			if (other.memberName != null)
-				return false;
-		} else if (!memberName.equals(other.memberName))
-			return false;
 		if (storeInfoCode == null) {
 			if (other.storeInfoCode != null)
 				return false;
 		} else if (!storeInfoCode.equals(other.storeInfoCode))
 			return false;
-		if (storeInfoName == null) {
-			if (other.storeInfoName != null)
-				return false;
-		} else if (!storeInfoName.equals(other.storeInfoName))
-			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "WtimeDto [attCode=" + attCode + ", storeInfoCode=" + storeInfoCode + ", storeInfoName=" + storeInfoName
-				+ ", memberId=" + memberId + ", memberName=" + memberName + ", attDate=" + attDate + ", attStart="
-				+ attStart + ", attEnd=" + attEnd + ", attTodailyTime=" + attTodailyTime + ", attRegDate=" + attRegDate
-				+ "]";
+		return "WtimeDto [attCode=" + attCode + ", storeInfoCode=" + storeInfoCode + ", memberId=" + memberId
+				+ ", attDate=" + attDate + ", attStart=" + attStart + ", attEnd=" + attEnd + ", attTodailyTime="
+				+ attTodailyTime + ", attRegDate=" + attRegDate + "]";
 	}
-	
-	
+
 	
 	
 	

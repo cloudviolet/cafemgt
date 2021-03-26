@@ -11,17 +11,14 @@ public class SalaryDto {
 	private int salaryBtaxTotal;
 	private int salaryBntaxTotal;
 	private int salaryTotal;
-	private String intaxCode;
-	private int intaxMin;
-	private int intaxMax;
-	private int intaxWork;
-	private int intaxLocal;
-	private String insuCode;
+	private int salaryIncome;
+	private int salaryIncomeLocal;
 	private int salaryInsuCalc;
 	private int salaryDeduction;
 	private int salaryReceipts;
 	private String salaryPayDate;
 	private String salaryRegDate;
+	
 	public String getSalaryCode() {
 		return salaryCode;
 	}
@@ -82,41 +79,17 @@ public class SalaryDto {
 	public void setSalaryTotal(int salaryTotal) {
 		this.salaryTotal = salaryTotal;
 	}
-	public String getIntaxCode() {
-		return intaxCode;
+	public int getSalaryIncome() {
+		return salaryIncome;
 	}
-	public void setIntaxCode(String intaxCode) {
-		this.intaxCode = intaxCode;
+	public void setSalaryIncome(int salaryIncome) {
+		this.salaryIncome = salaryIncome;
 	}
-	public int getIntaxMin() {
-		return intaxMin;
+	public int getSalaryIncomeLocal() {
+		return salaryIncomeLocal;
 	}
-	public void setIntaxMin(int intaxMin) {
-		this.intaxMin = intaxMin;
-	}
-	public int getIntaxMax() {
-		return intaxMax;
-	}
-	public void setIntaxMax(int intaxMax) {
-		this.intaxMax = intaxMax;
-	}
-	public int getIntaxWork() {
-		return intaxWork;
-	}
-	public void setIntaxWork(int intaxWork) {
-		this.intaxWork = intaxWork;
-	}
-	public int getIntaxLocal() {
-		return intaxLocal;
-	}
-	public void setIntaxLocal(int intaxLocal) {
-		this.intaxLocal = intaxLocal;
-	}
-	public String getInsuCode() {
-		return insuCode;
-	}
-	public void setInsuCode(String insuCode) {
-		this.insuCode = insuCode;
+	public void setSalaryIncomeLocal(int salaryIncomeLocal) {
+		this.salaryIncomeLocal = salaryIncomeLocal;
 	}
 	public int getSalaryInsuCalc() {
 		return salaryInsuCalc;
@@ -152,18 +125,14 @@ public class SalaryDto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((insuCode == null) ? 0 : insuCode.hashCode());
-		result = prime * result + ((intaxCode == null) ? 0 : intaxCode.hashCode());
-		result = prime * result + intaxLocal;
-		result = prime * result + intaxMax;
-		result = prime * result + intaxMin;
-		result = prime * result + intaxWork;
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + salaryBntaxTotal;
 		result = prime * result + salaryBtaxTotal;
 		result = prime * result + ((salaryCode == null) ? 0 : salaryCode.hashCode());
 		result = prime * result + salaryDeduction;
+		result = prime * result + salaryIncome;
+		result = prime * result + salaryIncomeLocal;
 		result = prime * result + salaryInsuCalc;
 		result = prime * result + salaryPay;
 		result = prime * result + ((salaryPayDate == null) ? 0 : salaryPayDate.hashCode());
@@ -184,24 +153,6 @@ public class SalaryDto {
 		if (getClass() != obj.getClass())
 			return false;
 		SalaryDto other = (SalaryDto) obj;
-		if (insuCode == null) {
-			if (other.insuCode != null)
-				return false;
-		} else if (!insuCode.equals(other.insuCode))
-			return false;
-		if (intaxCode == null) {
-			if (other.intaxCode != null)
-				return false;
-		} else if (!intaxCode.equals(other.intaxCode))
-			return false;
-		if (intaxLocal != other.intaxLocal)
-			return false;
-		if (intaxMax != other.intaxMax)
-			return false;
-		if (intaxMin != other.intaxMin)
-			return false;
-		if (intaxWork != other.intaxWork)
-			return false;
 		if (memberId == null) {
 			if (other.memberId != null)
 				return false;
@@ -222,6 +173,10 @@ public class SalaryDto {
 		} else if (!salaryCode.equals(other.salaryCode))
 			return false;
 		if (salaryDeduction != other.salaryDeduction)
+			return false;
+		if (salaryIncome != other.salaryIncome)
+			return false;
+		if (salaryIncomeLocal != other.salaryIncomeLocal)
 			return false;
 		if (salaryInsuCalc != other.salaryInsuCalc)
 			return false;
@@ -263,11 +218,10 @@ public class SalaryDto {
 		return "SalaryDto [salaryCode=" + salaryCode + ", storeInfoCode=" + storeInfoCode + ", storeInfoName="
 				+ storeInfoName + ", memberId=" + memberId + ", memberName=" + memberName + ", salaryYearMonth="
 				+ salaryYearMonth + ", salaryPay=" + salaryPay + ", salaryBtaxTotal=" + salaryBtaxTotal
-				+ ", salaryBntaxTotal=" + salaryBntaxTotal + ", salaryTotal=" + salaryTotal + ", intaxCode=" + intaxCode
-				+ ", intaxMin=" + intaxMin + ", intaxMax=" + intaxMax + ", intaxWork=" + intaxWork + ", intaxLocal="
-				+ intaxLocal + ", insuCode=" + insuCode + ", salaryInsuCalc=" + salaryInsuCalc + ", salaryDeduction="
-				+ salaryDeduction + ", salaryReceipts=" + salaryReceipts + ", salaryPayDate=" + salaryPayDate
-				+ ", salaryRegDate=" + salaryRegDate + "]";
+				+ ", salaryBntaxTotal=" + salaryBntaxTotal + ", salaryTotal=" + salaryTotal + ", salaryIncome="
+				+ salaryIncome + ", salaryIncomeLocal=" + salaryIncomeLocal + ", salaryInsuCalc=" + salaryInsuCalc
+				+ ", salaryDeduction=" + salaryDeduction + ", salaryReceipts=" + salaryReceipts + ", salaryPayDate="
+				+ salaryPayDate + ", salaryRegDate=" + salaryRegDate + "]";
 	}
 	
 	

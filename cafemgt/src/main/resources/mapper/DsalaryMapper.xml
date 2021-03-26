@@ -5,24 +5,55 @@
 <mapper namespace="com.cafemgt.dao.DsalaryMapper">
 
 	<resultMap type="DsalaryDto" id="dsalaryResultMap">
-		<result property="sdCode" 			column="sd_code"/>
-		<result property="storeInfoCode" 	column="store_info_code"/>
-		<result property="storeInfoName" 	column="store_info_name"/>
-		<result property="memberId" 		column="member_id"/>
-		<result property="memberName" 		column="member_name"/>
-		<result property="sdYearMonth"		column="sd_year_month"/>
-		<result property="sdWorktime"		column="sd_worktime"/>
-		<result property="sdPay" 			column="sd_pay"/>
-		<result property="intaxCode" 		column="intax_code"/>
-		<result property="intaxMin" 		column="intax_min"/>
-		<result property="intaxMax" 		column="intax_max"/>
-		<result property="intaxWork" 		column="intax_work"/>
-		<result property="intaxLocal" 		column="intax_local"/>
-		<result property="sdDeduction" 		column="sd_deduction"/>
-		<result property="sdReceipts" 		column="sd_receipts"/>
-		<result property="sdPayDate" 		column="sd_pay_date"/>
-		<result property="sdRegDate" 		column="sd_reg_date"/>
+		<result property="sdCode" 				column="sd_code"/>
+		<result property="storeInfoCode" 		column="store_info_code"/>
+		<result property="storeInfoName" 		column="store_info_name"/>
+		<result property="memberId" 			column="member_id"/>
+		<result property="memberName" 			column="member_name"/>
+		<result property="sdYearMonth"			column="sd_year_month"/>
+		<result property="sdWorktime"			column="sd_worktime"/>
+		<result property="sdPay" 				column="sd_pay"/>
+		<result property="sdIncome" 			column="sd_income"/>
+		<result property="sdIncomeLocal" 		column="sd_income_local"/>
+		<result property="sdDeduction" 			column="sd_deduction"/>
+		<result property="sdReceipts" 			column="sd_receipts"/>
+		<result property="sdPayDate" 			column="sd_pay_date"/>
+		<result property="sdGroupCode" 			column="sd_group_code"/>
+		<result property="sdRegDate" 			column="sd_reg_date"/>
+		<result property="sdPayManGroupCode"	column="sd_pay_man_group_code"/>
 	</resultMap>
+
+	<insert id="addDsalary" parameterType="DsalaryDto">
+	INSERT INTO tb_daily_salary
+	(sd_code
+	, store_info_code
+	, member_id
+	, sd_year_month
+	, sd_pay
+	, sd_income
+	, sd_income_local
+	, sd_deduction
+	, sd_receipts
+	, sd_pay_date
+	, sd_group_code
+	, sd_reg_date
+	, sd_pay_man_group_code)
+	VALUES 
+	(sf_new_daily_salary_code()
+	, #{storeInfoCode}
+	, #{memberId}
+	, #{sdYearMonth}
+	, #{sdPay}
+	, #{sdIncome}
+	, #{sdIncomeLocal}
+	, #{sdDeduction}
+	, #{sdReceipts}
+	, #{sdPayDate}
+	, ''
+	, NOW()
+	, '')
+	</insert>
+
 
 	<select id="getDsalary" resultMap="dsalaryResultMap">
 		SELECT
@@ -34,11 +65,8 @@
 			,ds.sd_year_month
 			,ds.sd_worktime
 			,ds.sd_pay
-			,intax.intax_code
-			,intax.intax_min
-			,intax.intax_max
-			,intax.intax_work
-			,intax.intax_local
+			,ds.sd_income
+			,ds.sd_income_local
 			,ds.sd_deduction
 			,ds.sd_receipts
 			,ds.sd_pay_date
@@ -53,9 +81,5 @@
 			tb_member AS us
 		ON
 			ds.member_id=us.member_id
-		LEFT JOIN
-			tb_income_tax_2021 AS intax
-		ON
-			ds.intax_code = intax.intax_code
 	</select>
 </mapper>

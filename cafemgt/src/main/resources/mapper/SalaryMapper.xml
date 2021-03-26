@@ -5,29 +5,59 @@
 <mapper namespace="com.cafemgt.dao.SalaryMapper">
 
 	<resultMap type="SalaryDto" id="salaryResultMap">
-		<result property="salaryCode" 		column="salary_code"/>
-		<result property="storeInfoCode" 	column="store_info_code"/>
-		<result property="storeInfoName" 	column="store_info_name"/>
-		<result property="memberId"			column="member_id"/>
-		<result property="memberName" 		column="member_name"/>
-		<result property="salaryYearMonth"	column="salary_year_month"/>
-		<result property="salaryPay"		column="salary_pay"/>
-		<result property="salaryBtaxTotal" 	column="salary_btax_total"/>
-		<result property="salaryBntaxTotal" column="salary_bntax_total"/>
-		<result property="salaryTotal"		column="salary_total"/>
-		<result property="intaxCode" 		column="intax_code"/>
-		<result property="intaxMin" 		column="intax_min"/>
-		<result property="intaxMax" 		column="intax_max"/>
-		<result property="intaxWork" 		column="intax_work"/>
-		<result property="intaxLocal" 		column="intax_local"/>
-		<result property="insuCode" 		column="insu_code"/>
-		<result property="salaryInsuCalc" 	column="salary_insu_calc"/>
-		<result property="salaryDeduction" 	column="salary_deduction"/>
-		<result property="salaryReceipts" 	column="salary_receipts"/>
-		<result property="salaryPayDate" 	column="salary_pay_date"/>
-		<result property="salaryRegDate" 	column="salary_reg_date"/>
+		<result property="salaryCode" 			column="salary_code"/>
+		<result property="storeInfoCode" 		column="store_info_code"/>
+		<result property="memberId"				column="member_id"/>
+		<result property="memberName" 			column="member_name"/>
+		<result property="salaryYearMonth"		column="salary_year_month"/>
+		<result property="salaryPay"			column="salary_pay"/>
+		<result property="salaryBtaxTotal" 		column="salary_btax_total"/>
+		<result property="salaryBntaxTotal"	 	column="salary_bntax_total"/>
+		<result property="salaryTotal"			column="salary_total"/>
+		<result property="salaryIncome"			column="salary_income"/>
+		<result property="salaryIncomeLocal"	column="salary_income_local"/>
+		<result property="salaryInsuCalc" 		column="salary_insu_calc"/>
+		<result property="salaryDeduction" 		column="salary_deduction"/>
+		<result property="salaryReceipts" 		column="salary_receipts"/>
+		<result property="salaryPayDate" 		column="salary_pay_date"/>
+		<result property="salaryRegDate" 		column="salary_reg_date"/>
 	</resultMap>
-
+	
+	<insert id="addSalary" parameterType="SalaryDto">
+		INSERT INTO tb_salary
+	(salary_code
+	, store_info_code
+	, member_id
+	, salary_year_month
+	, salary_pay
+	, salary_btax_total
+	, salary_bntax_total
+	, salary_total
+	, salary_income
+	, salary_income_local
+	, salary_insu_calc
+	, salary_deduction
+	, salary_receipts
+	, salary_pay_date
+	, salary_reg_date)
+	VALUES 
+	(sf_new_salary_code()
+	, #{storeInfoCode}
+	, #{memberId}
+	, #{salaryYearMonth}
+	, #{salaryPay}
+	, #{salaryBtaxTotal}
+	, #{salaryBntaxTotal}
+	, #{salaryTotal}
+	, #{salaryIncome}
+	, #{salaryIncomeLocal}
+	, #{salaryInsuCalc}
+	, #{salaryDeduction}
+	, #{salaryReceipts}
+	, #{salaryPayDate}
+	, NOW())
+	</insert>
+	
 	<select id="getSalary" resultMap="salaryResultMap">
 		SELECT
 			slr.salary_code
@@ -40,12 +70,8 @@
 			,slr.salary_btax_total
 			,slr.salary_bntax_total
 			,slr.salary_total
-			,intax.intax_code
-			,intax.intax_min
-			,intax.intax_max
-			,intax.intax_work
-			,intax.intax_local
-			,insu.insu_code
+			,slr.salary_income
+			,slr.salary_income_local
 			,slr.salary_insu_calc
 			,slr.salary_deduction
 			,slr.salary_receipts
@@ -61,13 +87,5 @@
 			tb_member AS us
 		ON
 			slr.member_id=us.member_id
-		LEFT JOIN
-			tb_insurance AS insu
-		ON
-			slr.insu_code = insu.insu_code
-		LEFT JOIN
-			tb_income_tax_2021 AS intax
-		ON
-			slr.intax_code = intax.intax_code
 	</select>
 </mapper>

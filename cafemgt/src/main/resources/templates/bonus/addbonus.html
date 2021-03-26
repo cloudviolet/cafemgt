@@ -48,65 +48,58 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" th:action="@{/addbonus}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">사업장 코드 <span class="required" >*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control">
-											</div>
-										</div>
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">상호명 <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control">
-											</div>
-										</div>
+									<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
+									<input type="hidden" name="salesSystemId" th:value="${session.OID}">
+
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">직원 아이디 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
+												<input type="text" id="memberId" name="memberId" required="required" class="form-control">
 											</div>
 										</div>
 										<div class="item form-group">
-											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">직원 이름</label>
+											<label class="col-form-label col-md-3 col-sm-3 label-align">귀속년월 <span class="required">*</span>
+											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name">
+												<input id="ubYearMonth" name="ubYearMonth" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">과세항목 선택</label>
 											<div class="col-md-6 col-sm-6 ">
-												<select class="form-control">
-													<option>::과세항목(항목에 없을시 비과세)::</option>
+												<select class="form-control" id="ubCheck" name="ubCheck">
+													<option>::과세항목선택::</option>
 													<option>상여금</option>
 													<option>추가수당</option>
 													<option>기타등등</option>
 													<option>기타등등</option>
+													<option>해당없음</option>
 												</select>
 											</div>
 										</div>
+										<input type="hidden" id="ubOption" name="ubOption">
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">과세 금액 입력 <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">금액 입력 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
+												<input type="text" id="ubPay" name="ubPay" required="required" class="form-control">
 											</div>
 										</div>
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">비과세 금액 입력 <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">상세 내역 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
-											</div>
-										</div>
-										<div class="item form-group">
-											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">비과세 내역</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name">
+												<input type="text" id="ubEtc" name="ubEtc" required="required" class="form-control">
 											</div>
 										</div>
 										<div class="ln_solid"></div>
@@ -147,6 +140,26 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script type="text/javascript">
+		var ubCheck=$('#ubCheck');
+		var ubOption=$('#ubOption');
+		var ubEtc=$('#ubEtc');
+		$(function(){
+			$('#ubCheck').on('change',function(){
+				console.log(ubCheck.val());
+				if(ubCheck.val()=="해당없음"){
+					var a = "비과세";
+					ubOption.val(a);
+				}else{
+					var a = "과세";
+					ubOption.val(a);
+					ubEtc.val(a);
+				}
+			});
+		});
+	</script>
+	
 	</th:block>
 		
 </html>
