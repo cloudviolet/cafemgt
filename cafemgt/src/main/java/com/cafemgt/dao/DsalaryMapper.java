@@ -8,5 +8,7 @@ import com.cafemgt.dto.DsalaryDto;
 
 @Mapper
 public interface DsalaryMapper {
-	public List<DsalaryDto> getDsalary();
+	public List<DsalaryDto> getDsalary(String SSTORECODE);
+	
+	public int addDsalary(DsalaryDto dsalaryDto);
 }

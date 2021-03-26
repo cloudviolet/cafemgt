@@ -1,6 +1,9 @@
 package com.cafemgt.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -9,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafemgt.dao.ArticleMapper;
 import com.cafemgt.dao.CustomerMapper;
@@ -57,8 +63,8 @@ public class TaxController {
 	@GetMapping("/addsales")
 	public String addsales(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		String OID = (String)session.getAttribute("OID");
-		String ONAME = (String)session.getAttribute("ONAME");
+		String MID = (String)session.getAttribute("MID");
+		String MNAME = (String)session.getAttribute("MNAME");
 		List<MenuDto> menuList = menuMapper.getMenu(SSTORECODE);
 		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
 		model.addAttribute("menuList", menuList);
@@ -75,8 +81,8 @@ public class TaxController {
 	@GetMapping("/addpurchases")
 	public String addpurchases(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		String OID = (String)session.getAttribute("OID");
-		String ONAME = (String)session.getAttribute("ONAME");
+		String MID = (String)session.getAttribute("MID");
+		String MNAME = (String)session.getAttribute("MNAME");
 		List<ArticleDto> articleList = articleMapper.getArticle(SSTORECODE);
 		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
 		model.addAttribute("articleList", articleList);
@@ -117,6 +123,38 @@ public class TaxController {
 		return "pands/getpurchases";
 	}
 	
+	@GetMapping("/purchasesdeadline")
+	public String purchasesDeadline(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<PurchasesDto> purchasesCheckList = purchasesService.purchasesDeadline(SSTORECODE);
+		model.addAttribute("purchasesCheckList", purchasesCheckList);
+		return "pands/purchasesdeadline";
+	}
+	
+	@GetMapping("/salesdeadlineforstock")
+	public String salesDeadlineForStock(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SalesDto> salesCheckList = salesService.salesDeadlineForStock(SSTORECODE);
+		model.addAttribute("salesCheckList", salesCheckList);
+		return "pands/salesdeadlineforstock";
+	}
+	
+	@GetMapping("/salesdeadlinefortax")
+	public String salesDeadlineForTax(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SalesDto> salesTaxCheckList = salesService.salesDeadlineForTax(SSTORECODE);
+		model.addAttribute("salesTaxCheckList", salesTaxCheckList);
+		return "pands/salesdeadlinefortax";
+	}
+	
+	@GetMapping("/otherpurchasesdeadline")
+	public String otherPurchasesDeadline(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<OtherPurchasesDto> otherPurchasesCheckList = otherPurchasesService.otherPurchasesDeadline(SSTORECODE);
+		model.addAttribute("otherPurchasesCheckList", otherPurchasesCheckList);
+		return "pands/otherpurchasesdeadline";
+	}
+	
 	@GetMapping("/getotherpurchases")
 	public String getOtherPurchases(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -126,9 +164,35 @@ public class TaxController {
 	}
 	
 	@GetMapping("/gettotalpands")
-	public String getTotalPandS() {
+	public String getTotalPandS(HttpSession session) {
+		String MID = (String)session.getAttribute("MID");
+		System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<");
 		return "tax/gettotalpands";
 	}
+	
+	@ResponseBody
+	@PostMapping("/gettotalpands")
+	public Map<String,Object> getTotalPandS(
+			@RequestParam (value = "searchFirstDate",required = false)String searchFirstDate 
+			,@RequestParam (value = "searchLastDate",required = false)String searchLastDate 
+			,Model model , HttpSession session){
+		System.out.println(searchFirstDate);
+		System.out.println(searchLastDate);
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		Map<String, Object> map = new HashMap<>();	
+		map = salesService.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
+			return map;			
+	}
+	
+	@ResponseBody
+	@PostMapping("/getmyvat")
+	public int getmyvat(@RequestParam(value = "MID",required = false)String MID, 
+						Model model){
+		System.out.println(MID);
+		return 0;
+		
+	}
+	
 	
 	@GetMapping("/gettotalsalary")
 	public String getTotalSalary() {

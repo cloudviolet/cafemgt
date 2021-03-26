@@ -15,14 +15,18 @@ public class SalaryService {
 	
 	private final  SalaryMapper  salaryMapper;
 	
-	@Autowired
+	
 	public SalaryService(SalaryMapper salaryMapper) {
 		this.salaryMapper= salaryMapper;
 	}
 	
-	public List<SalaryDto> getSalary(){
-		List<SalaryDto> salaryDto = salaryMapper.getSalary();
+	public List<SalaryDto> getSalary(String SSTORECODE){
+		List<SalaryDto> salaryDto = salaryMapper.getSalary(SSTORECODE);
 		
 		return salaryDto;
+	}
+	public int addSalary(SalaryDto salarydto) {
+		
+		return salaryMapper.addSalary(salarydto);
 	}
 }

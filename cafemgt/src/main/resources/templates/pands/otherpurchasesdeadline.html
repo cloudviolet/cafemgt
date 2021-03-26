@@ -20,9 +20,9 @@
 			<div class="col-md-12 col-sm-12 ">
 				<div class="x_panel">
 					 <div class="x_title">
-	                    <h2>기타매입 조회</h2>
+	                    <h2>기타매입 마감</h2>
 						<ul class="nav navbar-right panel_toolbox">
-							<li><a th:href=@{/otherpurchasesdeadline} class="btn btn-info">회계마감</a></li>
+							<li><button id="forTaxBtn" class="btn btn-info">마감</button></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -45,18 +45,22 @@
 												<th>공급 합계</th>
 												<th>상세</th>
 												<th>사용 날짜</th>
+												<th class="hidden">차변코드</th>
+												<th class="hidden">대변코드</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:if="${#lists.size(otherPurchasesList)>0}" th:each="ol : ${otherPurchasesList}">
-												<td><input type="checkbox" id="check-all"></td>
-												<td th:text="${ol.oeVatType}"></td>
-												<td th:text="${ol.oeStoreName}"></td>
-												<td th:text="${ol.oeSupplyValue}"></td>
-												<td th:text="${ol.oeTax}"></td>
-												<td th:text="${ol.oeTotal}"></td>
-												<td th:text="${ol.oeEtc}"></td>
-												<td th:text="${ol.oeDate}"></td>
+											<tr th:if="${#lists.size(otherPurchasesCheckList)>0}" th:each="ocl : ${otherPurchasesCheckList}">
+												<td><input type="checkbox" name="checkbox" id="check-all"></td>
+												<td th:text="${ocl.oeVatType}"></td>
+												<td th:text="${ocl.oeStoreName}"></td>
+												<td th:text="${ocl.oeSupplyValue}"></td>
+												<td th:text="${ocl.oeTax}"></td>
+												<td th:text="${ocl.oeTotal}"></td>
+												<td th:text="${ocl.oeEtc}"></td>
+												<td th:text="${ocl.oeDate}"></td>
+												<td class="hidden" th:text="${ocl.atDebitCode}"></td>
+												<td class="hidden" th:text="${ocl.atCreditCode}"></td>
 											</tr>
 										</tbody>
 									</table>
@@ -92,6 +96,30 @@
 		<script th:src="@{../vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
+		
+		<script type="text/javascript">
+			$(function(){
+				$('.hidden').attr('style', "display:none;");
+			})
+		
+			$('#forTaxBtn').click(function(){
+				var arrayOtherPurchases = [];
+				var checkBox = $("input[name='checkbox']:checked");
+				checkBox.each(function(i){
+					var otherPurchases = {};
+					var tr = checkBox.parent().parent().eq(i);
+					var td = tr.children();
+										
+					var cate = td.eq(1).text();
+					otherPurchases[cate] = cate;
+					arrayOtherPurchases.push(otherPurchases);
+					var test = td.eq(2).text();
+					otherPurchases[test] = test;
+					arrayOtherPurchases.push(otherPurchases);
+				});
+				console.log(arrayOtherPurchases);
+			});
+		</script>
 	</th:block>
 
 </html>
