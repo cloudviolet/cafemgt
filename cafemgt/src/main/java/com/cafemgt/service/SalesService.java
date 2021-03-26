@@ -1,5 +1,6 @@
 package com.cafemgt.service;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class SalesService {
 		this.salesMapper = salesMapper;
 	}
 	
-	public Map<String, Object> getTotalPandS(String searchFirstDate,String searchLastDate, String SSTORECODE){
+	public Map<String,Object> getTotalPandS(String searchFirstDate,String searchLastDate, String SSTORECODE){
 		return salesMapper.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
 	}
 

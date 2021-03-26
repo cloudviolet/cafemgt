@@ -26,11 +26,12 @@
 		<result property="salesSystemName" 			column="sales_system_name"/>
 	</resultMap>
 	
-	<select id="getTotalPandS" parameterType="String">
+	<select id="getTotalPandS" parameterType="String" resultType="HashMap">
 		SELECT
-			SUM(if(d.deal_cate='매출', d.deal_total, 0)) 
-			,SUM(if(d.deal_cate='매입', d.deal_total, 0))
-			,SUM(if(d.deal_cate='기타매입', d.deal_total, 0))
+			SUM(if(d.deal_cate='매출', d.deal_total, 0)) AS 'totalSales'
+			,SUM(if(d.deal_cate='매입', d.deal_total, 0)) AS 'totalPurchases'
+			,SUM(if(d.deal_cate='기타매입', d.deal_total, 0)) AS 'totalOtherPurchases'
+		
 		FROM 
 			tb_dealing AS d
 		WHERE 

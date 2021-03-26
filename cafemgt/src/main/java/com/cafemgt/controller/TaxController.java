@@ -1,5 +1,6 @@
 package com.cafemgt.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -163,23 +164,32 @@ public class TaxController {
 	}
 	
 	@GetMapping("/gettotalpands")
-	public String getTotalPandS() {
+	public String getTotalPandS(HttpSession session) {
+		String MID = (String)session.getAttribute("MID");
+		System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<");
 		return "tax/gettotalpands";
 	}
 	
 	@ResponseBody
 	@PostMapping("/gettotalpands")
-	public void getTotalPandS(
-			@RequestParam (value = "searchFirstDate",required = false)String searchFirstDate ,Model model , HttpSession session){
+	public Map<String,Object> getTotalPandS(
+			@RequestParam (value = "searchFirstDate",required = false)String searchFirstDate 
+			,@RequestParam (value = "searchLastDate",required = false)String searchLastDate 
+			,Model model , HttpSession session){
 		System.out.println(searchFirstDate);
+		System.out.println(searchLastDate);
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		//String paramName =  String.valueOf(param.get(0).get("searchFirstDate"));
-		//System.out.println(paramName + "<<<<<<<<<<<<<<<<<");
-		/*
-		 * Map<String, Object> result = salesService.getTotalPandS(param ,SSTORECODE);
-		 */
-
-		//return null;
+		Map<String, Object> map = new HashMap<>();	
+		map = salesService.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
+			return map;			
+	}
+	
+	@ResponseBody
+	@PostMapping("/getmyvat")
+	public int getmyvat(@RequestParam(value = "MID",required = false)String MID, 
+						Model model){
+		System.out.println(MID);
+		return 0;
 		
 	}
 	
