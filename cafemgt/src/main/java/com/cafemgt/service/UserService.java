@@ -21,9 +21,8 @@ public class UserService {
 	}
 	
 	public int addUser(UserDto userDto) {
-		userMapper.addUser(userDto);
-		
-		return 0;
+		System.out.println("서비스 확인");
+		return userMapper.addUser(userDto);
 	}
 	
 	public List<UserDto> getUseradmin(){

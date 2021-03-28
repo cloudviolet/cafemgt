@@ -11,7 +11,5 @@ public interface StoreMapper {
 	public List<StoreDto> getStoreadmin();
 	
 	public List<StoreDto> getStore(String SSTORECODE);
-	
-	public List<StoreDto> getStoreInfoByMemberId(String memberId);
 
 }
