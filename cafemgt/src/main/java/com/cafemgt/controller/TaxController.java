@@ -208,4 +208,9 @@ public class TaxController {
 	public String getIncomeStatement() {
 		return "tax/getincomestatement";
 	}
+	
+	@GetMapping("/modifyotherpurchases")
+	public String modifyOtherPurchases() {
+		return "pands/modifyotherpurchases";
+	}
 }

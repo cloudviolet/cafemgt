@@ -45,6 +45,8 @@
 												<th>공급 합계</th>
 												<th>상세</th>
 												<th>사용 날짜</th>
+												<th>수정</th>
+												<th>삭제</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -57,6 +59,8 @@
 												<td th:text="${ol.oeTotal}"></td>
 												<td th:text="${ol.oeEtc}"></td>
 												<td th:text="${ol.oeDate}"></td>
+												<!-- <td><a th:href="@{/modifyotherpurchases}">수정</a></td>
+												<td><a th:href="">삭제</a></td> -->
 											</tr>
 										</tbody>
 									</table>
