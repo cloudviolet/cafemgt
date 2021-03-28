@@ -1,6 +1,7 @@
 package com.cafemgt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,4 +37,14 @@ public class TotalStockService {
 		return totalStockMapper.getTotalStockByIncoCode(SSTORECODE,articleCode);
 	}
 	
+	public int addTotalStockOverVolume(TotalStockDto totalStockDto) {
+		totalStockMapper.addTotalStockOverVolume(totalStockDto);
+		totalStockMapper.modifyTotalStockDeadLine(totalStockDto);
+		
+		return 0;
+	}
+	public int modifyIncoCheck(Map incoMap) {
+			totalStockMapper.modifyIncoCheck(incoMap);
+		return 0;
+	}
 }

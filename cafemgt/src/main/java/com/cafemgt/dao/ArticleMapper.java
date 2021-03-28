@@ -12,4 +12,6 @@ public interface ArticleMapper {
 	public List<ArticleDto> getArticle(String SSTORECODE);
 	
 	public int addArticle(ArticleDto articleDto);
+	
+	public ArticleDto getArticleByArticleCode(String articleCode);
 }

@@ -52,16 +52,16 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-form-label col-md-3 col-sm-3 label-align" for="artcleBig">대분류 <span class="required">*</span>
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="articleBig">대분류 <span class="required">*</span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="number" id="artcleBig" name="artcleBig" required="required" class="form-control ">
+										<input type="number" id="articleBig" name="articleBig" required="required" class="form-control ">
 									</div>
 								</div>
 								<div class="form-group row">
 									<label class="control-label col-md-3 col-sm-3 label-align">대분류 단위  <span class="required">*</span></label>
 									<div class="col-md-6 col-sm-6 ">
-										<select class="form-control" name="artcleBigDan" required="required">
+										<select class="form-control" name="articleBigDan" required="required">
 											<option value="">choice plz</option>
 											<option value="box">* box *</option>
 											<option value="ea">* ea *</option>
@@ -71,16 +71,16 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-form-label col-md-3 col-sm-3 label-align" for="artcleMiddle">중분류  <span class="required">*</span>
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="articleMiddle">중분류  <span class="required">*</span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="number" id="artcleMiddle" name="artcleMiddle" required="required" class="form-control ">
+										<input type="number" id="articleMiddle" name="articleMiddle" required="required" class="form-control ">
 									</div>
 								</div>
 								<div class="form-group row">
 									<label class="control-label col-md-3 col-sm-3 label-align">중분류 단위 *</label>
 									<div class="col-md-6 col-sm-6 ">
-										<select class="form-control" name="artcleMiddleDan" required="required">
+										<select class="form-control" name="articleMiddleDan" required="required">
 											<option value="">choice plz</option>
 											<option value="ea">* ea *</option>
 											<option value="L">* L *</option>
@@ -132,9 +132,6 @@
 	</th:block>
 	
 	<th:block layout:fragment="customJs">
-		<!-- bootstrap-daterangepicker -->
-		<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
-		<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
 		<!-- bootstrap-wysiwyg -->
 		<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
 		<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>

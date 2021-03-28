@@ -12,6 +12,33 @@
 		<result property="menuPrice" 		column="menu_price" />
 		<result property="menuRegDate" 		column="menu_reg_date" />
 	</resultMap>
+	<update id="modifyMenu" parameterType="MenuDto">
+		UPDATE tb_menu
+			SET
+			   menu_name=#{menuName}
+			   ,menu_cate=#{menuCate}
+			   ,menu_price=${menuPrice}
+			   ,menu_reg_date=NOW()
+			WHERE menu_code=#{menuCode}
+	</update>
+	<select id="getMenuByMenuCode" parameterType="String" resultMap="menuResultMap">
+		SELECT
+			 m.menu_code
+			,st.store_info_code
+			,st.store_info_name
+			,m.menu_name
+			,m.menu_cate
+			,m.menu_price
+			,m.menu_reg_date
+		FROM
+			tb_menu as m
+			LEFT JOIN
+			tb_store_info as st
+			ON m.store_info_code = st.store_info_code
+		WHERE
+			 m.menu_code= #{menuCode}
+	
+	</select>
 	<select id="getMenu" parameterType="String" resultMap="menuResultMap">
 		SELECT
 			 m.menu_code

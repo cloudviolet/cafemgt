@@ -22,7 +22,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>마이페이지(0326확인)</h3>
+                <h3>마이페이지</h3>
               </div>
             </div>
             
@@ -32,11 +32,17 @@
               <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                 <th:block th:each="ml : ${memberList}">
-                <th:block th:each="sl : ${storeDtoList}">
                   <div class="x_title">
                     <h2><a th:text="${ml.storeInfoName}"></a> <small>사업장번호</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
                       </li>
                       <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
@@ -54,7 +60,8 @@
                       <h3 class="col-lg-10 col-md-12 col-sm-12"><a th:text="${ml.memberName}"></a></h3>
 
                       <ul class="list-unstyled user_data">
-                        <li class="col-lg-10 col-md-12 col-sm-12"><i class="fa fa-map-marker user-profile-icon"></i> <a th:text="${sl.storeInfoAddr}"></a></li>
+                        <li class="col-lg-10 col-md-12 col-sm-12"><i class="fa fa-map-marker user-profile-icon"></i> San Francisco, California, USA
+                        </li>
 
                         <li class="col-lg-10 col-md-12 col-sm-12">
                           <i class="fa fa-briefcase user-profile-icon"></i> Software Engineer
@@ -74,9 +81,9 @@
 
                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">기본 정보</a>
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">필수정보</a>
                           </li>
-                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">추가 정보</a>
+                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">추가정보</a>
                           </li>
                           <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
                           </li>
@@ -123,44 +130,52 @@
                                 </tr>
                               </tbody>
                             </table>
-                
-                      
                             <!-- 필수정보 -->
+
                           </div>
                           <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                           <!-- start 추가정보 -->
-                            <table class="data table no-margin">
-                            
+
+                            <!-- start 추가정보 -->
+                            <table class="data table table-striped no-margin">
                               <thead>
-                                 <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>사업장코드</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoCode}">
+                                <tr>
+                                  <th>#</th>
+                                  <th>Project Name</th>
+                                  <th>Client Company</th>
+                                  <th class="hidden-phone">Hours Spent</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>사업자번호</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoLicenseNumber}">
+                                  <td>1</td>
+                                  <td>New Company Takeover Review</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">18</td>
+                                 
                                 </tr>
                                 <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>업종</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoIndustryType}">
+                                  <td>2</td>
+                                  <td>New Partner Contracts Consultanci</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">13</td>
+                             
                                 </tr>
                                 <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>주소지</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoAddr}">
+                                  <td>3</td>
+                                  <td>Partners and Inverstors report</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">30</td>
+                                
                                 </tr>
                                 <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>사업장 연락처</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoPhone}">
-                                </tr>
-                                <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>등록일</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoRegDate}">
+                                  <td>4</td>
+                                  <td>New Company Takeover Review</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">28</td>
                                 </tr>
                               </tbody>
                             </table>
-                            <!-- end 추가정보  -->
+                            <!-- end 추가정보 -->
 
                           </div>
                           <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
@@ -171,8 +186,7 @@
                       </div>
                     </div>
                   </div>
-                </th:block>
-               	</th:block>                
+                  </th:block>
                 </div>
               </div>
             </div>

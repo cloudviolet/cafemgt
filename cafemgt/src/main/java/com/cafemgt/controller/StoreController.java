@@ -67,16 +67,14 @@ public class StoreController {
 			if(result.equals("로그인 성공")) {				
 				  MemberDto memberDto = memberService.getinfoMember(memberId);
 				  
-				  List<StoreDto> storeDtoList = storeService.getStoreInfoBymemberId(memberId);
-				  String storeInfoCode = storeDtoList.get(0).getStoreInfoCode();
-				  
 				  System.out.println(memberDto.getMemberId());
 				  System.out.println(memberDto.getMemberName());
-				  System.out.println(storeInfoCode);
+				  System.out.println(memberDto.getStoreInfoCode());
 				  
 				  session.setAttribute("MID", memberDto.getMemberId());
 				  session.setAttribute("MNAME", memberDto.getMemberName());				 		 
-				  session.setAttribute("SSTORECODE", storeInfoCode);				 
+				  session.setAttribute("SSTORECODE", memberDto.getStoreInfoCode());				 
+				  session.setAttribute("SLEVEL", memberDto.getLevelCode());				 
 			}		
 			return "redirect:/";			
 		}
@@ -99,6 +97,21 @@ public class StoreController {
 		return "redirect:/index";	
 	}
 	
+	@GetMapping("/modifyuser")
+	public String modifyuser(Model model, String memberId) {
+		System.out.println("직원 추가등록/수정 화면 ");
+		MemberDto memberDto = memberService.getinfoMember(memberId);
+		model.addAttribute("memberDto", memberDto);
+		return "store/modifyuser";		
+	}
+	
+	@GetMapping("/modifystore")
+	public String modifystore() {
+		System.out.println("사업장 수정화면");
+		return "store/modifystore";		
+	}
+
+	
 	@GetMapping("/addmember")
 	public String addmember() {
 		
@@ -108,13 +121,28 @@ public class StoreController {
 	@GetMapping("/getmember")
 	public String getmember(Model model, HttpSession session) {
 		String MID = (String)session.getAttribute("MID");
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<MemberDto> memberDtoList = memberService.getMember(MID);
+		List<StoreDto> storeDtoList = storeService.getStore(SSTORECODE);
 		model.addAttribute("memberList", memberDtoList);
+		model.addAttribute("storeDtoList",storeDtoList);
 		
 		return "member/getmember";		
 	}
 	
 	
+	@GetMapping("/getmemberU")
+	public String getmemberU(Model model, HttpSession session) {
+		String MID = (String)session.getAttribute("MID");
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<MemberDto> memberDtoList = memberService.getMember(MID);
+		List<StoreDto> storeDtoList = storeService.getStore(SSTORECODE);
+		model.addAttribute("memberList", memberDtoList);
+		model.addAttribute("storeDtoList",storeDtoList);
+		
+		return "member/getmemberU";		
+	}
+		
 	@GetMapping("/getmemberadmin")
 	public String getmemberadmin(Model model) {
 		List<MemberDto> memberDtoList = memberService.getMemberadmin();
@@ -177,20 +205,35 @@ public class StoreController {
 		
 		return "store/addcustomer";	
 	}
-	
+
+	/*직원 추가정보 등록을 위한 메서드 member.~ 파일에서 작업함*/
 	@GetMapping("/adduser")
-	public String adduser() {
+	public String adduser(Model model, HttpSession session) {		
+		
+		 String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		 List<MemberDto> MemberUserList = memberService.addMemberUser(SSTORECODE);
+		 model.addAttribute("MemberUserList", MemberUserList);
+		
 		return "store/adduser";	
-	}
+	} 
 	
 	@PostMapping("/adduser")
-	public String adduser(UserDto userDto, HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		userDto.toString();
-		System.out.println(userDto.toString());
-		userService.addUser(userDto);
+	public String adduser(UserDto userDto) {
+		userService.addUser(userDto);		
 		
 		return "redirect:/getuser";			
+	}
+	
+	@PostMapping("/addstore")
+	public String addstore(StoreDto storeDto) {
+		
+		return "redirect:/getstore";		
+	}
+	
+	@PostMapping("/modifystore")
+	public String modifystore(StoreDto storeDto) {
+		
+		return "redirect:/getstore";		
 	}
 	
 
