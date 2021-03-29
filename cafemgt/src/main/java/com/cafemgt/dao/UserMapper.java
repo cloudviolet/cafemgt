@@ -13,6 +13,8 @@ public interface UserMapper {
 	
 	public List<UserDto> getUseradmin();
 	
+	public UserDto getinfoUser(String memberId);
+	
 	public List<UserDto> getUser(String SSTORECODE);
 
 }

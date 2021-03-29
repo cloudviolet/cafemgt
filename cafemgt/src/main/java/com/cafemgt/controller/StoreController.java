@@ -100,9 +100,19 @@ public class StoreController {
 	@GetMapping("/modifyuser")
 	public String modifyuser(Model model, String memberId) {
 		System.out.println("직원 추가등록/수정 화면 ");
+		System.out.println(memberId);
 		MemberDto memberDto = memberService.getinfoMember(memberId);
+		UserDto userDto = userService.getinfoUser(memberId);		
+		model.addAttribute("userDto", userDto);
 		model.addAttribute("memberDto", memberDto);
 		return "store/modifyuser";		
+	}
+	
+	@PostMapping("/modifyuser")
+	public String modifyuser(UserDto userDto, MemberDto memberDto) {
+		//0329 수정해야함 
+		
+		return "redirect:/getuser";		
 	}
 	
 	@GetMapping("/modifystore")

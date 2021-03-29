@@ -25,6 +25,11 @@ public class UserService {
 		return userMapper.addUser(userDto);
 	}
 	
+	public UserDto getinfoUser(String memberId) {
+		return userMapper.getinfoUser(memberId);
+		
+	}
+	
 	public List<UserDto> getUseradmin(){
 		List<UserDto> userDtoList = userMapper.getUseradmin();
 		

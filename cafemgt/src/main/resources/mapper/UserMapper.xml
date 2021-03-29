@@ -35,6 +35,26 @@
 		</association>
 	</resultMap>
 	
+	<select id="getinfoUser" parameterType="String" resultMap="userResulMap">
+		SELECT 
+		member_id
+		, store_info_code
+		, level_code
+		, user_join_date
+		, user_out_date
+		, user_pay
+		, user_work_time
+		, user_bank_name
+		, user_bank_acount
+		, user_agreement
+		, user_health_card
+		, user_etc
+		FROM 
+			tb_user
+		WHERE member_id =#{memberId}
+	
+	</select>
+	
 	<!-- User 직원 등록 -->
 	<insert id="addUser" parameterType="UserDto">
 	INSERT INTO tb_user
@@ -52,12 +72,28 @@
 		, user_etc)
 	VALUES (#{memberId}, #{storeInfoCode}, #{levelCode}, #{userJoinDate}, #{userOutDate}, ${userPay}, ${userWorkTime}, #{userBankName}, #{userBankAcount}, #{userAgreement}, #{userHealthCard}, #{userEtc})
 	</insert>
+	<!-- User 추가정보 수정에서 업데이트  -->
+	<update id="updateUser" parameterType="UserDto">
+	UPDATE tb_user
+	SET
+		level_code=#{levelCode},
+		user_out_date= #{userOutDate},
+		user_pay=${userPay},
+		user_work_time=${userWorkTime},
+		user_bank_name=#{userBankName},
+		user_bank_acount=#{userBankAcount},
+		user_agreement=#{userAgreement},
+		user_health_card=#{userHealthCard},
+		user_etc=#{userEtc}
+	WHERE member_id=#{memberId}
+	</update>
 	<!-- User 직원 조회 관리 -->
 	<select id="getUseradmin" parameterType="String" resultMap="userResulMap">
 	SELECT 
 		m.member_id
 		,m.member_name
 		, s.store_info_name
+		, l.level_name
 		, m.member_phone
 		, u.user_pay
 		, u.user_work_time
@@ -75,6 +111,9 @@
 			tb_user AS u
 			ON m.member_id = u.member_id
 		LEFT join
+			tb_level AS l
+			ON l.level_code = m.level_code
+		LEFT join
 			tb_store_info AS s
 			ON m.store_info_code = s.store_info_code
 		WHERE m.level_code IN ('level_02','level_03')
@@ -85,6 +124,7 @@
 	m.member_id
 	,m.member_name
 	, s.store_info_name
+	, l.level_name
 	, m.member_phone
 	, u.user_pay
 	, u.user_work_time
@@ -102,8 +142,13 @@
 		tb_user AS u
 		ON m.member_id = u.member_id
 	LEFT join
+		tb_level AS l
+		ON l.level_code = m.level_code
+	LEFT join
 		tb_store_info AS s
 		ON m.store_info_code = s.store_info_code
 	WHERE m.store_info_code =#{SSTORECODE} AND m.level_code IN ('level_02','level_03')
 	</select>
+	
+	
 </mapper>
