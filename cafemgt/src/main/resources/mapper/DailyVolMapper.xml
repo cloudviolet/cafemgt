@@ -116,8 +116,72 @@
 			tb_store_info AS st
 			on
 			dv.store_info_code = st.store_info_code
-			WHERE dv.dailyvol_deadline_check IN ('x','')
+			WHERE dv.dailyvol_deadline_check = 'x'
 		GROUP BY c.article_code
 		ORDER BY dailyvol_code
 	</select>
+	<insert id="addDailyVol" parameterType="DailyVolDto" >
+			INSERT INTO tb_daily_volume
+				(dailyvol_code
+				,store_info_code
+				,menu_code
+				,con_code
+				,sales_count
+				,dailyvol_subtotal
+				,dailyvol_deadline_check
+				,dailyvol_reg_date
+				)
+			VALUES 
+				(sf_new_dailyvol_code()
+				,#{storeInfoCode}
+				,#{menuCode}
+				,#{conCode}
+				,${salesCount}
+				,${dailyvolSubtotal}
+				,'x'
+				,NOW()
+				)
+	</insert>
+	<update id="modifySalesDeadLine">
+		UPDATE tb_sales
+		SET
+			sales_deadline_dailyvol='o'
+		WHERE 
+			sales_code IN
+		<foreach collection="arraySales" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</update>
+	<select id="getSalesByDailyVol" parameterType="HashMap" resultMap="DailyVolResultMap">
+		SELECT
+			s.store_info_code
+			,m.menu_code
+			,c.con_code
+			,sum(s.sales_count) AS 'sales_count'
+			,sum(s.sales_count) * c.con_volume AS 'dailyvol_subtotal'
+			,'x'
+			,date(NOW())
+		FROM
+			tb_sales AS s
+			LEFT JOIN
+			tb_menu AS m
+			ON
+			m.menu_code = s.menu_code
+			LEFT JOIN 
+			tb_consumption AS c
+			ON
+			m.menu_code = c.menu_code
+			LEFT join
+			tb_article AS a
+			on
+			c.article_code = a.article_code
+		WHERE s.sales_deadline_dailyvol ='x'
+		AND s.sales_code IN 
+		<foreach collection="arraySales" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		GROUP BY a.article_code, c.con_code
+			HAVING s.store_info_code = #{SSTORECODE}
+	</select>
+	
 </mapper>

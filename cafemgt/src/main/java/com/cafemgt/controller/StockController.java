@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafemgt.dao.DailyVolMapper;
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.DailyVolDto;
 import com.cafemgt.dto.SkkDto;
@@ -215,10 +216,31 @@ public class StockController {
 		return "redirect:/getarticle";
 	}
 	
+	@ResponseBody
 	@PostMapping("/salesDeadline")
-	public String salesDeadline(ArrayList<Object> arraySales) {
-		System.out.println(arraySales);
-		return "redirect:/getsales";
+	public String salesDeadline(@RequestParam (value = "arraySales[]", required = false) List<String> arraySales
+								,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		Map<String, Object> salesInfoMap = new HashMap<>();
+		salesInfoMap.put("SSTORECODE", SSTORECODE);
+		salesInfoMap.put("arraySales", arraySales);
+		System.out.println(salesInfoMap);
+		
+		String returnValue ="값을 입력해주세요";
+		int result = 0;
+
+		/*
+		 * List<DailyVolDto> dailyVolList =
+		 * dailyVolService.getSalesByDailyVol(salesInfoMap); for(int i =0 ; i <
+		 * dailyVolList.size(); i++) { System.out.println(dailyVolList.get(i)); result
+		 * += dailyVolService.addDailyVol(dailyVolList.get(i)); }
+		 */
+		dailyVolService.modifySalesDeadLine(arraySales);
+		if(result >= 1) {
+			returnValue = "정상처리";
+		}
+		
+		return returnValue;
 	}
 	
 	

@@ -130,6 +130,9 @@
 			inc.article_code = ar.article_code
 		WHERE
 			st.store_info_code = #{SSTORECODE}
+			AND
+			dtv.detailvol_deadline_check = 'x'	
+		ORDER BY FIELD(inc.inco_check ,2,1,3) asc
 	</select>
 	<select id="getTotalStockByIncoCode" parameterType="String" resultMap="TotalStockResultMap">
 		SELECT 
@@ -172,6 +175,6 @@
 			AND
 			ar.article_code = #{articleCode}
 			AND
-			dtv.detailvol_deadline_check = 'x'			
+			dtv.detailvol_deadline_check = 'x'	
 	</select>
 </mapper>

@@ -129,10 +129,12 @@
 					var cate = td.eq(1).text();
 					// 객체에 넣기
 					sales["salesCode"] = cate;
+					
 					// 배열에 객체 넣기
-					var test = td.eq(3).text();
-					sales["salesCount"] = test;
-					arraySales.push(sales);
+				/*	var test = td.eq(3).text();
+					sales["salesCount"] = test; */
+					
+					arraySales.push(cate);
 				});
 				
 				console.log(arraySales);
@@ -140,16 +142,18 @@
 				$.ajax({
 			        type : 'POST',
 			        url : 'salesDeadline',
-			        //dataType : "json",
-			        contentType : false,          //ajax로 formData 전송시 필요
-			        processData : false,          //ajax로 formData 전송시 필요
-			        data : arraySales,
-			        beforeSend:function() {
-			           // $(".wrap-loading").removeClass("display-none");
-			        },
+			        dataType : "text",
+			        data : {"arraySales" : arraySales},
 			        success : function(data){
+			        	console.log(data)
 			            alert("요청되었습니다.")
-			        }       
+			            location.reload();
+			        },
+			        error : function(request,status,error){
+			        	console.log(request)
+			        	console.log(status)
+			        	console.log(error)
+			        }
 			    }); 
 				
 			});

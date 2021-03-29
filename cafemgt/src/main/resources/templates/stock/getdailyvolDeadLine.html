@@ -42,60 +42,83 @@
 	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-			<div class="col-md-12 col-sm-12 ">
-				<div class="x_panel">
-					 <div class="x_title">
-		                <h2>품목별 재고 총 수량 조회</h2>
-		                
-		                <!-- 상단 옵션네비바 시작 -->
-						<ul class="nav navbar-right panel_toolbox">
-						</ul>
-						<!-- 상단 옵션네비바 끝 -->
-							
-						<div class="clearfix"></div>
-							
+			<div class="row">
+				<div class="col-md-8">
+					<div class="x_panel">
+						 <div class="x_title">
+			                <h2>품목별 재고 총 수량 조회</h2>
+			                <!-- 상단 옵션네비바 시작 -->
+							<ul class="nav navbar-right panel_toolbox">
+							</ul>
+							<!-- 상단 옵션네비바 끝 -->
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="card-box table-responsive">
+										<p class="text-muted font-13 m-b-30">
+											여기에 설명써주시면됩니다.
+											<code>강조!</code>
+										</p>
+										<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+											<thead>
+												<tr>
+													<!-- 
+													<th>일 품목소모량 코드</th>
+													<th>사업장 코드</th>
+													<th>상호명</th>
+													 -->
+													<th>품목명</th>
+													<th>판매 수량</th>
+													<th>소모용량 소계</th>
+													<th>단위</th>
+													<th>마감</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="dvl, index : ${dailyVolDeadLineList}">
+													<!--
+												 	<td th:text="${dvl.storeInfoCode}"></td>
+													<td th:text="${dvl.storeInfoName}"></td>
+													 -->
+													<td th:text="${dvl.articleName}"></td>
+													<td th:text="${dvl.salesCount}"></td>
+													<td class="dailySubtotal" th:text="${dvl.dailyvolSubtotal}"></td>
+													<td th:text="${dvl.conDan}"></td>
+													<td> 
+														<select class="form-control">
+															<option>1</option>
+														</select>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="x_content">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="card-box table-responsive">
-									<p class="text-muted font-13 m-b-30">
-										여기에 설명써주시면됩니다.
-										<code>강조!</code>
-									</p>
-									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-										<thead>
-											<tr>
-												<!-- 
-												<th>일 품목소모량 코드</th>
-												<th>사업장 코드</th>
-												<th>상호명</th>
-												 -->
-												<th>품목명</th>
-												<th>판매 수량</th>
-												<th>소모용량 소계</th>
-												<th>단위</th>
-												<th>마감</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="dvl, index : ${dailyVolDeadLineList}">
-												<!--
-											 	<td th:text="${dvl.storeInfoCode}"></td>
-												<td th:text="${dvl.storeInfoName}"></td>
-												 -->
-												<td th:text="${dvl.articleName}"></td>
-												<td th:text="${dvl.salesCount}"></td>
-												<td class="dailySubtotal" th:text="${dvl.dailyvolSubtotal}"></td>
-												<td th:text="${dvl.conDan}"></td>
-												<td> 
-													<a class="btn btn-primary btn-sm deadLineBtn" th:data-index="${index.index}" data-toggle="modal" data-target="#deadLine" th:value="${dvl.articleCode}">
-														 마감
-													</a>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+				</div>
+				<div class="col-md-4">
+					<div class="x_panel">
+						 <div class="x_title">
+			                <h2>품목별 재고 총 수량 조회</h2>
+			                <!-- 상단 옵션네비바 시작 -->
+							<ul class="nav navbar-right panel_toolbox">
+							</ul>
+							<!-- 상단 옵션네비바 끝 -->
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="card-box table-responsive">
+										<p class="text-muted font-13 m-b-30">
+											여기에 설명써주시면됩니다.
+											<code>강조!</code>
+										</p>
+									</div>
 								</div>
 							</div>
 						</div>
