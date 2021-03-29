@@ -17,6 +17,34 @@
 		<result property="memberRegDate" 	column="member_reg_date" />
 	</resultMap>
 	
+	<select id="getyear" parameterType="String" resultType="String">
+	SELECT 
+   		date_format(m.member_reg_date,"%Y")
+	FROM 
+ 	  tb_member AS m
+	WHERE 
+   		m.member_id=#{MID}	
+	</select>
+
+	<select id="addMemberUser" parameterType="String" resultMap="memberResultMap">
+	SELECT 
+		m.member_id, 
+		m.member_name, 
+		m.level_code,
+		u.user_join_date
+	FROM 
+		tb_member AS m
+	LEFT join
+		tb_user AS u
+	ON 
+		m.member_id = u.member_id
+	WHERE 
+		m.level_code IN('level_02','level_03') 
+	AND 
+		m.store_info_code = #{SSTORECODE}
+	AND u.user_join_date IS NULL
+	</select>
+	
 	<select id="getMemberadmin" resultMap="memberResultMap">
 		SELECT 
 			m.member_id
@@ -66,11 +94,12 @@
 		, member_pw
 		, member_name
 		, level_code
+		, store_info_code
 		, member_phone
 		, member_email
 		, member_birth
 	FROM tb_member
-		WHERE member_id = #{memberId}	
+		WHERE member_id = #{MID}	
 	</select>
 
 </mapper>

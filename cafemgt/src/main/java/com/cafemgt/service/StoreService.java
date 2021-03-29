@@ -31,11 +31,6 @@ public class StoreService {
 		return storeDtoList;
 	}
 	
-	public List<StoreDto> getStoreInfoBymemberId(String memberId){
-		List<StoreDto> storeDtoList = storeMapper.getStoreInfoByMemberId(memberId);
-		
-		return storeDtoList;
-	}
 	
 	
 

@@ -36,6 +36,14 @@ public class MemberService {
 		}		
 		return result;
 	}
+	public String getyear(String MID) {
+		return memberMapper.getyear(MID);
+	}
+	public List<MemberDto> addMemberUser(String SSTORECODE){
+		List<MemberDto> memberDtolist = memberMapper.addMemberUser(SSTORECODE);
+		
+		return memberDtolist;	
+	}
 	
 	public List<MemberDto> getMemberadmin(){
 		List<MemberDto> memberDtolist = memberMapper.getMemberadmin();
@@ -49,6 +57,12 @@ public class MemberService {
 	}
 	
 	public List<MemberDto> getMember(String MID){
+		List<MemberDto> memberDtolist = memberMapper.getMember(MID);
+		
+		return memberDtolist;	
+	}
+	
+	public List<MemberDto> getMemberU(String MID){
 		List<MemberDto> memberDtolist = memberMapper.getMember(MID);
 		
 		return memberDtolist;	

@@ -19,6 +19,7 @@
 		<result property="userBankAcount" 	column="user_bank_acount"/>
 		<result property="userAgreement" 	column="user_agreement"/>
 		<result property="userHealthCard" 	column="user_health_card"/>
+		<result property="userEtc" 			column="user_etc"/>
 		<association property="memberDto" javaType="MemberDto">
 			<id property="memberId" column="member_id"/>
 				<result property="memberPw" 		column="member_pw" />
@@ -36,95 +37,73 @@
 	
 	<!-- User 직원 등록 -->
 	<insert id="addUser" parameterType="UserDto">
-		INSERT INTO tb_user
-	(user_id
-		, user_pw
+	INSERT INTO tb_user
+		(member_id
 		, store_info_code
-		, user_name
 		, level_code
 		, user_join_date
-		, user_phone
+		, user_out_date
 		, user_pay
 		, user_work_time
 		, user_bank_name
 		, user_bank_acount
 		, user_agreement
 		, user_health_card
-		, user_reg_date)
-	VALUES (#{userId}
-		, #{userPw}
-		, #{storeInfoCode}
-		, #{userName}
-		, #{levelCode}
-		, NOW()
-		, #{userPhone}
-		, ${userPay}
-		, ${userWorkTime}
-		, #{userBankName}
-		, #{userBankAcount}
-		, #{userAgreement}
-		, #{userHealthCard}
-		, NOW())
+		, user_etc)
+	VALUES (#{memberId}, #{storeInfoCode}, #{levelCode}, #{userJoinDate}, #{userOutDate}, ${userPay}, ${userWorkTime}, #{userBankName}, #{userBankAcount}, #{userAgreement}, #{userHealthCard}, #{userEtc})
 	</insert>
 	<!-- User 직원 조회 관리 -->
 	<select id="getUseradmin" parameterType="String" resultMap="userResulMap">
-		SELECT 
-			u.member_id
-			, m.member_name
-			, s.store_info_code
-			, s.store_info_name
-			, m.member_phone
-			, m.member_reg_date
-			, l.level_code
-			, l.level_name
-			, u.user_join_date
-			, u.user_out_date
-			, u.user_pay
-			, u.user_work_time
-			, u.user_bank_name
-			, u.user_bank_acount
-			, u.user_agreement
-			, u.user_health_card
-		FROM tb_user AS u
-			LEFT join
-				tb_member AS m
+	SELECT 
+		m.member_id
+		,m.member_name
+		, s.store_info_name
+		, m.member_phone
+		, u.user_pay
+		, u.user_work_time
+		, m.member_reg_date
+		, u.user_join_date
+		, u.user_out_date
+		, u.user_bank_name
+		, u.user_bank_acount
+		, u.user_agreement
+		, u.user_health_card
+		, u.user_etc
+		FROM 
+			tb_member AS m
+		LEFT join
+			tb_user AS u
 			ON m.member_id = u.member_id
-			LEFT join
-				tb_store_info AS s
-			ON s.store_info_code = u.store_info_code
-			LEFT join
-				tb_level AS l
-			ON l.level_code =u.level_code
+		LEFT join
+			tb_store_info AS s
+			ON m.store_info_code = s.store_info_code
+		WHERE m.level_code IN ('level_02','level_03')
 	</select>
 	<!-- User 직원 조회  -->
 	<select id="getUser" parameterType="String" resultMap="userResulMap">
 		SELECT 
-			u.member_id
-			, m.member_name
-			, s.store_info_code
-			, s.store_info_name
-			, m.member_phone
-			, m.member_reg_date
-			, l.level_code
-			, l.level_name
-			, u.user_join_date
-			, u.user_out_date
-			, u.user_pay
-			, u.user_work_time
-			, u.user_bank_name
-			, u.user_bank_acount
-			, u.user_agreement
-			, u.user_health_card
-		FROM tb_user AS u
-			LEFT join
-				tb_member AS m
-			ON m.member_id = u.member_id
-			LEFT join
-				tb_store_info AS s
-			ON s.store_info_code = u.store_info_code
-			LEFT join
-				tb_level AS l
-			ON l.level_code =u.level_code
-			WHERE s.store_info_code = #{SSTORECODE}
+	m.member_id
+	,m.member_name
+	, s.store_info_name
+	, m.member_phone
+	, u.user_pay
+	, u.user_work_time
+	, m.member_reg_date
+	, u.user_join_date
+	, u.user_out_date
+	, u.user_bank_name
+	, u.user_bank_acount
+	, u.user_agreement
+	, u.user_health_card
+	, u.user_etc
+	FROM 
+		tb_member AS m
+	LEFT join
+		tb_user AS u
+		ON m.member_id = u.member_id
+	LEFT join
+		tb_store_info AS s
+		ON m.store_info_code = s.store_info_code
+	WHERE m.store_info_code =#{SSTORECODE} AND m.level_code IN ('level_02','level_03')
 	</select>
 </mapper>
