@@ -173,7 +173,7 @@
 		WHERE 
 			st.store_info_code = #{SSTORECODE}
 			AND
-			ar.article_code = #{articleCode}
+			inc.inco_code = #{incoCode}
 			AND
 			dtv.detailvol_deadline_check = 'x'	
 	</select>

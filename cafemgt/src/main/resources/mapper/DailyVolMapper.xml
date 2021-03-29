@@ -18,8 +18,6 @@
 		<result property="dailyvolSubtotal"	 		column="dailyvol_subtotal" />
 		<result property="dailyvolDeadlineCheck" 	column="dailyvol_deadline_check" />
 		<result property="dailyvolRegDate"	 		column="dailyvol_reg_date" />
-		<result property="dailyvolEtc"				column="dailyvol_group_code" />
-		<result property="dailyvolRelGroupCode"	 	column="dailyvol_rel_group_code" />
 	</resultMap>
 	<update id="modifyDailyVolDeadLine" parameterType="String">
 		UPDATE tb_daily_volume
@@ -37,8 +35,6 @@
 			,dailyvol_subtotal
 			,dailyvol_deadline_check
 			,dailyvol_reg_date
-			,dailyvol_group_code
-			,dailyvol_rel_group_code
 			)
 		SELECT 
 			 sf_new_dailyvol_code()
@@ -49,8 +45,6 @@
 			,#{dailyvolSubtotal}
 			,dailyvol_deadline_check
 			,dailyvol_reg_date
-			,#{dailyvolEtc}
-			,dailyvol_rel_group_code
 		FROM tb_daily_volume
 			WHERE 
 				dailyvol_code = #{dailyvolCode}
@@ -71,8 +65,6 @@
 			,dv.dailyvol_subtotal
 			,dv.dailyvol_deadline_check
 			,dv.dailyvol_reg_date
-			,dv.dailyvol_group_code
-			,dv.dailyvol_rel_group_code
 		FROM
 			tb_daily_volume AS dv
 			LEFT JOIN 

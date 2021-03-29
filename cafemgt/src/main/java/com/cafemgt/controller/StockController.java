@@ -1,6 +1,5 @@
 package com.cafemgt.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cafemgt.dao.DailyVolMapper;
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.DailyVolDto;
 import com.cafemgt.dto.SkkDto;
@@ -112,7 +110,9 @@ public class StockController {
 	public String getDailyVolDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<DailyVolDto> dailyVolDeadLineList = dailyVolService.getDailyVolDeadLine(SSTORECODE);
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
 		model.addAttribute("dailyVolDeadLineList",dailyVolDeadLineList);
+		model.addAttribute("totalStockList",totalStockList);
 		return "stock/getdailyvolDeadLine";
 	}
 	/* 일일 품목 소모량 조회에서 마감처리시 품목별 재고 총 수량 조회에 등록하는 컨트롤러  */
@@ -176,7 +176,6 @@ public class StockController {
 			
 			dailyVolDto.setDailyvolSubtotal(volumeTotal); //계산 후 남은용량 insert 하기위해서
 			dailyVolDto.setSalesCount(haveSalesCount);//계산 후 남은 판매수량 insert 하기위해서
-			dailyVolDto.setDailyvolEtc("사용용량 > 잔액용량으로 처리됨");
 			dailyVolService.addDailyVolDeadLine(dailyVolDto);
 		}
 		totalStockService.modifyIncoCheck(incoMap);
@@ -195,10 +194,10 @@ public class StockController {
 	
 	@ResponseBody
 	@PostMapping("/getIncomeList")
-	public List<TotalStockDto> getIncomeList(@RequestParam (value = "articleCode",required = false) String articleCode
+	public List<TotalStockDto> getIncomeList(@RequestParam (value = "incoCode",required = false) String incoCode
 			,Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, articleCode);
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, incoCode);
 		return totalStockList;
 	}
 	
@@ -229,12 +228,13 @@ public class StockController {
 		String returnValue ="값을 입력해주세요";
 		int result = 0;
 
-		/*
-		 * List<DailyVolDto> dailyVolList =
-		 * dailyVolService.getSalesByDailyVol(salesInfoMap); for(int i =0 ; i <
-		 * dailyVolList.size(); i++) { System.out.println(dailyVolList.get(i)); result
-		 * += dailyVolService.addDailyVol(dailyVolList.get(i)); }
-		 */
+		
+		  List<DailyVolDto> dailyVolList = dailyVolService.getSalesByDailyVol(salesInfoMap); 
+		  for(int i =0 ; i <  dailyVolList.size(); i++) {
+			  System.out.println(dailyVolList.get(i)); 
+			  result  += dailyVolService.addDailyVol(dailyVolList.get(i)); 
+		  }
+		 
 		dailyVolService.modifySalesDeadLine(arraySales);
 		if(result >= 1) {
 			returnValue = "정상처리";
