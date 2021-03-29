@@ -81,5 +81,7 @@
 			tb_member AS us
 		ON
 			ds.member_id=us.member_id
+		WHERE
+			st.store_info_code= #{SSTORECODE}
 	</select>
 </mapper>

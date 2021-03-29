@@ -7,7 +7,9 @@
 	<resultMap type="WtimeDto" id="wtimeResultMap">
 		<result property="attCode" 			column="att_code"/>
 		<result property="storeInfoCode" 	column="store_info_code"/>
+		<result property="storeInfoName" 	column="store_info_name"/>
 		<result property="memberId"			column="member_id"/>
+		<result property="memberName"		column="member_name"/>
 		<result property="attDate"			column="att_date"/>
 		<result property="attStart"			column="att_start"/>
 		<result property="attEnd" 			column="att_end"/>
@@ -21,7 +23,6 @@
 	, store_info_code
 	, member_id
 	, att_date
-	, salary_pay
 	, att_start
 	, att_end
 	, att_todaily_time
@@ -33,7 +34,7 @@
 	, #{attDate}
 	, #{attStart}
 	, #{attEnd}
-	, #{attTodailyTime}
+	, ''
 	, NOW())
 	</insert>
 	
@@ -42,7 +43,9 @@
 		SELECT
 			att.att_code
 			,st.store_info_code
+			,st.store_info_name
 			,us.member_id
+			,us.member_name
 			,att.att_date
 			,att.att_start
 			,att.att_end
@@ -58,5 +61,7 @@
 			tb_member AS us
 		ON
 			att.member_id = us.member_id
+		WHERE
+			slr.store_info_code= #{SSTORECODE}
 	</select>
 </mapper>

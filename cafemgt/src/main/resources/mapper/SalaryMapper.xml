@@ -7,6 +7,7 @@
 	<resultMap type="SalaryDto" id="salaryResultMap">
 		<result property="salaryCode" 			column="salary_code"/>
 		<result property="storeInfoCode" 		column="store_info_code"/>
+		<result property="storeInfoName" 		column="store_info_Name"/>
 		<result property="memberId"				column="member_id"/>
 		<result property="memberName" 			column="member_name"/>
 		<result property="salaryYearMonth"		column="salary_year_month"/>
@@ -87,5 +88,7 @@
 			tb_member AS us
 		ON
 			slr.member_id=us.member_id
+		WHERE
+			slr.store_info_code= #{SSTORECODE}
 	</select>
 </mapper>

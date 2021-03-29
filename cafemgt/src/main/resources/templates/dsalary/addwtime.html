@@ -47,7 +47,7 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" th:action="@{/adddsalary}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" th:action="@{/addwtime}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 											
 									<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
 									<input type="hidden" name="salesSystemId" th:value="${session.OID}">
@@ -85,12 +85,6 @@
 	                                            <input class="form-control" type="time" name="attEnd" id="attEnd" required="required">
 	                                        </div>
                                         </div>
-										<div class="item form-group">
-											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">당일 근무시간</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input id="attTodailyTime" class="form-control" type="text" name="attTodailyTime">
-											</div>
-										</div>
 										<div class="ln_solid"></div>
 										<div class="item form-group">
 											<div class="col-md-6 col-sm-6 offset-md-3">
@@ -129,35 +123,7 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
-	
-	<script type="text/javascript">
-		var attStart=$('#attStart');
-		var attEnd=$('#attEnd');
-		var attTodailyTime=$('#attTodailyTime');
-		var memberId=$('#memberId');
-		/* var request = $.ajax({
-			url: "getIncomeList", 
-			method: "POST",
-			data: { articleCode : articleCode },
-			dataType: "json"
-		}); */
-		var tt= new Date();
-		$(function(){
-			$('#memberId').on('change keyup',function(){
-				//tt = attEnd.val() - attStart.val();
-				//attTodailyTime.val(tt);
-				//console.log(attTodailyTime.val(tt));
-				console.log(attStart.val());
-				console.log(attEnd.val());
-				console.log(attEnd.getName());
-				console.log(tt.getHours(attStart.val()));
-				console.log(tt.getTime());
-			});
-		});
 		
-	
-	</script>
-	
 	</th:block>
 		
 </html>

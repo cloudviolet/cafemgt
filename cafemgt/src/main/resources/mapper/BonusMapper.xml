@@ -7,7 +7,9 @@
 	<resultMap type="BonusDto" id="bonusResultMap">
 		<result property="ubCode" 			column="ub_code"/>
 		<result property="storeInfoCode" 	column="store_info_code"/>
+		<result property="storeInfoName" 	column="store_info_name"/>
 		<result property="memberId" 		column="member_id"/>
+		<result property="memberName" 		column="member_name"/>
 		<result property="ubYearMonth"		column="ub_year_month"/>
 		<result property="ubOption"			column="ub_option"/>
 		<result property="ubPay" 			column="ub_pay"/>
@@ -58,5 +60,7 @@
 			tb_member AS us
 		ON
 			ub.member_id = us.member_id
+		WHERE
+			st.store_info_code= #{SSTORECODE}
 	</select>
 </mapper>

@@ -245,12 +245,14 @@
 					var tt=Number(intax.val())+Number(intaxlocal.val())+Number(tax4.val());
 					taxtotal.val(tt);
 			});
-
+			
 			$('#salaryPay,#salaryBtaxTotal,#salaryBntaxTotal').on('change keyup',function(){
 					var rp=Number(salaryTotal.val())-Number(taxtotal.val());
 					realpay.val(rp);
 			});
 		});
+		
+		
 	</script>
 </th:block>
 </html>

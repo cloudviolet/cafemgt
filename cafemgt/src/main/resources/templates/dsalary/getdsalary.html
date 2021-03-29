@@ -8,11 +8,11 @@
 	</th:block>
 <th:block layout:fragment="customCss">
 	<!-- Datatables -->
-	<link href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
-	<link href="@{/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
-	<link href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
-	<link href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
-	<link href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
 </th:block>
 <th:block layout:fragment="customContents">
 	<div class="right_col" role="main">
@@ -63,10 +63,10 @@
 											<th>귀속연월</th>
 											<th>근무시간</th>
 											<th>월급</th>
+											<th>실수령액</th>
 											<th>근로소득세</th>
 											<th>근로지방소득세</th>
 											<th>공제합계</th>
-											<th>실수령액</th>
 											<th>지급일자</th>
 											<th>등록날짜</th>
 										</tr>
@@ -80,10 +80,10 @@
 											<td th:text="${slr.sdYearMonth}">
 											<td th:text="${slr.sdWorktime}">
 											<td th:text="${slr.sdPay}">
+											<td th:text="${slr.sdReceipts}">
 											<td th:text="${slr.sdIncome}">
 											<td th:text="${slr.sdIncomeLocal}">
 											<td th:text="${slr.sdDeduction}">
-											<td th:text="${slr.sdReceipts}">
 											<td th:text="${slr.sdPayDate}">
 											<td th:text="${slr.sdRegDate}">
 										</tr>
@@ -98,28 +98,20 @@
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
-		<script src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
-		<script src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
-		<script src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
-		<script
-			src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
-		<script src="@{/vendors/jszip/dist/jszip.min.js}"></script>
-		<script src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
-		<script src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
+		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
+		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
 	</th:block>
 </html>
