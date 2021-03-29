@@ -21,6 +21,14 @@ public class SalesService {
 		this.salesMapper = salesMapper;
 	}
 	
+	public int modifySales(SalesDto salesDto) {
+		return salesMapper.modifySales(salesDto);
+	}
+	
+	public SalesDto getSalesBySalesCode(String salesCode) {
+		return salesMapper.getSalesBySalesCode(salesCode);
+	}
+	
 	public Map<String,Object> getTotalPandS(String searchFirstDate,String searchLastDate, String SSTORECODE){
 		return salesMapper.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
 	}

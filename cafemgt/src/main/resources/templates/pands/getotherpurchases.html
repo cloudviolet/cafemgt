@@ -59,8 +59,8 @@
 												<td th:text="${ol.oeTotal}"></td>
 												<td th:text="${ol.oeEtc}"></td>
 												<td th:text="${ol.oeDate}"></td>
-												<!-- <td><a th:href="@{/modifyotherpurchases}">수정</a></td>
-												<td><a th:href="">삭제</a></td> -->
+												<td><a th:href="@{/modifyotherpurchases(oeCode=${ol.oeCode})}">수정</a></td>
+												<td><a href="#">삭제</a></td>
 											</tr>
 										</tbody>
 									</table>

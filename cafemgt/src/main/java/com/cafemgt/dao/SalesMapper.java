@@ -11,6 +11,10 @@ import com.cafemgt.dto.SalesDto;
 @Mapper
 public interface SalesMapper {
 	
+	public int modifySales(SalesDto salesDto);
+	
+	public SalesDto getSalesBySalesCode(String salesCode);
+	
 	public int addSales(SalesDto salesDto);
 	
 	public Map<String,Object> getTotalPandS(String searchFirstDate,String searchLastDate, String SSTORECODE);

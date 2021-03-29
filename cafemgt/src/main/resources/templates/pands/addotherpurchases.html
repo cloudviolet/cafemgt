@@ -52,6 +52,7 @@
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="storeName">상호명 * <span class="required"></span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
+												<input type="hidden" name="storeInfoCode"  th:value="${session.SSTORECODE}">												
 												<input type="text" id="storeName" name="oeStoreName" required="required" class="form-control ">												
 											</div>
 										</div>

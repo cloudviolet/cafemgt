@@ -210,7 +210,46 @@ public class TaxController {
 	}
 	
 	@GetMapping("/modifyotherpurchases")
-	public String modifyOtherPurchases() {
+	public String modifyOtherPurchases(Model model, String oeCode) {
+		OtherPurchasesDto OtherPurchasesDto = otherPurchasesService.getOtherPurchasesByOeCode(oeCode);
+		model.addAttribute("OtherPurchasesDto", OtherPurchasesDto);
 		return "pands/modifyotherpurchases";
 	}
+		
+	@PostMapping("/modifyotherpurchases")
+	public String modifyOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
+		otherPurchasesService.modifyOtherPurchases(otherPurchasesDto);
+		return "redirect:/getotherpurchases";
+	}
+	
+	@GetMapping("/modifypurchases")
+	public String modifyPurchases(Model model, String incoCode, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		PurchasesDto purchasesDto = purchasesService.getPurchasesByIncoCode(incoCode);
+		List<ArticleDto> articleList = articleMapper.getArticle(SSTORECODE);
+		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
+		model.addAttribute("purchasesDto", purchasesDto);
+		model.addAttribute("articleList", articleList);
+		model.addAttribute("customerList", customerList);
+		return "pands/modifypurchases";
+	}
+	
+	@GetMapping("/modifysales")
+	public String modifySales(Model model, String salesCode, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		SalesDto salesDto = salesService.getSalesBySalesCode(salesCode);
+		List<MenuDto> menuList = menuMapper.getMenu(SSTORECODE);
+		List<CustomerDto> customerList = customerMapper.getCustomer(SSTORECODE);
+		model.addAttribute("menuList", menuList);
+		model.addAttribute("customerList", customerList);
+		model.addAttribute("salesDto", salesDto);
+		return "pands/modifysales";
+	}
+	
+	@PostMapping("/modifysales")
+	public String modifySales(SalesDto salesDto) {
+		salesService.modifySales(salesDto);
+		return "redirect:/getsales";
+	}
+
 }

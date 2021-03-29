@@ -9,6 +9,10 @@ import com.cafemgt.dto.OtherPurchasesDto;
 @Mapper
 public interface OtherPurchasesMapper {
 	
+	public int modifyOtherPurchases(OtherPurchasesDto otherPurchasesDto);
+	
+	public OtherPurchasesDto getOtherPurchasesByOeCode(String oeCode);
+	
 	public int addOtherPurchases(OtherPurchasesDto otherPurchasesDto);
 	
 	public List<OtherPurchasesDto> otherPurchasesDeadline(String SSTORECODE);

@@ -18,6 +18,10 @@ public class PurchasesService {
 		this.purchasesMapper = purchasesMapper;
 	}
 	
+	public PurchasesDto getPurchasesByIncoCode(String incoCode) {
+		return purchasesMapper.getPurchasesByIncoCode(incoCode);
+	}
+	
 	public List<PurchasesDto> purchasesDeadline(String SSTORECODE){
 		return purchasesMapper.purchasesDeadline(SSTORECODE);
 	}

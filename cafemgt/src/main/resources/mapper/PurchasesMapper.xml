@@ -28,6 +28,57 @@
 		<result property="incoCheck" 				column="inco_check"/>
 	</resultMap>
 	
+	<update id="">
+	UPDATE tb_incoming
+	SET
+		article_code='',
+		cust_code='',
+		inco_vat_type='',
+		inco_pay_type='',
+		inco_total=0,
+		inco_count=0,
+		inco_volume_subtotal=0,
+		inco_supply_value=0,
+		inco_tax=0,
+		inco_date=NOW(),
+		inco_reg_date=NOW(),
+		inco_deadline='',
+		inco_system_id='',
+		inco_system_name=''
+	WHERE inco_code=''
+	</update>
+	
+	<select id="getPurchasesByIncoCode" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			i.inco_code
+			, s.store_info_code
+			, s.store_info_name
+			, i.article_code
+			, i.cust_code
+			, i.inco_vat_type
+			, i.inco_pay_type
+			, i.inco_total
+			, i.inco_count
+			, i.inco_volume_subtotal
+			, i.inco_supply_value
+			, i.inco_tax
+			, i.inco_dealing_group_code
+			, i.inco_stock_group_code
+			, i.inco_date
+			, i.inco_reg_date
+			, i.inco_deadline
+			, i.inco_system_id
+			, i.inco_system_name
+			, i.inco_check
+		FROM 
+			tb_incoming AS i
+		LEFT JOIN 
+			tb_store_info AS s
+		ON
+			i.store_info_code = s.store_info_code
+		WHERE inco_code = #{incoCode};
+	</select>
+	
 	<insert id="addPurchases" parameterType="PurchasesDto">
 		INSERT INTO tb_incoming
 			(inco_code, 
