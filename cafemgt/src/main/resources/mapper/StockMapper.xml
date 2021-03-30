@@ -22,54 +22,83 @@
 		<result property="stockRegDate"	 			column="stock_reg_date" />
 		
 	</resultMap>
-	<select id="getStock" parameterType="String" resultMap="StockResultMap">
-		SELECT 
-			 article_code
-			,article_name
-			,article_dan
-			,article_volume
-			,SUM(inco_count) AS 'inco_count'
-			,SUM(inco_volume_subtotal) AS 'inco_volume_subtotal'
-			,SUM(inco_total) AS 'stock_inco_unit_total'
-			,TRUNCATE(SUM(inco_total)/SUM(inco_volume_subtotal), 0) AS 'stock_min_unit'
-			,SUM(detailvol_volume_total) AS 'stock_volume_total'
-			,SUM(detailvol_con_count) AS 'stock_con_count'
-			,SUM(detailvol_remain_volume)	AS 'stock_now_volume'
-			,SUM(detailvol_remain_count) AS 'stock_now_count'
+	
+	<insert id="addStock" parameterType="StockDto">
+		INSERT INTO tb_stock
+			(stock_code
+			,store_info_code
+			,article_code
+			,inco_count
+			,inco_volume_subtotal
+			,stock_inco_unit_total
+			,stock_min_unit
+			,stock_con_count
+			,stock_volume_total
+			,stock_now_count
+			,stock_now_volume
 			,stock_reg_date
+			)
+		VALUES 
+			(sf_new_stock_code()
+			,#{storeInfoCode}
+			,#{articleCode}
+			,${incoCount}
+			,${incoVolumeSubtotal}
+			,${stockIncoUnitTotal}
+			,${stockMinUnit}
+			,${stockConCount}
+			,${stocklVolumeTotal}
+			,${stockNowCount}
+			,${stockNowVolume}
+			,NOW()
+			)
+		ON DUPLICATE KEY UPDATE 
+		 	 article_code = #{articleCode}
+			,inco_count = ${incoCount}
+			,inco_volume_subtotal = ${incoVolumeSubtotal}
+			,stock_inco_unit_total = ${stockIncoUnitTotal}
+			,stock_min_unit = ${stockMinUnit}
+			,stock_con_count = ${stockConCount}
+			,stock_volume_total = ${stocklVolumeTotal}
+			,stock_now_count = ${stockNowCount}
+			,stock_now_volume = ${stockNowVolume}
+			,stock_reg_date = NOW()
+	</insert>
+	
+	<select id="getStock" parameterType="HashMap" resultMap="StockResultMap">
+		SELECT 
+			 inc.inco_code
+			,inc.store_info_code
+			,inc.article_code
+			,a.article_name
+			,a.article_dan
+			,sum(inco_count) AS 'inco_count'
+			,sum(inco_total) AS 'stock_inco_unit_total'
+			,sum(inco_volume_subtotal) AS 'inco_volume_subtotal'
+			,TRUNCATE(sum(inco_total)/sum(inco_volume_subtotal),0) AS 'stock_min_unit'
+			,SUM(dtv.detailvol_con_count) AS 'stock_con_count'
+			,SUM(dtv.detailvol_volume_total) AS 'stock_volume_total'
+			,SUM(dtv.detailvol_remain_count) AS 'stock_now_count'
+			,sum(dtv.detailvol_remain_volume) AS 'stock_now_volume'
+			,max(inco_date) AS 'stock_reg_date'
+			,inco_reg_date
 		FROM
-			(SELECT
-				dtv.store_info_code
-				,inc.inco_code
-				,inc.article_code
-				,a.article_name
-				,a.article_volume
-				,a.article_dan
-				,inc.inco_count
-				,inc.inco_volume_subtotal
-				,inc.inco_total
-				,detailvol_volume_total 
-				,detailvol_con_count
-				,detailvol_remain_volume
-				,detailvol_remain_count
-				,detailvol_reg_date
-				,detailvol_deadline_check
-				,max(inc.inco_date) AS 'stock_reg_date'
-			FROM 
-				tb_incoming AS inc
-				LEFT join
-				tb_detail_volume AS dtv
-				ON
-				dtv.inco_code = inc.inco_code
-				LEFT JOIN 
-				tb_article AS a
-				on
-				inc.article_code = a.article_code
-			WHERE
-				inc.store_info_code = #{SSTORECODE}
-				AND
-				inc.inco_check != 3
-			GROUP	BY inc.inco_code, a.article_code) AS a2
-		GROUP BY article_code
+		tb_incoming as inc
+		LEFT JOIN 
+		tb_detail_volume AS dtv
+		ON inc.inco_code = dtv.inco_code
+		LEFT JOIN 
+		tb_article AS a
+		ON inc.article_code = a.article_code
+		WHERE inco_check != 3  
+			AND dtv.detailvol_deadline_check='x' 
+			AND inc.store_info_code = #{SSTORECODE}
+			<if test="arrayStock != null">
+				AND a.article_code IN
+				<foreach collection="arrayStock" item="item" index="index" separator="," open="(" close=")">
+					#{item}
+				</foreach>
+			</if>
+		GROUP BY inc.article_code
 	</select>
 </mapper>

@@ -14,100 +14,207 @@
 		<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+		
+		<style>
+		.float-right{
+			float: right;
+			color: gray;
+		}
+		
+		#submitBtn{
+			margin-right: 15px;
+			margin-bottom: 10px;
+			color: white;
+		}
+		
+		p{
+			margin: 10px 0px 10px 15px;
+		}
+		ul.bar_tabs{
+			background: #FFFFFF;
+		}
+		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
 			<div class="col-md-12 col-sm-12 ">
+				
 				<div class="x_panel">
-					 <div class="x_title">
-		                <h2>상품 조회</h2>
-		                
-		                <!-- 상단 옵션네비바 시작 -->
-						<ul class="nav navbar-right panel_toolbox">
-						</ul>
-						<!-- 상단 옵션네비바 끝 -->
-							
-						<div class="clearfix"></div>
-							
-					</div>
 					<div class="x_content">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="card-box table-responsive">
-									<p class="text-muted font-13 m-b-30">
-                      Responsive is an extension for DataTables that resolves that problem by optimising the table's layout for different screen sizes through the dynamic insertion and removal of columns from the table.
-                    </p>
-					
-                    <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width: 100%">
-										<thead>
-											<tr>
-												<th><input type="checkbox" id="check-all"></th>
-												<!--
-												<th>재고관리코드</th>
-												<th>사업장 코드</th>
-												<th>상호명</th>
-												<th>품목코드</th>
-												<th>용량</th>
-												<th>단위</th>
-												-->
-												<th>품목명</th>
-												<th>입고단가합계</th>
-												<th>최소단위단가</th>
-												<th>입고수량</th>
-												<th>입고용량소계</th>
-												<th>소모수량</th>
-												<th>출고용량합계</th>
-												<th>현재수량</th>
-												<th>현재용량</th>
-												<th>최신입고날짜</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="sl:${stockList}">
-												<td><input type="checkbox" class="checkBox" name="checkBox" id="check-all"></td>
-												<!-- 		
-												<td th:text="${sl.stockCode}"></td>
-												<td th:text="${sl.storeInfoCode}"></td>
-												<td th:text="${sl.storeInfoName}"></td>
-												<td th:text="${sl.articleCode}"></td>
-												<td th:text="${sl.articleVolume}"></td>
-												<td th:text="${sl.articleDan}"></td>
-												 -->
-												<td th:text="${sl.articleName}"></td>
-												<td>
-													<span>[[${sl.stockIncoUnitTotal}]]</span>
-													<span style="float: right;">₩</span>
-												</td>
-												<td>
-													<span>[[${sl.stockMinUnit}]]</span>
-													<span style="float: right;">₩</span>
-												</td>
-												<td>
-													<span>[[${sl.incoCount}]]</span>
-												</td>
-												<td>
-													<span>[[${sl.incoVolumeSubtotal}]]</span>
-													<span style="float: right;">[[${sl.articleDan}]]</span>
-												</td>
-												<td>
-													<span>[[${sl.stockConCount}]]</span>
-												</td>
-												<td>
-													<span>[[${sl.stocklVolumeTotal}]]</span>
-												</td>
-												<td>
-													<span>[[${sl.stockNowCount}]]</span>
-												</td>
-												<td>
-													<span>[[${sl.stockNowVolume}]]</span>
-												</td>
-												<td>
-													<span>[[${sl.stockRegDate}]]</span>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+		                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+	                        <ul id="myTab" class="nav nav-tabs bar_tabs">
+		                        <li role="presentation" class="nav-item">
+		                        	<a href="#tab_content1" id="content1-tab" role="tab" data-toggle="tab" 
+		                        	   class="nav-link active" aria-controls="tab_content1" aria-expanded="true">품목 재고 조회</a>
+		                        </li>
+		                        <li role="presentation" class="nav-item">
+		                        	<a href="#tab_content2" id="content2-tab" role="tab"  data-toggle="tab" 
+		                        	   class="nav-link" aria-controls="tab_content2" aria-expanded="false">추가 정보</a>
+		                        </li>
+	                        </ul>
+							<div class="clearfix"></div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="card-box table-responsive">
+										<div id="myTabContent" class="tab-content">
+		                    				<div role="tabpanel" class="tab-pane fade show active" id="tab_content1" aria-labelledby="content1-tab">
+												<p class="text-muted font-13 m-b-30">
+													업데이트 해야하는 항목조회.
+													<a class="btn btn-primary btn-sm float-right" id="submitBtn">업데이트</a>
+			                   					</p>
+			                   					<table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width: 100%">
+													<thead>
+														<tr>
+															<th><input type="checkbox" id="check-all"></th>
+															<!--
+															<th>재고관리코드</th>
+															<th>사업장 코드</th>
+															<th>상호명</th>
+															<th>품목코드</th>
+															<th>용량</th>
+															<th>단위</th>
+															-->
+															<th>품목명</th>
+															<th>입고 단가 합계</th>
+															<th>최소 단위 단가</th>
+															<th>입고 수량</th>
+															<th>입고 용량 소계</th>
+															<th>소모 수량</th>
+															<th>소묘 용량 합계</th>
+															<th>현재 수량</th>
+															<th>현재 용량</th>
+															<th>최신 입고 날짜</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="sl:${stockList}">
+															<td><input type="checkbox" class="checkBox" name="checkBox"></td>
+															<!-- 		
+															<td th:text="${sl.stockCode}"></td>
+															<td th:text="${sl.storeInfoCode}"></td>
+															<td th:text="${sl.storeInfoName}"></td>
+															<td th:text="${sl.articleCode}"></td>
+															<td th:text="${sl.articleVolume}"></td>
+															<td th:text="${sl.articleDan}"></td>
+															 -->
+															<td th:text="${sl.articleName}"></td>
+															<td>
+																<span>[[${sl.stockIncoUnitTotal}]]</span>
+																<span class="float-right">₩</span>
+															</td>
+															<td>
+																<span>[[${sl.stockMinUnit}]]</span>
+																<span class="float-right">₩</span>
+															</td>
+															<td>
+																<span>[[${sl.incoCount}]]</span>
+															</td>
+															<td>
+																<span>[[${sl.incoVolumeSubtotal}]]</span>
+																<span class="float-right">[[${sl.articleDan}]]</span>
+															</td>
+															<td>
+																<span>[[${sl.stockConCount}]]</span>
+															</td>
+															<td>
+																<span>[[${sl.stocklVolumeTotal}]]</span>
+																<span class="float-right">[[${sl.articleDan}]]</span>
+															</td>
+															<td>
+																<span>[[${sl.stockNowCount}]]</span>
+															</td>
+															<td>
+																<span>[[${sl.stockNowVolume}]]</span>
+																<span class="float-right">[[${sl.articleDan}]]</span>
+															</td>
+															<td>
+																<span>[[${sl.stockRegDate}]]</span>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										<!-- 1번 탭 끝 -->
+											<div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="content2-tab">
+												<p class="text-muted font-13 m-b-30">
+													업데이트 해야하는 항목조회.
+			                   					</p>
+												<div class="card-box table-responsive">
+				                   					<table id="datatable" class="table table-striped table-bordered" style="width:100%">
+														<thead>
+															<tr>
+																<!--
+																<th>재고관리코드</th>
+																<th>사업장 코드</th>
+																<th>상호명</th>
+																<th>품목코드</th>
+																<th>용량</th>
+																<th>단위</th>
+																-->
+																<th>품목명</th>
+																<th>입고 단가 합계</th>
+																<th>최소 단위 단가</th>
+																<th>입고 수량</th>
+																<th>입고 용량 소계</th>
+																<th>소모 수량</th>
+																<th>소묘 용량 합계</th>
+																<th>현재 수량</th>
+																<th>현재 용량</th>
+																<th>최신 입고 날짜</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="sl:${stockList}">
+																<!-- 		
+																<td th:text="${sl.stockCode}"></td>
+																<td th:text="${sl.storeInfoCode}"></td>
+																<td th:text="${sl.storeInfoName}"></td>
+																<td th:text="${sl.articleCode}"></td>
+																<td th:text="${sl.articleVolume}"></td>
+																<td th:text="${sl.articleDan}"></td>
+																 -->
+																<td th:text="${sl.articleName}"></td>
+																<td>
+																	<span>[[${sl.stockIncoUnitTotal}]]</span>
+																	<span class="float-right">₩</span>
+																</td>
+																<td>
+																	<span>[[${sl.stockMinUnit}]]</span>
+																	<span class="float-right">₩</span>
+																</td>
+																<td>
+																	<span>[[${sl.incoCount}]]</span>
+																</td>
+																<td>
+																	<span>[[${sl.incoVolumeSubtotal}]]</span>
+																	<span class="float-right">[[${sl.articleDan}]]</span>
+																</td>
+																<td>
+																	<span>[[${sl.stockConCount}]]</span>
+																</td>
+																<td>
+																	<span>[[${sl.stocklVolumeTotal}]]</span>
+																	<span class="float-right">[[${sl.articleDan}]]</span>
+																</td>
+																<td>
+																	<span>[[${sl.stockNowCount}]]</span>
+																</td>
+																<td>
+																	<span>[[${sl.stockNowVolume}]]</span>
+																	<span class="float-right">[[${sl.articleDan}]]</span>
+																</td>
+																<td>
+																	<span>[[${sl.stockRegDate}]]</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+										<!-- 2번탭 끝 -->
+										</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -133,5 +240,55 @@
 		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+		
+		<script th:inline="javascript">
+			var checkAll = $('#check-all');
+			var checkBox = $('.checkBox');
+		
+			checkAll.click(function(){
+				if(checkAll.is(":checked")){
+					checkBox.prop("checked", true);
+				}else{
+					checkBox.prop("checked", false);
+				}
+			});			
+			checkBox.click(function(){
+				if(checkBox.is(":checked").length == checkBox.length){
+					checkAll.prop("checked", true);
+				}else {
+					checkAll.prop("checked", false);
+				}
+			});		
+			$('#submitBtn').click(function(){
+				var stockList = /*[[${stockList}]]*/
+				var arrayStock = []; 
+				
+				if(checkBox.length != 0){
+						
+					checkBox.each(function(i){
+						if(checkBox.eq(i).is(":checked")){
+							arrayStock.push(stockList[i].articleCode);
+						}
+					})
+					console.log(arrayStock);
+					
+					var request = $.ajax({
+						method: "POST",
+						url: "addStock", 
+						dataType: "text",
+						data: {"arrayStock" : arrayStock,
+								"SSTORECODE" : stockList[0].storeInfoCode}
+					});
+					request.done(function( data ){
+						console.log(data)
+					});
+					request.fail(function( err){
+						console.log(err)
+					});
+				
+				}
+				
+			});		
+		</script>
 	</th:block>
 </html>

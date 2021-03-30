@@ -51,7 +51,7 @@
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
 			<div class="row">
-				<div class="col-md-9">
+				<div class="col-md-8">
 					<div class="x_panel">
 						 <div class="x_title">
 			                <h2>품목별 재고 총 수량 조회</h2>
@@ -114,7 +114,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<div class="x_panel">
 						 <div class="x_title">
 			                <h2>마감 품목 상세 조회</h2>
@@ -140,13 +140,7 @@
 										<form th:action="@{getdailyvolDeadLine}" method="POST" id="demo-form2">
 											<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 											
-											<div class="form-group row horizontal">
-												<label class="col-form-label label-align input-label">입고 용량 * <span class="required"></span>	</label>
-												<div class="col-md- 7 col-sm-7">
-													<input type="text" name="incoVolumeSubtotal" id="incoVolumeSubtotal" readonly="readonly" class="form-control valueReset">
-												</div>
-												<div><label class="control-label label-align articleDan"></label></div>
-											</div>
+
 											<div class="form-group row horizontal">
 												<label class="col-form-label label-align input-label">잔여 용량 * <span class="required"></span>	</label>
 												<div class="col-md- 7 col-sm-7">
@@ -162,6 +156,13 @@
 												<div><label class="control-label label-align articleDan"></label></div>
 											</div>
 											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">용량 합계 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="volumeTotal" 	id="volumeTotal"	readonly="readonly"  class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+											<div class="form-group row horizontal">
 												<label class="col-form-label label-align input-label">일품 코드 * <span class="required"></span>	</label>
 												<div class="col-md- 7 col-sm-7">
 													<input type="text" name="dailyvolCode" 	id="dailyVolCode"	readonly="readonly"  class="form-control valueReset">
@@ -172,6 +173,13 @@
 												<div class="col-md- 7 col-sm-7">
 													<input type="text" name="incoCode" 		id="incoCode"		readonly="readonly"  class="form-control valueReset">
 												</div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">입고 용량 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="incoVolumeSubtotal" id="incoVolumeSubtotal" readonly="readonly" class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
 											</div>
 											<div class="form-group row horizontal">
 												<label class="col-form-label label-align input-label">품목 코드 * <span class="required"></span>	</label>
@@ -200,13 +208,6 @@
 												<div><label class="control-label label-align articleDan"></label></div>
 											</div>
 											<div class="form-group row horizontal">
-												<label class="col-form-label label-align input-label">용량 합계 * <span class="required"></span>	</label>
-												<div class="col-md- 7 col-sm-7">
-													<input type="text" name="volumeTotal" 	id="volumeTotal"	readonly="readonly"  class="form-control valueReset">
-												</div>
-												<div><label class="control-label label-align articleDan"></label></div>
-											</div>
-											<div class="form-group row horizontal">
 												<label class="col-form-label label-align input-label">판매 수량 * <span class="required"></span>	</label>
 												<div class="col-md- 7 col-sm-7">
 													<input type="text" name="salesCount" 	id="salesCount"		readonly="readonly"  class="form-control valueReset">
@@ -214,7 +215,7 @@
 												<div><label class="control-label label-align articleDan"></label></div>
 											</div>
 											<div class="form-group row horizontal">
-												<label class="col-form-label label-align input-label">잔여 용량 * <span class="required"></span>	</label>
+												<label class="col-form-label label-align input-label">잔여 수량	 * <span class="required"></span>	</label>
 												<div class="col-md- 7 col-sm-7">
 													<input type="text" name="detailvolRemainCount" id="detailvolRemainCount" readonly="readonly" class="form-control valueReset">
 												</div>
@@ -250,8 +251,11 @@
 		
 		<script th:inline="javascript"> 
 			$('#submitBtn').click(function(){
-				console.log('a');
-				$('#demo-form2').submit();
+				if($('#incoVolumeSubtotal').val() != ''){
+					$('#demo-form2').submit();
+				}else{
+					alert('마감할 품목을 선택 해주세요.');
+				}
 			});
 			var deadLineSelectBox = $('.deadLineSelectBox');
 			deadLineSelectBox.mousedown(function(){
@@ -288,7 +292,7 @@
 						$('#articleCode').val(data[0].articleCode);
 						$('#incoCheck').val(data[0].incoCheck);
 						$('#incoCount').val(data[0].incoCount);
-						$('#articleVolume').val(data[0].articleVolume);
+						$('#articleVolume').val(data[0].incoVolumeSubtotal/data[0].incoCount);
 						$('#volumeTotal').val((data[0].detailvolRemainVolume-dvl[dataIndex].dailyvolSubtotal));
 						$('#salesCount').val(dvl[dataIndex].salesCount);
 						$('#detailvolRemainCount').val(data[0].detailvolRemainCount);

@@ -93,9 +93,30 @@ public class StockController {
 	@GetMapping("/getstock")
 	public String getStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<StockDto> stockList = stockService.getStock(SSTORECODE);
+		Map<String, Object> stockMap = new HashMap<>();
+		stockMap.put("SSTORECODE", SSTORECODE);
+		List<StockDto> stockList = stockService.getStock(stockMap);
 		model.addAttribute("stockList",stockList);
 		return "stock/getstock";
+	}
+	@ResponseBody
+	@PostMapping("/addStock")
+	public String addStock(@RequestParam(value = "arrayStock[]", required = false) List<String> arrayStock
+						  ,@RequestParam(value = "SSTORECODE", required = false) String SSTORECODE) {
+
+		Map<String, Object> stockMap = new HashMap<>();
+		stockMap.put("SSTORECODE", SSTORECODE);
+		stockMap.put("arrayStock", arrayStock);
+		List<StockDto> stockList = stockService.getStock(stockMap);
+		int result = stockService.addStock(stockList);
+		String rtString = "";
+		if(result > 0 ) {
+			rtString = "정상 동작";
+		}else {
+			rtString = "insert 실패";
+		}
+			
+		return rtString;
 	}
 	
 	@GetMapping("/getdailyvolume")
@@ -220,6 +241,8 @@ public class StockController {
 	public String salesDeadline(@RequestParam (value = "arraySales[]", required = false) List<String> arraySales
 								,HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		System.out.println(arraySales);
+		
 		Map<String, Object> salesInfoMap = new HashMap<>();
 		salesInfoMap.put("SSTORECODE", SSTORECODE);
 		salesInfoMap.put("arraySales", arraySales);
@@ -227,7 +250,6 @@ public class StockController {
 		
 		String returnValue ="값을 입력해주세요";
 		int result = 0;
-
 		
 		  List<DailyVolDto> dailyVolList = dailyVolService.getSalesByDailyVol(salesInfoMap); 
 		  for(int i =0 ; i <  dailyVolList.size(); i++) {
@@ -239,7 +261,7 @@ public class StockController {
 		if(result >= 1) {
 			returnValue = "정상처리";
 		}
-		
+
 		return returnValue;
 	}
 	
