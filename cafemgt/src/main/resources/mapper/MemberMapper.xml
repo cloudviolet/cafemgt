@@ -65,6 +65,18 @@
 			tb_store_info AS s
 		ON m.store_info_code = s.store_info_code	
 	</select>
+	<!-- 직원 추가정보 수정에서 member 정보 업데이트  -->
+	<update id="updateMember" parameterType="MemberDto">
+		UPDATE tb_member
+	SET
+		member_pw=#{memberPw},
+		member_name=#{memberName},
+		level_code=#{levelCode},
+		member_phone=#{memberPhone},
+		member_email=#{memberEmail},
+		member_birth=#{memberBirth}
+	WHERE member_id=#{memberId}
+	</update>
 	
 	<select id="getMember" resultMap="memberResultMap">
 		SELECT 

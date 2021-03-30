@@ -51,6 +51,12 @@ public class MemberService {
 		return memberDtolist;	
 	}
 	
+	// 직원관리-> 직원조회-> 수정페이지 업데이트 member
+	public int updateMember(MemberDto memberDto) {
+		return memberMapper.updateMember(memberDto);
+	}
+	
+	
 	public MemberDto getinfoMember(String memberId) {
 		return memberMapper.getinfoMember(memberId);
 		

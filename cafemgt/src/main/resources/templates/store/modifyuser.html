@@ -43,7 +43,7 @@
 									</div>	
 								</div>
 								<!-- password -->
-								<div class="form-group row">
+								 <div class="form-group row">
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="memberPw">비밀번호 * <span class="required"></span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
@@ -59,7 +59,7 @@
 								</div>
 								<!-- /password -->
 								<div class="form-group row">
-									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userName">이름 * <span class="required"></span>
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="memberName">이름 * <span class="required"></span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
 										<input type="text" id="memberName" name="memberName" required="required" th:value="${memberDto.memberName}" class="form-control Name"/>												
@@ -90,6 +90,13 @@
 										<input type="text" id="memberPhone" name="memberPhone" class="form-control" required="required" th:value="${memberDto.memberPhone}" data-inputmask="'mask' : '999-9999-9999'">	
 									</div>
 								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="memberEmail">이메일 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="memberEmail" name="memberEmail" required="required" th:value="${memberDto.memberEmail}" class="form-control Name"/>												
+									</div>	
+								</div>							
 								<div class="form-group row">									
 									<label class="col-form-label col-md-3 col-sm-3 label-align">생년월일 * 
 									</label>
@@ -136,7 +143,7 @@
 									<label class="col-form-label col-md-3 col-sm-3 label-align">퇴사 날짜  
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input id="userJoinDate" name="userOutDate" class="date-picker form-control"
+										<input id="userOutDate" name="userOutDate" class="date-picker form-control"
 										placeholder="dd-mm-yyyy" type="text" onfocus="this.type='date'" onmouseover="this.type='date'" 
 										onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 										<script>
@@ -207,7 +214,7 @@
 								<div class="form-group row">
 									<div class="col-md-4 col-sm-8 offset-md-4 text-center">
 										<button class="btn btn-primary" type="reset">다시 작성</button>
-										<button type="submit" class="btn btn-success">등록 하기</button>
+										<button type="submit" id="submitBtn" class="btn btn-success">등록 하기</button>
 									</div>
 								</div>
 			
@@ -248,19 +255,21 @@
 		<!-- input mask 스크립트 0325 추가 -->
    	 	<!-- jquery.inputmask -->
     	<script src="../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
-		<!-- 연락처 스크립트 -->
+		<!--정수만 입력 스크립트 -->
 		<script type="text/javascript">
 		$(document).on("keyup", ".userWorkTime", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "") ); });
-
-		</script>
-		<script type="text/javascript">
 		$(document).on("keyup", ".userBankAcount", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "").replace("--", "-") ); });
-
-		</script>
-		<script type="text/javascript">
 		$(document).on("keyup", ".userPay", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "")); });
 
-		
+	/* 	$('#submitBtn').click(function(){
+			console.log($("#userOutDate").val());
+			/*  if($("#userOutDate").val()==''){
+				$("#userOutDate").val('2000-01-01');
+			} 
+			 console.log($("#userOutDate").val()); */
+			$('#demo-form2').submit();
+			
+		}); */
 		
 		</script>
 	
