@@ -26,6 +26,13 @@
 		<result property="salesSystemName" 			column="sales_system_name"/>
 	</resultMap>
 	
+	<delete id="removeSales" parameterType="String">
+		DELETE FROM 
+			tb_sales 
+		WHERE 
+			sales_code=#{salesCode};
+	</delete>
+	
 	<update id="modifySales" parameterType="SalesDto">
 		UPDATE 
 			tb_sales
@@ -182,6 +189,8 @@
 			c.cust_name,
 			s.sales_date, 
 			s.sales_reg_date, 
+			s.sales_deadline_dailyvol,
+			s.sales_deadline_tax,
 			s.sales_system_id, 
 			s.sales_system_name
 		FROM 

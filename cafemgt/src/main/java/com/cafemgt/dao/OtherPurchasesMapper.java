@@ -9,6 +9,8 @@ import com.cafemgt.dto.OtherPurchasesDto;
 @Mapper
 public interface OtherPurchasesMapper {
 	
+	public int removeOtherPurchases(String oeCode);
+	
 	public int modifyOtherPurchases(OtherPurchasesDto otherPurchasesDto);
 	
 	public OtherPurchasesDto getOtherPurchasesByOeCode(String oeCode);

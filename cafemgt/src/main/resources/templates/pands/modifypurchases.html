@@ -34,6 +34,7 @@
 									<form id="demo-form2" th:action="@{/modifypurchases}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 										
 										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">	
+										<input type="hidden" name="incoCode" th:value="${purchasesDto.incoCode}">	
 										
 										<div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align" for="articleCode">품목 명  *</label>
@@ -122,9 +123,8 @@
 										<div class="ln_solid"></div>
 										<div class="form-group row">
 											<div class="col-md-6 col-sm-6 offset-md-3 text-center">
-												<button class="btn btn-primary" type="button">등록 취소</button>
 												<button class="btn btn-primary" type="reset">다시 작성</button>
-												<button type="submit" class="btn btn-success">매출 등록</button>
+												<button type="button" id="submitBtn" class="btn btn-success">매입 수정</button>
 											</div>
 										</div>
 									</form>
@@ -166,10 +166,10 @@
 		var incoSupplyValue = $('#incoSupplyValue');
 		var incoTax = $('#incoTax');
 		var getArticleCode = '[[${purchasesDto.articleCode}]]';
-		var articleCode = $('#articleCode').children();
-		for(var i = 0; i<articleCode.length; i++){
-			if(articleCode.eq(i).val()==getArticleCode){
-				articleCode.eq(i).attr("selected", true);
+		var articleCodeChildren = $('#articleCode').children();
+		for(var i = 0; i<articleCodeChildren.length; i++){
+			if(articleCodeChildren.eq(i).val()==getArticleCode){
+				articleCodeChildren.eq(i).attr("selected", true);
 				break;
 			};
 		};
@@ -229,23 +229,37 @@
 			})
 		})
 		
+		
 		$(function(){
+			var getArticleBigDan = $('#articleCode').find("option:selected").data("big");
+			var getArticleVolume =  $('#articleCode').find("option:selected").data("volume");
+			var getIncoCountValue = $('#incoCount').val();
+			$('#articlebigdan').text(getArticleBigDan);
+			var getSum = getArticleVolume*getIncoCountValue;
+			console.log(getArticleBigDan,getArticleVolume,getIncoCountValue,getSum);
+			$('#incoVolumeSubtotal').val(getSum);
+			console.log($('#incoVolumeSubtotal').val(),"<<<<<<<<<<<<<<<<<<<<<");
 			$('#articleCode').change(function(){
 				var articleBigDan = $('#articleCode').find("option:selected").data("big");
-				console.log(articleBigDan);
-				$('#articlebigdan').text(articleBigDan);
 				var articleVolume =  $('#articleCode').find("option:selected").data("volume");
-				console.log(articleVolume);
+				$('#articlebigdan').text(articleBigDan);
+				var changeSum = articleVolume * getIncoCountValue;
+				console.log(changeSum,"<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+				$('#incoVolumeSubtotal').val(changeSum);
 				$('#incoCount').keyup(function(){
 					var incoCountValue = $('#incoCount').val();
 					var sum = articleVolume * incoCountValue;
-					console.log(sum);
+					console.log(sum,"<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 					$('#incoVolumeSubtotal').val(sum);
 				});
 			});
 		});
 		
-
+		$(function(){
+			$('#submitBtn').click(function(){
+				$('#demo-form2').submit();
+			});
+		})
 		
 	</script>
 	

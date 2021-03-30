@@ -21,6 +21,10 @@ public class SalesService {
 		this.salesMapper = salesMapper;
 	}
 	
+	public int removeSales(String salesCode) {
+		return salesMapper.removeSales(salesCode);
+	}
+	
 	public int modifySales(SalesDto salesDto) {
 		return salesMapper.modifySales(salesDto);
 	}

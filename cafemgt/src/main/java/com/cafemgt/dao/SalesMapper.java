@@ -11,6 +11,8 @@ import com.cafemgt.dto.SalesDto;
 @Mapper
 public interface SalesMapper {
 	
+	public int removeSales(String salesCode);
+	
 	public int modifySales(SalesDto salesDto);
 	
 	public SalesDto getSalesBySalesCode(String salesCode);

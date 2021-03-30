@@ -49,6 +49,7 @@
 												<th>공급 합계</th>
 												<th>결제 유형</th>
 												<th>판매 날짜</th>
+												<th>재고마감유무</th>
 												<th>수정</th>
 												<th>삭제</th>
 											</tr>
@@ -65,8 +66,9 @@
 												<td th:text="${pl.incoTotal}"></td>
 												<td th:text="${pl.incoPayType}"></td>
 												<td th:text="${pl.incoDate}"></td>
+												<td th:text="${pl.incoDeadline}"></td>
 												<td><a th:href="@{/modifypurchases(incoCode=${pl.incoCode})}">수정</a></td>
-												<td><a href="#">삭제</a></td>
+												<td><a class="removePurchases" th:href="@{/removePurchases(incoCode=${pl.incoCode})}">삭제</a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -75,35 +77,40 @@
 						</div>
 					</div>
 				</div>
-			</div>
-	
-	
+			</div>	
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
 		<script th:src="@{../vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
 		<script th:src="@{../vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
+		<script type="text/javascript">
+		$('.removePurchases').click(function(){
+	            var removePurchases = $(this);
+	            var tr = removePurchases.parent().parent();
+	            var td = tr.children();
+	            var deadLine = td.eq(10).text();
+	            if(deadLine=='o'){
+	            	alert('재고마감이 이루어진 물품으로 삭제 할 수가 없습니다.');
+	            	$('.removePurchases').attr('href', '#');
+	            }else{
+	            	alert('정말 삭제하시겠습니까?');
+	            }
+		})
+			
+		</script>
 	</th:block>
 
 </html>

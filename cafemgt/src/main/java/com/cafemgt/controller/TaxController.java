@@ -234,6 +234,12 @@ public class TaxController {
 		return "pands/modifypurchases";
 	}
 	
+	@PostMapping("/modifypurchases")
+	public String modifyPurchases(PurchasesDto purchasesDto) {
+		purchasesService.modifyPurchases(purchasesDto);
+		return "redirect:/getpurchases";
+	}
+	
 	@GetMapping("/modifysales")
 	public String modifySales(Model model, String salesCode, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -250,6 +256,24 @@ public class TaxController {
 	public String modifySales(SalesDto salesDto) {
 		salesService.modifySales(salesDto);
 		return "redirect:/getsales";
+	}
+	
+	@GetMapping("/removePurchases")
+	public String removePurchases(@RequestParam(value = "incoCode", required = false)String incoCode) {
+		purchasesService.removePurchases(incoCode);
+		return "redirect:/getpurchases";
+	}
+	
+	@GetMapping("/removeSales")
+	public String removeSales(@RequestParam(value = "salesCode", required = false)String salesCode) {
+		salesService.removeSales(salesCode);
+		return "redirect:/getsales";
+	}
+	
+	@GetMapping("/removeOtherPurchases")
+	public String removeOtherPurchases(@RequestParam(value = "oeCode", required = false)String oeCode) {
+		otherPurchasesService.removeOtherPurchases(oeCode);
+		return "redirect:/getotherpurchases";
 	}
 
 }
