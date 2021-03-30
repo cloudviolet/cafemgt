@@ -2,7 +2,6 @@ package com.cafemgt.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +24,22 @@ public class SalaryService {
 		
 		return salaryDto;
 	}
-	public int addSalary(SalaryDto salarydto) {
+	
+	public SalaryDto getSalaryBySalaryCode(String salaryCode) {
 		
-		return salaryMapper.addSalary(salarydto);
+		return salaryMapper.getSalaryBySalaryCode(salaryCode);
 	}
+	
+	public int modifySalary(SalaryDto salaryDto) {
+		
+		return salaryMapper.modifySalary(salaryDto);
+	}
+	
+	public int addSalary(SalaryDto salaryDto) {
+		
+		return salaryMapper.addSalary(salaryDto);
+	}
+	
+	
+	
 }

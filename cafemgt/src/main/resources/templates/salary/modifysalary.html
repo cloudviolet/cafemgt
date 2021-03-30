@@ -6,10 +6,251 @@
 	<th:block layout:fragment="customTitle">
 		<title>상용직 급여 수정</title>
 	</th:block>
-
+	
+	<th:block layout:fragment="customCss">
+			<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
+	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-		</div>
+		<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>상용직 급여 수정 <!-- <small>different form elements</small> --></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+												<ul class="dropdown-menu" role="menu">
+													<li><a class="dropdown-item" href="#">Settings 1</a>
+													</li>
+													<li><a class="dropdown-item" href="#">Settings 2</a>
+													</li>
+												</ul> -->
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<br />
+									<form id="demo-form2" th:action="@{/modifySalary}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
+										<div class="item form-group">
+											<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
+											<input type="hidden" name="salaryCode" th:value ="${salaryDto.salaryCode}" >
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">직원 아이디 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="memberId" name="memberId" required="required" class="form-control" th:value="${salaryDto.memberId}" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">귀속년월 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryYearMonth" name="salaryYearMonth" class="date-picker form-control" th:value="${salaryDto.salaryYearMonth}" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">급여 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="salaryPay" name="salaryPay" required="required" th:value="${salaryDto.salaryPay}" class="form-control">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">과세수당합계</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryBtaxTotal" class="form-control" type="text" th:value="${salaryDto.salaryBtaxTotal}" name="salaryBtaxTotal">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">비과세수당합계</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryBntaxTotal" class="form-control" type="text" th:value="${salaryDto.salaryBntaxTotal}" name="salaryBntaxTotal">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">지급합계</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryTotal" class="form-control" type="text" name="salaryTotal" th:value="${salaryDto.salaryTotal}" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">근로소득세</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryIncome" class="form-control" type="text" name="salaryIncome" th:value="${salaryDto.salaryIncome}" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">근로지방소득세</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryIncomeLocal" class="form-control" type="text" name="salaryIncomeLocal" th:value="${salaryDto.salaryIncomeLocal}" placeholder="근로소득세*0.1" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">4대보험 합계 세율 계산금</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryInsuCalc" class="form-control" type="text" name="salaryInsuCalc" th:value="${salaryDto.salaryInsuCalc}" placeholder="(월급+과세)*0.0913" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">공제합계</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryDeduction" class="form-control" type="text" name="salaryDeduction" th:value="${salaryDto.salaryDeduction}" placeholder="근로소득세+근로지방소득세+4대보험 합계 세율" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">실수령금액</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryReceipts" class="form-control" type="text" name="salaryReceipts" placeholder="월급+과세" th:value="${salaryDto.salaryReceipts}" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">지급일자<span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="salaryPayDate" name="salaryPayDate" class="date-picker form-control" placeholder="dd-mm-yyyy" th:value="${salaryDto.salaryPayDate}" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												<button class="btn btn-primary" type="button">Cancel</button>
+												<button class="btn btn-primary" type="reset" id="check">reset</button>
+												<button type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
 	</th:block>
+	
+	
+	<th:block layout:fragment="customJs">
+	<!-- bootstrap-daterangepicker -->
+	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+	<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+	<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+	<!-- jQuery Tags Input -->
+	<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+	<!-- Switchery -->
+	<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+	<!-- Select2 -->
+	<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+	<!-- Parsley -->
+	<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+	<!-- Autosize -->
+	<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+	<!-- jQuery autocomplete -->
+	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+	<!-- starrr -->
+	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+		
+	<script type="text/javascript">
+		var salaryPay=$('#salaryPay');
+		var salaryBtaxTotal=$('#salaryBtaxTotal');
+		var salaryBntaxTotal=$('#salaryBntaxTotal');
+		var salaryTotal=$('#salaryTotal');
+		var intax=$('#salaryIncome');
+		var intaxlocal=$('#salaryIncomeLocal');
+		var tax4=$('#salaryInsuCalc');
+		var taxtotal=$('#salaryDeduction');
+		var realpay=$('#salaryReceipts');
+		
+		$(function(){
+			$('#salaryPay,#salaryBtaxTotal,#salaryBntaxTotal').on('change keyup',function(){
+				var pt=Math.round(Number(salaryPay.val())+Number(salaryBtaxTotal.val())+Number(salaryBntaxTotal.val()));
+				salaryTotal.val(pt);
+			});
+			//근로소득세 구간 계산
+			$('#salaryPay,#salaryBtaxTotal').on('change keyup',function(){
+				if(Number(salaryPay.val())*12+Number(salaryBtaxTotal.val())<=12000000){
+					var it=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*0.06);
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(12000000<Number(salaryPay.val())*12+Number(salaryBtaxTotal.val())<=46000000){
+					var it=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*0.15-(1080000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(46000000<Number(salaryPay.val())*12+Number(salaryBtaxTotal.val())<=88000000){
+					var it=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*0.24-(5220000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(88000000<Number(salaryPay.val())*12+Number(salaryBtaxTotal.val())<=150000000){
+					var it=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*0.35-(14900000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(150000000<Number(salaryPay.val())*12+Number(salaryBtaxTotal.val())<=300000000){
+					var it=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*0.38-(19400000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(300000000<Number(salaryPay.val())*12+Number(salaryBtaxTotal.val())<=500000000){
+					var it=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*0.40-(25400000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(500000000<Number(salaryPay.val())*12+Number(salaryBtaxTotal.val())<=1000000000){
+					var it=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*(0.42-35400000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(1000000000<Number(salaryPay.val())*12+Number(salaryBtaxTotal.val())){
+					var it=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*0.45-65400000/12);
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}
+			});
+	
+			$('#salaryPay,#salaryBtaxTotal').on('change keyup',function(){
+					var t4=Math.round((Number(salaryPay.val())+Number(salaryBtaxTotal.val()))*0.0913);
+					tax4.val(t4);
+			});
 
+			$('#salaryPay,#salaryBtaxTotal').on('change keyup',function(){
+					var tt=Number(intax.val())+Number(intaxlocal.val())+Number(tax4.val());
+					taxtotal.val(tt);
+			});
+			
+			$('#salaryPay,#salaryBtaxTotal,#salaryBntaxTotal').on('change keyup',function(){
+					var rp=Number(salaryTotal.val())-Number(taxtotal.val());
+					realpay.val(rp);
+			});
+		});
+		
+		
+	</script>
+</th:block>
 </html>

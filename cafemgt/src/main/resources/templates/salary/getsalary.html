@@ -73,6 +73,8 @@
 											<th>실수령액</th>
 											<th>지급일자</th>
 											<th>등록날짜</th>
+											<th>수정</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -93,6 +95,12 @@
 											<td th:text="${slr.salaryReceipts}">
 											<td th:text="${slr.salaryPayDate}">
 											<td th:text="${slr.salaryRegDate}">
+											<td>
+												<a class="btn btn-primary btn-sm" th:href="@{/modifySalary(salaryCode=${slr.salaryCode})}">수정</a>
+											</td>
+											<td>
+												<a class="btn btn-primary btn-sm" >삭제</a>
+											</td>
 										</tr>
 									</tbody>
 									</table>

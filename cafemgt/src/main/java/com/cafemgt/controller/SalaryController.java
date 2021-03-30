@@ -11,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.cafemgt.dao.SalaryMapper;
-import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.BonusDto;
 import com.cafemgt.dto.DsalaryDto;
 import com.cafemgt.dto.SalaryDto;
@@ -53,7 +51,6 @@ public class SalaryController {
 	public String addsalary(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<SalaryDto> salaryList = salaryService.getSalary(SSTORECODE);
-		String OID = (String)session.getAttribute("OID");
 		model.addAttribute("salaryList",salaryList);
 		return "salary/addsalary";
 	}
@@ -149,4 +146,29 @@ public class SalaryController {
 		return "bonus/getbonus";
 	}
 	
+	@GetMapping("/modifySalary")
+	public String modifySalary(Model model, String salaryCode) {
+		SalaryDto salaryDto = salaryService.getSalaryBySalaryCode(salaryCode);
+		model.addAttribute("salaryDto",salaryDto);
+		return "salary/modifysalary";
+	}
+	
+	@PostMapping("/modifySalary")
+	public String modifySalary(SalaryDto salaryDto) {
+		salaryService.modifySalary(salaryDto);
+		return "redirect:/getsalary";
+	}
+	
+	@GetMapping("/modifyDsalary")
+	public String modifyDsalary(Model model, String sdCode) {
+		DsalaryDto dsalaryDto = dsalaryService.getDsalaryBySdCode(sdCode);
+		model.addAttribute("dsalaryDto",dsalaryDto);
+		return "dsalary/modifydsalary";
+	}
+	
+	@PostMapping("/modifyDsalary")
+	public String modifyDsalary(DsalaryDto dsalaryDto) {
+		dsalaryService.modifyDsalary(dsalaryDto);
+		return "redirect:/getdsalary";
+	}
 }

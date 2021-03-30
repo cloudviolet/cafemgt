@@ -69,6 +69,8 @@
 											<th>공제합계</th>
 											<th>지급일자</th>
 											<th>등록날짜</th>
+											<th>수정</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -86,6 +88,12 @@
 											<td th:text="${slr.sdDeduction}">
 											<td th:text="${slr.sdPayDate}">
 											<td th:text="${slr.sdRegDate}">
+											<td>
+												<a class="btn btn-primary btn-sm" th:href="@{/modifyDsalary(sdCode=${slr.sdCode})}">수정</a>
+											</td>
+											<td>
+												<a class="btn btn-primary btn-sm" >삭제</a>
+											</td>
 										</tr>
 									</tbody>
 									</table>
