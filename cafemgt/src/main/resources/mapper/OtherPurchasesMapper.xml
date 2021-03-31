@@ -46,9 +46,33 @@
 	</update>
 	
 	<insert id="addOtherPurchases" parameterType="OtherPurchasesDto">
-		INSERT INTO tb_other_expense
-		(oe_code, store_info_code, oe_store_name, oe_vat_type, oe_total, oe_supply_value, oe_tax, at_debit_code, at_credit_code, oe_etc, oe_date, oe_reg_date)
-		VALUES (sf_new_otherexpense_code(), #{storeInfoCode}, #{oeStoreName}, #{oeVatType}, #{oeTotal}, #{oeTotal}/1.1, oe_total-oe_supply_value, #{atDebitCode}, #{atCreditCode}, #{oeEtc}, #{oeDate}, NOW())
+	INSERT INTO tb_other_expense
+			(oe_code
+		, store_info_code
+		, oe_store_name
+		, oe_vat_type
+		, oe_total
+		, oe_supply_value
+		, oe_tax
+		, at_debit_code
+		, at_credit_code
+		, oe_etc
+		, oe_date
+		, oe_reg_date
+		, oe_deadline)
+			VALUES (sf_new_otherexpense_code()
+		, #{storeInfoCode}
+		, #{oeStoreName}
+		, #{oeVatType}
+		, #{oeTotal}
+		, #{oeTotal}/1.1
+		, oe_total-oe_supply_value
+		, #{atDebitCode}
+		, #{atCreditCode}
+		, #{oeEtc}
+		, #{oeDate}
+		, NOW()
+		, 'x')
 	</insert>
 	
 	<select id="getOtherPurchasesByOeCode" parameterType="String" resultMap="otherPurchasesDtoResultMap">
