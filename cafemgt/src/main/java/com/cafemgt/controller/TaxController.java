@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-
+import org.springframework.data.relational.core.sql.FalseCondition;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -191,9 +191,10 @@ public class TaxController {
 		
 	@ResponseBody
 	@GetMapping("/getmyvat")
-	public int getmyvat(@RequestParam(value = "MID",required = false)String MID, 
-						Model model){
-		System.out.println(MID);
+	public int getmyvat( @RequestParam(value = "SSTORECODE",required = false)String SSTORECODE
+						,@RequestParam(value = "searchDays", required = false)String searchDays 
+						,Model model){
+		
 		return 0;		
 	}
 	
