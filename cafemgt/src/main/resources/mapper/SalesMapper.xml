@@ -97,8 +97,8 @@
 	
 	<insert id="addSales" parameterType="SalesDto">
 		INSERT INTO tb_sales
-	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline, sales_dealing_group_code, sales_deadline_check, sales_daliyvol_group_code, sales_system_id, sales_system_name)
-	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), '', '', '', '', #{salesSystemId}, #{salesSystemName})
+	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline_tax, sales_dealing_group_code, sales_deadline_dailyvol, sales_daliyvol_group_code, sales_system_id, sales_system_name)
+	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), 'x', '', 'x', '', #{salesSystemId}, #{salesSystemName})
 	</insert>
 	
 	<select id="salesDeadlineForTax" parameterType="String" resultMap="salesDtoResultMap">
