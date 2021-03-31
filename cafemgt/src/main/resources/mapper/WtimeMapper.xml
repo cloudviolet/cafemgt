@@ -34,7 +34,7 @@
 	, #{attDate}
 	, #{attStart}
 	, #{attEnd}
-	, ''
+	, #{attTodailyTime}
 	, NOW())
 	</insert>
 	
@@ -62,6 +62,6 @@
 		ON
 			att.member_id = us.member_id
 		WHERE
-			slr.store_info_code= #{SSTORECODE}
+			st.store_info_code= #{SSTORECODE}
 	</select>
 </mapper>
