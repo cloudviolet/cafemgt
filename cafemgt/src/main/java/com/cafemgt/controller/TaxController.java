@@ -25,6 +25,7 @@ import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.OtherPurchasesDto;
 import com.cafemgt.dto.PurchasesDto;
 import com.cafemgt.dto.SalesDto;
+import com.cafemgt.service.MemberService;
 import com.cafemgt.service.OtherPurchasesService;
 import com.cafemgt.service.PurchasesService;
 import com.cafemgt.service.SalesService;
@@ -38,19 +39,22 @@ public class TaxController {
 	private final MenuMapper menuMapper;
 	private final CustomerMapper customerMapper;
 	private final ArticleMapper articleMapper;
+	private final MemberService memberService;
 	
 	public TaxController(SalesService salesService
 						 ,PurchasesService purchasesService
 						 ,OtherPurchasesService otherPurchasesService
 						 ,MenuMapper menuMapper
 						 ,CustomerMapper customerMapper
-						 ,ArticleMapper articleMapper) {
+						 ,ArticleMapper articleMapper
+						 ,MemberService memberService) {
 		this.salesService = salesService;
 		this.purchasesService = purchasesService;
 		this.otherPurchasesService = otherPurchasesService;
 		this.menuMapper = menuMapper;
 		this.customerMapper = customerMapper;
 		this.articleMapper = articleMapper;
+		this.memberService = memberService;
 	}
 	
 	@PostConstruct
@@ -164,8 +168,9 @@ public class TaxController {
 	}
 	
 	@GetMapping("/gettotalpands")
-	public String getTotalPandS(HttpSession session) {
+	public String getTotalPandS(HttpSession session,Model model) {
 		String MID = (String)session.getAttribute("MID");
+		model.addAttribute("getYear", memberService.getyear(MID));
 		System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<");
 		return "tax/gettotalpands";
 	}
@@ -183,9 +188,9 @@ public class TaxController {
 		map = salesService.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
 			return map;			
 	}
-	
+		
 	@ResponseBody
-	@PostMapping("/getmyvat")
+	@GetMapping("/getmyvat")
 	public int getmyvat(@RequestParam(value = "MID",required = false)String MID, 
 						Model model){
 		System.out.println(MID);
