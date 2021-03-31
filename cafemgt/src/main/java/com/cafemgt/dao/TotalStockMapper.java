@@ -11,7 +11,7 @@ import com.cafemgt.dto.TotalStockDto;
 public interface TotalStockMapper {
 	public List<TotalStockDto> getTotalStock(String SSTORECODE);
 	
-	public List<TotalStockDto> getTotalStockByIncoCode(String SSTORECODE, String articleCode);
+	public List<TotalStockDto> getTotalStockByIncoCode(String SSTORECODE, String incoCode);
 	
 	public int addTotalStockOverVolume(TotalStockDto totalStockDto);
 	

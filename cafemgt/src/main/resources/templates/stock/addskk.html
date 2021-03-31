@@ -37,7 +37,7 @@
 									<label class="control-label col-md-3 col-sm-3 label-align">품목 명 <span class="required">*</span></label>
 									<div class="col-md-6 col-sm-6 ">
 										<!-- session Id  -->
-										<input type="text" th:value="${session.SSTORECODE}">
+										<input type="hidden" th:value="${session.SSTORECODE}">
 										<select class="form-control" required="required">
 											<option value="">choice plz</option>
 											<th:block th:each="al : ${articleList}" name="articleName">

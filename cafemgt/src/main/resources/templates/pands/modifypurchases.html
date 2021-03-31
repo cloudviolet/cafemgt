@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>매입 등록</title>
+	</th:block>
+	
+	<th:block layout:fragment="customCss">
+			<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
+	
+	<th:block layout:fragment="customContents">
+		<div class="right_col" role="main">
+		<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>매입 수정</h2>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<br />
+									<form id="demo-form2" th:action="@{/modifypurchases}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+										
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">	
+										<input type="hidden" name="incoCode" th:value="${purchasesDto.incoCode}">	
+										
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align" for="articleCode">품목 명  *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="articleCode" name="articleCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::품목명선택:::</option>
+														<th:block th:if="${#lists.size(articleList) > 0}" th:each="al : ${articleList}">
+															<option th:value="${al.articleCode}" th:data-big="${al.articleBigDan}" th:data-volume="${al.articleVolume}" th:text="${al.articleName}"></option>														
+														</th:block>
+													</select>
+												</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align" for="custCode">거래처 명 *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="custCode" name="custCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::거래처 선택:::</option>
+														<th:block th:if="${#lists.size(customerList) > 0}" th:each="cl : ${customerList}">														
+															<option th:value="${cl.custCode}" th:text="${cl.custName}"></option>
+														</th:block>
+													</select>
+												</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 매입유형 *</label>
+												<div class="col-md-8 col-sm-8">
+													<div class="col-md-2 col-sm-2" style="text-align: center;">
+														<input type="radio" name="incoVatType" value="카드" required  > 카드
+													</div>						
+													<div class="col-md-2 col-sm-2" style="text-align: center;">
+														<input type="radio" name="incoVatType" value="현금" required > 현금												
+													</div>
+													<div class="col-md-2 col-sm-2 " style="text-align: center;">
+														<input type="radio" name="incoVatType" value="세금계산서" required > 세금계산서											
+													</div>
+													<div class="col-md-2 col-sm-2 " style="text-align: center;">
+														<input type="radio" name="incoVatType" value="계산서" required > 계산서										
+													</div>
+												</div>
+										</div>
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 지급 *</label>
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="incoPayType" value="완료" required> 완료
+												</div>						
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="incoPayType" value="미지급" required> 미지급												
+												</div>
+										</div>																		
+										
+										<div class="form-group row horizontal">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="incoCount">입고수량 * <span class="required"></span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="incoCount" name="incoCount" th:value="${purchasesDto.incoCount}" required="required" class="form-control ">
+											</div>
+											<div><label id="articlebigdan" style="font-size: medium; color: black;" class="control-label label-align"></label></div>
+										</div>
+										
+										<input type="hidden" id="incoVolumeSubtotal" name="incoVolumeSubtotal">
+										
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="incoTotal">입고금액 *
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="incoTotal" name="incoTotal" th:value="${purchasesDto.incoTotal}" required="required" class="form-control">
+											</div>
+										</div>
+										
+										<input type="hidden" id="incoSupplyValue" name="incoSupplyValue">
+										<input type="hidden" id="incoTax" name="incoTax">
+																										
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">입고 날짜 * </label>
+											<div class="col-md-6 col-sm-6 ">
+												<input name="incoDate" class="date-picker form-control" th:value="${purchasesDto.incoDate}" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="form-group row">
+											<div class="col-md-6 col-sm-6 offset-md-3 text-center">
+												<button class="btn btn-primary" type="reset">다시 작성</button>
+												<button type="button" id="submitBtn" class="btn btn-success">매입 수정</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+		
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="customJs">
+	<!-- bootstrap-daterangepicker -->
+	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+	<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+	<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+	<!-- jQuery Tags Input -->
+	<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+	<!-- Switchery -->
+	<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+	<!-- Select2 -->
+	<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+	<!-- Parsley -->
+	<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+	<!-- Autosize -->
+	<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+	<!-- jQuery autocomplete -->
+	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+	<!-- starrr -->
+	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script type="text/javascript">		
+		var incoVatType = $('#demo-form2').find("input[name='incoVatType']");
+		var incoPayType = $('#demo-form2').find("input[name='incoPayType']");
+		var incoTotal = $('#incoTotal');
+		var incoSupplyValue = $('#incoSupplyValue');
+		var incoTax = $('#incoTax');
+		var getArticleCode = '[[${purchasesDto.articleCode}]]';
+		var articleCodeChildren = $('#articleCode').children();
+		for(var i = 0; i<articleCodeChildren.length; i++){
+			if(articleCodeChildren.eq(i).val()==getArticleCode){
+				articleCodeChildren.eq(i).attr("selected", true);
+				break;
+			};
+		};
+		var getCustomerCode = '[[${purchasesDto.custCode}]]';
+		var custCode = $('#custCode').children();
+		for(var ii = 0; ii<custCode.length; ii++){
+			if(custCode.eq(ii).val()==getCustomerCode){
+				custCode.eq(ii).attr("selected",true);
+				break;
+			}
+		};
+		var getincoVatType = '[[${purchasesDto.incoVatType}]]';
+		for(var i =0; i<incoVatType.length; i++){
+			if(incoVatType.eq(i).val()==getincoVatType){
+				incoVatType.eq(i).attr("checked","checked");
+				break;
+			}
+		};
+	 	var getincoPayType = '[[${purchasesDto.incoPayType}]]';
+		for(var i = 0; i<incoPayType.length; i++){
+			if(incoPayType.eq(i).val()==getincoPayType){
+				incoPayType.eq(i).attr("checked", true);
+				break;
+			}
+		}
+	
+		$(function(){
+			$('input[name="incoVatType"], #incoTotal').on('change keyup', function(){
+				console.log('이벤트발동');
+				var incoVatTypeValue =  $("input[name='incoVatType']:checked").val();
+				var incoTotalValue = Number(incoTotal.val());
+				var supplyValue = parseInt(incoTotalValue/1.1);
+				var tax = incoTotalValue-supplyValue;
+				console.log(incoTotalValue);
+				console.log(incoVatTypeValue);
+				if(incoVatTypeValue=='현금'||incoVatTypeValue=='카드'){
+					incoPayType.eq(0).prop("checked", true);
+					incoSupplyValue.val(supplyValue);
+					incoTax.val(tax);
+					console.log(supplyValue);
+					console.log(tax);
+					$('#custCode option[value="현금매출"]').prop('disabled', true);
+				}else{
+					incoPayType.eq(0).prop("checked", false);
+					if(incoVatTypeValue=='세금계산서'){
+						incoSupplyValue.val(supplyValue);
+						incoTax.val(tax);
+						console.log(supplyValue);
+						console.log(tax);
+					}else{
+						incoSupplyValue.val(incoTotalValue);
+						incoTax.val(0);
+						console.log(incoSupplyValue.val());
+						console.log(incoTax.val());
+					}
+				}
+			})
+		})
+		
+		
+		$(function(){
+			var getArticleBigDan = $('#articleCode').find("option:selected").data("big");
+			var getArticleVolume =  $('#articleCode').find("option:selected").data("volume");
+			var getIncoCountValue = $('#incoCount').val();
+			$('#articlebigdan').text(getArticleBigDan);
+			var getSum = getArticleVolume*getIncoCountValue;
+			console.log(getArticleBigDan,getArticleVolume,getIncoCountValue,getSum);
+			$('#incoVolumeSubtotal').val(getSum);
+			console.log($('#incoVolumeSubtotal').val(),"<<<<<<<<<<<<<<<<<<<<<");
+			$('#articleCode').change(function(){
+				var articleBigDan = $('#articleCode').find("option:selected").data("big");
+				var articleVolume =  $('#articleCode').find("option:selected").data("volume");
+				$('#articlebigdan').text(articleBigDan);
+				var changeSum = articleVolume * getIncoCountValue;
+				console.log(changeSum,"<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+				$('#incoVolumeSubtotal').val(changeSum);
+				$('#incoCount').keyup(function(){
+					var incoCountValue = $('#incoCount').val();
+					var sum = articleVolume * incoCountValue;
+					console.log(sum,"<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+					$('#incoVolumeSubtotal').val(sum);
+				});
+			});
+		});
+		
+		$(function(){
+			$('#submitBtn').click(function(){
+				$('#demo-form2').submit();
+			});
+		})
+		
+	</script>
+	
+	</th:block>
+		
+</html>

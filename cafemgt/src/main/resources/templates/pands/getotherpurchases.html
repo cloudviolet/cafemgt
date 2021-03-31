@@ -45,6 +45,9 @@
 												<th>공급 합계</th>
 												<th>상세</th>
 												<th>사용 날짜</th>
+												<th>회계마감유무</th>
+												<th>수정</th>
+												<th>삭제</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -57,6 +60,9 @@
 												<td th:text="${ol.oeTotal}"></td>
 												<td th:text="${ol.oeEtc}"></td>
 												<td th:text="${ol.oeDate}"></td>
+												<td th:text="${ol.oeDeadline}"></td>
+												<td><a th:href="@{/modifyotherpurchases(oeCode=${ol.oeCode})}">수정</a></td>
+												<td><a class="removeOtherPurchases" th:href="@{/removeOtherPurchases(oeCode=${ol.oeCode})}">삭제</a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -70,28 +76,34 @@
 	</th:block>
 	<th:block layout:fragment="customJs">
 		<script th:src="@{../vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
 		<script th:src="@{../vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
+		<script type="text/javascript">
+			$('.removeOtherPurchases').click(function(){
+				var removeOtherPurchases = $(this);
+		        var tr = removeOtherPurchases.parent().parent();
+		        var td = tr.children();
+		        var taxDeadLine = td.eq(8).text();
+		        if(taxDeadLine=='o'){
+		        	alert('회계마감이 이루어진 항목으로 삭제가 불가합니다.');
+		        	$('.removeOtherPurchases').attr('href', '#');
+		        }else{
+		        	alert('정말 삭제하시겠습니까?');
+		        }
+			});
+		</script>
 	</th:block>
 
 </html>

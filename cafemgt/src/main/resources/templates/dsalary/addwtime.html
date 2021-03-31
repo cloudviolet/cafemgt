@@ -47,20 +47,23 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-
+									<form id="demo-form2" th:action="@{/addwtime}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+											
+									<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
+									<input type="hidden" name="salesSystemId" th:value="${session.OID}">
+										
 										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">직원이름 <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">직원아이디 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control ">
+												<input type="text" id="memberId" name="memberId" required="required" class="form-control ">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">당일날짜 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="birthday" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input id="attDate" name="attDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -73,21 +76,15 @@
 										<div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">출근시간<span class="required">*</span></label>
 	                                        <div class="col-md-6 col-sm-6">
-	                                            <input class="form-control" type="time" name="time" required="required">
+	                                            <input class="form-control" type="time" name="attStart" id="attStart" required="required">
 	                                        </div>
                                         </div>
 										<div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">퇴근시간<span class="required">*</span></label>
 	                                        <div class="col-md-6 col-sm-6">
-	                                            <input class="form-control" type="time" name="time" required="required">
+	                                            <input class="form-control" type="time" name="attEnd" id="attEnd" required="required">
 	                                        </div>
                                         </div>
-										<div class="item form-group">
-											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">당일 근무시간</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name">
-											</div>
-										</div>
 										<div class="ln_solid"></div>
 										<div class="item form-group">
 											<div class="col-md-6 col-sm-6 offset-md-3">
@@ -126,6 +123,7 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+		
 	</th:block>
 		
 </html>

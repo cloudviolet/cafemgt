@@ -9,15 +9,13 @@ public class DsalaryDto {
 	private String sdYearMonth;
 	private String sdWorktime;
 	private int sdPay;
-	private String intaxCode;
-	private int intaxMin;
-	private int intaxMax;
-	private int intaxWork;
-	private int intaxLocal;
+	private int sdIncome;
+	private int sdIncomeLocal;
 	private int sdDeduction;
 	private int sdReceipts;
 	private String sdPayDate;
 	private String sdRegDate;
+	
 	public String getSdCode() {
 		return sdCode;
 	}
@@ -66,35 +64,17 @@ public class DsalaryDto {
 	public void setSdPay(int sdPay) {
 		this.sdPay = sdPay;
 	}
-	public String getIntaxCode() {
-		return intaxCode;
+	public int getSdIncome() {
+		return sdIncome;
 	}
-	public void setIntaxCode(String intaxCode) {
-		this.intaxCode = intaxCode;
+	public void setSdIncome(int sdIncome) {
+		this.sdIncome = sdIncome;
 	}
-	public int getIntaxMin() {
-		return intaxMin;
+	public int getSdIncomeLocal() {
+		return sdIncomeLocal;
 	}
-	public void setIntaxMin(int intaxMin) {
-		this.intaxMin = intaxMin;
-	}
-	public int getIntaxMax() {
-		return intaxMax;
-	}
-	public void setIntaxMax(int intaxMax) {
-		this.intaxMax = intaxMax;
-	}
-	public int getIntaxWork() {
-		return intaxWork;
-	}
-	public void setIntaxWork(int intaxWork) {
-		this.intaxWork = intaxWork;
-	}
-	public int getIntaxLocal() {
-		return intaxLocal;
-	}
-	public void setIntaxLocal(int intaxLocal) {
-		this.intaxLocal = intaxLocal;
+	public void setSdIncomeLocal(int sdIncomeLocal) {
+		this.sdIncomeLocal = sdIncomeLocal;
 	}
 	public int getSdDeduction() {
 		return sdDeduction;
@@ -124,15 +104,12 @@ public class DsalaryDto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((intaxCode == null) ? 0 : intaxCode.hashCode());
-		result = prime * result + intaxLocal;
-		result = prime * result + intaxMax;
-		result = prime * result + intaxMin;
-		result = prime * result + intaxWork;
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((sdCode == null) ? 0 : sdCode.hashCode());
 		result = prime * result + sdDeduction;
+		result = prime * result + sdIncome;
+		result = prime * result + sdIncomeLocal;
 		result = prime * result + sdPay;
 		result = prime * result + ((sdPayDate == null) ? 0 : sdPayDate.hashCode());
 		result = prime * result + sdReceipts;
@@ -152,19 +129,6 @@ public class DsalaryDto {
 		if (getClass() != obj.getClass())
 			return false;
 		DsalaryDto other = (DsalaryDto) obj;
-		if (intaxCode == null) {
-			if (other.intaxCode != null)
-				return false;
-		} else if (!intaxCode.equals(other.intaxCode))
-			return false;
-		if (intaxLocal != other.intaxLocal)
-			return false;
-		if (intaxMax != other.intaxMax)
-			return false;
-		if (intaxMin != other.intaxMin)
-			return false;
-		if (intaxWork != other.intaxWork)
-			return false;
 		if (memberId == null) {
 			if (other.memberId != null)
 				return false;
@@ -181,6 +145,10 @@ public class DsalaryDto {
 		} else if (!sdCode.equals(other.sdCode))
 			return false;
 		if (sdDeduction != other.sdDeduction)
+			return false;
+		if (sdIncome != other.sdIncome)
+			return false;
+		if (sdIncomeLocal != other.sdIncomeLocal)
 			return false;
 		if (sdPay != other.sdPay)
 			return false;
@@ -218,15 +186,16 @@ public class DsalaryDto {
 			return false;
 		return true;
 	}
+	
 	@Override
 	public String toString() {
 		return "DsalaryDto [sdCode=" + sdCode + ", storeInfoCode=" + storeInfoCode + ", storeInfoName=" + storeInfoName
 				+ ", memberId=" + memberId + ", memberName=" + memberName + ", sdYearMonth=" + sdYearMonth
-				+ ", sdWorktime=" + sdWorktime + ", sdPay=" + sdPay + ", intaxCode=" + intaxCode + ", intaxMin="
-				+ intaxMin + ", intaxMax=" + intaxMax + ", intaxWork=" + intaxWork + ", intaxLocal=" + intaxLocal
-				+ ", sdDeduction=" + sdDeduction + ", sdReceipts=" + sdReceipts + ", sdPayDate=" + sdPayDate
-				+ ", sdRegDate=" + sdRegDate + "]";
+				+ ", sdWorktime=" + sdWorktime + ", sdPay=" + sdPay + ", sdIncome=" + sdIncome + ", sdIncomeLocal="
+				+ sdIncomeLocal + ", sdDeduction=" + sdDeduction + ", sdReceipts=" + sdReceipts + ", sdPayDate="
+				+ sdPayDate + ", sdRegDate=" + sdRegDate + "]";
 	}
+	
 	
 	
 	

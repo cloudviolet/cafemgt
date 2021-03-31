@@ -1,6 +1,7 @@
 package com.cafemgt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +38,22 @@ public class DailyVolService {
 		dailyVolMapper.modifyDailyVolDeadLine(dailyVolCode);
 		return 0;
 	}
+	
+	public List<DailyVolDto> getSalesByDailyVol(Map<String,Object> map){
+		List<DailyVolDto> DailyVolList = dailyVolMapper.getSalesByDailyVol(map);
+		return DailyVolList;
+	}
+	
+	public int addDailyVol(DailyVolDto dailyVolDto) {
+		int result = 0;
+		result = dailyVolMapper.addDailyVol(dailyVolDto);
+		return result;
+	}
+	
+	public int modifySalesDeadLine(List<String> arraySales) {
+		dailyVolMapper.modifySalesDeadLine(arraySales);
+		return 0;
+	}
+	
 	
 }
