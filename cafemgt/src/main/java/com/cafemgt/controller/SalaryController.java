@@ -45,16 +45,22 @@ public class SalaryController {
 		System.out.println("======= SalaryController bean 등록 ======");
 		System.out.println("======================================");
 	}
+	
+	
 	@GetMapping("/addsalary")
-	public String addsalary() {
-
+	public String addsalary(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SalaryDto> salaryList = salaryService.getSalary(SSTORECODE);
+		model.addAttribute("salaryList",salaryList);
 		return "salary/addsalary";
 	}
+	
 	@PostMapping("/addsalary")
 	public String addsalary(SalaryDto salaryDto) {
 		salaryService.addSalary(salaryDto);
-		return "salary/addsalary";
+		return "redirect:/getsalary";
 	}
+	
 	
 	@GetMapping("/getsalary")
 	public String getsalary(Model model, HttpSession session) {
@@ -68,16 +74,18 @@ public class SalaryController {
 	
 	
 	@GetMapping("/adddsalary")
-	public String adddsalary() {
-		
+	public String adddsalary(Model model,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<DsalaryDto> dsalaryList = dsalaryService.getDsalary(SSTORECODE);
+		String OID = (String)session.getAttribute("OID");
+		model.addAttribute("dsalaryList",dsalaryList);
 		return "dsalary/adddsalary";
 	}
 	
 	@PostMapping("/adddsalary")
 	public String addDsalary(DsalaryDto dsalaryDto) {
 		dsalaryService.addDsalary(dsalaryDto);	
-		
-		return "dsalary/adddsalary";
+		return "redirect:/getdsalary";
 	}
 	
 	@GetMapping("/getdsalary")
@@ -90,8 +98,11 @@ public class SalaryController {
 	}
 	
 	@GetMapping("/addwtime")
-	public String addwtime() {
-
+	public String addwtime(Model model,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<WtimeDto> wtimeList = wtimeService.getWtime(SSTORECODE);
+		String OID = (String)session.getAttribute("OID");
+		model.addAttribute("wtimeList",wtimeList);
 		return "dsalary/addwtime";
 	}
 	
@@ -99,7 +110,7 @@ public class SalaryController {
 	public String addwtime(WtimeDto wtimeDto) {
 		wtimeService.addWtime(wtimeDto);	
 		
-		return "dsalary/addwtime";
+		return "redirect:/getwtime";
 	}
 	
 	@GetMapping("/getwtime")
@@ -112,16 +123,18 @@ public class SalaryController {
 	}
 	
 	@GetMapping("/addbonus")
-	public String addbonus() {
-
+	public String addbonus(Model model,HttpSession session) {
+		String SSTORECODE = (String) session.getAttribute("SSTORECODE");
+		List<BonusDto> bonusList = bonusService.getBonus(SSTORECODE);
+		String OID = (String)session.getAttribute("OID");
+		model.addAttribute("bonusList",bonusList);
 		return "bonus/addbonus";
 	}
 	
 	@PostMapping("/addbonus")
 	public String addbonus(BonusDto bonusDto) {
 		bonusService.addBonus(bonusDto);
-		
-		return "bonus/addbonus";
+		return "redirect:/getbonus";
 	}
 	
 	@GetMapping("/getbonus")
@@ -133,4 +146,29 @@ public class SalaryController {
 		return "bonus/getbonus";
 	}
 	
+	@GetMapping("/modifySalary")
+	public String modifySalary(Model model, String salaryCode) {
+		SalaryDto salaryDto = salaryService.getSalaryBySalaryCode(salaryCode);
+		model.addAttribute("salaryDto",salaryDto);
+		return "salary/modifysalary";
+	}
+	
+	@PostMapping("/modifySalary")
+	public String modifySalary(SalaryDto salaryDto) {
+		salaryService.modifySalary(salaryDto);
+		return "redirect:/getsalary";
+	}
+	
+	@GetMapping("/modifyDsalary")
+	public String modifyDsalary(Model model, String sdCode) {
+		DsalaryDto dsalaryDto = dsalaryService.getDsalaryBySdCode(sdCode);
+		model.addAttribute("dsalaryDto",dsalaryDto);
+		return "dsalary/modifydsalary";
+	}
+	
+	@PostMapping("/modifyDsalary")
+	public String modifyDsalary(DsalaryDto dsalaryDto) {
+		dsalaryService.modifyDsalary(dsalaryDto);
+		return "redirect:/getdsalary";
+	}
 }

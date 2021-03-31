@@ -46,40 +46,23 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" th:action="@{/adddsalary}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">사업장 코드 <span class="required" >*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control">
-											</div>
-										</div>
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">상호명 <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control">
-											</div>
-										</div>
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
+										<input type="hidden" name="salesSystemId" th:value="${session.OID}">
+										
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">직원 아이디 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
-											</div>
-										</div>
-										<div class="item form-group">
-											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">직원 이름</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name">
+												<input type="text" id="memberId" name="memberId" required="required" class="form-control">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">귀속년월 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="birthday" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input id="sdYearMonth" name="sdYearMonth" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -93,45 +76,45 @@
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">근무시간 총 합계<span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
+												<input type="text" id="sdWorktime" name="sdWorktime" required="required" class="form-control">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">급여 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="last-name" required="required" class="form-control">
+												<input class="form-control" type="number" id="sdPay" name="sdPay" required="required" >
 											</div>
 										</div>
 										<div class="item form-group">
 											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">근로소득세</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="월급+과세로 계산해서 맞는 구간검색해서 삽입" readonly="readonly">
+												<input id="sdIncome" class="form-control" type="text" name="sdIncome" placeholder="월급+과세로 계산해서 맞는 구간검색해서 삽입" readonly="readonly">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">근로지방소득세</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="근로소득세*0.1해서 삽입" readonly="readonly">
+												<input id="sdIncomeLocal" class="form-control" type="text" name="sdIncomeLocal" placeholder="근로소득세*0.1해서 삽입" readonly="readonly">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">공제합계</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="근로소득세+근로지방소득세+4대보험 합계 세율 계산금액" readonly="readonly">
+												<input id="sdDeduction" class="form-control" type="text" name="sdDeduction" placeholder="근로소득세+근로지방소득세+4대보험 합계 세율 계산금액" readonly="readonly">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">실수령금액</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="middle-name" class="form-control" type="text" name="middle-name" placeholder="월급+과세로 계산해서 맞는 구간검색해서 삽입" readonly="readonly">
+												<input id="sdReceipts" class="form-control" type="text" name="sdReceipts" placeholder="월급+과세로 계산해서 맞는 구간검색해서 삽입" readonly="readonly">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">지급일자<span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="birthday" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input id="sdPayDate" name="sdPayDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -179,6 +162,66 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script type="text/javascript">
+	
+		var sdPay = $('#sdPay');
+		var intax=$('#sdIncome');
+		var intaxlocal=$('#sdIncomeLocal');
+		var sdDeduction=$('#sdDeduction')
+		var sdReceipts=$('#sdReceipts')
+		
+		//근로소득세 계산
+		$(function(){
+			$('#sdPay').on('change keyup',function(){
+				if(Number(sdPay.val())<=1060000){
+					var it=0;
+					intax.val(it);
+					intaxlocal.val(it);
+				}else if(Number(sdPay.val())>1060000 && Number(sdPay.val())*12<=12000000){
+					var it=Math.round(Number(sdPay.val())*0.06);
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(12000000 < Number(sdPay.val())*12 <= 46000000){
+					var it=Math.round(Number(sdPay.val())*0.15-(1080000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(46000000 < Number(sdPay.val())*12 <= 88000000){
+					var it=Math.round(Number(sdPay.val())*0.24-(5220000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(88000000 < Number(sdPay.val())*12 <= 150000000){
+					var it=Math.round(Number(sdPay.val())*0.35-(14900000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(150000000 < Number(sdPay.val())*12 <= 300000000){
+					var it=Math.round(Number(sdPay.val())*0.38-(19400000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(300000000 < Number(sdPay.val())*12 <= 500000000){
+					var it=Math.round(Number(sdPay.val())*0.40-(25400000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(500000000<Number(sdPay.val())*12<=1000000000){
+					var it=Math.round(Number(sdPay.val())*0.42-(35400000/12));
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}else if(1000000000 < Number(sdPay.val())*12){
+					var it=Math.round(Number(sdPay.val())*0.45-65400000/12);
+					intax.val(it);
+					intaxlocal.val(it*0.1);
+				}
+			});
+			$('#sdPay').on('change keyup',function(){
+				var tt = Number(intax.val())+Number(intaxlocal.val());
+				sdDeduction.val(tt);
+				var sr = Number(sdPay.val())-Number(sdDeduction.val())
+				sdReceipts.val(sr);
+			});
+		});
+		
+	</script>
+	
 	</th:block>
 		
 </html>

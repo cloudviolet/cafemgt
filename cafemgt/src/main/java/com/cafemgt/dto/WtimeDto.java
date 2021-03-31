@@ -11,6 +11,20 @@ public class WtimeDto {
 	private String attEnd;
 	private String attTodailyTime;
 	private String attRegDate;
+	
+	
+	public String getStoreInfoName() {
+		return storeInfoName;
+	}
+	public void setStoreInfoName(String storeInfoName) {
+		this.storeInfoName = storeInfoName;
+	}
+	public String getMemberName() {
+		return memberName;
+	}
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
 	public String getAttCode() {
 		return attCode;
 	}
@@ -23,23 +37,11 @@ public class WtimeDto {
 	public void setStoreInfoCode(String storeInfoCode) {
 		this.storeInfoCode = storeInfoCode;
 	}
-	public String getStoreInfoName() {
-		return storeInfoName;
-	}
-	public void setStoreInfoName(String storeInfoName) {
-		this.storeInfoName = storeInfoName;
-	}
 	public String getMemberId() {
 		return memberId;
 	}
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
-	}
-	public String getMemberName() {
-		return memberName;
-	}
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
 	}
 	public String getAttDate() {
 		return attDate;
@@ -155,8 +157,6 @@ public class WtimeDto {
 				+ attStart + ", attEnd=" + attEnd + ", attTodailyTime=" + attTodailyTime + ", attRegDate=" + attRegDate
 				+ "]";
 	}
-	
-	
 	
 	
 	

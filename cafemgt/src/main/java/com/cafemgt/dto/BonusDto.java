@@ -7,13 +7,10 @@ public class BonusDto {
 	private String memberId;
 	private String memberName;
 	private String ubYearMonth;
-	private String btaxCode;
-	private String btaxOption;
-	private String btaxCate;
+	private String ubOption;
 	private int ubPay;
 	private String ubEtc;
 	private String ubRegDate;
-	
 	public String getUbCode() {
 		return ubCode;
 	}
@@ -50,23 +47,11 @@ public class BonusDto {
 	public void setUbYearMonth(String ubYearMonth) {
 		this.ubYearMonth = ubYearMonth;
 	}
-	public String getBtaxCode() {
-		return btaxCode;
+	public String getUbOption() {
+		return ubOption;
 	}
-	public void setBtaxCode(String btaxCode) {
-		this.btaxCode = btaxCode;
-	}
-	public String getBtaxOption() {
-		return btaxOption;
-	}
-	public void setBtaxOption(String btaxOption) {
-		this.btaxOption = btaxOption;
-	}
-	public String getBtaxCate() {
-		return btaxCate;
-	}
-	public void setBtaxCate(String btaxCate) {
-		this.btaxCate = btaxCate;
+	public void setUbOption(String ubOption) {
+		this.ubOption = ubOption;
 	}
 	public int getUbPay() {
 		return ubPay;
@@ -90,15 +75,13 @@ public class BonusDto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((btaxCate == null) ? 0 : btaxCate.hashCode());
-		result = prime * result + ((btaxCode == null) ? 0 : btaxCode.hashCode());
-		result = prime * result + ((btaxOption == null) ? 0 : btaxOption.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
 		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
 		result = prime * result + ((ubCode == null) ? 0 : ubCode.hashCode());
 		result = prime * result + ((ubEtc == null) ? 0 : ubEtc.hashCode());
+		result = prime * result + ((ubOption == null) ? 0 : ubOption.hashCode());
 		result = prime * result + ubPay;
 		result = prime * result + ((ubRegDate == null) ? 0 : ubRegDate.hashCode());
 		result = prime * result + ((ubYearMonth == null) ? 0 : ubYearMonth.hashCode());
@@ -113,21 +96,6 @@ public class BonusDto {
 		if (getClass() != obj.getClass())
 			return false;
 		BonusDto other = (BonusDto) obj;
-		if (btaxCate == null) {
-			if (other.btaxCate != null)
-				return false;
-		} else if (!btaxCate.equals(other.btaxCate))
-			return false;
-		if (btaxCode == null) {
-			if (other.btaxCode != null)
-				return false;
-		} else if (!btaxCode.equals(other.btaxCode))
-			return false;
-		if (btaxOption == null) {
-			if (other.btaxOption != null)
-				return false;
-		} else if (!btaxOption.equals(other.btaxOption))
-			return false;
 		if (memberId == null) {
 			if (other.memberId != null)
 				return false;
@@ -158,6 +126,11 @@ public class BonusDto {
 				return false;
 		} else if (!ubEtc.equals(other.ubEtc))
 			return false;
+		if (ubOption == null) {
+			if (other.ubOption != null)
+				return false;
+		} else if (!ubOption.equals(other.ubOption))
+			return false;
 		if (ubPay != other.ubPay)
 			return false;
 		if (ubRegDate == null) {
@@ -176,11 +149,9 @@ public class BonusDto {
 	public String toString() {
 		return "BonusDto [ubCode=" + ubCode + ", storeInfoCode=" + storeInfoCode + ", storeInfoName=" + storeInfoName
 				+ ", memberId=" + memberId + ", memberName=" + memberName + ", ubYearMonth=" + ubYearMonth
-				+ ", btaxCode=" + btaxCode + ", btaxOption=" + btaxOption + ", btaxCate=" + btaxCate + ", ubPay="
-				+ ubPay + ", ubEtc=" + ubEtc + ", ubRegDate=" + ubRegDate + "]";
+				+ ", ubOption=" + ubOption + ", ubPay=" + ubPay + ", ubEtc=" + ubEtc + ", ubRegDate=" + ubRegDate + "]";
 	}
 	
 	
-
 	
 }
