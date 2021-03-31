@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafemgt.dto.CustomerDto;
 import com.cafemgt.dto.MemberDto;
@@ -91,11 +94,30 @@ public class StoreController {
 		
 		return "member/join";	
 	}
-	@PostMapping("/join")
-	public String join(Model model) {
+	
+	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
+	public @ResponseBody boolean idCheck(@RequestParam(value = "memberId", required = false) String memberId) {
+		System.out.println(memberId+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		boolean checkResult = false;
 		
+		if(memberId != null && !"".equals(memberId)) {
+			MemberDto memberDto = memberService.getinfoMember(memberId);
+			System.out.println(memberDto+"<<<<<<<<<<<<");
+			if(memberDto != null) {
+				checkResult = true;
+			}
+		}		
+		System.out.println(memberId +"<--StoreController.java");		
+		return checkResult;
+	}
+	
+	@PostMapping("/join")
+	public String addMember(MemberDto memberDto) {
+		memberService.addMember(memberDto);
 		return "redirect:/index";	
 	}
+	
+	
 	
 	@GetMapping("/modifyuser")
 	public String modifyuser(Model model, String memberId) {

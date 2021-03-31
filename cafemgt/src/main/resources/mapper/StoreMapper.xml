@@ -35,27 +35,6 @@
 	
 	</insert>
 	
-<!-- 	<insert id="addStore" parameterType="StoreDto">
-	INSERT INTO tb_store_info
-		(store_info_code
-		, member_id
-		, store_info_name
-		, store_info_license_number
-		, store_info_industry_type
-		, store_info_addr
-		, store_info_phone
-		, store_info_reg_date)
-	VALUES 
-		(sf_new_store_info_code()
-		, #{memberId}
-		, #{storeInfoName}
-		, #{storeInfoLicenseNumber}
-		, #{storeInfoIndustryType}`
-		, #{storeInfoAddr}
-		, #{storeInfoPhone}
-		, NOW())	
-	</insert> -->
-	
 	<select id="getStoreadmin" parameterType="String" resultMap="StoreResultMap">
 		SELECT 
 			 store_info_code

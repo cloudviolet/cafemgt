@@ -21,8 +21,8 @@ public interface MemberMapper {
 	
 	public List<MemberDto> getMember(String MID);
 	
-	
 	public List<MemberDto> getMemberU(String MID);
 	
-
+	public int addMember(MemberDto memberDto);
+	
 }

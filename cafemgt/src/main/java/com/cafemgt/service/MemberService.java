@@ -73,5 +73,10 @@ public class MemberService {
 		
 		return memberDtolist;	
 	}
+	
+	public int addMember(MemberDto memberDto){
+		//회원가입
+		return memberMapper.addMember(memberDto);
+	}
 
 }

@@ -27,7 +27,7 @@
 	</select>
 
 	<select id="addMemberUser" parameterType="String" resultMap="memberResultMap">
-	SELECT 
+SELECT 
 		m.member_id, 
 		m.member_name, 
 		m.level_code,
@@ -38,10 +38,14 @@
 		tb_user AS u
 	ON 
 		m.member_id = u.member_id
+	LEFT join
+		tb_store_info AS s
+	ON 
+		u.store_info_code = s.store_info_code or s.member_id = m.member_id
 	WHERE 
 		m.level_code IN('level_02','level_03') 
 	AND 
-		m.store_info_code = #{SSTORECODE}
+		s.store_info_code = #{SSTORECODE}
 	AND u.user_join_date IS NULL
 	</select>
 	
@@ -58,12 +62,16 @@
 			, m.member_reg_date
 		FROM
 			tb_member AS m
+		LEFT join
+			tb_user AS u
+		ON 
+		m.member_id = u.member_id
 		LEFT JOIN 
 			tb_level as l
 		ON m.level_code=l.level_code
 		LEFT JOIN 
 			tb_store_info AS s
-		ON m.store_info_code = s.store_info_code	
+		ON u.store_info_code = s.store_info_code or s.member_id = m.member_id	
 	</select>
 	<!-- 직원 추가정보 수정에서 member 정보 업데이트  -->
 	<update id="updateMember" parameterType="MemberDto">
@@ -84,7 +92,6 @@
 			, m.member_pw
 			, m.member_name
 			, l.level_name
-			, s.store_info_name
 			, m.member_phone
 			, m.member_email
 			, m.member_birth
@@ -94,24 +101,45 @@
 		LEFT JOIN 
 			tb_level as l
 		ON m.level_code=l.level_code
-		LEFT JOIN 
-			tb_store_info AS s
-		ON m.store_info_code = s.store_info_code
 		WHERE m.member_id = #{MID}
 	</select>
 	
 	<select id="getinfoMember" parameterType="String" resultMap="memberResultMap">
-	SELECT 
-		member_id
+		SELECT m.member_id
 		, member_pw
 		, member_name
-		, level_code
-		, store_info_code
+		, m.level_code
+		, s.store_info_code
 		, member_phone
 		, member_email
 		, member_birth
-	FROM tb_member
-		WHERE member_id = #{MID}	
+		, member_reg_date
+	FROM 
+		tb_member AS m
+		LEFT join
+		tb_user AS u
+		on
+		m.member_id = u.member_id
+		LEFT join
+		tb_store_info AS s
+		on
+		u.store_info_code = s.store_info_code or s.member_id = m.member_id
+		WHERE m.member_id = #{MID}	
 	</select>
+	
+	<insert id="addMember" parameterType="MemberDto">
+	INSERT INTO tb_member
+		(member_id
+		, member_pw
+		, member_name
+		, level_code
+		, member_phone
+		, member_email
+		, member_birth
+		, member_reg_date)
+	VALUES (#{memberId}, #{memberPw}, #{memberName}, 'level_01', #{memberPhone}, #{memberEmail}, #{memberBirth}, NOW())
+	
+	
+	</insert>
 
 </mapper>
