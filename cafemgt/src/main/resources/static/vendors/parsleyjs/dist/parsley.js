@@ -2267,7 +2267,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     notblank: "This value should not be blank.",
     required: "필수 입력 사항입니다.",
-    pattern: "소문자, 숫자 및 특수문자를 포함하여 최소 6자",
+    pattern: "소문자, 숫자를 포함하여 최소 5자",
     min: "This value should be greater than or equal to %s.",
     max: "This value should be lower than or equal to %s.",
     range: "This value should be between %s and %s.",

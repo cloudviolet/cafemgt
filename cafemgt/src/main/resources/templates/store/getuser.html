@@ -61,6 +61,7 @@
 											<th>아이디</th>
 											<th>이름</th>
 											<th>상호명</th>
+											<th>구분</th>
 											<th>핸드폰번호</th>
 											<th>기본급여/시급</th>
 											<th>소정근로시간(일일)</th>
@@ -72,7 +73,7 @@
 											<th>근로계약서</th>
 											<th>직원보건증</th>
 											<th>상세</th>											
-											<th>추가 정보등록/수정</th>
+											<th>수정</th>
 											<th>삭제</th>
 										</tr>
 									</thead>
@@ -81,6 +82,7 @@
 											<td th:text="${ul.memberDto.memberId}">
 											<td th:text="${ul.memberDto.memberName}">
 											<td th:text="${ul.storeInfoName}">
+											<td th:text="${ul.memberDto.levelName}">
 											<td th:text="${ul.memberDto.memberPhone}">								 		
 											<td th:text="${ul.userPay}">
 											<td th:text="${ul.userWorkTime}">
@@ -93,7 +95,8 @@
 											<td th:text="${ul.userHealthCard}">
 											<td th:text="${ul.userEtc}">
 											<td>
-												<a class="btn btn-primary btn-sm" th:href="@{/modifyuser(memberId=${ul.memberDto.memberId})}">수정</a> 
+												<a class="btn btn-primary btn-sm" th:if="${ul.userPay != 0}" th:href="@{/modifyuser(memberId=${ul.memberDto.memberId})}">수정</a> 
+												<a class="btn btn-warning btn-sm" th:if="${ul.userPay == 0}"> 정보 추가등록 후 이용 가능</a> 
 											</td>
 											<td>
 												<a class="btn btn-dark btn-sm" th:href="@{/}">삭제</a> 
@@ -103,7 +106,6 @@
 								</table>								
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>

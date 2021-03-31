@@ -12,7 +12,6 @@ public class MemberDto {
 	private String memberEmail;
 	private String memberBirth;
 	private String memberRegDate;
-	private String memberEtc;
 	
 	public String getMemberId() {
 		return memberId;
@@ -80,12 +79,6 @@ public class MemberDto {
 	public void setMemberRegDate(String memberRegDate) {
 		this.memberRegDate = memberRegDate;
 	}
-	public String getMemberEtc() {
-		return memberEtc;
-	}
-	public void setMemberEtc(String memberEtc) {
-		this.memberEtc = memberEtc;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -94,7 +87,6 @@ public class MemberDto {
 		result = prime * result + ((levelName == null) ? 0 : levelName.hashCode());
 		result = prime * result + ((memberBirth == null) ? 0 : memberBirth.hashCode());
 		result = prime * result + ((memberEmail == null) ? 0 : memberEmail.hashCode());
-		result = prime * result + ((memberEtc == null) ? 0 : memberEtc.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((memberPhone == null) ? 0 : memberPhone.hashCode());
@@ -132,11 +124,6 @@ public class MemberDto {
 			if (other.memberEmail != null)
 				return false;
 		} else if (!memberEmail.equals(other.memberEmail))
-			return false;
-		if (memberEtc == null) {
-			if (other.memberEtc != null)
-				return false;
-		} else if (!memberEtc.equals(other.memberEtc))
 			return false;
 		if (memberId == null) {
 			if (other.memberId != null)
@@ -200,8 +187,6 @@ public class MemberDto {
 		builder.append(memberBirth);
 		builder.append(", memberRegDate=");
 		builder.append(memberRegDate);
-		builder.append(", memberEtc=");
-		builder.append(memberEtc);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -11,7 +11,11 @@ public interface UserMapper {
 	
 	public int addUser(UserDto userDto);
 	
+	public int updateUser(UserDto userDto);
+	
 	public List<UserDto> getUseradmin();
+	
+	public UserDto getinfoUser(String memberId);
 	
 	public List<UserDto> getUser(String SSTORECODE);
 
