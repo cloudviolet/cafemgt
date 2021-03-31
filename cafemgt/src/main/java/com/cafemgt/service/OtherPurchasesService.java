@@ -18,6 +18,18 @@ public class OtherPurchasesService {
 		this.otherPurchasesMapper = otherPurchasesMapper;
 	}
 	
+	public int removeOtherPurchases(String oeCode) {
+		return otherPurchasesMapper.removeOtherPurchases(oeCode);
+	}
+	
+	public int modifyOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
+		return otherPurchasesMapper.modifyOtherPurchases(otherPurchasesDto);
+	}
+	
+	public OtherPurchasesDto getOtherPurchasesByOeCode(String oeCode){
+		return otherPurchasesMapper.getOtherPurchasesByOeCode(oeCode);
+	}
+	
 	public int addOtherPurchases(OtherPurchasesDto otherPurchasesDto) {				
 		return otherPurchasesMapper.addOtherPurchases(otherPurchasesDto);
 	}

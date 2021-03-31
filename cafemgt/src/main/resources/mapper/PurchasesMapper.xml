@@ -28,6 +28,63 @@
 		<result property="incoCheck" 				column="inco_check"/>
 	</resultMap>
 	
+	<delete id="removePurchases" parameterType="String">
+		DELETE FROM 
+			tb_incoming 
+		WHERE 
+			inco_code=#{incoCode};
+	</delete>
+	
+	<update id="modifyPurchases" parameterType="PurchasesDto">
+		UPDATE 
+			tb_incoming
+		SET
+			article_code=#{articleCode},
+			cust_code=#{custCode},
+			inco_vat_type=#{incoVatType},
+			inco_pay_type=#{incoPayType},
+			inco_total=#{incoTotal},
+			inco_count=#{incoCount},
+			inco_volume_subtotal=#{incoVolumeSubtotal},
+			inco_supply_value=#{incoSupplyValue},
+			inco_tax=#{incoTax},
+			inco_date=#{incoDate},
+			inco_reg_date=NOW()
+		WHERE 
+			inco_code=#{incoCode};
+	</update>
+	
+	<select id="getPurchasesByIncoCode" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			i.inco_code
+			, s.store_info_code
+			, s.store_info_name
+			, i.article_code
+			, i.cust_code
+			, i.inco_vat_type
+			, i.inco_pay_type
+			, i.inco_total
+			, i.inco_count
+			, i.inco_volume_subtotal
+			, i.inco_supply_value
+			, i.inco_tax
+			, i.inco_dealing_group_code
+			, i.inco_stock_group_code
+			, i.inco_date
+			, i.inco_reg_date
+			, i.inco_deadline
+			, i.inco_system_id
+			, i.inco_system_name
+			, i.inco_check
+		FROM 
+			tb_incoming AS i
+		LEFT JOIN 
+			tb_store_info AS s
+		ON
+			i.store_info_code = s.store_info_code
+		WHERE inco_code = #{incoCode};
+	</select>
+	
 	<insert id="addPurchases" parameterType="PurchasesDto">
 		INSERT INTO tb_incoming
 			(inco_code, 
@@ -50,7 +107,7 @@
 			inco_system_name, 
 			inco_check)
 			VALUES 
-			(sf_new_inco_code(), #{storeInfoCode}, #{articleCode}, #{custCode}, #{incoVatType}, #{incoPayType}, #{incoTotal} ,#{incoCount}, #{incoVolumeSubtotal}, #{incoSupplyValue}, #{incoTax}, '', '', #{incoDate}, NOW(), '', '', '', 1)
+			(sf_new_inco_code(), #{storeInfoCode}, #{articleCode}, #{custCode}, #{incoVatType}, #{incoPayType}, #{incoTotal} ,#{incoCount}, #{incoVolumeSubtotal}, #{incoSupplyValue}, #{incoTax}, '', '', #{incoDate}, NOW(), 'x', '', '', 1)
 	</insert>
 	
 	<select id="purchasesDeadline" parameterType="String" resultMap="purchasesDtoResultMap">

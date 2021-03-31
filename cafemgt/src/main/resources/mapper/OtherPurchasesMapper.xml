@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafemgt.dao.OtherPurchasesMapper">
 
-	<resultMap type="OtherPurchasesDto" id="purchasesDtoResultMap">
+	<resultMap type="OtherPurchasesDto" id="otherPurchasesDtoResultMap">
 		<result property="oeCode" 			column="oe_code"/>
 		<result property="storeInfoCode" 	column="store_info_code"/>
 		<result property="oeStoreName" 		column="oe_store_name"/>
@@ -20,13 +20,60 @@
 		<result property="oeDeadline" 		column="oe_deadline"/>
 	</resultMap>
 	
+	<delete id="removeOtherPurchases" parameterType="String">
+		DELETE FROM 
+			tb_other_expense 
+		WHERE 
+			oe_code=#{oeCode};
+	</delete>
+	
+	<update id="modifyOtherPurchases" parameterType="OtherPurchasesDto">
+		UPDATE 
+			tb_other_expense
+		SET
+			oe_store_name=#{oeStoreName},
+			oe_vat_type=#{oeVatType},
+			oe_total=#{oeTotal},
+			oe_supply_value=#{oeTotal}/1.1,
+			oe_tax=oe_total-oe_supply_value,
+			at_debit_code=#{atDebitCode},
+			at_credit_code= #{atCreditCode},
+			oe_etc= #{oeEtc},
+			oe_date= #{oeDate},
+			oe_reg_date=NOW()
+		WHERE 
+			oe_code=#{oeCode};
+	</update>
+	
 	<insert id="addOtherPurchases" parameterType="OtherPurchasesDto">
 		INSERT INTO tb_other_expense
 		(oe_code, store_info_code, oe_store_name, oe_vat_type, oe_total, oe_supply_value, oe_tax, at_debit_code, at_credit_code, oe_etc, oe_date, oe_reg_date)
-		VALUES (sf_new_otherexpense_code(), 'owner_01', #{oeStoreName}, #{oeVatType}, #{oeTotal}, #{oeTotal}/1.1, oe_total-oe_supply_value, #{atDebitCode}, #{atCreditCode}, #{oeEtc}, #{oeDate}, NOW())
+		VALUES (sf_new_otherexpense_code(), #{storeInfoCode}, #{oeStoreName}, #{oeVatType}, #{oeTotal}, #{oeTotal}/1.1, oe_total-oe_supply_value, #{atDebitCode}, #{atCreditCode}, #{oeEtc}, #{oeDate}, NOW())
 	</insert>
 	
-	<select id="otherPurchasesDeadline" parameterType="String" resultMap="purchasesDtoResultMap">
+	<select id="getOtherPurchasesByOeCode" parameterType="String" resultMap="otherPurchasesDtoResultMap">
+		SELECT 
+			oe.oe_code
+			,si.store_info_code
+			,si.store_info_name
+			,oe.oe_store_name
+			,oe.oe_vat_type
+			,oe.oe_total
+			,oe.at_debit_code
+			,oe.at_credit_code
+			,oe.oe_date
+			,oe.oe_etc
+		FROM 
+			tb_other_expense AS oe
+			LEFT JOIN
+			tb_store_info AS si
+			ON
+			oe.store_info_code = si.store_info_code
+		WHERE 
+			oe.oe_code = #{oeCode};
+	</select>
+	
+	<select id="otherPurchasesDeadline" parameterType="String" resultMap="otherPurchasesDtoResultMap">
 		SELECT 
 			  oe_code
 			, store_info_code
@@ -49,7 +96,7 @@
 			oe_deadline = 'x';
 	</select>
 	
-	<select id="getOtherPurchases" parameterType="String" resultMap="purchasesDtoResultMap">
+	<select id="getOtherPurchases" parameterType="String" resultMap="otherPurchasesDtoResultMap">
 		SELECT 
 			oe_code, 
 			store_info_code, 
@@ -62,7 +109,8 @@
 			at_credit_code, 
 			oe_etc, 
 			oe_date, 
-			oe_reg_date
+			oe_reg_date,
+			oe_deadline
 		FROM 
 			tb_other_expense
 		WHERE
