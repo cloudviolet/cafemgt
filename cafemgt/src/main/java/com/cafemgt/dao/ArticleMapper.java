@@ -14,4 +14,6 @@ public interface ArticleMapper {
 	public int addArticle(ArticleDto articleDto);
 	
 	public ArticleDto getArticleByArticleCode(String articleCode);
+	
+	public int modifyArticle(ArticleDto articleDto);
 }

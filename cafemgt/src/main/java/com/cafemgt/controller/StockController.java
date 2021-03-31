@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.DailyVolDto;
-import com.cafemgt.dto.PurchasesDto;
 import com.cafemgt.dto.SkkDto;
 import com.cafemgt.dto.StockDto;
 import com.cafemgt.dto.TotalStockDto;
 import com.cafemgt.service.ArticleService;
 import com.cafemgt.service.DailyVolService;
-import com.cafemgt.service.PurchasesService;
 import com.cafemgt.service.SkkService;
 import com.cafemgt.service.StockService;
 import com.cafemgt.service.TotalStockService;
@@ -36,21 +34,18 @@ public class StockController {
 	private final StockService stockService;
 	private final TotalStockService totalStockService;
 	private final DailyVolService dailyVolService;
-	private final PurchasesService purchasesService;
 	
 	@Autowired
 	public StockController(ArticleService articleService
 						  ,SkkService skkService
 						  ,StockService stockService
 						  ,TotalStockService totalStockService
-						  ,DailyVolService dailyVolService
-						  ,PurchasesService purchasesService) {
+						  ,DailyVolService dailyVolService) {
 		this.articleService = articleService;
 		this.skkService = skkService;
 		this.stockService = stockService;
 		this.totalStockService = totalStockService;
 		this.dailyVolService = dailyVolService;
-		this.purchasesService = purchasesService;
 	}
 	
 	@PostConstruct
@@ -98,9 +93,30 @@ public class StockController {
 	@GetMapping("/getstock")
 	public String getStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<StockDto> stockList = stockService.getStock(SSTORECODE);
+		Map<String, Object> stockMap = new HashMap<>();
+		stockMap.put("SSTORECODE", SSTORECODE);
+		List<StockDto> stockList = stockService.getStock(stockMap);
 		model.addAttribute("stockList",stockList);
 		return "stock/getstock";
+	}
+	@ResponseBody
+	@PostMapping("/addStock")
+	public String addStock(@RequestParam(value = "arrayStock[]", required = false) List<String> arrayStock
+						  ,@RequestParam(value = "SSTORECODE", required = false) String SSTORECODE) {
+
+		Map<String, Object> stockMap = new HashMap<>();
+		stockMap.put("SSTORECODE", SSTORECODE);
+		stockMap.put("arrayStock", arrayStock);
+		List<StockDto> stockList = stockService.getStock(stockMap);
+		int result = stockService.addStock(stockList);
+		String rtString = "";
+		if(result > 0 ) {
+			rtString = "정상 동작";
+		}else {
+			rtString = "insert 실패";
+		}
+			
+		return rtString;
 	}
 	
 	@GetMapping("/getdailyvolume")
@@ -115,7 +131,9 @@ public class StockController {
 	public String getDailyVolDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<DailyVolDto> dailyVolDeadLineList = dailyVolService.getDailyVolDeadLine(SSTORECODE);
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
 		model.addAttribute("dailyVolDeadLineList",dailyVolDeadLineList);
+		model.addAttribute("totalStockList",totalStockList);
 		return "stock/getdailyvolDeadLine";
 	}
 	/* 일일 품목 소모량 조회에서 마감처리시 품목별 재고 총 수량 조회에 등록하는 컨트롤러  */
@@ -124,6 +142,7 @@ public class StockController {
 									  @RequestParam (value="volumeTotal", required = false) int volumeTotal
 									 ,DailyVolDto dailyVolDto
 									 ,TotalStockDto totalStockDto) {
+		
 		Map<String , String> incoMap = new HashMap<>();
 		//이전용량
 		int preVolume =(totalStockDto.getIncoVolumeSubtotal() - totalStockDto.getDetailvolRemainVolume());
@@ -133,7 +152,7 @@ public class StockController {
 		int conCount = (preVolume+dtvVolumeTotal)/totalStockDto.getArticleVolume();
 			System.out.println((double)dtvVolumeTotal/totalStockDto.getArticleVolume());
 			System.out.println(totalStockDto);
-		System.out.println(conCount);
+			System.out.println(conCount);
 		if(conCount > totalStockDto.getDetailvolRemainCount()) {
 			//소모수량이 잔여수량보다 클 경우 div를 잔여용량으로
 			conCount = totalStockDto.getDetailvolRemainCount();
@@ -178,7 +197,6 @@ public class StockController {
 			
 			dailyVolDto.setDailyvolSubtotal(volumeTotal); //계산 후 남은용량 insert 하기위해서
 			dailyVolDto.setSalesCount(haveSalesCount);//계산 후 남은 판매수량 insert 하기위해서
-			dailyVolDto.setDailyvolEtc("사용용량 > 잔액용량으로 처리됨");
 			dailyVolService.addDailyVolDeadLine(dailyVolDto);
 		}
 		totalStockService.modifyIncoCheck(incoMap);
@@ -197,10 +215,10 @@ public class StockController {
 	
 	@ResponseBody
 	@PostMapping("/getIncomeList")
-	public List<TotalStockDto> getIncomeList(@RequestParam (value = "articleCode",required = false) String articleCode
+	public List<TotalStockDto> getIncomeList(@RequestParam (value = "incoCode",required = false) String incoCode
 			,Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, articleCode);
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, incoCode);
 		return totalStockList;
 	}
 	
@@ -213,8 +231,39 @@ public class StockController {
 	}
 	
 	@PostMapping("/modifyArticle")
-	public String modifyArticle(ArticleDto articleDto,Model model) {
+	public String modifyArticle(ArticleDto articleDto) {
+		articleService.modifyArticle(articleDto);
 		return "redirect:/getarticle";
 	}
+	
+	@ResponseBody
+	@PostMapping("/salesDeadline")
+	public String salesDeadline(@RequestParam (value = "arraySales[]", required = false) List<String> arraySales
+								,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		System.out.println(arraySales);
+		
+		Map<String, Object> salesInfoMap = new HashMap<>();
+		salesInfoMap.put("SSTORECODE", SSTORECODE);
+		salesInfoMap.put("arraySales", arraySales);
+		System.out.println(salesInfoMap);
+		
+		String returnValue ="값을 입력해주세요";
+		int result = 0;
+		
+		  List<DailyVolDto> dailyVolList = dailyVolService.getSalesByDailyVol(salesInfoMap); 
+		  for(int i =0 ; i <  dailyVolList.size(); i++) {
+			  System.out.println(dailyVolList.get(i)); 
+			  result  += dailyVolService.addDailyVol(dailyVolList.get(i)); 
+		  }
+		 
+		dailyVolService.modifySalesDeadLine(arraySales);
+		if(result >= 1) {
+			returnValue = "정상처리";
+		}
+
+		return returnValue;
+	}
+	
 	
 }

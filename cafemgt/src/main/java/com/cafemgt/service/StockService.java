@@ -1,6 +1,7 @@
 package com.cafemgt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +20,21 @@ public class StockService {
 		this.stockMapper= stockMapper;
 	}
 	
-	public List<StockDto> getStock(String SSTORECODE) {
+	public List<StockDto> getStock(Map<String,Object> map) {
 		
-		return stockMapper.getStock(SSTORECODE);
+		return stockMapper.getStock(map);
+	}
+	
+	public int addStock(List<StockDto> stockList) {
+
+		int result = 0;
+		if(stockList.size() != 0) {
+			for(int i = 0 ; i < stockList.size() ; i++) {
+				StockDto stockDto = stockList.get(i);
+				result += stockMapper.addStock(stockDto);
+			}
+		}
+		return result;
 	}
 	
 }
