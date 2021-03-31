@@ -190,11 +190,11 @@ public class TaxController {
 	}
 		
 	@ResponseBody
-	@GetMapping("/getmyvat")
-	public int getmyvat( @RequestParam(value = "SSTORECODE",required = false)String SSTORECODE
-						,@RequestParam(value = "searchDays", required = false)String searchDays 
-						,Model model){
-		
+	@PostMapping("/getmyvat")
+	public int getMyVat( @RequestParam(value = "searchDays", required = false)String searchDays 
+						,Model model, HttpSession session){
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		System.out.println(searchDays);
 		return 0;		
 	}
 	

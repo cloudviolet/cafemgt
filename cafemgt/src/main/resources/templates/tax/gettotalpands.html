@@ -32,7 +32,7 @@
 					      		<option value="1기">1기</option>
 					      		<option value="2기">2기</option>
 					      	</select>
-					      	<button type="button" id="forVatBtn" th:data-SSTORECODE="${session.SSTORECODE}" class="btn btn-info">검색</button>
+					      	<button type="button" id="forVatBtn" class="btn btn-info">검색</button>
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -203,7 +203,6 @@
     	}
     });
     $('#forVatBtn').click(function(){
-    	var SSTORECODE = $(this).attr('data-SSTORECODE');
 		var yearValue = $('#year').val();
 		var monthValue = $('#month').val();
 		var searchDays = yearValue+"년"+monthValue;
@@ -211,8 +210,7 @@
 		var request = $.ajax({
 			url: "getmyvat", 
 			method: "POST",
-			data: { searchDays : searchDays,
-					SSTORECODE : SSTORECODE},
+			data: { searchDays : searchDays},
 			dataType: "json"
 		,
         success : function(vatResult) {
