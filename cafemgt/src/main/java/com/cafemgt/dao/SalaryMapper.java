@@ -10,5 +10,9 @@ import com.cafemgt.dto.SalaryDto;
 public interface SalaryMapper {
 	public List<SalaryDto> getSalary(String SSTORECODE);
 	
-	public int addSalary(SalaryDto salarydto);
+	public SalaryDto getSalaryBySalaryCode(String salaryCode);
+
+	public int modifySalary(SalaryDto salaryDto);
+	
+	public int addSalary(SalaryDto salaryDto);
 }

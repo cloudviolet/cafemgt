@@ -9,14 +9,36 @@
 		<result property="storeInfoCode" 	column="store_info_code"/>
 		<result property="storeInfoName" 	column="store_info_name"/>
 		<result property="memberId"			column="member_id"/>
-		<result property="memberName" 		column="member_name"/>
+		<result property="memberName"		column="member_name"/>
 		<result property="attDate"			column="att_date"/>
 		<result property="attStart"			column="att_start"/>
 		<result property="attEnd" 			column="att_end"/>
 		<result property="attTodailyTime" 	column="att_todaily_time"/>
 		<result property="attRegDate" 		column="att_reg_date"/>
 	</resultMap>
-
+	
+	<insert id="addWtime" parameterType="WtimeDto">
+		INSERT INTO tb_attendance_checking
+	(att_code
+	, store_info_code
+	, member_id
+	, att_date
+	, att_start
+	, att_end
+	, att_todaily_time
+	, att_reg_date)
+	VALUES 
+	(sf_new_attendance_checking_code()
+	, #{storeInfoCode}
+	, #{memberId}
+	, #{attDate}
+	, #{attStart}
+	, #{attEnd}
+	, #{attTodailyTime}
+	, NOW())
+	</insert>
+	
+	
 	<select id="getWtime" resultMap="wtimeResultMap">
 		SELECT
 			att.att_code
@@ -39,5 +61,7 @@
 			tb_member AS us
 		ON
 			att.member_id = us.member_id
+		WHERE
+			st.store_info_code= #{SSTORECODE}
 	</select>
 </mapper>

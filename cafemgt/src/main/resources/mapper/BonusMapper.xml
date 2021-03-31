@@ -11,14 +11,33 @@
 		<result property="memberId" 		column="member_id"/>
 		<result property="memberName" 		column="member_name"/>
 		<result property="ubYearMonth"		column="ub_year_month"/>
-		<result property="btaxCode"			column="btax_code"/>
-		<result property="btaxOption" 		column="btax_option"/>
-		<result property="btaxCate" 		column="btax_cate"/>
+		<result property="ubOption"			column="ub_option"/>
 		<result property="ubPay" 			column="ub_pay"/>
 		<result property="ubEtc" 			column="ub_etc"/>
 		<result property="ubRegDate" 		column="ub_reg_date"/>
 	</resultMap>
-
+	
+	<insert id="addBonus" parameterType="BonusDto">
+	INSERT INTO tb_user_bonus
+	(ub_code
+	, store_info_code
+	, member_id
+	, ub_year_month
+	, ub_option
+	, ub_pay
+	, ub_etc
+	, ub_reg_date)
+	VALUES 
+	(sf_new_ub_code()
+	, #{storeInfoCode}
+	, #{memberId}
+	, #{ubYearMonth}
+	, #{ubOption}
+	, #{ubPay}
+	, #{ubEtc}
+	, NOW())
+	</insert>
+	
 	<select id="getBonus" resultMap="bonusResultMap">
 		SELECT
 			ub.ub_code
@@ -27,9 +46,7 @@
 			,us.member_id
 			,us.member_name
 			,ub.ub_year_month
-			,bt.btax_code
-			,bt.btax_option
-			,bt.btax_cate
+			,ub.ub_option
 			,ub.ub_pay
 			,ub.ub_etc
 			,ub.ub_reg_date
@@ -43,9 +60,7 @@
 			tb_member AS us
 		ON
 			ub.member_id = us.member_id
-		LEFT JOIN
-			tb_bonus_tax AS bt
-		ON
-			ub.btax_code = bt.btax_code
+		WHERE
+			st.store_info_code= #{SSTORECODE}
 	</select>
 </mapper>

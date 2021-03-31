@@ -37,103 +37,198 @@
 				padding-right : 0px;
 			}
 			
+			.x_panel{
+				min-height: 880px;
+			}
+			
+			.deadLineSelectBox-td{
+				width : 35%;
+			}
+			
 		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-			<div class="col-md-12 col-sm-12 ">
-				<div class="x_panel">
-					 <div class="x_title">
-		                <h2>품목별 재고 총 수량 조회</h2>
-		                
-		                <!-- 상단 옵션네비바 시작 -->
-						<ul class="nav navbar-right panel_toolbox">
-						</ul>
-						<!-- 상단 옵션네비바 끝 -->
-							
-						<div class="clearfix"></div>
-							
+			<div class="row">
+				<div class="col-md-8">
+					<div class="x_panel">
+						 <div class="x_title">
+			                <h2>품목별 재고 총 수량 조회</h2>
+			                <!-- 상단 옵션네비바 시작 -->
+							<ul class="nav navbar-right panel_toolbox">
+							</ul>
+							<!-- 상단 옵션네비바 끝 -->
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="card-box table-responsive">
+										<p class="text-muted font-13 m-b-30">
+											여기에 설명써주시면됩니다.
+											<code>강조!</code>
+										</p>
+										<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+											<thead>
+												<tr>
+													<!-- 
+													<th>일 품목소모량 코드</th>
+													<th>사업장 코드</th>
+													<th>상호명</th>
+													 -->
+													<th>품목명</th>
+													<th>판매 수량</th>
+													<th>소모용량 소계</th>
+													<th>단위</th>
+													<th>마감</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="dvl : ${dailyVolDeadLineList}">
+													<!--
+												 	<td th:text="${dvl.storeInfoCode}"></td>
+													<td th:text="${dvl.storeInfoName}"></td>
+													 -->
+													<td th:text="${dvl.articleName}"></td>
+													<td th:text="${dvl.salesCount}"></td>
+													<td th:text="${dvl.dailyvolSubtotal}"></td>
+													<td th:text="${dvl.conDan}"></td>
+													<td class="deadLineSelectBox-td"> 
+														<select class="form-control deadLineSelectBox" data-index="0">
+															<option th:value="0" th:text="선택해주세요."></option>
+															<th:block th:each="tsl : ${totalStockList}">
+																<option th:if="${tsl.articleCode == dvl.articleCode}" 
+																		th:text="${tsl.articleName}+' &nbsp&nbsp'+${tsl.incoDate}"
+																		th:value="${tsl.incoCode}">
+																</option>
+															</th:block>
+														</select>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="x_content">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="card-box table-responsive">
-									<p class="text-muted font-13 m-b-30">
-										여기에 설명써주시면됩니다.
-										<code>강조!</code>
-									</p>
-									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-										<thead>
-											<tr>
-												<th>일 품목소모량 코드</th>
-												<th>사업장 코드</th>
-												<th>상호명</th>
-												<th>품목명</th>
-												<th>판매 수량</th>
-												<th>소모용량 소계</th>
-												<th>단위</th>
-												<th>마감</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="dvl, index : ${dailyVolDeadLineList}">
-												<td class="dailyVolCode" th:text="${dvl.dailyvolCode}"></td>
-												<td th:text="${dvl.storeInfoCode}"></td>
-												<td th:text="${dvl.storeInfoName}"></td>
-												<td th:text="${dvl.articleName}"></td>
-												<td class="salesCount" th:text="${dvl.salesCount}"></td>
-												<td class="dailySubtotal" th:text="${dvl.dailyvolSubtotal}"></td>
-												<td th:text="${dvl.conDan}"></td>
-												<td> 
-													<a class="btn btn-primary btn-sm deadLineBtn" th:data-index="${index.index}" data-toggle="modal" data-target="#deadLine" th:value="${dvl.articleCode}">
-														 마감
-													</a>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+				</div>
+				<div class="col-md-4">
+					<div class="x_panel">
+						 <div class="x_title">
+			                <h2>마감 품목 상세 조회</h2>
+			                <!-- 상단 옵션네비바 시작 -->
+							<ul class="nav navbar-right panel_toolbox">
+								<li>
+									<button type="button" class="btn btn-primary btn-sm" id="submitBtn">마감하기</button>
+								</li>
+							</ul>
+							<!-- 상단 옵션네비바 끝 -->
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="card-box table-responsive">
+										<p class="text-muted font-13 m-b-30">
+											여기에 설명써주시면됩니다.
+											<code>강조!</code>
+										</p>
+									</div>
+									<div>
+										<form th:action="@{getdailyvolDeadLine}" method="POST" id="demo-form2">
+											<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
+											
+
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">잔여 용량 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="detailvolRemainVolume" id="detailvolRemainVolume" readonly="readonly" class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">사용 용량 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="detailvolVolumeTotal" id="detailvolVolumeTotal" readonly="readonly" class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">용량 합계 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="volumeTotal" 	id="volumeTotal"	readonly="readonly"  class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">일품 코드 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="dailyvolCode" 	id="dailyVolCode"	readonly="readonly"  class="form-control valueReset">
+												</div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">입고 코드 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="incoCode" 		id="incoCode"		readonly="readonly"  class="form-control valueReset">
+												</div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">입고 용량 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="incoVolumeSubtotal" id="incoVolumeSubtotal" readonly="readonly" class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">품목 코드 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="articleCode" 	id="articleCode"	readonly="readonly"  class="form-control valueReset">
+												</div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">소모 단계 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="incoCheck" 	id="incoCheck"		readonly="readonly"  class="form-control valueReset">
+												</div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">입고 수량 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+														<input type="text" name="incoCount" 	id="incoCount"		readonly="readonly"  class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">품목 용량 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="articleVolume" id="articleVolume"	readonly="readonly"  class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">판매 수량 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="salesCount" 	id="salesCount"		readonly="readonly"  class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">잔여 수량	 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="detailvolRemainCount" id="detailvolRemainCount" readonly="readonly" class="form-control valueReset">
+												</div>
+												<div><label class="control-label label-align articleDan"></label></div>
+											</div>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- deadLine Modal -->
-		<div class="modal fade" id="deadLine" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-			    <form class="modal-content"  id="demo-form2" th:action="@{getdailyvolDeadLine}" method="POST">
-			      <div class="modal-header">
-			        <h4 class="modal-title" id="myModalLabel">사용할 입고품목을 선택해주세요</h4>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			      </div>
-			      <div class="modal-body">
-			        <div class="container-fluid">
-            			<div class="row">
-					      	<div class="col-md-1">
-					      	</div>
-					      	<div class="col-md-10 right-padding-remove">
-								사용할 품목을 선택해주세요
-								<select class="form-control" id="selectInco" required="required">
-								<!-- option = ajax 실행결과값 -->	
-								</select>
-								<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
-								<div class="modal-body-text">
-									<div>
-									<!-- 스크립트에서 option 선택값 가져옴 -->
-									</div>
-								</div>
-					      	</div>
-					   	</div>
-					</div>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-			        <button type="submit" class="btn btn-primary" id="submitBtn">마감</button>
-			      </div>
-			    </form>
-		 	</div>
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
@@ -153,109 +248,62 @@
 		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
-		<!-- Parsley -->
-		<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
-		<script>
-			$('.deadLineBtn').click(function(){
-				var deadLineBtn = $('.deadLineBtn');
-				for(var j = 0 ; j < deadLineBtn.length; j++){
-					deadLineBtn.eq(j).attr('data-index',j);
+		
+		<script th:inline="javascript"> 
+			$('#submitBtn').click(function(){
+				if($('#incoVolumeSubtotal').val() != ''){
+					$('#demo-form2').submit();
+				}else{
+					alert('마감할 품목을 선택 해주세요.');
 				}
 			});
+			var deadLineSelectBox = $('.deadLineSelectBox');
+			deadLineSelectBox.mousedown(function(){
+				$('.deadLineSelectBox option').prop("selected",false);
+				$('.valueReset').val('');
+			});
+			deadLineSelectBox.change(function(){
 				
-			$('.deadLineBtn').click(function(){
-				var selectInco = $('#selectInco');
-				var articleCode = $(this).attr('value');
-				var modalBody = $('.modal-body-text');
-				var deadLineBtn =$(this).attr('data-index');
-		
-				console.log(deadLineBtn);
-				var request = $.ajax({
-					url: "getIncomeList", 
-					method: "POST",
-					data: { articleCode : articleCode },
-					dataType: "json"
-				});
-				request.done(function( data ) {
-					selectInco.children('option').remove();
-					selectInco.append('<option value="">품목을 선택해주세요</option>');
-					for(var i = 0 ; i < data.length; i++){
-						//console.log(data[i].incoCheck)
-						if(data[i].incoCheck < 3){
-							selectInco.append('<option data-change="'
-												+ i +'" value="' 
-												+ data[i].incoCode +'"> '
-												+ data[i].articleName
-												+'  , 입고 날짜 : [ '
-												+ data[i].incoDate 
-												+' ]</option>'
-												);
-						}
-					}
-					selectInco.click(function(){
-						var inum = $('#selectInco option:selected').attr('data-change');
-						var dailySubtotal = $('.dailySubtotal');
-						var dailyVolCode = $('.dailyVolCode');
-						var salesCount = $('.salesCount');
-						modalBody.children('div').remove();
-						if(inum != null){
-							modalBody.append('<div>' 
-									/* 입고 용량 */
-									+'<div class="form-group row horizontal">'
-									+'<label class="col-form-label label-align input-label">입고용량 * <span class="required"></span>	</label>'
-									+'<div class="col-md-9 col-sm-9 ">'
-									+'<input type="text" name="incoVolumeSubtotal" readonly="readonly" value="'+data[inum].incoVolumeSubtotal+'" class="form-control ">'
-									+'</div>'
-									+'<div><label class="control-label label-align articledan">'+data[inum].articleDan+'</label></div>'
-									+'</div>'
-									
-									/* 잔여 용량 */
-									+'<div class="form-group row horizontal">'
-									+'<label class="col-form-label label-align input-label">잔여수량 * <span class="required"></span>	</label>'
-									+'<div class="col-md-9 col-sm-9 ">'
-									+'<input type="text" name="detailvolRemainVolume" readonly="readonly" value="'+data[inum].detailvolRemainVolume+'" class="form-control ">'
-									+'</div>'
-									+'<div><label class="control-label label-align articledan">'+data[inum].articleDan+'</label></div>'
-									+'</div>'
-									
-									/* 사용 용량 */
-									+'<div class="form-group row horizontal">'
-									+'<label class="col-form-label label-align input-label">사용용량 * <span class="required"></span>	</label>'
-									+'<div class="col-md-9 col-sm-9 ">'
-									+'<input type="text" name="detailvolVolumeTotal" readonly="readonly" value="'+dailySubtotal.eq(deadLineBtn).text()+'" class="form-control ">'
-									+'</div>'
-									+'<div><label class="control-label label-align articledan">'+data[inum].articleDan+'</label></div>'
-									+'</div>'
-									
-									/* 데이터를 위한 */
-									+'<input type="text" name="incoCode" readonly="readonly" value="'			 +data[inum].incoCode+'" class="form-control ">'
-									+'<input type="text" name="articleCode" readonly="readonly" value="'		 +data[inum].articleCode+'" class="form-control ">'
-									+'<input type="text" name="incoCheck" readonly="readonly" value="'			 +data[inum].incoCheck+'" class="form-control ">'
-									+'<input type="text" name="incoCount" readonly="readonly" value="'			 +data[inum].incoCount+'" class="form-control ">'
-									+'<input type="text" name="articleVolume" readonly="readonly" value="'		 +(data[inum].incoVolumeSubtotal/data[inum].incoCount)+'" class="form-control ">'
-									+'<input type="text" name="detailvolRemainCount" readonly="readonly" value="'+data[inum].detailvolRemainCount+'" class="form-control ">'
-									+'<input type="text" name="detailvolCode" readonly="readonly" value="'		 +data[inum].detailvolCode+'" class="form-control ">'
-									+'<input type="text" name="volumeTotal" readonly="readonly" value="'		 +(data[inum].detailvolRemainVolume-dailySubtotal.eq(deadLineBtn).text())+'" class="form-control ">'
-									+'<input type="text" name="dailyvolCode" readonly="readonly" value="'		 +dailyVolCode.eq(deadLineBtn).text()+'" class="form-control ">'
-									+'<input type="text" name="salesCount" readonly="readonly" value="'			 +salesCount.eq(deadLineBtn).text()+'" class="form-control ">'
-									
-									+'</div>'
-									);
-						}
+				for(var i = 0 ; i < deadLineSelectBox.length; i++){
+					deadLineSelectBox.eq(i).attr('data-index',i);
+				}
+				var incoCode = $(this).val();
+				var dataIndex = $(this).attr('data-index');
+				var dvl = /*[[${dailyVolDeadLineList}]]*/
+				console.log(incoCode);
+				console.log(dataIndex);
+				
+				if(incoCode != 0){
+					var request = $.ajax({
+						url: "getIncomeList", 
+						method: "POST",
+						data: { incoCode : incoCode },
+						dataType: "json"
+					}); 
+	
+					request.done(function( data ) {
+						console.log(data[0].articleCode);
+						
+						$('#incoVolumeSubtotal').val(data[0].incoVolumeSubtotal);
+						$('#detailvolRemainVolume').val(data[0].detailvolRemainVolume);
+						$('#detailvolVolumeTotal').val(dvl[dataIndex].dailyvolSubtotal);
+						$('#dailyVolCode').val(dvl[dataIndex].dailyvolCode);
+						$('#incoCode').val(data[0].incoCode);
+						$('#articleCode').val(data[0].articleCode);
+						$('#incoCheck').val(data[0].incoCheck);
+						$('#incoCount').val(data[0].incoCount);
+						$('#articleVolume').val(data[0].incoVolumeSubtotal/data[0].incoCount);
+						$('#volumeTotal').val((data[0].detailvolRemainVolume-dvl[dataIndex].dailyvolSubtotal));
+						$('#salesCount').val(dvl[dataIndex].salesCount);
+						$('#detailvolRemainCount').val(data[0].detailvolRemainCount);
+						$('.articleDan').text(data[0].articleDan)
+						
 					});
-					
-				});
-				request.fail(function( data ) {
-					console.log('a'	);
-				});
+					request.fail(function( data ) {
+						console.log('aaaaaaaaaaaaaa');
+					});
+				}
 			});
-			$('.deadLineBtn').click(function(){
-				$('.modal-body-text').children('div').remove();
-			});
-			
-			$('#submitBtn').click(function(){
-			});
-
 		</script>
 	</th:block>
 </html>

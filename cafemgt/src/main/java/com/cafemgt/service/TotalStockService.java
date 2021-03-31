@@ -33,8 +33,8 @@ public class TotalStockService {
 		}
 		return totalStockList;
 	}
-	public List<TotalStockDto> getTotalStockByIncoCode(String SSTORECODE, String articleCode){
-		return totalStockMapper.getTotalStockByIncoCode(SSTORECODE,articleCode);
+	public List<TotalStockDto> getTotalStockByIncoCode(String SSTORECODE, String incoCode){
+		return totalStockMapper.getTotalStockByIncoCode(SSTORECODE,incoCode);
 	}
 	
 	public int addTotalStockOverVolume(TotalStockDto totalStockDto) {
