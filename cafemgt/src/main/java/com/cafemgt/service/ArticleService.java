@@ -2,7 +2,6 @@ package com.cafemgt.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +31,10 @@ public class ArticleService {
 	public int addArticle(ArticleDto articleDto) {
 		
 		return articleMapper.addArticle(articleDto);
+	}
+	
+	public int modifyArticle(ArticleDto articleDto) {
+		
+		return articleMapper.modifyArticle(articleDto);
 	}
 }

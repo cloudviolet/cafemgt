@@ -19,6 +19,21 @@
 		<result property="articleEtc" 		column="article_etc" />
 		<result property="articleRegDate"	column="article_reg_date" />
 	</resultMap>
+	<update id="modifyArticle" parameterType="ArticleDto">
+	UPDATE tb_article
+		SET
+		 article_name		=#{articleName}
+		,article_tax_cate	=#{articleTaxCate}
+		,article_big		=${articleBig}
+		,article_big_dan	=#{articleBigDan}
+		,article_middle		=${articleMiddle}
+		,article_middle_dan	=#{articleMiddleDan}
+		,article_volume		=${articleVolume}
+		,article_dan		=#{articleDan}
+		,article_etc		=#{articleEtc}
+		,article_reg_date	=NOW()
+	WHERE article_code		=#{articleCode}
+	</update>
 	<select id="getArticleByArticleCode" parameterType="String" resultMap="articleResultMap">
 		SELECT
 			 atc.article_code
