@@ -194,14 +194,7 @@ public class TaxController {
 	public int getmyvat(@RequestParam(value = "MID",required = false)String MID, 
 						Model model){
 		System.out.println(MID);
-		return 0;
-		
-	}
-	
-	
-	@GetMapping("/gettotalsalary")
-	public String getTotalSalary() {
-		return "tax/gettotalsalary";
+		return 0;		
 	}
 	
 	@GetMapping("/getvat")
