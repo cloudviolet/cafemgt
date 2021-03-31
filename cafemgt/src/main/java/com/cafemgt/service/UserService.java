@@ -21,8 +21,18 @@ public class UserService {
 	}
 	
 	public int addUser(UserDto userDto) {
-		System.out.println("서비스 확인");
+		System.out.println("직원 등록서비스 확인");
 		return userMapper.addUser(userDto);
+	}
+
+	// 직원관리-> 직원조회-> 수정페이지 업데이트 user
+	public int updateUser(UserDto userDto) {
+		return userMapper.updateUser(userDto);		
+	}
+	
+	public UserDto getinfoUser(String memberId) {
+		return userMapper.getinfoUser(memberId);
+		
 	}
 	
 	public List<UserDto> getUseradmin(){

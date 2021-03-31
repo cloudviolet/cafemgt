@@ -15,12 +15,14 @@ public interface MemberMapper {
 	
 	public List<MemberDto> getMemberadmin();
 	
+	public int updateMember(MemberDto memberDto);
+	
 	public MemberDto getinfoMember(String memberId);
 	
 	public List<MemberDto> getMember(String MID);
 	
-	
 	public List<MemberDto> getMemberU(String MID);
 	
-
+	public int addMember(MemberDto memberDto);
+	
 }
