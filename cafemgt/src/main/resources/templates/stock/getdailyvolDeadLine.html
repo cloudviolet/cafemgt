@@ -175,6 +175,12 @@
 												</div>
 											</div>
 											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">품목재고관리 코드 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="detailvolCode" 		id="detailvolCode"		readonly="readonly"  class="form-control valueReset">
+												</div>
+											</div>
+											<div class="form-group row horizontal">
 												<label class="col-form-label label-align input-label">입고 용량 * <span class="required"></span>	</label>
 												<div class="col-md- 7 col-sm-7">
 													<input type="text" name="incoVolumeSubtotal" id="incoVolumeSubtotal" readonly="readonly" class="form-control valueReset">
@@ -289,6 +295,7 @@
 						$('#detailvolVolumeTotal').val(dvl[dataIndex].dailyvolSubtotal);
 						$('#dailyVolCode').val(dvl[dataIndex].dailyvolCode);
 						$('#incoCode').val(data[0].incoCode);
+						$('#detailvolCode').val(data[0].detailvolCode);
 						$('#articleCode').val(data[0].articleCode);
 						$('#incoCheck').val(data[0].incoCheck);
 						$('#incoCount').val(data[0].incoCount);
