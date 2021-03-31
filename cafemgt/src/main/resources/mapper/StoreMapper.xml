@@ -35,6 +35,8 @@
 	
 	</insert>
 	
+	
+	<!-- store 사업장 조회(관리자) -->
 	<select id="getStoreadmin" parameterType="String" resultMap="StoreResultMap">
 		SELECT 
 			 store_info_code
@@ -49,6 +51,7 @@
 			tb_store_info
 	</select>
 	
+	<!-- store 사업장 조회(사업자) -->
 	<select id="getStore" parameterType="String" resultMap="StoreResultMap">
       SELECT 
          store_info_code
@@ -64,7 +67,8 @@
       WHERE 
          member_id =#{MID}
    </select>
-	
+		
+	<!-- 마이페이지 사업장 정보 부분 -->
 	<select id="getStoreMy" parameterType="String" resultMap="StoreResultMap">
       SELECT 
          store_info_code

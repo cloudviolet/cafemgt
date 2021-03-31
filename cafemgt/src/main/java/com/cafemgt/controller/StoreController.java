@@ -94,7 +94,12 @@ public class StoreController {
 		
 		return "member/join";	
 	}
-	
+	//직원관리에서 직원 회원관리
+	@GetMapping("/adduserjoin")
+	public String adduserjoin() {
+		
+		return "store/adduserjoin";	
+	}
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
 	public @ResponseBody boolean idCheck(@RequestParam(value = "memberId", required = false) String memberId) {
 		System.out.println(memberId+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -114,7 +119,7 @@ public class StoreController {
 	@PostMapping("/join")
 	public String addMember(MemberDto memberDto) {
 		memberService.addMember(memberDto);
-		return "redirect:/index";	
+		return "redirect:/login";	
 	}
 	
 	
