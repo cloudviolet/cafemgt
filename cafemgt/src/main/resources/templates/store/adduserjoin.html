@@ -46,17 +46,18 @@
 					<section class="login_content">
 						<div class="x_content">
 							<form data-parsley-validate class="form-horizontal form-label-left" th:action="@{/adduserjoin}" id="demo-form2" method="post" novalidate>
+							<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 								<h1>직원 회원가입</h1>
 								<div class="form-group row horizontal">
 									<label for="levelNmae">구분 * <span class="required"></span></label>
 									<div class="radio col-md-3 col-sm-3">
 										<label>
-											<input type="radio" checked value="level_02" name="levelCode"> 상용직
+											<input type="radio" checked value="level_02" name="levelCode" id="levelCode"> 상용직
 										</label>
 									</div>
 									<div class="radio col-md-3 col-sm-3">
 										<label class="radio-inline">
-											<input type="radio" value="level_03" name="levelCode"> 일용직
+											<input type="radio" value="level_03" name="levelCode" id="levelCode"> 일용직
 										</label>
 									</div>		
 								</div>

@@ -13,6 +13,8 @@ public interface MemberMapper {
 	
 	public List<MemberDto> addMemberUser(String SSTORECODE);
 	
+	public int addUserjoin(MemberDto memberDto);
+	
 	public List<MemberDto> getMemberadmin();
 	
 	public int updateMember(MemberDto memberDto);

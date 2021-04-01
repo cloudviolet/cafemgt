@@ -34,7 +34,7 @@
 				<result property="memberRegDate" 	column="member_reg_date" />
 		</association>
 	</resultMap>
-	
+	<!-- 직원 추가등록/수정 화면 -->
 	<select id="getinfoUser" parameterType="String" resultMap="userResulMap">
 		SELECT 
 		member_id
@@ -55,14 +55,13 @@
 	
 	</select>
 	
-	<!-- User 직원 등록 -->
+	<!-- User 직원 추가 정보까지 등록 -->
 	<insert id="addUser" parameterType="UserDto">
 	INSERT INTO tb_user
 		(member_id
 		, store_info_code
 		, level_code
 		, user_join_date
-		, user_out_date
 		, user_pay
 		, user_work_time
 		, user_bank_name
@@ -70,7 +69,29 @@
 		, user_agreement
 		, user_health_card
 		, user_etc)
-	VALUES (#{memberId}, #{storeInfoCode}, #{levelCode}, #{userJoinDate}, #{userOutDate}, ${userPay}, ${userWorkTime}, #{userBankName}, #{userBankAcount}, #{userAgreement}, #{userHealthCard}, #{userEtc})
+	VALUES (
+	#{memberId}
+		, #{storeInfoCode}
+		, #{levelCode}
+		, #{userJoinDate}
+		, ${userPay}
+		, ${userWorkTime}
+		, #{userBankName}
+		, #{userBankAcount}
+		, #{userAgreement}
+		, #{userHealthCard}
+		, #{userEtc}
+		)
+	ON DUPLICATE KEY UPDATE 
+		 	 member_id = #{memberId}
+			,user_join_date = #{userJoinDate}
+			,user_pay = ${userPay}
+			,user_work_time = ${userWorkTime}
+			,user_bank_name = #{userBankName}
+			,user_bank_acount = #{userBankAcount}
+			,user_agreement = #{userAgreement}
+			,user_health_card = #{userHealthCard}
+			,user_etc = #{userEtc}
 	</insert>
 	<!-- User 추가정보 수정에서 업데이트  -->
 	<update id="updateUser" parameterType="UserDto">
@@ -149,6 +170,13 @@
 		ON u.store_info_code = s.store_info_code or s.member_id = m.member_id
 	WHERE s.store_info_code =#{SSTORECODE} AND m.level_code IN ('level_02','level_03')
 	</select>
-	
+	<!-- 직원 가입시 사업장 코드 입력 -->
+	<insert id="addUserjoin1" parameterType="UserDto">
+	INSERT INTO tb_user
+		(member_id
+		, level_code
+		, store_info_code)
+	VALUES (#{memberId}, #{levelCode}, #{storeInfoCode})
+	</insert>
 	
 </mapper>
