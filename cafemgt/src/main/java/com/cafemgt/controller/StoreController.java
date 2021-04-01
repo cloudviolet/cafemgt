@@ -73,10 +73,12 @@ public class StoreController {
 				  System.out.println(memberDto.getMemberId());
 				  System.out.println(memberDto.getMemberName());
 				  System.out.println(memberDto.getStoreInfoCode());
+				  System.out.println(memberDto.getStoreInfoName());
 				  
 				  session.setAttribute("MID", memberDto.getMemberId());
 				  session.setAttribute("MNAME", memberDto.getMemberName());				 		 
 				  session.setAttribute("SSTORECODE", memberDto.getStoreInfoCode());				 
+				  session.setAttribute("SSTORENAME", memberDto.getStoreInfoName());				 
 				  session.setAttribute("SLEVEL", memberDto.getLevelCode());				 
 			}		
 			return "redirect:/";			
@@ -93,6 +95,22 @@ public class StoreController {
 	public String join() {
 		
 		return "member/join";	
+	}
+	//직원관리에서 직원 회원가입
+	@GetMapping("/adduserjoin")
+	public String adduserjoin() {
+
+		
+		return "store/adduserjoin";	
+	}
+	
+	@PostMapping("/adduserjoin")
+	public String adduserjoin(MemberDto memberDto, UserDto userDto) {
+		memberService.addUserjoin(memberDto);
+		System.out.println(memberDto);
+		System.out.println(userDto);
+		userService.addUserjoin1(userDto);
+		return "redirect:/adduserjoin";	
 	}
 	
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
@@ -114,7 +132,7 @@ public class StoreController {
 	@PostMapping("/join")
 	public String addMember(MemberDto memberDto) {
 		memberService.addMember(memberDto);
-		return "redirect:/index";	
+		return "redirect:/login";	
 	}
 	
 	

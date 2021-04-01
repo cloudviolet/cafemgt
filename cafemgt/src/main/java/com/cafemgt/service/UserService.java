@@ -24,6 +24,12 @@ public class UserService {
 		System.out.println("직원 등록서비스 확인");
 		return userMapper.addUser(userDto);
 	}
+	
+	public int addUserjoin1(UserDto userDto) {
+		System.out.println("직원 가입 확인");
+		return userMapper.addUserjoin1(userDto);
+	}
+	
 
 	// 직원관리-> 직원조회-> 수정페이지 업데이트 user
 	public int updateUser(UserDto userDto) {
