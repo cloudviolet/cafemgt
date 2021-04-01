@@ -62,7 +62,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="dvl : ${dailyVolList}">
+											<tr th:if="${#lists.size(dailyVolList)>0}" th:each="dvl : ${dailyVolList}">
 												<td th:text="${dvl.dailyvolCode}"></td>
 												<td th:text="${dvl.storeInfoCode}"></td>
 												<td th:text="${dvl.storeInfoName}"></td>

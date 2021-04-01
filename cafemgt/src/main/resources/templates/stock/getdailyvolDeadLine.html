@@ -44,7 +44,10 @@
 			.deadLineSelectBox-td{
 				width : 35%;
 			}
-			
+			.float-right{
+				float: right;
+				color: gray;
+			}
 		</style>
 	</th:block>
 	
@@ -86,26 +89,27 @@
 													<th>품목명</th>
 													<th>판매 수량</th>
 													<th>소모용량 소계</th>
-													<th>단위</th>
 													<th>마감</th>
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:each="dvl : ${dailyVolDeadLineList}">
+												<tr th:if="${#lists.size(dailyVolDeadLineList)>0}" th:each="dvl : ${dailyVolDeadLineList}">
 													<!--
 												 	<td th:text="${dvl.storeInfoCode}"></td>
 													<td th:text="${dvl.storeInfoName}"></td>
 													 -->
 													<td th:text="${dvl.articleName}"></td>
 													<td th:text="${dvl.salesCount}"></td>
-													<td th:text="${dvl.dailyvolSubtotal}"></td>
-													<td th:text="${dvl.conDan}"></td>
+													<td>
+														<span>[[${dvl.dailyvolSubtotal}]]</span>
+														<span class="float-right">[[${dvl.conDan}]]</span>
+													</td>
 													<td class="deadLineSelectBox-td"> 
 														<select class="form-control deadLineSelectBox" data-index="0">
 															<option th:value="0" th:text="선택해주세요."></option>
 															<th:block th:each="tsl : ${totalStockList}">
 																<option th:if="${tsl.articleCode == dvl.articleCode}" 
-																		th:text="${tsl.articleName}+' &nbsp&nbsp'+${tsl.incoDate}"
+																		th:text="${tsl.articleDto.articleName}+' &nbsp&nbsp'+${tsl.incoDate}"
 																		th:value="${tsl.incoCode}">
 																</option>
 															</th:block>
@@ -309,7 +313,7 @@
 						$('#volumeTotal').val((data[0].detailvolRemainVolume-dvl[dataIndex].dailyvolSubtotal));
 						$('#salesCount').val(dvl[dataIndex].salesCount);
 						$('#detailvolRemainCount').val(data[0].detailvolRemainCount);
-						$('.articleDan').text(data[0].articleDan)
+						$('.articleDan').text(data[0].articleDto.articleDan)
 						
 					});
 					request.fail(function( data ) {

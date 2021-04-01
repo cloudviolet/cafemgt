@@ -7,11 +7,11 @@ public class ArticleDto {
 	private String storeInfoName;
 	private String articleName;
 	private String articleTaxCate;
-	private String articleBig;
+	private int articleBig;
 	private String articleBigDan;
-	private String articleMiddle;
+	private int articleMiddle;
 	private String articleMiddleDan;
-	private String articleVolume;
+	private int	 articleVolume;
 	private String articleDan;
 	private String articleEtc;
 	private String articleRegDate;
@@ -45,10 +45,10 @@ public class ArticleDto {
 	public void setArticleTaxCate(String articleTaxCate) {
 		this.articleTaxCate = articleTaxCate;
 	}
-	public String getArticleBig() {
+	public int getArticleBig() {
 		return articleBig;
 	}
-	public void setArticleBig(String articleBig) {
+	public void setArticleBig(int articleBig) {
 		this.articleBig = articleBig;
 	}
 	public String getArticleBigDan() {
@@ -57,10 +57,10 @@ public class ArticleDto {
 	public void setArticleBigDan(String articleBigDan) {
 		this.articleBigDan = articleBigDan;
 	}
-	public String getArticleMiddle() {
+	public int getArticleMiddle() {
 		return articleMiddle;
 	}
-	public void setArticleMiddle(String articleMiddle) {
+	public void setArticleMiddle(int articleMiddle) {
 		this.articleMiddle = articleMiddle;
 	}
 	public String getArticleMiddleDan() {
@@ -69,10 +69,10 @@ public class ArticleDto {
 	public void setArticleMiddleDan(String articleMiddleDan) {
 		this.articleMiddleDan = articleMiddleDan;
 	}
-	public String getArticleVolume() {
+	public int getArticleVolume() {
 		return articleVolume;
 	}
-	public void setArticleVolume(String articleVolume) {
+	public void setArticleVolume(int articleVolume) {
 		this.articleVolume = articleVolume;
 	}
 	public String getArticleDan() {

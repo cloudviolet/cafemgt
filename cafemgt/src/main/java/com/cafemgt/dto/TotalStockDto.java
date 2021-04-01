@@ -8,10 +8,7 @@ public class TotalStockDto {
 	private String 	storeInfoName;
 	private String 	incoCode;
 	private String 	articleCode;
-	private String 	articleName;
 	private int 	incoCount;
-	private int 	articleVolume;
-	private String 	articleDan;
 	private int 	incoVolumeSubtotal;
 	private String 	detailvolGroupCode;
 	private int 	detailvolVolumeTotal;
@@ -27,13 +24,8 @@ public class TotalStockDto {
 	private String 	detailvolSystemId;
 	private String 	detailvolSystemName;
 	private PurchasesDto incoDto;	
+	private ArticleDto articleDto;
 	
-	public PurchasesDto getIncoDto() {
-		return incoDto;
-	}
-	public void setIncoDto(PurchasesDto incoDto) {
-		this.incoDto = incoDto;
-	}
 	public String getDetailvolCode() {
 		return detailvolCode;
 	}
@@ -64,29 +56,11 @@ public class TotalStockDto {
 	public void setArticleCode(String articleCode) {
 		this.articleCode = articleCode;
 	}
-	public String getArticleName() {
-		return articleName;
-	}
-	public void setArticleName(String articleName) {
-		this.articleName = articleName;
-	}
 	public int getIncoCount() {
 		return incoCount;
 	}
 	public void setIncoCount(int incoCount) {
 		this.incoCount = incoCount;
-	}
-	public int getArticleVolume() {
-		return articleVolume;
-	}
-	public void setArticleVolume(int articleVolume) {
-		this.articleVolume = articleVolume;
-	}
-	public String getArticleDan() {
-		return articleDan;
-	}
-	public void setArticleDan(String articleDan) {
-		this.articleDan = articleDan;
 	}
 	public int getIncoVolumeSubtotal() {
 		return incoVolumeSubtotal;
@@ -172,6 +146,19 @@ public class TotalStockDto {
 	public void setDetailvolSystemName(String detailvolSystemName) {
 		this.detailvolSystemName = detailvolSystemName;
 	}
+	public PurchasesDto getIncoDto() {
+		return incoDto;
+	}
+	public void setIncoDto(PurchasesDto incoDto) {
+		this.incoDto = incoDto;
+	}
+	public ArticleDto getArticleDto() {
+		return articleDto;
+	}
+	public void setArticleDto(ArticleDto articleDto) {
+		this.articleDto = articleDto;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -185,14 +172,8 @@ public class TotalStockDto {
 		builder.append(incoCode);
 		builder.append(", articleCode=");
 		builder.append(articleCode);
-		builder.append(", articleName=");
-		builder.append(articleName);
 		builder.append(", incoCount=");
 		builder.append(incoCount);
-		builder.append(", articleVolume=");
-		builder.append(articleVolume);
-		builder.append(", articleDan=");
-		builder.append(articleDan);
 		builder.append(", incoVolumeSubtotal=");
 		builder.append(incoVolumeSubtotal);
 		builder.append(", detailvolGroupCode=");
@@ -221,9 +202,13 @@ public class TotalStockDto {
 		builder.append(detailvolSystemId);
 		builder.append(", detailvolSystemName=");
 		builder.append(detailvolSystemName);
+		builder.append(", incoDto=");
+		builder.append(incoDto);
+		builder.append(", articleDto=");
+		builder.append(articleDto);
 		builder.append("]");
 		return builder.toString();
-	}
+	}	
 	
 	
 	

@@ -38,10 +38,10 @@
 									<div class="col-md-6 col-sm-6 ">
 										<!-- session Id  -->
 										<input type="hidden" th:value="${session.SSTORECODE}">
-										<select class="form-control" required="required">
+										<select class="form-control" required="required" name="articleCode" id="articleCode">
 											<option value="">choice plz</option>
-											<th:block th:each="al : ${articleList}" name="articleName">
-												<option th:value="${al.articleCode}" th:text="${al.articleName}"></option>
+											<th:block th:each="al : ${articleList}">
+												<option th:value="${al.articleCode}" data-index="0" th:text="${al.articleName}"></option>
 											</th:block>
 										</select>
 									</div>
@@ -52,6 +52,7 @@
 									<div class="col-md-6 col-sm-6 ">
 										<input type="text" id="skProbeVolume" name="skProbeVolume" required="required" class="form-control ">
 									</div>
+									<div><label id="articleDan" style="font-size: medium; color: black;" class="control-label label-align"></label></div>
 								</div>
 								<div class="item form-group">
 									<label class="col-form-label col-md-3 col-sm-3 label-align">조사 날짜 <span class="required">*</span>
@@ -112,6 +113,27 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script  th:inline="javascript">
+		var option = $('#articleCode').children('option');
+		
+		for(var i = 0 ; i < option.length; i++){
+			option.eq(i).attr('data-index',i);
+		}
+		
+		var articleList = /*[[${articleList}]]*/
+		console.log(articleList);
+		
+		$('#articleCode').change(function(){
+			for(var j = 0 ; j < option.length; j++){
+				if(option.eq(j).is(':selected')){
+					$('#articleDan').text(articleList[option.eq(j).attr('data-index')].articleDan);
+				}
+			}
+		});
+		
+		
+	</script>
 	</th:block>
 		
 </html>

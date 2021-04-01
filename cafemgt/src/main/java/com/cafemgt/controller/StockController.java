@@ -25,6 +25,8 @@ import com.cafemgt.service.DailyVolService;
 import com.cafemgt.service.SkkService;
 import com.cafemgt.service.StockService;
 import com.cafemgt.service.TotalStockService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @Controller
 public class StockController {
@@ -120,7 +122,36 @@ public class StockController {
 			
 		return rtString;
 	}
-	
+	@ResponseBody
+	@PostMapping("/addTotalStock")
+	public String addTotalStock( @RequestParam(value = "arrayPurchases", required = false) String arrayPurchases) {
+		
+		
+		System.out.println(arrayPurchases);
+		try {
+			
+			List<Map<String,Object>> info = new Gson().fromJson(arrayPurchases, 
+											new TypeToken<List<Map<String, Object>>>(){}.getType());
+			
+			for(int i = 0 ; i < info.size(); i++) {
+				Map<String, Object> purchasesMap = new HashMap<>();
+				purchasesMap.put("storeInfoCode",info.get(i).get("storeInfoCode")); 
+				purchasesMap.put("incoCode",info.get(i).get("incoCode")); 
+				purchasesMap.put("articleCode",info.get(i).get("articleCode")); 
+				purchasesMap.put("incoVolumeSubtotal",info.get(i).get("incoVolumeSubtotal")); 
+				purchasesMap.put("incoCount",info.get(i).get("incoCount")); 
+				System.out.println(purchasesMap);
+				totalStockService.addTotalStock(purchasesMap);
+				totalStockService.modifyIncoDeadLine((String)info.get(i).get("incoCode"));
+			}
+		
+		}catch (Exception e) {
+		}
+		
+		String rtString = "";
+			
+		return rtString;
+	}
 	@GetMapping("/getdailyvolume")
 	public String getDailyVol(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -143,22 +174,36 @@ public class StockController {
 	public String getDailyVolDeadLine(
 									  @RequestParam (value="volumeTotal", required = false) int volumeTotal
 									 ,DailyVolDto dailyVolDto
-									 ,TotalStockDto totalStockDto) {
+									 ,TotalStockDto totalStockDto
+									 ,ArticleDto articleDto) {
+		totalStockDto.setArticleDto(articleDto);
+		System.out.println(totalStockDto);
+		System.out.println(dailyVolDto);
 		
 		Map<String , String> incoMap = new HashMap<>();
 		//이전용량
 		int preVolume =(totalStockDto.getIncoVolumeSubtotal() - totalStockDto.getDetailvolRemainVolume());
+		
 		//소모용량
 		int dtvVolumeTotal = totalStockDto.getDetailvolVolumeTotal();
-		//(이전용량+소모용량) / 품목용량 = 몇개품목사용갯수 계산
-		int conCount = (preVolume+dtvVolumeTotal)/totalStockDto.getArticleVolume();
-			System.out.println((double)dtvVolumeTotal/totalStockDto.getArticleVolume());
-			System.out.println(totalStockDto);
-			System.out.println(conCount);
+		
+		int conCount = 0;
+		
+		// 입고수량 == 입고용량 일때, 소모수량 = 소모용량
+		if(totalStockDto.getIncoCount() == totalStockDto.getIncoVolumeSubtotal()) {
+			conCount = totalStockDto.getDetailvolVolumeTotal();
+		}else {
+			//(이전용량+소모용량) / 품목용량 = 몇개품목사용갯수 계산
+			conCount = (preVolume+dtvVolumeTotal)/totalStockDto.getArticleDto().getArticleVolume();
+				System.out.println((double)dtvVolumeTotal/totalStockDto.getArticleDto().getArticleVolume());
+				System.out.println(totalStockDto);
+				System.out.println(conCount);	
+		}
 		if(conCount > totalStockDto.getDetailvolRemainCount()) {
 			//소모수량이 잔여수량보다 클 경우 div를 잔여용량으로
 			conCount = totalStockDto.getDetailvolRemainCount();
 		}
+		
 		incoMap.put("incoCode", totalStockDto.getIncoCode());
 		if(volumeTotal >= 0) {
 			/* 소모량이 잔여량보다 작음 

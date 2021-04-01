@@ -8,9 +8,6 @@
 		<result property="storeInfoCode"	 		column="store_info_code" />
 		<result property="storeInfoName"	 		column="store_info_name" />
 		<result property="articleCode"	 			column="article_code" />
-		<result property="articleName"	 			column="article_name" />
-		<result property="articleVolume"	 		column="article_volume" />	
-		<result property="articleDan"	 			column="article_dan" />	
 		<result property="incoCount"	 			column="inco_count" />	
 		<result property="incoVolumeSubtotal"	 	column="inco_volume_subtotal" />	
 		<result property="stockIncoUnitTotal"	 	column="stock_inco_unit_total" />
@@ -20,7 +17,13 @@
 		<result property="stockNowCount"	 		column="stock_now_count" />
 		<result property="stockNowVolume"	 		column="stock_now_volume" />
 		<result property="stockRegDate"	 			column="stock_reg_date" />
-		
+		<association property="articleDto" javaType="articleDto">
+			<id property="articleCode" 				column="article_code" />
+			<result property="articleName" 			column="article_name" />
+			<result property="articleBigDan" 		column="article_big_dan" />
+			<result property="articleVolume" 		column="article_volume" />
+			<result property="articleDan" 			column="article_dan" />
+		</association>
 	</resultMap>
 	
 	<insert id="addStock" parameterType="StockDto">
@@ -70,6 +73,9 @@
 			,s.store_info_code
 			,a.article_code
 			,a.article_name
+			,a.article_volume
+			,a.article_big_dan
+			,a.article_dan
 			,inco_count
 			,inco_volume_subtotal
 			,stock_inco_unit_total
@@ -93,16 +99,18 @@
 			,inc.article_code
 			,a.article_name
 			,a.article_dan
+			,a.article_big_dan
 			,sum(inco_count) AS 'inco_count'
-			,sum(inco_total) AS 'stock_inco_unit_total'
+			,sum(inco_total)AS 'stock_inco_unit_total'
 			,sum(inco_volume_subtotal) AS 'inco_volume_subtotal'
 			,TRUNCATE(sum(inco_total)/sum(inco_volume_subtotal),0) AS 'stock_min_unit'
-			,SUM(dtv.detailvol_con_count) AS 'stock_con_count'
-			,SUM(dtv.detailvol_volume_total) AS 'stock_volume_total'
-			,SUM(dtv.detailvol_remain_count) AS 'stock_now_count'
+			,b2.stock_con_count AS 'stock_con_count'
+			,b2.stock_volume_total AS 'stock_volume_total'
+			,sum(dtv.detailvol_remain_count) AS 'stock_now_count'
 			,sum(dtv.detailvol_remain_volume) AS 'stock_now_volume'
 			,max(inco_date) AS 'stock_reg_date'
 			,inco_reg_date
+			,COUNT(inc.article_code)
 		FROM
 		tb_incoming as inc
 		LEFT JOIN 
@@ -111,6 +119,22 @@
 		LEFT JOIN 
 		tb_article AS a
 		ON inc.article_code = a.article_code
+		INNER JOIN(
+			 SELECT
+				  SUM(dtv2.detailvol_con_count) AS 'stock_con_count'
+				 ,SUM(dtv2.detailvol_volume_total) AS 'stock_volume_total'
+				 ,dtv2.article_code
+			 FROM 
+				 tb_detail_volume AS dtv2
+				 LEFT JOIN
+				 tb_incoming AS i
+				 on
+				 dtv2.inco_code = i.inco_code
+			 WHERE i.inco_check != 3
+			 GROUP BY dtv2.article_code
+			 ) AS b2
+		on
+		a.article_code = b2.article_code
 		WHERE inco_check != 3  
 			AND dtv.detailvol_deadline_check='x' 
 			AND inc.store_info_code = #{SSTORECODE}
@@ -121,5 +145,6 @@
 				</foreach>
 			</if>
 		GROUP BY inc.article_code
+		ORDER BY dtv.detailvol_code
 	</select>
 </mapper>

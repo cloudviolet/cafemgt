@@ -37,14 +37,26 @@ public class TotalStockService {
 		return totalStockMapper.getTotalStockByIncoCode(SSTORECODE,incoCode);
 	}
 	
+	public int addTotalStock(Map<String, Object> purchasesMap) {
+		
+		return totalStockMapper.addTotalStock(purchasesMap);
+	}
+	
 	public int addTotalStockOverVolume(TotalStockDto totalStockDto) {
 		totalStockMapper.addTotalStockOverVolume(totalStockDto);
 		totalStockMapper.modifyTotalStockDeadLine(totalStockDto);
 		
 		return 0;
 	}
-	public int modifyIncoCheck(Map incoMap) {
+	
+	public int modifyIncoCheck(Map<String, String> incoMap) {
 			totalStockMapper.modifyIncoCheck(incoMap);
 		return 0;
 	}
+	
+	public int modifyIncoDeadLine(String incoCode) {
+		totalStockMapper.modifyIncoDeadLine(incoCode);
+		return 0;
+	}
+	
 }
