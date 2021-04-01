@@ -9,11 +9,13 @@
 		<result property="storeInfoName"	 			column="store_info_name" />
 		<result property="storeInfoLicenseNumber"	 	column="store_info_license_number" />
 		<result property="storeInfoIndustryType"	 	column="store_info_industry_type" />
+		<result property="storeInfoZipCode"	 			column="store_info_zip_code" />
 		<result property="storeInfoAddr"	 			column="store_info_addr" />
+		<result property="storeInfoAddr2"	 			column="store_info_addr2" />
 		<result property="storeInfoPhone"	 			column="store_info_phone" />
 		<result property="storeInfoRegDate"	 			column="store_info_reg_date" />		
 	</resultMap>
-	<!-- store 사업장 등록 -->
+	<!-- store 사업장 등록 + 0401 주소 분리 -->
 	<insert id="addStore" parameterType="StoreDto">
 	INSERT INTO tb_store_info
 		(store_info_code
@@ -21,7 +23,9 @@
 		, store_info_name
 		, store_info_license_number
 		, store_info_industry_type
+		, store_info_zip_code
 		, store_info_addr
+		, store_info_addr2
 		, store_info_phone
 		, store_info_reg_date)
 	VALUES (sf_new_store_info_code()
@@ -29,12 +33,15 @@
 			, #{storeInfoName}
 			, #{storeInfoLicenseNumber}
 			, #{storeInfoIndustryType}
+			, #{storeInfoZipCode}
 			, #{storeInfoAddr}
+			, #{storeInfoAddr2}
 			, #{storeInfoPhone}
 			, NOW())
 	
 	</insert>
 	
+	<!-- store 사업장 조회(관리자) -->
 	<select id="getStoreadmin" parameterType="String" resultMap="StoreResultMap">
 		SELECT 
 			 store_info_code
@@ -49,6 +56,7 @@
 			tb_store_info
 	</select>
 	
+	<!-- store 사업장 조회(사업자) -->
 	<select id="getStore" parameterType="String" resultMap="StoreResultMap">
       SELECT 
          store_info_code
@@ -64,7 +72,8 @@
       WHERE 
          member_id =#{MID}
    </select>
-	
+		
+	<!-- 마이페이지 사업장(추가) 정보 부분 -->
 	<select id="getStoreMy" parameterType="String" resultMap="StoreResultMap">
       SELECT 
          store_info_code

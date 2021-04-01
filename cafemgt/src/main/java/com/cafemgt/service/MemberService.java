@@ -45,6 +45,11 @@ public class MemberService {
 		return memberDtolist;	
 	}
 	
+	public int addUserjoin(MemberDto memberDto){
+		
+		return memberMapper.addUserjoin(memberDto);	
+	}
+	
 	public List<MemberDto> getMemberadmin(){
 		List<MemberDto> memberDtolist = memberMapper.getMemberadmin();
 		
