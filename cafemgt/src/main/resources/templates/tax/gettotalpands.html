@@ -14,7 +14,7 @@
                 <div class="x_title">
                   <h2>Device Usage</h2>
                  	<ul class="nav navbar-right panel_toolbox">
-						<li><button type="submit" class="btn btn-ifno btn-sm" id="myVat" th:data-MID="${session.MID}" data-toggle="modal" data-target="#myVatModal">예상 부가가치세 조회</button></li>					
+						<li><button type="submit" class="btn btn-ifno btn-sm" data-toggle="modal" data-target="#myVatModal">예상 부가가치세 조회</button></li>					
 					</ul>
                   <div class="clearfix"></div>
                 </div>
@@ -32,7 +32,7 @@
 					      		<option value="1기">1기</option>
 					      		<option value="2기">2기</option>
 					      	</select>
-					      	<button type="button" id="forVatBtn" class="btn btn-info">검색</button>
+					      	<button type="button" id="forVatBtn" th:data-SSTORECODE="${session.SSTORECODE}" class="btn btn-info">검색</button>
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -184,27 +184,7 @@
         }
 		});
     });
-    
-    $('#myVat').click(function(){
-    	var MID = $(this).attr('data-MID');
-    	console.log(MID);
-    	var myVat = $.ajax({
-    		url: "getmyvat", 
-			method: "GET",
-			data: { MID : MID },
-			dataType: "json"
-		,
-        success : function(result) {        	
-        },
-        error : function(xhr,status,error) {
-        	console.log("xhr: " + xhr);
-        	console.log("status: " + status);
-        	console.log("error: " + error);
-        	 $('#chartTable').hide();
-        }
-    	})
-    })
- 
+  
     $(document).ready(function(){
     	//가입년도 가져오기.
 	    var getYear = Number('[[${getYear}]]');
@@ -223,6 +203,7 @@
     	}
     });
     $('#forVatBtn').click(function(){
+    	var SSTORECODE = $(this).attr('data-SSTORECODE');
 		var yearValue = $('#year').val();
 		var monthValue = $('#month').val();
 		var searchDays = yearValue+"년"+monthValue;
@@ -230,7 +211,8 @@
 		var request = $.ajax({
 			url: "getmyvat", 
 			method: "POST",
-			data: { searchDays : searchDays },
+			data: { searchDays : searchDays,
+					SSTORECODE : SSTORECODE},
 			dataType: "json"
 		,
         success : function(vatResult) {
