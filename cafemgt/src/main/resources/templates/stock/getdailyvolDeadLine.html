@@ -57,6 +57,12 @@
 			                <h2>품목별 재고 총 수량 조회</h2>
 			                <!-- 상단 옵션네비바 시작 -->
 							<ul class="nav navbar-right panel_toolbox">
+								<li>
+									<a th:href="@{getstock}" type="button" class="btn btn-primary btn-sm" id="">품목별 소모량 보기</a>
+								</li>
+								<li>
+									<a th:href="@{gettotalstock}" type="button" class="btn btn-primary btn-sm" id="">매입별 소모량 보기</a>
+								</li>
 							</ul>
 							<!-- 상단 옵션네비바 끝 -->
 							<div class="clearfix"></div>
@@ -175,6 +181,12 @@
 												</div>
 											</div>
 											<div class="form-group row horizontal">
+												<label class="col-form-label label-align input-label">품목재고관리 코드 * <span class="required"></span>	</label>
+												<div class="col-md- 7 col-sm-7">
+													<input type="text" name="detailvolCode" 		id="detailvolCode"		readonly="readonly"  class="form-control valueReset">
+												</div>
+											</div>
+											<div class="form-group row horizontal">
 												<label class="col-form-label label-align input-label">입고 용량 * <span class="required"></span>	</label>
 												<div class="col-md- 7 col-sm-7">
 													<input type="text" name="incoVolumeSubtotal" id="incoVolumeSubtotal" readonly="readonly" class="form-control valueReset">
@@ -289,6 +301,7 @@
 						$('#detailvolVolumeTotal').val(dvl[dataIndex].dailyvolSubtotal);
 						$('#dailyVolCode').val(dvl[dataIndex].dailyvolCode);
 						$('#incoCode').val(data[0].incoCode);
+						$('#detailvolCode').val(data[0].detailvolCode);
 						$('#articleCode').val(data[0].articleCode);
 						$('#incoCheck').val(data[0].incoCheck);
 						$('#incoCount').val(data[0].incoCount);

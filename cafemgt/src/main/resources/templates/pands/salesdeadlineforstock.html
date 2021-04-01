@@ -139,23 +139,24 @@
 				});
 				
 				console.log(arraySales);
-				
-				$.ajax({
-			        type : 'POST',
-			        url : 'salesDeadline',
-			        dataType : "text",
-			        data : {"arraySales" : arraySales},
-			        success : function(data){
-			        	console.log(data)
-			            alert("요청되었습니다.")
-			            location.reload();
-			        },
-			        error : function(request,status,error){
-			        	console.log(request)
-			        	console.log(status)
-			        	console.log(error)
-			        }
-			    }); 
+				if(arraySales.length != 0){
+					$.ajax({
+				        type : 'POST',
+				        url : 'salesDeadline',
+				        dataType : "text",
+				        data : {"arraySales" : arraySales},
+				        success : function(data){
+				        	console.log(data)
+				            alert("요청되었습니다.")
+				            location.href = '/getdailyvolDeadLine';
+				        },
+				        error : function(request,status,error){
+				        	console.log(request)
+				        	console.log(status)
+				        	console.log(error)
+				        }
+				    }); 
+				}
 				
 			});
 			

@@ -96,7 +96,9 @@ public class StockController {
 		Map<String, Object> stockMap = new HashMap<>();
 		stockMap.put("SSTORECODE", SSTORECODE);
 		List<StockDto> stockList = stockService.getStock(stockMap);
+		List<StockDto> getStockTableList = stockService.getStockByTable(SSTORECODE);
 		model.addAttribute("stockList",stockList);
+		model.addAttribute("getStockTableList",getStockTableList);
 		return "stock/getstock";
 	}
 	@ResponseBody
