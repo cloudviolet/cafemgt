@@ -4,12 +4,127 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-		<title>사업장 수정</title>
-	</th:block>
+		<title>사업장 등록</title>
+</th:block>
 
+	<th:block layout:fragment="customCss">
+			<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 ">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>사업장 등록</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<br />
+							<!-- 메인콘텐츠 Start -->
+							<form th:action="@{/modifystore}" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+								<input type="hidden" name="memberId" th:value="${session.MID}">
+								
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="storeInfoName">상호명 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="storeInfoName" name="storeInfoName" required="required" class="form-control storeInfoName"/>												
+									</div>	
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="storeInfoLicenseNumber">사업자 번호 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">								
+										<input type="text" id="storeInfoLicenseNumber" data-inputmask="'mask': '999-99-99999'" 
+										name="storeInfoLicenseNumber" data-parsley-error-message="*필수 입력사항 " class="form-control" required='required' placeholder="000-00-00000"/>
+									</div>
+								</div>		
+								
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="storeInfoIndustryType">업종 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="storeInfoIndustryType" name="storeInfoIndustryType" required="required" class="form-control storeInfoIndustryType"/>												
+									</div>	
+								</div>
+
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="storeInfoAddr">사업장 주소지
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="storeInfoAddr" name="storeInfoAddr" class="form-control storeInfoAddr"/>												
+									</div>	
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="storeInfoPhone">사업장 전화번호
+									</label>
+									<div class="col-md-6 col-sm-6 ">								
+										<input type="text" id="storeInfoPhone" name="storeInfoPhone" class="form-control storeInfoPhone" />
+									</div>
+								</div>
+
+								<div class="ln_solid"></div>
+								<div class="form-group row">
+									<div class="col-md-4 col-sm-8 offset-md-4 text-center">
+										<button class="btn btn-primary" type="reset">다시 작성</button>
+										<button type="submit" class="btn btn-success">수정 하기</button>
+									</div>
+								</div>
+							</form>
+							<!-- 메인콘텐츠 End -->
+						</div>
+					</div>
+				</div>
+			</div>		
 		</div>
 	</th:block>
+	
+	
+	
+	<th:block layout:fragment="customJs">
+	<!-- bootstrap-daterangepicker -->
+	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+	<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+	<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+	<!-- jQuery Tags Input -->
+	<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+	<!-- Switchery -->
+	<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+	<!-- Select2 -->
+	<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+	<!-- Parsley -->
+	<script th:src="@{/vendors/parsleyjs/dist/parsley.js}"></script>
+	<!-- Autosize -->
+	<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+	<!-- jQuery autocomplete -->
+	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+	<!-- starrr -->
+	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<!-- input mask 스크립트 0325 추가 -->
+    <!-- jquery.inputmask -->
+    <script src="../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+    <!-- 연락처 스크립트 -->
+	<script type="text/javascript">
+		$(document).on("keyup", ".storeInfoPhone", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); });
+
+	</script>
+
+	
+	</th:block>	
+	
 
 </html>

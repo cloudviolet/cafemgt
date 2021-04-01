@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.PurchasesMapper">
+
+	<resultMap type="PurchasesDto" id="purchasesDtoResultMap">
+		<result property="incoCode" 				column="inco_code"/>
+		<result property="storeInfoCode" 			column="store_info_code"/>
+		<result property="articleCode" 				column="article_code"/>
+		<result property="articleName" 				column="article_name"/>
+		<result property="custCode" 				column="cust_code"/>
+		<result property="custName" 				column="cust_name"/>
+		<result property="incoVatType" 				column="inco_vat_type"/>
+		<result property="incoPayType" 				column="inco_pay_type"/>
+		<result property="incoTotal" 				column="inco_total"/>
+		<result property="incoCount" 				column="inco_count"/>
+		<result property="incoVolumeSubtotal" 		column="inco_volume_subtotal"/>
+		<result property="incoSupplyValue" 			column="inco_supply_value"/>
+		<result property="incoTax" 					column="inco_tax"/>
+		<result property="incoDealingGroupCode" 	column="inco_dealing_group_code"/>
+		<result property="incoStockGroupCode" 		column="inco_stock_group_code"/>
+		<result property="incoDate" 				column="inco_date"/>
+		<result property="incoRegDate" 				column="inco_reg_date"/>
+		<result property="incoDeadline" 			column="inco_deadline"/>
+		<result property="incoSystemId" 			column="inco_system_id"/>
+		<result property="incoSystemName" 			column="inco_system_name"/>
+		<result property="incoCheck" 				column="inco_check"/>
+	</resultMap>
+	
+	<delete id="removePurchases" parameterType="String">
+		DELETE FROM 
+			tb_incoming 
+		WHERE 
+			inco_code=#{incoCode};
+	</delete>
+	
+	<update id="modifyPurchases" parameterType="PurchasesDto">
+		UPDATE 
+			tb_incoming
+		SET
+			article_code=#{articleCode},
+			cust_code=#{custCode},
+			inco_vat_type=#{incoVatType},
+			inco_pay_type=#{incoPayType},
+			inco_total=#{incoTotal},
+			inco_count=#{incoCount},
+			inco_volume_subtotal=#{incoVolumeSubtotal},
+			inco_supply_value=#{incoSupplyValue},
+			inco_tax=#{incoTax},
+			inco_date=#{incoDate},
+			inco_reg_date=NOW()
+		WHERE 
+			inco_code=#{incoCode};
+	</update>
+	
+	<select id="getPurchasesByIncoCode" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			i.inco_code
+			, s.store_info_code
+			, s.store_info_name
+			, i.article_code
+			, i.cust_code
+			, i.inco_vat_type
+			, i.inco_pay_type
+			, i.inco_total
+			, i.inco_count
+			, i.inco_volume_subtotal
+			, i.inco_supply_value
+			, i.inco_tax
+			, i.inco_dealing_group_code
+			, i.inco_stock_group_code
+			, i.inco_date
+			, i.inco_reg_date
+			, i.inco_deadline
+			, i.inco_system_id
+			, i.inco_system_name
+			, i.inco_check
+		FROM 
+			tb_incoming AS i
+		LEFT JOIN 
+			tb_store_info AS s
+		ON
+			i.store_info_code = s.store_info_code
+		WHERE inco_code = #{incoCode};
+	</select>
+	
+	<insert id="addPurchases" parameterType="PurchasesDto">
+		INSERT INTO tb_incoming
+			(inco_code, 
+			store_info_code, 
+			article_code, 
+			cust_code, 
+			inco_vat_type, 
+			inco_pay_type, 
+			inco_total, 
+			inco_count, 
+			inco_volume_subtotal, 
+			inco_supply_value, 
+			inco_tax, 
+			inco_dealing_group_code, 
+			inco_stock_group_code, 
+			inco_date, 
+			inco_reg_date, 
+			inco_deadline, 
+			inco_system_id, 
+			inco_system_name, 
+			inco_check)
+			VALUES 
+			(sf_new_inco_code(), #{storeInfoCode}, #{articleCode}, #{custCode}, #{incoVatType}, #{incoPayType}, #{incoTotal} ,#{incoCount}, #{incoVolumeSubtotal}, #{incoSupplyValue}, #{incoTax}, '', '', #{incoDate}, NOW(), 'x', '', '', 1)
+	</insert>
+	
+	<select id="purchasesDeadline" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			i.inco_code, 
+			i.store_info_code, 
+			i.article_code, 
+			a.article_name,
+			i.cust_code, 
+			c.cust_name,
+			i.inco_vat_type, 
+			i.inco_pay_type, 
+			i.inco_total, 
+			i.inco_count, 
+			i.inco_volume_subtotal, 
+			i.inco_supply_value, 
+			i.inco_tax, 
+			i.inco_dealing_group_code, 
+			i.inco_stock_group_code, 
+			i.inco_date, 
+			i.inco_reg_date, 
+			i.inco_deadline, 
+			i.inco_system_id, 
+			i.inco_system_name, 
+			i.inco_check
+		FROM 
+			tb_incoming AS i
+			LEFT JOIN 
+			tb_customer AS c
+			ON 
+			i.cust_code = c.cust_code
+			LEFT JOIN
+			tb_article AS a
+			ON
+			i.article_code = a.article_code
+		WHERE
+			i.store_info_code = #{SSTORECODE}
+		AND
+			i.inco_deadline = 'x';
+	</select>
+	
+	<select id="getPurchasesByArticleCode" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			i.inco_code, 
+			i.store_info_code, 
+			i.article_code, 
+			a.article_name,
+			i.cust_code, 
+			c.cust_name,
+			i.inco_vat_type, 
+			i.inco_pay_type, 
+			i.inco_total, 
+			i.inco_count, 
+			i.inco_volume_subtotal, 
+			i.inco_supply_value, 
+			i.inco_tax, 
+			i.inco_dealing_group_code, 
+			i.inco_stock_group_code, 
+			i.inco_date, 
+			i.inco_reg_date, 
+			i.inco_deadline, 
+			i.inco_system_id, 
+			i.inco_system_name, 
+			i.inco_check
+		FROM 
+			tb_incoming AS i
+			LEFT JOIN 
+			tb_customer AS c
+			ON 
+			i.cust_code = c.cust_code
+			LEFT JOIN
+			tb_article AS a
+			ON
+			i.article_code = a.article_code
+		WHERE
+			i.store_info_code = #{SSTORECODE}
+		AND
+			i.article_code = #{articleCode};
+	</select>
+	
+	<select id="getPurchases" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			i.inco_code, 
+			i.store_info_code, 
+			i.article_code, 
+			a.article_name,
+			i.cust_code, 
+			c.cust_name,
+			i.inco_vat_type, 
+			i.inco_pay_type, 
+			i.inco_total, 
+			i.inco_count, 
+			i.inco_volume_subtotal, 
+			i.inco_supply_value, 
+			i.inco_tax, 
+			i.inco_dealing_group_code, 
+			i.inco_stock_group_code, 
+			i.inco_date, 
+			i.inco_reg_date, 
+			i.inco_deadline, 
+			i.inco_system_id, 
+			i.inco_system_name, 
+			i.inco_check
+		FROM 
+			tb_incoming AS i
+			LEFT JOIN 
+			tb_customer AS c
+			ON 
+			i.cust_code = c.cust_code
+			LEFT JOIN
+			tb_article AS a
+			ON
+			i.article_code = a.article_code
+		WHERE
+			i.store_info_code = #{SSTORECODE};
+	</select>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.UserMapper">
+
+	<resultMap type="UserDto" id="userResulMap">
+		
+		<result property="memberId" 		column="member_id"/>
+		<result property="storeInfoCode" 	column="store_info_code"/>
+		<result property="storeInfoName" 	column="store_info_name"/>
+		<result property="levelCode" 		column="level_code"/>
+		<result property="levelName" 		column="level_name"/>
+		<result property="userJoinDate" 	column="user_join_date"/>
+		<result property="userOutDate" 		column="user_out_date"/>
+		<result property="userPay" 			column="user_pay"/>
+		<result property="userWorkTime" 	column="user_work_time"/>
+		<result property="userBankName" 	column="user_bank_name"/>
+		<result property="userBankAcount" 	column="user_bank_acount"/>
+		<result property="userAgreement" 	column="user_agreement"/>
+		<result property="userHealthCard" 	column="user_health_card"/>
+		<result property="userEtc" 			column="user_etc"/>
+		<association property="memberDto" javaType="MemberDto">
+			<id property="memberId" column="member_id"/>
+				<result property="memberPw" 		column="member_pw" />
+				<result property="memberName" 		column="member_name" />
+				<result property="levelCode" 		column="level_code" />
+				<result property="levelName" 		column="level_name" />
+				<result property="storeInfoCode"	column="store_info_code" />
+				<result property="storeInfoName"	column="store_info_name" />
+				<result property="memberPhone" 		column="member_phone" />
+				<result property="memberEmail" 		column="member_email" />
+				<result property="memberBirth" 		column="member_birth" />
+				<result property="memberRegDate" 	column="member_reg_date" />
+		</association>
+	</resultMap>
+	
+	<select id="getinfoUser" parameterType="String" resultMap="userResulMap">
+		SELECT 
+		member_id
+		, store_info_code
+		, level_code
+		, user_join_date
+		, user_out_date
+		, user_pay
+		, user_work_time
+		, user_bank_name
+		, user_bank_acount
+		, user_agreement
+		, user_health_card
+		, user_etc
+		FROM 
+			tb_user
+		WHERE member_id =#{memberId}
+	
+	</select>
+	
+	<!-- User 직원 등록 -->
+	<insert id="addUser" parameterType="UserDto">
+	INSERT INTO tb_user
+		(member_id
+		, store_info_code
+		, level_code
+		, user_join_date
+		, user_out_date
+		, user_pay
+		, user_work_time
+		, user_bank_name
+		, user_bank_acount
+		, user_agreement
+		, user_health_card
+		, user_etc)
+	VALUES (#{memberId}, #{storeInfoCode}, #{levelCode}, #{userJoinDate}, #{userOutDate}, ${userPay}, ${userWorkTime}, #{userBankName}, #{userBankAcount}, #{userAgreement}, #{userHealthCard}, #{userEtc})
+	</insert>
+	<!-- User 추가정보 수정에서 업데이트  -->
+	<update id="updateUser" parameterType="UserDto">
+	UPDATE tb_user
+	SET
+		level_code=#{levelCode},
+		user_out_date= #{userOutDate},
+		user_pay=${userPay},
+		user_work_time=${userWorkTime},
+		user_bank_name=#{userBankName},
+		user_bank_acount=#{userBankAcount},
+		user_agreement=#{userAgreement},
+		user_health_card=#{userHealthCard},
+		user_etc=#{userEtc}
+	WHERE member_id=#{memberId}
+	</update>
+	<!-- User 직원 조회 관리 -->
+	<select id="getUseradmin" parameterType="String" resultMap="userResulMap">
+	SELECT 
+		m.member_id
+		,m.member_name
+		, s.store_info_name
+		, l.level_name
+		, m.member_phone
+		, u.user_pay
+		, u.user_work_time
+		, m.member_reg_date
+		, u.user_join_date
+		, u.user_out_date
+		, u.user_bank_name
+		, u.user_bank_acount
+		, u.user_agreement
+		, u.user_health_card
+		, u.user_etc
+		FROM 
+			tb_member AS m
+		LEFT join
+			tb_user AS u
+			ON m.member_id = u.member_id
+		LEFT join
+			tb_level AS l
+			ON l.level_code = m.level_code
+		LEFT join
+			tb_store_info AS s
+			ON u.store_info_code = s.store_info_code or s.member_id = m.member_id
+		WHERE m.level_code IN ('level_02','level_03')
+	</select>
+	<!-- User 직원 조회  -->
+	<select id="getUser" parameterType="String" resultMap="userResulMap">
+		SELECT 
+	m.member_id
+	,m.member_name
+	, s.store_info_name
+	, l.level_name
+	, m.member_phone
+	, u.user_pay
+	, u.user_work_time
+	, m.member_reg_date
+	, u.user_join_date
+	, u.user_out_date
+	, u.user_bank_name
+	, u.user_bank_acount
+	, u.user_agreement
+	, u.user_health_card
+	, u.user_etc
+	FROM 
+		tb_member AS m
+	LEFT join
+		tb_user AS u
+		ON m.member_id = u.member_id
+	LEFT join
+		tb_level AS l
+		ON l.level_code = m.level_code
+	LEFT join
+		tb_store_info AS s
+		ON u.store_info_code = s.store_info_code or s.member_id = m.member_id
+	WHERE s.store_info_code =#{SSTORECODE} AND m.level_code IN ('level_02','level_03')
+	</select>
+	
+	
+</mapper>

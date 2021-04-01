@@ -1,0 +1,230 @@
+package com.cafemgt.dto;
+
+//table name tb_detail_volume
+public class TotalStockDto {
+	
+	private String	detailvolCode;
+	private String	storeInfoCode;
+	private String 	storeInfoName;
+	private String 	incoCode;
+	private String 	articleCode;
+	private String 	articleName;
+	private int 	incoCount;
+	private int 	articleVolume;
+	private String 	articleDan;
+	private int 	incoVolumeSubtotal;
+	private String 	detailvolGroupCode;
+	private int 	detailvolVolumeTotal;
+	private int 	detailvolConCount;
+	private int 	detailvolRemainVolume;
+	private int 	detailvolRemainCount;
+	private String 	incoDate;
+	private String 	detailvolRegDate;
+	private String 	detailvolDeadlineCheck;
+	private String 	detailvolCheckString;
+	private int 	incoCheck;
+	private String 	detailvolStockGroupCode;
+	private String 	detailvolSystemId;
+	private String 	detailvolSystemName;
+	private PurchasesDto incoDto;	
+	
+	public PurchasesDto getIncoDto() {
+		return incoDto;
+	}
+	public void setIncoDto(PurchasesDto incoDto) {
+		this.incoDto = incoDto;
+	}
+	public String getDetailvolCode() {
+		return detailvolCode;
+	}
+	public void setDetailvolCode(String detailvolCode) {
+		this.detailvolCode = detailvolCode;
+	}
+	public String getStoreInfoCode() {
+		return storeInfoCode;
+	}
+	public void setStoreInfoCode(String storeInfoCode) {
+		this.storeInfoCode = storeInfoCode;
+	}
+	public String getStoreInfoName() {
+		return storeInfoName;
+	}
+	public void setStoreInfoName(String storeInfoName) {
+		this.storeInfoName = storeInfoName;
+	}
+	public String getIncoCode() {
+		return incoCode;
+	}
+	public void setIncoCode(String incoCode) {
+		this.incoCode = incoCode;
+	}
+	public String getArticleCode() {
+		return articleCode;
+	}
+	public void setArticleCode(String articleCode) {
+		this.articleCode = articleCode;
+	}
+	public String getArticleName() {
+		return articleName;
+	}
+	public void setArticleName(String articleName) {
+		this.articleName = articleName;
+	}
+	public int getIncoCount() {
+		return incoCount;
+	}
+	public void setIncoCount(int incoCount) {
+		this.incoCount = incoCount;
+	}
+	public int getArticleVolume() {
+		return articleVolume;
+	}
+	public void setArticleVolume(int articleVolume) {
+		this.articleVolume = articleVolume;
+	}
+	public String getArticleDan() {
+		return articleDan;
+	}
+	public void setArticleDan(String articleDan) {
+		this.articleDan = articleDan;
+	}
+	public int getIncoVolumeSubtotal() {
+		return incoVolumeSubtotal;
+	}
+	public void setIncoVolumeSubtotal(int incoVolumeSubtotal) {
+		this.incoVolumeSubtotal = incoVolumeSubtotal;
+	}
+	public String getDetailvolGroupCode() {
+		return detailvolGroupCode;
+	}
+	public void setDetailvolGroupCode(String detailvolGroupCode) {
+		this.detailvolGroupCode = detailvolGroupCode;
+	}
+	public int getDetailvolVolumeTotal() {
+		return detailvolVolumeTotal;
+	}
+	public void setDetailvolVolumeTotal(int detailvolVolumeTotal) {
+		this.detailvolVolumeTotal = detailvolVolumeTotal;
+	}
+	public int getDetailvolConCount() {
+		return detailvolConCount;
+	}
+	public void setDetailvolConCount(int detailvolConCount) {
+		this.detailvolConCount = detailvolConCount;
+	}
+	public int getDetailvolRemainVolume() {
+		return detailvolRemainVolume;
+	}
+	public void setDetailvolRemainVolume(int detailvolRemainVolume) {
+		this.detailvolRemainVolume = detailvolRemainVolume;
+	}
+	public int getDetailvolRemainCount() {
+		return detailvolRemainCount;
+	}
+	public void setDetailvolRemainCount(int detailvolRemainCount) {
+		this.detailvolRemainCount = detailvolRemainCount;
+	}
+	public String getIncoDate() {
+		return incoDate;
+	}
+	public void setIncoDate(String incoDate) {
+		this.incoDate = incoDate;
+	}
+	public String getDetailvolRegDate() {
+		return detailvolRegDate;
+	}
+	public void setDetailvolRegDate(String detailvolRegDate) {
+		this.detailvolRegDate = detailvolRegDate;
+	}
+	public String getDetailvolDeadlineCheck() {
+		return detailvolDeadlineCheck;
+	}
+	public void setDetailvolDeadlineCheck(String detailvolDeadlineCheck) {
+		this.detailvolDeadlineCheck = detailvolDeadlineCheck;
+	}
+	public String getDetailvolCheckString() {
+		return detailvolCheckString;
+	}
+	public void setDetailvolCheckString(String detailvolCheckString) {
+		this.detailvolCheckString = detailvolCheckString;
+	}
+	public int getIncoCheck() {
+		return incoCheck;
+	}
+	public void setIncoCheck(int incoCheck) {
+		this.incoCheck = incoCheck;
+	}
+	public String getDetailvolStockGroupCode() {
+		return detailvolStockGroupCode;
+	}
+	public void setDetailvolStockGroupCode(String detailvolStockGroupCode) {
+		this.detailvolStockGroupCode = detailvolStockGroupCode;
+	}
+	public String getDetailvolSystemId() {
+		return detailvolSystemId;
+	}
+	public void setDetailvolSystemId(String detailvolSystemId) {
+		this.detailvolSystemId = detailvolSystemId;
+	}
+	public String getDetailvolSystemName() {
+		return detailvolSystemName;
+	}
+	public void setDetailvolSystemName(String detailvolSystemName) {
+		this.detailvolSystemName = detailvolSystemName;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TotalStockDto [detailvolCode=");
+		builder.append(detailvolCode);
+		builder.append(", storeInfoCode=");
+		builder.append(storeInfoCode);
+		builder.append(", storeInfoName=");
+		builder.append(storeInfoName);
+		builder.append(", incoCode=");
+		builder.append(incoCode);
+		builder.append(", articleCode=");
+		builder.append(articleCode);
+		builder.append(", articleName=");
+		builder.append(articleName);
+		builder.append(", incoCount=");
+		builder.append(incoCount);
+		builder.append(", articleVolume=");
+		builder.append(articleVolume);
+		builder.append(", articleDan=");
+		builder.append(articleDan);
+		builder.append(", incoVolumeSubtotal=");
+		builder.append(incoVolumeSubtotal);
+		builder.append(", detailvolGroupCode=");
+		builder.append(detailvolGroupCode);
+		builder.append(", detailvolVolumeTotal=");
+		builder.append(detailvolVolumeTotal);
+		builder.append(", detailvolConCount=");
+		builder.append(detailvolConCount);
+		builder.append(", detailvolRemainVolume=");
+		builder.append(detailvolRemainVolume);
+		builder.append(", detailvolRemainCount=");
+		builder.append(detailvolRemainCount);
+		builder.append(", incoDate=");
+		builder.append(incoDate);
+		builder.append(", detailvolRegDate=");
+		builder.append(detailvolRegDate);
+		builder.append(", detailvolDeadlineCheck=");
+		builder.append(detailvolDeadlineCheck);
+		builder.append(", detailvolCheckString=");
+		builder.append(detailvolCheckString);
+		builder.append(", incoCheck=");
+		builder.append(incoCheck);
+		builder.append(", detailvolStockGroupCode=");
+		builder.append(detailvolStockGroupCode);
+		builder.append(", detailvolSystemId=");
+		builder.append(detailvolSystemId);
+		builder.append(", detailvolSystemName=");
+		builder.append(detailvolSystemName);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+	
+}

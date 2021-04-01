@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.RecipyMapper">
+	<resultMap type="RecipyDto" id="recipyResultMap">
+		<result property="conCode" 			column="con_code" />
+		<result property="storeInfoCode" 	column="store_info_code" />
+		<result property="storeInfoName" 	column="store_info_name" />
+		<result property="menuCode" 		column="menu_code" />
+		<result property="menuName" 		column="menu_name" />
+		<result property="articleCode" 		column="article_code" />
+		<result property="articleName" 		column="article_name" />
+		<result property="conVolume" 		column="con_volume" />
+		<result property="conDan" 			column="con_dan" />
+	</resultMap>
+	<select id="getRecipyByConCode" parameterType="String" resultMap="recipyResultMap">
+		SELECT
+			 c.con_code
+		 	,st.store_info_code
+			,st.store_info_name
+			,m.menu_code
+			,m.menu_name
+			,c.article_code
+			,a.article_name
+			,c.con_volume
+			,c.con_dan
+		FROM
+			tb_consumption c
+			LEFT join
+			tb_menu m
+			ON c.menu_code = m.menu_code
+			LEFT JOIN
+			tb_store_info st
+			ON m.store_info_code = st.store_info_code
+			LEFT JOIN
+			tb_article a
+			ON c.article_code = a.article_code
+		WHERE
+			c.con_code= #{conCode}
+	</select>
+	<select id="getRecipy" parameterType="String" resultMap="recipyResultMap">
+		SELECT
+			 c.con_code
+		 	,st.store_info_code
+			,st.store_info_name
+			,m.menu_code
+			,m.menu_name
+			,c.article_code
+			,a.article_name
+			,c.con_volume
+			,c.con_dan
+		FROM
+			tb_consumption c
+			LEFT join
+			tb_menu m
+			ON c.menu_code = m.menu_code
+			LEFT JOIN
+			tb_store_info st
+			ON m.store_info_code = st.store_info_code
+			LEFT JOIN
+			tb_article a
+			ON c.article_code = a.article_code
+		WHERE
+			st.store_info_code= #{SSTORECODE}
+	</select>
+	<insert id="addRecipy" parameterType="RecipyDto">
+		INSERT INTO tb_consumption
+			(con_code
+			,store_info_code
+			,menu_code
+			,article_code
+			,con_volume
+			,con_dan)
+		VALUES 
+			(sf_new_con_code()
+			,#{storeInfoCode}
+			,#{menuCode}
+			,#{articleCode}
+			,${conVolume}
+			,#{conDan})
+	</insert>
+	<update id="modifyRecipy" parameterType="RecipyDto">
+		UPDATE tb_consumption
+		SET
+			 menu_code=#{menuCode}
+			,article_code=#{articleCode}
+			,con_volume=${conVolume}
+			,con_dan=#{conDan}
+		WHERE con_code=#{conCode}
+	</update>
+</mapper>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>기타 매입 등록</title>
+	</th:block>
+	
+	<th:block layout:fragment="customCss">
+			<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
+	
+	<th:block layout:fragment="customContents">
+		<div class="right_col" role="main">
+		<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>기타 매입 등록</h2>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<br />
+									<form th:action="@{/modifyotherpurchases}" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+										<input type="hidden" name="storeInfoCode"  th:value="${session.SSTORECODE}">											
+										<input type="hidden" name="oeCode"  th:value="${OtherPurchasesDto.oeCode}">											
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align" for="otherPurCate">지출 유형  *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="otherPurCate" name="atDebitCode" class="form-control" style="text-align-last : center;" required>
+														<option value="" class="text-center">::지출 유형 선택::</option>
+														<option value="812">여비교통비</option>
+														<option value="811">복리후생비</option>
+														<option value="817">세금과공과</option>
+														<option value="822">차량유지비</option>
+														<option value="813">접대비</option>
+														<option value="831">지급수수료</option>
+														<option value="830">소모품비</option>
+														<option value="848">잡비</option>
+													</select>
+												</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="storeName">상호명 * <span class="required"></span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="storeName" name="oeStoreName" th:placeholder="${OtherPurchasesDto.oeStoreName}" required="required" class="form-control ">												
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="totalPrice">지출 금액 *
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="totalPrice" name="oeTotal" th:placeholder="${OtherPurchasesDto.oeTotal}" required="required" class="form-control" readonly="readonly">
+											</div>
+										</div>
+										
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align">현금 *</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="cash" class="form-control" />
+											</div>
+										</div>
+										
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">카드 *</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="card" class="form-control" />
+											</div>
+										</div>
+										
+										
+										<input type="hidden" id="oeVatType" name="oeVatType">		
+										<input type="hidden" id="atCreditCode" name="atCreditCode">		
+														
+										<div class="form-group row">									
+											<label class="col-form-label col-md-3 col-sm-3 label-align">지출 날짜 * 
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="otherPurDate" name="oeDate" th:value="${OtherPurchasesDto.oeDate}" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align">지출 상세 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<textarea id="oeEtc" name="oeEtc" th:placeholder="${OtherPurchasesDto.oeEtc}" class="form-control" rows="3"></textarea>
+											</div>
+										</div>			
+										<div class="ln_solid"></div>
+										<div class="form-group row">
+											<div class="col-md-6 col-sm-6 offset-md-3 text-center">
+												<button class="btn btn-primary" type="button">등록 취소</button>
+												<button class="btn btn-primary" type="reset">다시 작성</button>
+												<button type="submit" class="btn btn-success">매입 수정</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>		
+		</div>
+	</th:block>
+	
+	
+	
+	<th:block layout:fragment="customJs">
+	<!-- bootstrap-daterangepicker -->
+	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+	<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+	<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+	<!-- jQuery Tags Input -->
+	<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+	<!-- Switchery -->
+	<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+	<!-- Select2 -->
+	<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+	<!-- Parsley -->
+	<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+	<!-- Autosize -->
+	<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+	<!-- jQuery autocomplete -->
+	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+	<!-- starrr -->
+	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+		<script type="text/javascript">			
+		var getOtherPurCateVal = '[[${OtherPurchasesDto.atDebitCode}]]';
+		var otherPurCate = $('#otherPurCate').children();
+		for(var i = 0; i <otherPurCate.length; i++){
+			if(otherPurCate.eq(i).val()==getOtherPurCateVal){
+				otherPurCate.eq(i).attr("selected", true);
+				break;
+			}
+		};
+		var getOeTotal = '[[${OtherPurchasesDto.oeTotal}]]';
+		var getOeVatType = '[[${OtherPurchasesDto.oeVatType}]]';
+		if(getOeVatType=='현금'){
+			$('#cash').attr('placeholder',getOeTotal)
+			$('#card').attr('placeholder', '0')
+		}else{
+			$('#card').attr('placeholder',getOeTotal)
+			$('#cash').attr('placeholder','0')
+		};
+		
+		$(function(){
+			$('#card').keyup(function(){
+				$('#totalPrice').val($('#card').val());
+				if($('#card').val() != ''){
+					$('#cash').attr("readonly",true);						
+					$('#cash').attr("placeholder", '');						
+				}else{
+					$('#cash').attr("readonly",false);			
+				}
+			});
+		});
+		
+		$(function(){
+			$('#cash').keyup(function(){
+				$('#totalPrice').val($('#cash').val());
+				if($('#cash').val() != ''){
+					$('#card').attr("readonly",true);					
+					$('#card').attr("placeholder",'');					
+				}else{
+					$('#card').attr("readonly",false);		
+				}
+			});
+		});
+	
+				
+		var oeVatType = $('#oeVatType');
+		var atCreditCode = $('#atCreditCode');
+		
+		$(function(){
+			$('#card').keyup(function(){
+				oeVatType.val('카드');
+				atCreditCode.val('101');
+				console.log(oeVatType.val());
+				console.log(atCreditCode.val());
+			});
+		});
+		
+		$(function(){
+			$('#cash').keyup(function(){
+				oeVatType.val('현금');
+				atCreditCode.val('101');
+				console.log(oeVatType.val());
+				console.log(atCreditCode.val());
+			});
+		});
+		</script>
+	</th:block>
+	
+</html>

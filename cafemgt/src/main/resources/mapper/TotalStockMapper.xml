@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.TotalStockMapper">
+	<resultMap type="TotalStockDto" id="TotalStockResultMap">
+		<result property="detailvolCode" 			column="detailvol_code" />
+		<result property="storeInfoCode" 			column="store_info_code" />
+		<result property="storeInfoName" 			column="store_info_name" />
+		<result property="incoCode" 				column="inco_code" />
+		<result property="articleCode" 				column="article_code" />
+		<result property="articleName" 				column="article_name" />
+		<result property="incoCount" 				column="inco_count" />
+		<result property="articleVolume" 			column="article_volume" />
+		<result property="articleDan" 				column="article_dan" />
+		<result property="incoVolumeSubtotal" 		column="inco_volume_subtotal" />
+		<result property="detailvolVolumeTotal" 	column="detailvol_volume_total" />
+		<result property="detailvolConCount" 		column="detailvol_con_count" />
+		<result property="detailvolRemainVolume" 	column="detailvol_remain_volume" />
+		<result property="detailvolRemainCount" 	column="detailvol_remain_count" />
+		<result property="incoDate" 				column="inco_date" />
+		<result property="detailvolRegDate" 		column="detailvol_reg_date" />
+		<result property="detailvolDeadlineCheck" 	column="detailvol_deadline_check" />
+		<result property="incoCheck" 				column="inco_check" />
+		<result property="detailvolSystemId" 		column="detailvol_system_id" />
+		<result property="detailvolSystemName" 		column="detailvol_system_name" />
+		<association property="incoDto" javaType="PurchasesDto">
+			<id property="incoCode" 				column="inco_code" />
+			<result property="storeInfoCode" 		column="store_info_code" />
+			<result property="articleCode" 			column="article_code" />
+			<result property="custCode" 			column="cust_code" />
+			<result property="custName" 			column="cust_name" />
+			<result property="incoVatType" 			column="inco_vat_type" />
+			<result property="incoPayType" 			column="inco_pay_type" />
+			<result property="incoTotal" 			column="inco_total" />
+			<result property="incoCount" 			column="inco_count" />
+			<result property="incoVolumeSubtotal" 	column="inco_volume_subtotal" />
+			<result property="incoSupplyValue" 		column="inco_supply_value" />
+			<result property="incoTax" 				column="inco_tax" />
+			<result property="incoDealingGroupCode" column="inco_dealing_group_code" />
+			<result property="incoStockGroupCode" 	column="inco_stock_group_code" />
+			<result property="incoDate" 			column="inco_date" />
+			<result property="incoRegDate" 			column="inco_reg_date" />
+			<result property="incoDeadline" 		column="inco_deadline" />
+			<result property="incoSystemId" 		column="inco_system_id" />
+			<result property="incoSystemName" 		column="inco_system_name" />
+			<result property="incoCheck" 			column="inco_check" />
+		</association>
+	</resultMap>
+	<insert id="addTotalStockOverVolume" parameterType="TotalStockDto">
+		INSERT INTO tb_detail_volume
+			(detailvol_code
+			,store_info_code
+			,inco_code
+			,article_code
+			,detailvol_volume_total
+			,detailvol_con_count
+			,detailvol_remain_volume
+			,detailvol_remain_count
+			,detailvol_reg_date
+			,detailvol_deadline_check)
+		VALUES 
+			(sf_new_detailvol_code()
+			,#{storeInfoCode}
+			,#{incoCode}
+			,#{articleCode}
+			,${detailvolVolumeTotal}
+			,${detailvolConCount}
+			,${detailvolRemainVolume}
+			,${detailvolRemainCount}
+			,NOW()
+			,
+			<if test='detailvolRemainVolume == 0'>
+				'o'
+			</if>
+			<if test='detailvolRemainVolume != 0'>
+				'x'
+			</if>
+			)
+	</insert>
+	<update id="modifyTotalStockDeadLine" parameterType="TotalStockDto">
+		UPDATE tb_detail_volume
+		SET
+			detailvol_deadline_check='o'
+		WHERE 
+			detailvol_code = #{detailvolCode}
+	</update>
+	<update id="modifyIncoCheck" parameterType="hashMap">
+		UPDATE tb_incoming
+		SET
+			inco_check= #{incoCheck}
+		WHERE 
+			inco_code = #{incoCode}
+	</update>
+	<select id="getTotalStock" parameterType="String" resultMap="TotalStockResultMap">
+		SELECT 
+			 dtv.detailvol_code
+			,st.store_info_code
+			,st.store_info_name
+			,inc.inco_code
+			,inc.article_code
+			,ar.article_name
+			,inc.inco_count
+			,ar.article_volume
+			,ar.article_dan
+			,inc.inco_volume_subtotal
+			,dtv.detailvol_volume_total
+			,dtv.detailvol_con_count
+			,dtv.detailvol_remain_volume
+			,dtv.detailvol_remain_count
+			,inc.inco_date
+			,dtv.detailvol_reg_date
+			,dtv.detailvol_deadline_check
+			,inc.inco_check
+			,dtv.detailvol_system_id
+			,dtv.detailvol_system_name
+		FROM 
+			tb_detail_volume AS dtv
+			LEFT join
+			tb_store_info AS st
+			on
+			dtv.store_info_code = st.store_info_code
+			LEFT join
+			tb_incoming AS inc
+			ON 
+			dtv.inco_code = inc.inco_code
+			LEFT join
+			tb_article AS ar
+			on
+			inc.article_code = ar.article_code
+		WHERE
+			st.store_info_code = #{SSTORECODE}
+			AND
+			dtv.detailvol_deadline_check = 'x'	
+		ORDER BY FIELD(inc.inco_check ,2,1,3) asc
+	</select>
+	<select id="getTotalStockByIncoCode" parameterType="String" resultMap="TotalStockResultMap">
+		SELECT 
+			 dtv.detailvol_code
+			,st.store_info_code
+			,st.store_info_name
+			,inc.inco_code
+			,inc.article_code
+			,ar.article_name
+			,inc.inco_count
+			,ar.article_volume
+			,ar.article_dan
+			,inc.inco_volume_subtotal
+			,dtv.detailvol_volume_total
+			,dtv.detailvol_con_count
+			,dtv.detailvol_remain_volume
+			,dtv.detailvol_remain_count
+			,inc.inco_date
+			,dtv.detailvol_reg_date
+			,dtv.detailvol_deadline_check
+			,inc.inco_check
+			,dtv.detailvol_system_id
+			,dtv.detailvol_system_name
+		FROM 
+			tb_detail_volume AS dtv
+			LEFT join
+			tb_store_info AS st
+			on
+			dtv.store_info_code = st.store_info_code
+			LEFT join
+			tb_incoming AS inc
+			ON 
+			dtv.inco_code = inc.inco_code
+			LEFT join
+			tb_article AS ar
+			on
+			inc.article_code = ar.article_code
+		WHERE 
+			st.store_info_code = #{SSTORECODE}
+			AND
+			inc.inco_code = #{incoCode}
+			AND
+			dtv.detailvol_deadline_check = 'x'	
+	</select>
+</mapper>

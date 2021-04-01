@@ -6,11 +6,190 @@
 	<th:block layout:fragment="customTitle">
 		<title>메뉴 레시피 등록</title>
 	</th:block>
-
+	
+	<th:block layout:fragment="customCss">
+		<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
+	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-		
+			<div class="row">
+				<div class="col-md-12 col-sm-12 ">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>메뉴 레시피 등록 <small>different form elements</small></h2>
+								<ul class="nav navbar-right panel_toolbox">
+									<li>
+										<button type="button" id="addBtn" class="btn btn-info" >Add</button>
+									</li>
+										<li><button type="button" id="delBtn" class="btn btn-danger" >Delete</button>
+									</li>
+									<li>
+										<button type="button" class="btn btn-primary" >Cancel</button>
+									</li>
+									<li>
+										<button type="button" id="resetButton" class="btn btn-warning" >Reset</button>
+									</li>
+									<li>
+										<button type="button" id="submitButton" class="btn btn-success" >Submit</button>
+									</li>
+								</ul>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<br />
+							<form id="demo-form2" th:action="@{addrecipy}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 label-align">메뉴 명 <span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}" >
+										<select class="form-control" name="menuCode" required="required">
+											<option value="" disabled selected>choice plz</option>
+											<th:block th:each="ml : ${menuList}">
+												<option th:value="${ml.menuCode}" th:text="${ml.menuName}"></option>
+											</th:block>
+										</select>
+									</div>
+								</div>
+								<div class="ln_solid"></div>
+								<div class="data-addForm">
+									<div class="form-group row">
+										<label class="col-form-label col-md-3 col-sm-3 label-align">메뉴 소모 품목명 <span class="required">*</span>
+										</label>
+										<div class="col-md-6 col-sm-6 ">
+											<select class="form-control" name="articleCode" required="required">
+												<option value="" disabled selected>choice plz</option>
+												<th:block th:each="al : ${articleList}">
+													<option th:value="${al.articleCode}" th:text="${al.articleName}"></option>
+												</th:block>
+											</select>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-form-label col-md-3 col-sm-3 label-align">소모 용량 <span class="required">*</span>
+										</label>
+										<div class="col-md-6 col-sm-6 ">
+											<input type="text" name="conVolume" required="required" class="form-control ">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="control-label col-md-3 col-sm-3 label-align">단위</label>
+										<div class="col-md-6 col-sm-6 ">
+											<select class="form-control" name="conDan" required="required">
+												<option value="" disabled selected>choice plz</option>
+												<option value="ea">* ea *</option>
+												<option value="ml">* ml *</option>
+												<option value="g">* g *</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="ln_solid"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</th:block>
+	
+	<th:block layout:fragment="customJs">
+		<!-- Select2 -->
+		<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+		<!-- Parsley -->
+		<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+		<!-- Autosize -->
+		<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+		<!-- jQuery autocomplete -->
+		<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+		
+		<script type="text/javascript">
+			<!-- custom script -->
+			$(document).on('click', '#addBtn', function(){
+				var addForm =$('#demo-form2 .data-addForm');
+				console.log(addForm.eq(0));
+				var cloneAddForm = addForm.eq(0).clone();
+				console.log(addForm.parents().eq(0));
+				
+				var InnerHtml = '';
+				InnerHtml += '<div class="ln_solid"></div>';
+				
+				addForm.parents().eq(0).append(cloneAddForm);
+				addForm.parents().eq(0).append(InnerHtml);
+				
+			});
+			$(document).on('click', '#delBtn', function(){
+				var delForm =$('.data-addForm');
+				var inSolid =$('.ln_solid');
+				if(delForm.size() > 1){
+					delForm.last().remove();
+					inSolid.last().remove();
+				}
+			});
+			//ajax 추가
+			var ajaxFunc = function(array){
+				$.ajax({
+					url     : '/addrecipy',
+			        type    : 'POST',
+			        data    : JSON.stringify(array),
+			        contentType : 'application/json; charset=UTF-8',
+			        dataType: 'json',
+			        
+			        success : function(data) {
+			        	
+			        },
+			        error : function(xhr,status,error) {
+			        	console.log("xhr: " + xhr);
+			        	console.log("status: " + status);
+			        	console.log("error: " + error);
+			        }
+				});
+			};
+			$('#submitButton').click(function(){
+				console.log('a');
+				var addForm =$('#demo-form2 .data-addForm');
+				var arrayRecipy = []; 
+				
+				console.log(addForm.length);
+				
+				for(var i = 0; i < addForm.length; i++){
+					var recipyInfo = {};
 
+					//input 입력
+					var inputElement = addForm.eq(i).find('input[type="text"]');
+					recipyInfo[inputElement.attr('name')] = inputElement.val();
+					arrayRecipy.push(recipyInfo);
+					
+					//select 입력
+					var selectConName = addForm.eq(i).find('select[name="articleCode"]');
+					recipyInfo[selectConName.attr('name')] = selectConName.val();
+					arrayRecipy.push(recipyInfo);
+					
+					var selectConDan = addForm.eq(i).find('select[name="conDan"]');
+					recipyInfo[selectConDan.attr('name')] = selectConDan.val();
+					arrayRecipy.push(recipyInfo);
+				}
+				console.log(JSON.stringify(arrayRecipy));
+				
+				$('#demo-form2').submit();
+			});
+				
+			$('#resetButton').click(function(){
+				$('#demo-form2')[0].reset();
+			});
+		</script>
+		
+	</th:block>
+	
 </html>
+
+

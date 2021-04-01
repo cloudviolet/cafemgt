@@ -9,6 +9,8 @@
 			</div>
 			<nav class="nav navbar-nav">
 				<ul class=" navbar-right">
+					2021.03.24 v03 배포 / 
+					2021.03.31 v04 배포
 					<li class="nav-item dropdown open" style="padding-left: 15px;">
 						<a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown"
 						aria-expanded="false"> <img src="images/img.jpg" alt="">John Doe </a>
@@ -19,12 +21,11 @@
 								<span>Settings</span>
 							</a> 
 							<a class="dropdown-item" href="javascript:;">Help</a> 
-							<a class="dropdown-item" href="login.html">
+							<a class="dropdown-item" th:href="@{logout}">
 								<i class="fa fa-sign-out pull-right"></i> Log Out
 							</a>
 						</div>
 					</li>
-
 					<li role="presentation" class="nav-item dropdown open">
 						<a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
 							<i class="fa fa-envelope-o"></i> 
@@ -73,7 +74,8 @@
 									</a>
 								</div>
 							</li>
-						</ul></li>
+						</ul>
+					</li>
 				</ul>
 			</nav>
 		</div>

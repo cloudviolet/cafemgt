@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.DailyVolMapper">
+	<resultMap type="DailyVolDto" id="DailyVolResultMap">
+		<result property="dailyvolCode"	 			column="dailyvol_code" />
+		<result property="storeInfoCode"	 		column="store_info_code" />
+		<result property="storeInfoName"	 		column="store_info_name" />
+		<result property="menuCode"	 				column="menu_code" />
+		<result property="menuName"	 				column="menu_name" />
+		<result property="conCode"	 				column="con_code" />
+		<result property="conVolume"	 			column="con_volume" />
+		<result property="conDan"	 				column="con_dan" />
+		<result property="articleCode"	 			column="article_code" />
+		<result property="articleName"	 			column="article_name" />
+		<result property="salesCount"	 			column="sales_count" />
+		<result property="dailyvolSubtotal"	 		column="dailyvol_subtotal" />
+		<result property="dailyvolDeadlineCheck" 	column="dailyvol_deadline_check" />
+		<result property="dailyvolRegDate"	 		column="dailyvol_reg_date" />
+	</resultMap>
+	<update id="modifyDailyVolDeadLine" parameterType="String">
+		UPDATE tb_daily_volume
+		SET
+			dailyvol_deadline_check='o'
+		WHERE dailyvol_code = #{dailyVolCode}
+	</update>
+	<insert id="addDailyVolDeadLine" parameterType="DailyVolDto">
+		INSERT INTO tb_daily_volume 
+			(dailyvol_code
+			,store_info_code
+			,menu_code
+			,con_code
+			,sales_count
+			,dailyvol_subtotal
+			,dailyvol_deadline_check
+			,dailyvol_reg_date
+			)
+		SELECT 
+			 sf_new_dailyvol_code()
+			,store_info_code
+			,menu_code
+			,con_code
+			,#{salesCount}
+			,#{dailyvolSubtotal}
+			,dailyvol_deadline_check
+			,dailyvol_reg_date
+		FROM tb_daily_volume
+			WHERE 
+				dailyvol_code = #{dailyvolCode}
+	</insert>
+	<select id="getDailyVol" parameterType="String" resultMap="DailyVolResultMap">
+		SELECT
+			 dv.dailyvol_code
+			,st.store_info_code
+			,st.store_info_name
+			,m.menu_code
+			,m.menu_name
+			,c.con_code
+			,c.con_volume
+			,c.con_dan
+			,a.article_code
+			,a.article_name
+			,dv.sales_count
+			,dv.dailyvol_subtotal
+			,dv.dailyvol_deadline_check
+			,dv.dailyvol_reg_date
+		FROM
+			tb_daily_volume AS dv
+			LEFT JOIN 
+			tb_store_info AS st
+			on
+			dv.store_info_code = st.store_info_code
+			LEFT JOIN 
+			tb_menu AS m
+			on
+			dv.menu_code = m.menu_code
+			LEFT join
+			tb_consumption AS c
+			on
+			dv.con_code = c.con_code
+			LEFT JOIN 
+			tb_article AS a
+			on
+			c.article_code = a.article_code
+	</select>
+	<select id="getDailyVolDeadLine" parameterType="String" resultMap="DailyVolResultMap">
+		SELECT 
+			 dv.dailyvol_code
+			,st.store_info_code
+			,st.store_info_name
+			,SUM(dv.sales_count) AS 'sales_count' 
+			,a.article_code
+			,a.article_name
+			,SUM(dv.dailyvol_subtotal) AS 'dailyvol_subtotal' 
+			,c.con_dan
+		FROM
+			tb_daily_volume AS dv
+			LEFT join
+			tb_consumption AS c
+			on
+			dv.con_code = c.con_code
+			LEFT join
+			tb_article AS a
+			on
+			c.article_code = a.article_code
+			LEFT JOIN 
+			tb_store_info AS st
+			on
+			dv.store_info_code = st.store_info_code
+			WHERE dv.dailyvol_deadline_check = 'x'
+		GROUP BY c.article_code
+		ORDER BY dailyvol_code
+	</select>
+	<insert id="addDailyVol" parameterType="DailyVolDto" >
+			INSERT INTO tb_daily_volume
+				(dailyvol_code
+				,store_info_code
+				,menu_code
+				,con_code
+				,sales_count
+				,dailyvol_subtotal
+				,dailyvol_deadline_check
+				,dailyvol_reg_date
+				)
+			VALUES 
+				(sf_new_dailyvol_code()
+				,#{storeInfoCode}
+				,#{menuCode}
+				,#{conCode}
+				,${salesCount}
+				,${dailyvolSubtotal}
+				,'x'
+				,NOW()
+				)
+	</insert>
+	<update id="modifySalesDeadLine">
+		UPDATE tb_sales
+		SET
+			sales_deadline_dailyvol='o'
+		WHERE 
+			sales_code IN
+		<foreach collection="arraySales" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</update>
+	<select id="getSalesByDailyVol" parameterType="HashMap" resultMap="DailyVolResultMap">
+		SELECT
+			s.store_info_code
+			,m.menu_code
+			,c.con_code
+			,sum(s.sales_count) AS 'sales_count'
+			,sum(s.sales_count) * c.con_volume AS 'dailyvol_subtotal'
+			,'x'
+			,date(NOW())
+		FROM
+			tb_sales AS s
+			LEFT JOIN
+			tb_menu AS m
+			ON
+			m.menu_code = s.menu_code
+			LEFT JOIN 
+			tb_consumption AS c
+			ON
+			m.menu_code = c.menu_code
+			LEFT join
+			tb_article AS a
+			on
+			c.article_code = a.article_code
+		WHERE s.sales_deadline_dailyvol ='x'
+		AND s.sales_code IN 
+		<foreach collection="arraySales" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		GROUP BY a.article_code, c.con_code
+			HAVING s.store_info_code = #{SSTORECODE}
+	</select>
+	
+</mapper>

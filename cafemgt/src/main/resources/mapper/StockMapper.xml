@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.StockMapper">
+	<resultMap type="StockDto" id="StockResultMap">
+		<result property="stockCode"	 			column="stock_code" />
+		<result property="storeInfoCode"	 		column="store_info_code" />
+		<result property="storeInfoName"	 		column="store_info_name" />
+		<result property="articleCode"	 			column="article_code" />
+		<result property="articleName"	 			column="article_name" />
+		<result property="articleVolume"	 		column="article_volume" />	
+		<result property="articleDan"	 			column="article_dan" />	
+		<result property="incoCount"	 			column="inco_count" />	
+		<result property="incoVolumeSubtotal"	 	column="inco_volume_subtotal" />	
+		<result property="stockIncoUnitTotal"	 	column="stock_inco_unit_total" />
+		<result property="stockMinUnit"	 			column="stock_min_unit" />
+		<result property="stockConCount"	 		column="stock_con_count" />
+		<result property="stocklVolumeTotal"	 	column="stock_volume_total" />
+		<result property="stockNowCount"	 		column="stock_now_count" />
+		<result property="stockNowVolume"	 		column="stock_now_volume" />
+		<result property="stockRegDate"	 			column="stock_reg_date" />
+		
+	</resultMap>
+	
+	<insert id="addStock" parameterType="StockDto">
+		INSERT INTO tb_stock
+			(stock_code
+			,store_info_code
+			,article_code
+			,inco_count
+			,inco_volume_subtotal
+			,stock_inco_unit_total
+			,stock_min_unit
+			,stock_con_count
+			,stock_volume_total
+			,stock_now_count
+			,stock_now_volume
+			,stock_reg_date
+			)
+		VALUES 
+			(sf_new_stock_code()
+			,#{storeInfoCode}
+			,#{articleCode}
+			,${incoCount}
+			,${incoVolumeSubtotal}
+			,${stockIncoUnitTotal}
+			,${stockMinUnit}
+			,${stockConCount}
+			,${stocklVolumeTotal}
+			,${stockNowCount}
+			,${stockNowVolume}
+			,NOW()
+			)
+		ON DUPLICATE KEY UPDATE 
+		 	 article_code = #{articleCode}
+			,inco_count = ${incoCount}
+			,inco_volume_subtotal = ${incoVolumeSubtotal}
+			,stock_inco_unit_total = ${stockIncoUnitTotal}
+			,stock_min_unit = ${stockMinUnit}
+			,stock_con_count = ${stockConCount}
+			,stock_volume_total = ${stocklVolumeTotal}
+			,stock_now_count = ${stockNowCount}
+			,stock_now_volume = ${stockNowVolume}
+			,stock_reg_date = NOW()
+	</insert>
+	<select id="getStockByTable" parameterType="String" resultMap="StockResultMap">
+		SELECT
+			 stock_code
+			,s.store_info_code
+			,a.article_code
+			,a.article_name
+			,inco_count
+			,inco_volume_subtotal
+			,stock_inco_unit_total
+			,stock_min_unit
+			,stock_con_count
+			,stock_volume_total
+			,stock_now_count
+			,stock_now_volume
+			,stock_reg_date
+		FROM 
+			tb_stock AS s
+			LEFT join
+			tb_article AS a
+			ON
+			s.article_code = a.article_code
+	</select>
+	<select id="getStock" parameterType="HashMap" resultMap="StockResultMap">
+		SELECT 
+			 inc.inco_code
+			,inc.store_info_code
+			,inc.article_code
+			,a.article_name
+			,a.article_dan
+			,sum(inco_count) AS 'inco_count'
+			,sum(inco_total) AS 'stock_inco_unit_total'
+			,sum(inco_volume_subtotal) AS 'inco_volume_subtotal'
+			,TRUNCATE(sum(inco_total)/sum(inco_volume_subtotal),0) AS 'stock_min_unit'
+			,SUM(dtv.detailvol_con_count) AS 'stock_con_count'
+			,SUM(dtv.detailvol_volume_total) AS 'stock_volume_total'
+			,SUM(dtv.detailvol_remain_count) AS 'stock_now_count'
+			,sum(dtv.detailvol_remain_volume) AS 'stock_now_volume'
+			,max(inco_date) AS 'stock_reg_date'
+			,inco_reg_date
+		FROM
+		tb_incoming as inc
+		LEFT JOIN 
+		tb_detail_volume AS dtv
+		ON inc.inco_code = dtv.inco_code
+		LEFT JOIN 
+		tb_article AS a
+		ON inc.article_code = a.article_code
+		WHERE inco_check != 3  
+			AND dtv.detailvol_deadline_check='x' 
+			AND inc.store_info_code = #{SSTORECODE}
+			<if test="arrayStock != null">
+				AND a.article_code IN
+				<foreach collection="arrayStock" item="item" index="index" separator="," open="(" close=")">
+					#{item}
+				</foreach>
+			</if>
+		GROUP BY inc.article_code
+	</select>
+</mapper>

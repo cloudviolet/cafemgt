@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>매출 마감</title>
+	</th:block>
+
+	<th:block layout:fragment="customCss">
+		<!-- Datatables -->
+		<link th:href="@{../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+	</th:block>
+	<th:block layout:fragment="customContents">
+	
+		<div class="right_col" role="main">
+			<div class="col-md-12 col-sm-12 ">
+				<div class="x_panel">
+					 <div class="x_title">
+	                    <h2>매출 마감</h2>
+	                    <ul class="nav navbar-right panel_toolbox">
+							<li><a id="forStockBtn" class="btn btn-info">마감</a></li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card-box table-responsive">
+									<p class="text-muted font-13 m-b-30">
+										회계,재고를 위한 매출마감
+										<code>강조!</code>
+									</p>
+									<table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width: 100%">
+										<thead>
+											<tr>
+												<th><input type="checkbox" id="check-all"></th>
+												<th>판매 코드</th>
+												<th>판매 메뉴</th>
+												<th>판매 수량</th>
+												<th>매출 유형</th>
+												<th>거래처 명</th>
+												<th>공급 가액</th>
+												<th>공급 세액</th>
+												<th>공급 합계</th>
+												<th>결제 유형</th>
+												<th>판매 날짜</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:if="${#lists.size(salesCheckList)>0}" th:each="scl : ${salesCheckList}">
+												<td><input type="checkbox" class="checkBox" name="checkBox" id="check-all"></td>
+												<td th:text="${scl.salesCode}"></td>
+												<td th:text="${scl.menuName}"></td>
+												<td th:text="${scl.salesCount}"></td>
+												<td th:text="${scl.salesVatType}"></td>
+												<td th:text="${scl.custName}"></td>
+												<td th:text="${scl.salesSupplyValue}"></td>
+												<td th:text="${scl.salesTax}"></td>
+												<td th:text="${scl.salesTotal}"></td>
+												<td th:text="${scl.salesPayType}"></td>
+												<td th:text="${scl.salesDate}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script th:src="@{../vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script th:src="@{../vendors/jszip/dist/jszip.min.js}"></script>
+		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
+		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
+		
+		<script type="text/javascript">
+		var checkBoxLength = $('.checkBox').length;		
+		console.log(checkBoxLength);
+		
+			$('#check-all').click(function(){
+				if($('#check-all').is(":checked")){
+					$('.checkBox').prop("checked", true);
+				}else{
+					$('.checkBox').prop("checked", false);
+				}
+			});			
+			$('.checkBox').click(function(){
+				if($("input[name=checkBox]:checked").length==checkBoxLength||$("input[name=checkBox]:checked").length==10){
+					$('#check-all').prop("checked", true);
+				}else {
+					$('#check-all').prop("checked", false);
+				}
+			});		
+			
+			$('#forStockBtn').click(function(){
+				//버튼을 눌렀을 때 배열 생성
+				var arraySales = [];
+				//버튼 눌렀을 때 체크박스에 체크된 것 찾기
+				var checkBox = $("input[name='checkBox']:checked");
+				
+				//그리고 체크되어있는 것들 반복문으로 돌리기
+				checkBox.each(function(i){
+					//반복되는 수만큼 객체 생성
+					var sales = {};
+					// checkbox.parent() : checkbox의 부모는 <td>이다.
+					// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+					var tr = checkBox.parent().parent().eq(i);
+					var td = tr.children();
+					
+					var cate = td.eq(1).text();
+					// 객체에 넣기
+					sales["salesCode"] = cate;
+					
+					// 배열에 객체 넣기
+			 		/* 
+			 		var test = td.eq(3).text();
+					sales["salesCount"] = test;
+					 */
+					arraySales.push(cate);
+				});
+				
+				console.log(arraySales);
+				if(arraySales.length != 0){
+					$.ajax({
+				        type : 'POST',
+				        url : 'salesDeadline',
+				        dataType : "text",
+				        data : {"arraySales" : arraySales},
+				        success : function(data){
+				        	console.log(data)
+				            alert("요청되었습니다.")
+				            location.href = '/getdailyvolDeadLine';
+				        },
+				        error : function(request,status,error){
+				        	console.log(request)
+				        	console.log(status)
+				        	console.log(error)
+				        }
+				    }); 
+				}
+				
+			});
+			
+			
+		</script>
+	</th:block>
+
+</html>

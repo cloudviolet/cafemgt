@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>매출 등록</title>
+	</th:block>
+	
+	<th:block layout:fragment="customCss">
+			<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
+	
+	<th:block layout:fragment="customContents">
+		<div class="right_col" role="main">
+		<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>매출 수정</h2>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<br />
+									<form id="demo-form2" th:action="@{/modifysales}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+										
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
+										<input type="hidden" name="salesSystemId" th:value="${session.MID}">
+										<input type="hidden" name="salesSystemName" th:value="${session.MNAME}">
+										<input type="hidden" name="salesCode" th:value="${salesDto.salesCode}">
+										
+										
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align" for="menuCode">메뉴 명  *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="menuCode" class="form-control" name="menuCode" style="text-align-last : center;" required>
+														<option value="">:::메뉴 선택:::</option>
+														<th:block th:if="${#lists.size(menuList) > 0}" th:each="ml : ${menuList}">
+															<option th:value="${ml.menuCode}" th:data-price="${ml.menuPrice}" th:text="${ml.menuName}"></option>														
+														</th:block>														
+													</select>
+												</div>
+										</div>
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 매출유형 *</label>
+												<div class="col-md-2 col-sm-2" style="text-align: center;">
+													<input type="radio" name="salesVatType" value="카드" required  > 카드
+												</div>						
+												<div class="col-md-2 col-sm-2" style="text-align: center;">
+													<input type="radio" name="salesVatType" value="현금" required > 현금												
+												</div>
+												<div class="col-md-2 col-sm-2 " style="text-align: center;">
+													<input type="radio" name="salesVatType" value="세금계산서" required > 세금계산서											
+												</div>
+										</div>	
+										<div class="form-group row">
+											<label class="control-label col-md-3 col-sm-3 label-align" for="custCode">거래처 명 *</label>
+												<div class="col-md-6 col-sm-6 ">
+													<select id="custCode" name="custCode" class="form-control" style="text-align-last : center;" required>
+														<option value="">:::거래처 명 선택:::</option>
+														<th:block th:if="${#lists.size(customerList) > 0}" th:each="cl : ${customerList}">														
+															<option th:value="${cl.custCode}" th:text="${cl.custName}"></option>
+														</th:block>
+													</select>
+												</div>
+										</div>
+										<div class="form-group row ">
+											<label class="control-label col-md-3 col-sm-3 label-align checkbox-inline"> 수금 *</label>
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="salesPayType" value="완료" required> 완료
+												</div>						
+												<div class="col-md-3 col-sm-3" style="text-align: center;">
+													<input type="radio" name="salesPayType" value="미수" required> 미수													
+												</div>
+										</div>																		
+										
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="salesCount">판매수량 * <span class="required"></span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="number" id="salesCount" name="salesCount" th:value="${salesDto.salesCount}" required="required" class="form-control ">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="salesTotal">판매금액 *
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="salesTotal" name="salesTotal" th:value="${salesDto.salesTotal}" required="required" class="form-control" readonly="readonly">
+											</div>
+										</div>										
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">매출 날짜 * 
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input name="salesDate" class="date-picker form-control" th:value="${salesDto.salesDate}" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
+											</div>
+										</div>
+									
+										<div class="ln_solid"></div>
+										<div class="form-group row">
+											<div class="col-md-6 col-sm-6 offset-md-3 text-center">
+												<button class="btn btn-primary" type="button">등록 취소</button>
+												<button class="btn btn-primary" type="reset">다시 작성</button>
+												<button type="button" id="submitBtn" class="btn btn-success">매출 수정</button>
+												
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+		
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="customJs">
+	<!-- bootstrap-daterangepicker -->
+	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+	<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+	<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+	<!-- jQuery Tags Input -->
+	<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+	<!-- Switchery -->
+	<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+	<!-- Select2 -->
+	<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+	<!-- Parsley -->
+	<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+	<!-- Autosize -->
+	<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+	<!-- jQuery autocomplete -->
+	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+	<!-- starrr -->
+	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script type="text/javascript">
+		var salesVatType = $('#demo-form2').find("input[name='salesVatType']");
+		var radio = $('#demo-form2').find("input[name='salesVatType']");
+		var salesPayType = $('#demo-form2').find("input:radio[name='salesPayType']");
+		var custCode = $('#custCode');
+		var getMenuCode = '[[${salesDto.menuCode}]]';
+		var menuCode = $('#menuCode').children();
+		for(var i=0; i<menuCode.length;i++){
+			if(menuCode.eq(i).val()==getMenuCode){
+				menuCode.eq(i).attr("selected", true);
+				break;
+			}
+		};
+		var getCustCode = '[[${salesDto.custCode}]]';
+		var custCodeVal = $('#custCode').children();
+		for(var i=0; i<custCodeVal.length;i++){
+			if(custCodeVal.eq(i).val()==getCustCode){
+				custCodeVal.eq(i).attr("selected", true);
+				break;
+			}			
+		}
+		var getSalesVatType = '[[${salesDto.salesVatType}]]';
+		for(var i=0;i<salesVatType.length;i++){
+			if(salesVatType.eq(i).val()==getSalesVatType){
+				salesVatType.eq(i).attr("checked", true);
+				break;
+			};
+		};
+		var getSalesPayType = '[[${salesDto.salesPayType}]]';
+		for(var i=0;i<salesPayType.length;i++){
+			if(salesPayType.eq(i).val()==getSalesPayType){
+				salesPayType.eq(i).attr("checked", true);
+				break;
+			}
+		}
+		
+		
+		$(function(){
+			radio.change(function(){
+				var radioValue = $("input[name='salesVatType']:checked").val();
+				console.log(radioValue);
+				if(radioValue=='현금'){
+					custCode.prop('disabled', true);
+					custCode.prop('selectedIndex',0);
+					custCode.val('cust_998').prop("selected", true);
+					custCode.val('cust_998');
+					console.log(custCode.val());
+					salesPayType.eq(0).attr("checked", true);
+				}else if(radioValue=='카드'){
+					custCode.prop('disabled', true);
+					custCode.val('cust_999').attr("selected", true);
+					custCode.val('cust_999')
+					salesPayType.eq(0).attr("checked", true);
+					console.log(custCode.val());
+				}else{
+					custCode.prop('disabled', false);
+					custCode.val('').attr("selected", true);
+					salesPayType.eq(0).attr("checked", false);
+				}
+			});
+		});
+		
+	
+		$(function(){
+			$('#salesCount').keyup(function(){
+				var count = $(this).val();
+				var menuPrice = $('#menuCode').find("option:selected").data("price");
+				console.log(count, menuPrice);
+				var totalPrice = count * menuPrice;
+				console.log(totalPrice);
+				$('#salesTotal').val(totalPrice);
+			});
+		});
+		
+		$(function(){
+			$('#submitBtn').click(function(){
+				custCode.prop('disabled', false);
+				$('#demo-form2').submit();
+			});
+		});
+		
+		
+	</script>
+	
+	</th:block>
+		
+</html>

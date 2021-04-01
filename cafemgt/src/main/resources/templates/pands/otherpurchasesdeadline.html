@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>기타 매입 조회 </title>
+	</th:block>
+		<th:block layout:fragment="customCss">
+		<!-- Datatables -->
+		<link th:href="@{../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+	</th:block>
+	<th:block layout:fragment="customContents">
+	
+		<div class="right_col" role="main">
+			<div class="col-md-12 col-sm-12 ">
+				<div class="x_panel">
+					 <div class="x_title">
+	                    <h2>기타매입 마감</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><button id="forTaxBtn" class="btn btn-info">마감</button></li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card-box table-responsive">
+									<p class="text-muted font-13 m-b-30">
+										여기에 설명써주시면됩니다.
+										<code>강조!</code>
+									</p>
+									<table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width: 100%;">
+										<thead>
+											<tr>
+												<th><input type="checkbox" id="check-all"></th>
+												<th>매입 유형</th>
+												<th>상호 명</th>
+												<th>공급 가액</th>
+												<th>공급 세액</th>
+												<th>공급 합계</th>
+												<th>상세</th>
+												<th>사용 날짜</th>
+												<th class="hidden">차변코드</th>
+												<th class="hidden">대변코드</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:if="${#lists.size(otherPurchasesCheckList)>0}" th:each="ocl : ${otherPurchasesCheckList}">
+												<td><input type="checkbox" name="checkbox" id="check-all"></td>
+												<td th:text="${ocl.oeVatType}"></td>
+												<td th:text="${ocl.oeStoreName}"></td>
+												<td th:text="${ocl.oeSupplyValue}"></td>
+												<td th:text="${ocl.oeTax}"></td>
+												<td th:text="${ocl.oeTotal}"></td>
+												<td th:text="${ocl.oeEtc}"></td>
+												<td th:text="${ocl.oeDate}"></td>
+												<td class="hidden" th:text="${ocl.atDebitCode}"></td>
+												<td class="hidden" th:text="${ocl.atCreditCode}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script th:src="@{../vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script th:src="@{../vendors/jszip/dist/jszip.min.js}"></script>
+		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
+		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
+		
+		<script type="text/javascript">
+			$(function(){
+				$('.hidden').attr('style', "display:none;");
+			})
+		
+			$('#forTaxBtn').click(function(){
+				var arrayOtherPurchases = [];
+				var checkBox = $("input[name='checkbox']:checked");
+				checkBox.each(function(i){
+					var otherPurchases = {};
+					var tr = checkBox.parent().parent().eq(i);
+					var td = tr.children();
+										
+					var cate = td.eq(1).text();
+					otherPurchases[cate] = cate;
+					var test = td.eq(2).text();
+					otherPurchases[test] = test;
+					arrayOtherPurchases.push(otherPurchases);
+				});
+				console.log(arrayOtherPurchases);
+			});
+		</script>
+	</th:block>
+
+</html>

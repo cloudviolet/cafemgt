@@ -6,11 +6,132 @@
 	<th:block layout:fragment="customTitle">
 		<title>품목별 재고 총 수량 조회</title>
 	</th:block>
-
+	
+	<th:block layout:fragment="customCss">
+		<!-- Datatables -->
+		<link th:href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+	</th:block>
+	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-		
+			<div class="col-md-12 col-sm-12 ">
+				<div class="x_panel">
+					 <div class="x_title">
+		                <h2>품목별 재고 총 수량 조회</h2>
+		                
+		                <!-- 상단 옵션네비바 시작 -->
+						<ul class="nav navbar-right panel_toolbox">
+						</ul>
+						<!-- 상단 옵션네비바 끝 -->
+							
+						<div class="clearfix"></div>
+							
+					</div>
+					<div class="x_content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card-box table-responsive">
+									<p class="text-muted font-13 m-b-30">
+										여기에 설명써주시면됩니다.
+										<code>강조!</code>
+									</p>
+									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+										<thead>
+											<tr>
+											<!--  
+												<th>품목상세소모량코드</th>
+												<th>사업장 코드</th>
+												<th>상호명</th>
+												<th>입고수량코드</th>
+												<th>품목코드</th>
+											-->
+												<th>품목명</th>
+												<th>입고날짜</th>
+												<th>입고수량</th>
+											<!-- 
+												<th>용량</th>
+												<th>단위</th>
+											 -->
+												<th>입고용량소계</th>
+												<th>소모용량</th>
+												<th>소모수량</th>
+												<th>잔여용량</th>
+												<th>잔여수량</th>
+												<th>품목 소모 단계</th>
+												<th>등록날짜</th>
+												<th>마감유무</th>
+											<!-- 
+												<th>일 품목 용량 합계 그룹코드</th>
+												<th>등록 아이디</th>
+												<th>등록 이름</th>
+											 -->
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="tsl : ${totalStockList}">
+											<!-- 
+												<td th:text="${tsl.detailvolCode}"></td>
+												<td th:text="${tsl.storeInfoCode}"></td>
+												<td th:text="${tsl.storeInfoName}"></td>
+												<td th:text="${tsl.incoCode}"></td>
+												<td th:text="${tsl.articleCode}"></td>
+											 -->
+												<td th:text="${tsl.articleName}"></td>
+												<td th:text="${tsl.incoDate}"></td>
+												<td th:text="${tsl.incoCount}"></td>
+											<!-- 
+												<td th:text="${tsl.articleVolume}"></td>
+												<td th:text="${tsl.articleDan}"></td>
+											 -->
+												<td>
+													<span style="float: left;">[[${tsl.incoVolumeSubtotal}]]</span>
+													<span style="float: right;">[[${tsl.articleDan}]]</span>
+												</td>
+												<td th:text="${tsl.detailvolVolumeTotal}+' '+${tsl.articleDan}"></td>
+												<td th:text="${tsl.detailvolConCount}"></td>
+												<td th:text="${tsl.detailvolRemainVolume}+' '+${tsl.articleDan}"></td>
+												<td th:text="${tsl.detailvolRemainCount}"></td>
+												<td th:if="${tsl.incoCheck== 3}" style="color: red;" th:text="${tsl.detailvolCheckString}"></td>
+												<td th:unless="${tsl.incoCheck == 3}" style="color: black;" th:text="${tsl.detailvolCheckString}"></td>
+												<td th:text="${tsl.detailvolRegDate}"></td>
+												<td th:text="${tsl.detailvolDeadlineCheck}"></td>
+											<!-- 
+												<td th:text="${tsl.detailvolStockGroupCode}"></td>
+												<td th:text="${tsl.detailvolSystemId}"></td>
+												<td th:text="${tsl.detailvolSystemName}"></td>
+											-->
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-
+	</th:block>
+	
+	<th:block layout:fragment="customJs">
+		<!-- customJs -->
+		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script	th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
+		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
+		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
 	</th:block>
 </html>

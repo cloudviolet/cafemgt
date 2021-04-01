@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.SalesMapper">
+	<resultMap type="SalesDto" id="salesDtoResultMap">
+		<result property="salesCode" 				column="sales_code"/>
+		<result property="storeInfoCode" 			column="store_info_code"/>
+		<result property="menuCode" 				column="menu_code"/>
+		<result property="menuName" 				column="menu_name"/>
+		<result property="salesCount"	 			column="sales_count"/>
+		<result property="salesTotal" 				column="sales_total"/>
+		<result property="salesSupplyValue" 		column="sales_supply_value"/>
+		<result property="salesTax" 				column="sales_tax"/>
+		<result property="salesVatType" 			column="sales_vat_type"/>
+		<result property="salesPayType" 			column="sales_pay_type"/>
+		<result property="custCode" 				column="cust_code"/>
+		<result property="custName" 				column="cust_name"/>
+		<result property="salesDate" 				column="sales_date"/>
+		<result property="salesRegDate" 			column="sales_reg_date"/>
+		<result property="salesDeadlineTax" 		column="sales_deadline_tax"/>
+		<result property="salesDealingGroupCode"	column="sales_dealing_group_code"/>
+		<result property="salesDeadlineDailyvol" 	column="sales_deadline_dailyvol"/>
+		<result property="salesDaliyvolGroupCode" 	column="sales_daliyvol_group_code"/>
+		<result property="salesSystemId" 			column="sales_system_id"/>
+		<result property="salesSystemName" 			column="sales_system_name"/>
+	</resultMap>
+	
+	<delete id="removeSales" parameterType="String">
+		DELETE FROM 
+			tb_sales 
+		WHERE 
+			sales_code=#{salesCode};
+	</delete>
+	
+	<update id="modifySales" parameterType="SalesDto">
+		UPDATE 
+			tb_sales
+		SET
+			sales_count=#{salesCount},
+			sales_total=#{salesTotal},
+			sales_supply_value=#{salesTotal}/1.1,
+			sales_tax=sales_total-sales_supply_value,
+			sales_vat_type=#{salesVatType},
+			sales_pay_type=#{salesPayType},
+			cust_code=#{custCode},
+			sales_date=#{salesDate},
+			sales_reg_date=NOW()
+		WHERE 
+			sales_code=#{salesCode};
+	</update>
+	
+	<select id="getSalesBySalesCode" parameterType="String" resultMap="salesDtoResultMap">
+		SELECT 
+			s.sales_code
+			, i.store_info_code
+			, i.store_info_name
+			, s.menu_code
+			, s.sales_count
+			, s.sales_total
+			, s.sales_supply_value
+			, s.sales_tax
+			, s.sales_vat_type
+			, s.sales_pay_type
+			, s.cust_code
+			, s.sales_date
+			, s.sales_reg_date
+			, s.sales_deadline_tax
+			, s.sales_dealing_group_code
+			, s.sales_deadline_dailyvol
+			, s.sales_daliyvol_group_code
+			, s.sales_system_id
+			, s.sales_system_name
+		FROM 
+			tb_sales AS s
+		LEFT JOIN
+			tb_store_info AS i
+		ON 
+			s.store_info_code = i.store_info_code
+		WHERE 
+			s.sales_code = #{salesCode};
+	</select>
+	
+	<select id="getTotalPandS" parameterType="String" resultType="HashMap">
+		SELECT
+			SUM(if(d.deal_cate='매출', d.deal_total, 0)) AS 'totalSales'
+			,SUM(if(d.deal_cate='매입', d.deal_total, 0)) AS 'totalPurchases'
+			,SUM(if(d.deal_cate='기타매입', d.deal_total, 0)) AS 'totalOtherPurchases'
+		
+		FROM 
+			tb_dealing AS d
+		WHERE 
+			d.deal_date BETWEEN #{searchFirstDate} AND #{searchLastDate}
+		AND
+			d.store_info_code = #{SSTORECODE};
+	</select>
+	
+	<insert id="addSales" parameterType="SalesDto">
+		INSERT INTO tb_sales
+	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline_tax, sales_dealing_group_code, sales_deadline_dailyvol, sales_daliyvol_group_code, sales_system_id, sales_system_name)
+	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), 'x', '', 'x', '', #{salesSystemId}, #{salesSystemName})
+	</insert>
+	
+	<select id="salesDeadlineForTax" parameterType="String" resultMap="salesDtoResultMap">
+		SELECT 
+			s.sales_code, 
+			s.store_info_code, 
+			s.menu_code, 
+			m.menu_name,
+			s.sales_count, 
+			s.sales_total, 
+			s.sales_supply_value, 
+			s.sales_tax, 
+			s.sales_vat_type, 
+			s.sales_pay_type, 
+			s.cust_code, 
+			c.cust_name,
+			s.sales_date, 
+			s.sales_reg_date, 
+			s.sales_dealing_group_code, 
+			s.sales_daliyvol_group_code, 
+			s.sales_system_id, 
+			s.sales_system_name
+		FROM 
+			tb_sales AS s
+			LEFT JOIN
+			tb_menu AS m
+			ON
+			s.menu_code = m.menu_code
+			LEFT JOIN
+			tb_customer AS c
+			ON
+		  	s.cust_code = c.cust_code
+		WHERE
+			s.store_info_code = #{SSTORECODE}
+		AND
+			s.sales_deadline_tax = 'x'
+	</select>
+	
+	<select id="salesDeadlineForStock" parameterType="String" resultMap="salesDtoResultMap">
+		SELECT 
+			s.sales_code, 
+			s.store_info_code, 
+			s.menu_code, 
+			m.menu_name,
+			s.sales_count, 
+			s.sales_total, 
+			s.sales_supply_value, 
+			s.sales_tax, 
+			s.sales_vat_type, 
+			s.sales_pay_type, 
+			s.cust_code, 
+			c.cust_name,
+			s.sales_date, 
+			s.sales_reg_date, 
+			s.sales_dealing_group_code, 
+			s.sales_daliyvol_group_code, 
+			s.sales_system_id, 
+			s.sales_system_name
+		FROM 
+			tb_sales AS s
+			LEFT JOIN
+			tb_menu AS m
+			ON
+			s.menu_code = m.menu_code
+			LEFT JOIN
+			tb_customer AS c
+			ON
+		  	s.cust_code = c.cust_code
+		WHERE
+			s.store_info_code = #{SSTORECODE}
+		AND
+			s.sales_deadline_dailyvol = 'x';
+	</select>
+	
+	<select id="getSales" parameterType="String" resultMap="salesDtoResultMap">
+		SELECT 
+			s.sales_code, 
+			s.store_info_code, 
+			s.menu_code, 
+			m.menu_name,
+			s.sales_count, 
+			s.sales_total, 
+			s.sales_supply_value, 
+			s.sales_tax, 
+			s.sales_vat_type, 
+			s.sales_pay_type, 
+			s.cust_code, 
+			c.cust_name,
+			s.sales_date, 
+			s.sales_reg_date, 
+			s.sales_deadline_dailyvol,
+			s.sales_deadline_tax,
+			s.sales_system_id, 
+			s.sales_system_name
+		FROM 
+			tb_sales AS s
+			LEFT JOIN
+			tb_menu AS m
+			ON
+			s.menu_code = m.menu_code
+			LEFT JOIN
+			tb_customer AS c
+			ON
+		  	s.cust_code = c.cust_code
+		WHERE
+			s.store_info_code = #{SSTORECODE};
+	</select>
+</mapper>

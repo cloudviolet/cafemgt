@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.SalaryMapper">
+
+	<resultMap type="SalaryDto" id="salaryResultMap">
+		<result property="salaryCode" 			column="salary_code"/>
+		<result property="storeInfoCode" 		column="store_info_code"/>
+		<result property="storeInfoName" 		column="store_info_Name"/>
+		<result property="memberId"				column="member_id"/>
+		<result property="memberName" 			column="member_name"/>
+		<result property="salaryYearMonth"		column="salary_year_month"/>
+		<result property="salaryPay"			column="salary_pay"/>
+		<result property="salaryBtaxTotal" 		column="salary_btax_total"/>
+		<result property="salaryBntaxTotal"	 	column="salary_bntax_total"/>
+		<result property="salaryTotal"			column="salary_total"/>
+		<result property="salaryIncome"			column="salary_income"/>
+		<result property="salaryIncomeLocal"	column="salary_income_local"/>
+		<result property="salaryInsuCalc" 		column="salary_insu_calc"/>
+		<result property="salaryDeduction" 		column="salary_deduction"/>
+		<result property="salaryReceipts" 		column="salary_receipts"/>
+		<result property="salaryPayDate" 		column="salary_pay_date"/>
+		<result property="salaryRegDate" 		column="salary_reg_date"/>
+	</resultMap>
+	
+	<update id="modifySalary" parameterType="SalaryDto">
+		UPDATE tb_salary
+			SET
+				salary_year_month=#{salaryYearMonth}
+				,salary_pay=#{salaryPay}
+				, salary_btax_total=#{salaryBtaxTotal}
+				, salary_bntax_total=#{salaryBntaxTotal}
+				, salary_total=#{salaryTotal}
+				, salary_income=#{salaryIncome}
+				, salary_income_local=#{salaryIncomeLocal}
+				, salary_insu_calc=#{salaryInsuCalc}
+				, salary_deduction=#{salaryDeduction}
+				, salary_receipts=#{salaryReceipts}
+				, salary_pay_date=#{salaryPayDate}
+			WHERE salary_code=#{salaryCode}
+	</update>
+	<select id="getSalaryBySalaryCode" parameterType="String" resultMap="salaryResultMap">
+		SELECT
+			slr.salary_code
+			,slr.store_info_code
+			,st.store_info_name
+			,slr.member_id
+			,us.member_name
+			,slr.salary_year_month
+			,slr.salary_pay
+			,slr.salary_btax_total
+			,slr.salary_bntax_total
+			,slr.salary_total
+			,slr.salary_income
+			,slr.salary_income_local
+			,slr.salary_insu_calc
+			,slr.salary_deduction
+			,slr.salary_receipts
+			,slr.salary_pay_date
+			,slr.salary_reg_date
+		FROM
+			tb_salary AS slr
+		LEFT JOIN
+			tb_store_info AS st
+		ON
+			slr.store_info_code = st.store_info_code
+		LEFT JOIN
+			tb_member AS us
+		ON
+			slr.member_id=us.member_id
+		WHERE
+			slr.salary_code= #{salaryCode}
+	</select>
+	<insert id="addSalary" parameterType="SalaryDto">
+		INSERT INTO tb_salary
+			(salary_code
+			, store_info_code
+			, member_id
+			, salary_year_month
+			, salary_pay
+			, salary_btax_total
+			, salary_bntax_total
+			, salary_total
+			, salary_income
+			, salary_income_local
+			, salary_insu_calc
+			, salary_deduction
+			, salary_receipts
+			, salary_pay_date
+			, salary_reg_date)
+		VALUES 
+			(sf_new_salary_code()
+			, #{storeInfoCode}
+			, #{memberId}
+			, #{salaryYearMonth}
+			, #{salaryPay}
+			, #{salaryBtaxTotal}
+			, #{salaryBntaxTotal}
+			, #{salaryTotal}
+			, #{salaryIncome}
+			, #{salaryIncomeLocal}
+			, #{salaryInsuCalc}
+			, #{salaryDeduction}
+			, #{salaryReceipts}
+			, #{salaryPayDate}
+			, NOW())
+	</insert>
+	
+	<select id="getSalary" resultMap="salaryResultMap">
+		SELECT
+			slr.salary_code
+			,slr.store_info_code
+			,st.store_info_name
+			,slr.member_id
+			,us.member_name
+			,slr.salary_year_month
+			,slr.salary_pay
+			,slr.salary_btax_total
+			,slr.salary_bntax_total
+			,slr.salary_total
+			,slr.salary_income
+			,slr.salary_income_local
+			,slr.salary_insu_calc
+			,slr.salary_deduction
+			,slr.salary_receipts
+			,slr.salary_pay_date
+			,slr.salary_reg_date
+		FROM
+			tb_salary AS slr
+		LEFT JOIN
+			tb_store_info AS st
+		ON
+			slr.store_info_code = st.store_info_code
+		LEFT JOIN
+			tb_member AS us
+		ON
+			slr.member_id=us.member_id
+		WHERE
+			slr.store_info_code= #{SSTORECODE}
+	</select>
+</mapper>

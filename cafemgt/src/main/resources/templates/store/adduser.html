@@ -7,9 +7,170 @@
 		<title>직원 등록</title>
 	</th:block>
 
+	<th:block layout:fragment="customCss">
+			<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 ">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>직원 추가 정보 등록</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<br />
+							<!-- 메인콘텐츠 Start -->
+							<form th:action="@{/adduser}" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+								<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
+								<input type="hidden" id="memberId" name="memberId">
+								<input type="hidden" id="levelCode" name="levelCode">
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userId">직원 이름 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<select id="memberName" name="memberName" class="form-control" style="text-align-last : center;" required data-parsley-error-message="*필수 선택사항 " >
+												<option value="">:::직원선택:::</option>
+											<th:block th:if="${#lists.size(MemberUserList) > 0}" th:each="ml : ${MemberUserList}">
+												<option th:value="${ml.memberName}" th:text="${ml.memberName}" th:data-memberid=${ml.memberId} th:data-levelcode=${ml.levelCode}></option>						
+											</th:block>						
+										</select>								
+									</div>
+								</div>									
+								<div class="form-group row">									
+									<label class="col-form-label col-md-3 col-sm-3 label-align">입사 날짜 * 
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input id="userJoinDate" name="userJoinDate" class="date-picker form-control" data-parsley-error-message="*필수 입력사항 "
+										placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" 
+										onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+										<script>
+											function timeFunctionLong(input) {
+												setTimeout(function() {
+													input.type = 'text';
+												}, 60000);
+											}
+										</script>
+									</div>
+								</div>	
+								<div class="form-group row horizontal">
+									<label class="control-label col-md-3 col-sm-3 label-align" for="userPay">기본급여 / 시급 *<span class="required"></span></label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="userPay" data-parsley-error-message="*필수 입력사항  :숫자만 입력해주세요." 
+										name="userPay" class="form-control userPay" required="required" />
+									</div>
+									<label class="control-label label-align" style="font-size: 15px;">원</label>
+								</div>								
+								<div class="form-group row horizontal">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userWorkTime">소정 근로시간(일일) *</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="userWorkTime"
+										name="userWorkTime" data-parsley-error-message="*필수 입력사항  :숫자만 입력해주세요." class="form-control userWorkTime" required='required' />
+									</div>
+									<label class="control-label label-align" style="font-size: 15px;">시간</label>
+								</div>
+								
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userBankName">은행명 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="userBankName" data-parsley-error-message="*필수 입력사항 " 
+										name="userBankName" required="required" class="form-control userBankName"/>												
+									</div>	
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userBankAcount">계좌번호 * <span class="required"></span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">								
+										<input type="text" id="userBankAcount" data-parsley-error-message="*필수 입력사항  :숫자만 입력해주세요." 
+										name="userBankAcount" class="form-control userBankAcount" required='required' />
+									</div>
+								</div>					
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userAgreement">근로계약서 *</label>						
+									<div class="btn-group">
+										<a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"></a>
+										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="userAgreement"/>								
+									</div>								
+								</div>								
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userHealthCard">보건증 *</label>
+									<div class="btn-group">
+										<a class="btn" title="Insert picture (or just drag & drop)" id="userHealthCard"></a>
+										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="userHealthCard" />
+									</div>		
+								</div>
+								<div class="ln_solid"></div>
+								<div class="form-group row">
+									<div class="col-md-4 col-sm-8 offset-md-4 text-center">
+										<button class="btn btn-primary" type="reset">다시 작성</button>
+										<button type="submit" class="btn btn-success">등록 하기</button>
+									</div>
+								</div>
+							</form>
+							<!-- 메인콘텐츠 End -->
+						</div>
+					</div>
+				</div>
+			</div>		
 		</div>
 	</th:block>
+	
+	
+	
+	<th:block layout:fragment="customJs">
+		<!-- bootstrap-daterangepicker -->
+		<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+		<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+		<!-- bootstrap-wysiwyg -->
+		<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+		<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+		<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+		<!-- jQuery Tags Input -->
+		<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+		<!-- Switchery -->
+		<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+		<!-- Select2 -->
+		<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+		<!-- Parsley -->
+		<script th:src="@{/vendors/parsleyjs/dist/parsley.js}"></script>
+		<!-- Autosize -->
+		<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+		<!-- jQuery autocomplete -->
+		<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+		<!-- starrr -->
+		<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+		<!-- 연락처 스크립트 -->
+		<script type="text/javascript">
+		$(document).on("keyup", ".userWorkTime", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "") ); });
+
+		$(document).on("keyup", ".userBankAcount", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "").replace("--", "-") ); });
+
+		$(document).on("keyup", ".userPay", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "").replace("--", "-") ); });
+
+		$('#memberName').change(function(){
+			var memberid = $('#memberName').find("option:selected").data("memberid");
+			console.log(memberid);
+			$('#memberId').val(memberid);
+			var levelcode = $('#memberName').find("option:selected").data("levelcode");
+			console.log(levelcode);
+			$('#levelCode').val(levelcode);
+			console.log($('#memberId').val());
+		})
+
+		</script>
+	
+	</th:block>	
+	
 
 </html>
