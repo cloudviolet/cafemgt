@@ -25,10 +25,12 @@ import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.OtherPurchasesDto;
 import com.cafemgt.dto.PurchasesDto;
 import com.cafemgt.dto.SalesDto;
+import com.cafemgt.dto.VatDto;
 import com.cafemgt.service.MemberService;
 import com.cafemgt.service.OtherPurchasesService;
 import com.cafemgt.service.PurchasesService;
 import com.cafemgt.service.SalesService;
+import com.cafemgt.service.TaxService;
 
 @Controller
 public class TaxController {
@@ -40,6 +42,7 @@ public class TaxController {
 	private final CustomerMapper customerMapper;
 	private final ArticleMapper articleMapper;
 	private final MemberService memberService;
+	private final TaxService taxService; 
 	
 	public TaxController(SalesService salesService
 						 ,PurchasesService purchasesService
@@ -47,7 +50,8 @@ public class TaxController {
 						 ,MenuMapper menuMapper
 						 ,CustomerMapper customerMapper
 						 ,ArticleMapper articleMapper
-						 ,MemberService memberService) {
+						 ,MemberService memberService
+						 ,TaxService taxService) {
 		this.salesService = salesService;
 		this.purchasesService = purchasesService;
 		this.otherPurchasesService = otherPurchasesService;
@@ -55,6 +59,7 @@ public class TaxController {
 		this.customerMapper = customerMapper;
 		this.articleMapper = articleMapper;
 		this.memberService = memberService;
+		this.taxService = taxService;
 	}
 	
 	@PostConstruct
@@ -168,10 +173,8 @@ public class TaxController {
 	}
 	
 	@GetMapping("/gettotalpands")
-	public String getTotalPandS(HttpSession session,Model model) {
-		String MID = (String)session.getAttribute("MID");
-		model.addAttribute("getYear", memberService.getyear(MID));
-		System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<");
+	public String getTotalPandS() {
+
 		return "tax/gettotalpands";
 	}
 	
@@ -186,21 +189,44 @@ public class TaxController {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		Map<String, Object> map = new HashMap<>();	
 		map = salesService.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
+		System.out.println(map);
 			return map;			
 	}
 		
 	@ResponseBody
 	@PostMapping("/getmyvat")
-	public int getMyVat( @RequestParam(value = "searchDays", required = false)String searchDays 
-						,Model model, HttpSession session){
+	public VatDto getMyVat( @RequestParam(value = "searchDays", required = false)String searchDays 
+						   ,HttpSession session){
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		System.out.println(searchDays);
-		return 0;		
+		VatDto vatList = taxService.getMyVat(searchDays, SSTORECODE);
+		System.out.println(vatList);
+		return vatList;		
 	}
 	
 	@GetMapping("/getvat")
-	public String getVat() {
+	public String getVat(HttpSession session,Model model) {
+		String MID = (String)session.getAttribute("MID");
+		String MNAME = (String)session.getAttribute("MNAME");	
+		model.addAttribute("getYear", memberService.getyear(MID));
+		model.addAttribute("MNAME", MNAME);
+		System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<");
 		return "tax/getvat";
+	}
+	
+	@ResponseBody
+	@PostMapping("/addintendedtax")
+	public boolean addIntendedTax(@RequestParam(value = "intendedDays",required = false)String intendedDays
+								 ,@RequestParam(value = "vatIntendedTax",required = false)String vatIntendedTax
+								 ,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");	
+		int result = taxService.addIntendedTax(intendedDays,vatIntendedTax,SSTORECODE);
+		System.out.println(result);
+		boolean addIntendedTaxResult = false;
+		if(result==1) {
+			addIntendedTaxResult = true;
+		}
+		return addIntendedTaxResult;
 	}
 	
 	@GetMapping("/getincomestatement")
