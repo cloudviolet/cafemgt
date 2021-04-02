@@ -260,9 +260,16 @@ public class StoreController {
 	}
 	
 	@GetMapping("/addcustomer")
-	public String addcustomer() {
+	public String addcustomer(Model model) {
 		
 		return "store/addcustomer";	
+	}
+	
+	@PostMapping("/addcustomer")
+	public String addcustomer(CustomerDto customerDto) {
+		customerService.addCustomer(customerDto);
+		
+		return "redirect:/getcustomer";	
 	}
 
 	/*직원 추가정보 등록을 위한 메서드 member.~ 파일에서 작업함*/

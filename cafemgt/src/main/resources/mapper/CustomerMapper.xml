@@ -15,7 +15,30 @@
 		<result property="custEtc" 				column="cust_etc"/>
 		<result property="custRegDate" 			column="cust_reg_date"/>
 	</resultMap>
-
+	<!-- 거래처 등록 -->
+	<insert id="addCustomer" parameterType="CustomerDto">
+	INSERT INTO tb_customer
+		(cust_code
+		, store_info_code
+		, cust_number
+		, cust_name
+		, cust_business_type
+		, cust_owner_name
+		, cust_phone
+		, cust_etc
+		, cust_reg_date)
+	VALUES (sf_new_cust_code()
+				, #{storeInfoCode}
+				, #{custNumber}
+				, #{custName}
+				, #{custBusinessType}
+				, #{custOwnerName}
+				, #{custPhone}
+				, #{custEtc}
+				, NOW())
+	</insert>
+	
+	<!-- 거래처 조회 -->
 	<select id="getCustomer" resultMap="customerResulMap">
 	SELECT 
 		cr.cust_code
