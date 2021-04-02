@@ -19,9 +19,7 @@
 		<result property="salesDate" 				column="sales_date"/>
 		<result property="salesRegDate" 			column="sales_reg_date"/>
 		<result property="salesDeadlineTax" 		column="sales_deadline_tax"/>
-		<result property="salesDealingGroupCode"	column="sales_dealing_group_code"/>
 		<result property="salesDeadlineDailyvol" 	column="sales_deadline_dailyvol"/>
-		<result property="salesDaliyvolGroupCode" 	column="sales_daliyvol_group_code"/>
 		<result property="salesSystemId" 			column="sales_system_id"/>
 		<result property="salesSystemName" 			column="sales_system_name"/>
 	</resultMap>
@@ -66,9 +64,7 @@
 			, s.sales_date
 			, s.sales_reg_date
 			, s.sales_deadline_tax
-			, s.sales_dealing_group_code
 			, s.sales_deadline_dailyvol
-			, s.sales_daliyvol_group_code
 			, s.sales_system_id
 			, s.sales_system_name
 		FROM 
@@ -97,8 +93,8 @@
 	
 	<insert id="addSales" parameterType="SalesDto">
 		INSERT INTO tb_sales
-	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline_tax, sales_dealing_group_code, sales_deadline_dailyvol, sales_daliyvol_group_code, sales_system_id, sales_system_name)
-	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), 'x', '', 'x', '', #{salesSystemId}, #{salesSystemName})
+	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline_tax, sales_deadline_dailyvol, sales_system_id, sales_system_name)
+	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), 'x', 'x', #{salesSystemId}, #{salesSystemName})
 	</insert>
 	
 	<select id="salesDeadlineForTax" parameterType="String" resultMap="salesDtoResultMap">
@@ -117,8 +113,6 @@
 			c.cust_name,
 			s.sales_date, 
 			s.sales_reg_date, 
-			s.sales_dealing_group_code, 
-			s.sales_daliyvol_group_code, 
 			s.sales_system_id, 
 			s.sales_system_name
 		FROM 
@@ -153,8 +147,6 @@
 			c.cust_name,
 			s.sales_date, 
 			s.sales_reg_date, 
-			s.sales_dealing_group_code, 
-			s.sales_daliyvol_group_code, 
 			s.sales_system_id, 
 			s.sales_system_name
 		FROM 

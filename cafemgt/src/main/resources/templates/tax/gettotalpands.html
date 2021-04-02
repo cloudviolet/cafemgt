@@ -114,53 +114,62 @@
     <script>
     var searchFirstDate = $('#searchFirstDate');
     var searchLastDate = $('#searchLastDate');
+    var oldDate = '[[${oldDate}]]';
+    console.log(Number(oldDate.replace(/-/gi,'')));
     $('#searchBtn').click(function(){
-		var request = $.ajax({
-			url: "gettotalpands", 
-			method: "POST",
-			data: { searchFirstDate : searchFirstDate.val()
-					,searchLastDate : searchLastDate.val() },
-			dataType: "json"
-		,
-        success : function(result) {
-        	if(result){
-		        $('#chartTable').show();
-		        var totalSales = result.totalSales;
-		        var totalPurchases = result.totalPurchases;
-		        var totalOtherPurchases = result.totalOtherPurchases;
-		        var sumTotal = totalSales + totalPurchases + totalOtherPurchases;
-		        
-		        var totlaSalesPer = (totalSales/sumTotal*100).toFixed(2);
-		        var totalPurchasesPer = (totalPurchases/sumTotal*100).toFixed(2);
-		        var totalOtherPurchasesPer = (totalOtherPurchases/sumTotal*100).toFixed(2);
-		        $('#slaesPer').text(totlaSalesPer);
-		        $('#purchasesPer').text(totalPurchasesPer);
-		        $('#otherPurchasesPer').text(totalOtherPurchasesPer);
-		        
-		       	   data = {
-		       			   datasets: [{
-		       					 backgroundColor: ['#E6E6FA','#FFFACD','#AFEEEE'], 
-		       					data: [totalSales, totalPurchases, totalOtherPurchases] 
-		       				}], 
-		       				// 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 
-		       				labels: ['매출','매입','기타지출'] 
-		       				};
-		       	
-		       			var ctx1 = $('.purchasesandsales');
-		       			var myPieChart = new Chart(ctx1, { 
-		       				type: 'pie', 
-		       				data: data, 
-		       				options: {} 
-		       			})        		
-        	}
-        },
-        error : function(xhr,status,error) {
-        	console.log("xhr: " + xhr);
-        	console.log("status: " + status);
-        	console.log("error: " + error);
-        	 $('#chartTable').hide();
-        }
-		});
+	    var NumFirstDate = Number(searchFirstDate.val().replace(/-/gi,''));
+	    var NumLastDate = Number(searchLastDate.val().replace(/-/gi,''))
+	    if(NumFirstDate>NumLastDate){
+	    	alert('날짜를 제대로 입력해주세요.');
+	    }else{
+			var request = $.ajax({
+				url: "gettotalpands", 
+				method: "POST",
+				data: { searchFirstDate : searchFirstDate.val()
+						,searchLastDate : searchLastDate.val() },
+				dataType: "json"
+			,
+	        success : function(result) {
+	        	if(result){
+			        $('#chartTable').show();
+			        var totalSales = result.totalSales;
+			        var totalPurchases = result.totalPurchases;
+			        var totalOtherPurchases = result.totalOtherPurchases;
+			        var sumTotal = totalSales + totalPurchases + totalOtherPurchases;
+			        
+			        var totlaSalesPer = (totalSales/sumTotal*100).toFixed(2);
+			        var totalPurchasesPer = (totalPurchases/sumTotal*100).toFixed(2);
+			        var totalOtherPurchasesPer = (totalOtherPurchases/sumTotal*100).toFixed(2);
+			        $('#slaesPer').text(totlaSalesPer);
+			        $('#purchasesPer').text(totalPurchasesPer);
+			        $('#otherPurchasesPer').text(totalOtherPurchasesPer);
+			        
+			       	   data = {
+			       			   datasets: [{
+			       					 backgroundColor: ['#E6E6FA','#FFFACD','#AFEEEE'], 
+			       					data: [totalSales, totalPurchases, totalOtherPurchases] 
+			       				}], 
+			       				// 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 
+			       				labels: ['매출','매입','기타지출'] 
+			       				};
+			       	
+			       			var ctx1 = $('.purchasesandsales');
+			       			var myPieChart = new Chart(ctx1, { 
+			       				type: 'pie', 
+			       				data: data, 
+			       				options: {} 
+			       			})        		
+	        	}
+	        },
+	        error : function(xhr,status,error) {
+	        	console.log("xhr: " + xhr);
+	        	console.log("status: " + status);
+	        	console.log("error: " + error);
+	        	 $('#chartTable').hide();
+	        }
+			});
+	    	
+	    }
     });
 
     

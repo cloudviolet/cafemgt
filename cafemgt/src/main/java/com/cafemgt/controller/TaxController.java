@@ -21,6 +21,7 @@ import com.cafemgt.dao.CustomerMapper;
 import com.cafemgt.dao.MenuMapper;
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.CustomerDto;
+import com.cafemgt.dto.DealingDto;
 import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.OtherPurchasesDto;
 import com.cafemgt.dto.PurchasesDto;
@@ -156,6 +157,31 @@ public class TaxController {
 		return "pands/salesdeadlinefortax";
 	}
 	
+	@ResponseBody
+	@PostMapping("/salesDeadlineForTax")
+	public String salesDeadlineForTax(@RequestParam(value = "arraySales[]",required = false)List<String> arraySales
+									  ,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		System.out.println(arraySales);
+		Map<String, Object> salesInfoMap = new HashMap<>();
+		salesInfoMap.put("arraySales", arraySales);
+		salesInfoMap.put("SSTORECODE", SSTORECODE);
+		System.out.println(salesInfoMap);
+		
+		String resultValue = "실패";
+		int result = 0;
+		List<DealingDto> getSalesList = taxService.getSalesByDealing(salesInfoMap);
+		for(int i =0; i<getSalesList.size(); i++) {
+			System.out.println(getSalesList.get(i));
+			result += taxService.addDealing(getSalesList.get(i));
+		}
+		taxService.modifySalesDeadLineForTax(arraySales);
+		if(result>=1) {
+			resultValue = "정상";
+		}
+		return resultValue;
+	}
+	
 	@GetMapping("/otherpurchasesdeadline")
 	public String otherPurchasesDeadline(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -173,8 +199,12 @@ public class TaxController {
 	}
 	
 	@GetMapping("/gettotalpands")
-	public String getTotalPandS() {
-
+	public String getTotalPandS(Model model , HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		//dealing테이블에서 가장 오래된 날짜 가져오기
+		String oldDate = taxService.getOldDateByDealing(SSTORECODE);
+		System.out.println(oldDate+"<<<<<<<<<<<<<<<<<<<<<<<<<");
+		model.addAttribute("oldDate", oldDate);
 		return "tax/gettotalpands";
 	}
 	
