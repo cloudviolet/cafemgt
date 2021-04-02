@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.DealingMapper">
+	<resultMap type="DealingDto" id="DealingDtoResultMap">
+		<result property="dealCode" 			column="deal_code"/>
+		<result property="storeInfoCode" 		column="store_info_code"/>
+		<result property="dealCate" 			column="deal_cate"/>
+		<result property="dealVatType" 			column="deal_vat_type"/>
+		<result property="dealTotal"			column="deal_total"/>
+		<result property="dealSupplyValue" 		column="deal_supply_value"/>
+		<result property="dealTax" 				column="deal_tax"/>
+		<result property="atDebitCode" 			column="at_debit_code"/>
+		<result property="atCreditCode" 		column="at_credit_code"/>
+		<result property="dealDate" 			column="deal_date"/>
+		<result property="dealRegDate" 			column="deal_reg_date"/>
+	</resultMap>
+	
+	<select id="getOldDateByDealing" parameterType="String" resultType="String">
+		SELECT 
+			deal_date 
+		FROM 
+			tb_dealing 
+		WHERE 
+			store_info_code = #{SSTORECODE}
+		ORDER BY deal_date ASC LIMIT 1;
+	</select>
+	
+	<update id="modifySalesDeadLineForTax">
+		UPDATE tb_sales
+		SET
+			sales_deadline_tax='o'
+		WHERE 
+			sales_code IN
+		<foreach collection="arraySales" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<insert id="addDealing" parameterType="DealingDto">
+		INSERT INTO 
+			tb_dealing
+				(deal_code, 
+				store_info_code, 
+				deal_cate, 
+				deal_vat_type, 
+				deal_total, 
+				deal_supply_value,
+				deal_tax, 
+				at_debit_code, 
+				at_credit_code, 
+				deal_date, 
+				deal_reg_date)
+			VALUES 
+				(sf_new_deal_code(), 
+				 #{storeInfoCode}, 
+				 #{dealCate}, 
+				 #{dealVatType}, 
+				 #{dealTotal}, 
+				 #{dealTotal}/1.1, 
+				 deal_total-deal_supply_value, 
+				 #{atDebitCode}, 
+				 #{atCreditCode}, 
+				 #{dealDate}, 
+				 NOW())
+	</insert>
+	
+	<select id="getSalesByDealing" parameterType="HashMap" resultMap="DealingDtoResultMap">
+		SELECT 
+			 store_info_code
+			,'매출' AS 'deal_cate'
+			,sales_vat_type AS 'deal_vat_type'
+			,sum(sales_total) AS 'deal_total'
+			,'401' AS 'at_debit_code'
+			,if(sales_pay_type='미수', '108','101')  AS 'at_credit_code'
+			,sales_date AS 'deal_date'
+		FROM 
+			tb_sales
+		WHERE sales_deadline_tax = 'x'
+		AND sales_code IN 
+		<foreach collection="arraySales" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		GROUP BY sales_vat_type, sales_pay_type
+			HAVING store_info_code = #{SSTORECODE};
+	</select>
+	
+</mapper>

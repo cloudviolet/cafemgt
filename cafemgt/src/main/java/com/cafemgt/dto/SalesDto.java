@@ -16,9 +16,7 @@ public class SalesDto {
 	private String salesDate; 
 	private String salesRegDate;
 	private String salesDeadlineTax; 
-	private String salesDealingGroupCode;
 	private String salesDeadlineDailyvol;
-	private String salesDaliyvolGroupCode;
 	private String salesSystemId;
 	private String salesSystemName;
 	public String getSalesCode() {
@@ -111,23 +109,11 @@ public class SalesDto {
 	public void setSalesDeadlineTax(String salesDeadlineTax) {
 		this.salesDeadlineTax = salesDeadlineTax;
 	}
-	public String getSalesDealingGroupCode() {
-		return salesDealingGroupCode;
-	}
-	public void setSalesDealingGroupCode(String salesDealingGroupCode) {
-		this.salesDealingGroupCode = salesDealingGroupCode;
-	}
 	public String getSalesDeadlineDailyvol() {
 		return salesDeadlineDailyvol;
 	}
 	public void setSalesDeadlineDailyvol(String salesDeadlineDailyvol) {
 		this.salesDeadlineDailyvol = salesDeadlineDailyvol;
-	}
-	public String getSalesDaliyvolGroupCode() {
-		return salesDaliyvolGroupCode;
-	}
-	public void setSalesDaliyvolGroupCode(String salesDaliyvolGroupCode) {
-		this.salesDaliyvolGroupCode = salesDaliyvolGroupCode;
 	}
 	public String getSalesSystemId() {
 		return salesSystemId;
@@ -142,6 +128,16 @@ public class SalesDto {
 		this.salesSystemName = salesSystemName;
 	}
 	@Override
+	public String toString() {
+		return "SalesDto [salesCode=" + salesCode + ", storeInfoCode=" + storeInfoCode + ", menuCode=" + menuCode
+				+ ", menuName=" + menuName + ", salesCount=" + salesCount + ", salesTotal=" + salesTotal
+				+ ", salesSupplyValue=" + salesSupplyValue + ", salesTax=" + salesTax + ", salesVatType=" + salesVatType
+				+ ", salesPayType=" + salesPayType + ", custCode=" + custCode + ", custName=" + custName
+				+ ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate + ", salesDeadlineTax="
+				+ salesDeadlineTax + ", salesDeadlineDailyvol=" + salesDeadlineDailyvol + ", salesSystemId="
+				+ salesSystemId + ", salesSystemName=" + salesSystemName + "]";
+	}
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -151,11 +147,9 @@ public class SalesDto {
 		result = prime * result + ((menuName == null) ? 0 : menuName.hashCode());
 		result = prime * result + ((salesCode == null) ? 0 : salesCode.hashCode());
 		result = prime * result + salesCount;
-		result = prime * result + ((salesDaliyvolGroupCode == null) ? 0 : salesDaliyvolGroupCode.hashCode());
 		result = prime * result + ((salesDate == null) ? 0 : salesDate.hashCode());
 		result = prime * result + ((salesDeadlineDailyvol == null) ? 0 : salesDeadlineDailyvol.hashCode());
 		result = prime * result + ((salesDeadlineTax == null) ? 0 : salesDeadlineTax.hashCode());
-		result = prime * result + ((salesDealingGroupCode == null) ? 0 : salesDealingGroupCode.hashCode());
 		result = prime * result + ((salesPayType == null) ? 0 : salesPayType.hashCode());
 		result = prime * result + ((salesRegDate == null) ? 0 : salesRegDate.hashCode());
 		result = prime * result + salesSupplyValue;
@@ -203,11 +197,6 @@ public class SalesDto {
 			return false;
 		if (salesCount != other.salesCount)
 			return false;
-		if (salesDaliyvolGroupCode == null) {
-			if (other.salesDaliyvolGroupCode != null)
-				return false;
-		} else if (!salesDaliyvolGroupCode.equals(other.salesDaliyvolGroupCode))
-			return false;
 		if (salesDate == null) {
 			if (other.salesDate != null)
 				return false;
@@ -222,11 +211,6 @@ public class SalesDto {
 			if (other.salesDeadlineTax != null)
 				return false;
 		} else if (!salesDeadlineTax.equals(other.salesDeadlineTax))
-			return false;
-		if (salesDealingGroupCode == null) {
-			if (other.salesDealingGroupCode != null)
-				return false;
-		} else if (!salesDealingGroupCode.equals(other.salesDealingGroupCode))
 			return false;
 		if (salesPayType == null) {
 			if (other.salesPayType != null)
@@ -266,16 +250,5 @@ public class SalesDto {
 			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "SalesDto [salesCode=" + salesCode + ", storeInfoCode=" + storeInfoCode + ", menuCode=" + menuCode
-				+ ", menuName=" + menuName + ", salesCount=" + salesCount + ", salesTotal=" + salesTotal
-				+ ", salesSupplyValue=" + salesSupplyValue + ", salesTax=" + salesTax + ", salesVatType=" + salesVatType
-				+ ", salesPayType=" + salesPayType + ", custCode=" + custCode + ", custName=" + custName
-				+ ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate + ", salesDeadlineTax="
-				+ salesDeadlineTax + ", salesDealingGroupCode=" + salesDealingGroupCode + ", salesDeadlineDailyvol="
-				+ salesDeadlineDailyvol + ", salesDaliyvolGroupCode=" + salesDaliyvolGroupCode + ", salesSystemId="
-				+ salesSystemId + ", salesSystemName=" + salesSystemName + "]";
-	}
-		
+	
 }
