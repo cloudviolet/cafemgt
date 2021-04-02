@@ -9,4 +9,6 @@ import com.cafemgt.dto.SkkDto;
 @Mapper
 public interface SkkMapper {
 	public List<SkkDto> getSkk(String SSTORECODE);
+	
+	public int addSkk(SkkDto skkDto);
 }

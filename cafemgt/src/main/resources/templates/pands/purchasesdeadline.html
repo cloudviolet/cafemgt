@@ -23,7 +23,7 @@
 					 <div class="x_title">
 	                    <h2>매입 재고 마감</h2>
 						<ul class="nav navbar-right panel_toolbox">
-							<li><a id="stockDeadline" class="btn btn-info">재고마감/ 매출조회로</a></li>
+							<li><a id="submitBtn" class="btn btn-info">재고마감 / 매출조회로</a></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -52,7 +52,7 @@
 										</thead>
 										<tbody>
 											<tr th:if="${#lists.size(purchasesCheckList)>0}" th:each="pcl : ${purchasesCheckList}">
-												<td><input type="checkbox" class="checkBox" name="checkBox" id="check-all"></td>
+												<td><input type="checkbox" class="checkBox" name="checkBox"></td>
 												<td th:text="${pcl.articleName}"></td>
 												<td th:text="${pcl.custName}"></td>
 												<td th:text="${pcl.incoVatType}"></td>
@@ -98,25 +98,61 @@
 		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
 		
-		<script type="text/javascript">
-		var checkBoxLength = $('.checkBox').length;		
-		
-			$('#check-all').click(function(){
-				if($('#check-all').is(":checked")){
-					$('.checkBox').prop("checked", true);
-				}else{
-					$('.checkBox').prop("checked", false);
-				}
-			});			
-			$('.checkBox').click(function(){
-				if($("input[name=checkBox]:checked").length==checkBoxLength){
-					$('#check-all').prop("checked", true);
-				}else {
-					$('#check-all').prop("checked", false);
-				}
-			});
+		<script th:inline="javascript">
+		var checkAll = $('#check-all');
+		var checkBox = $('.checkBox');
+	
+		checkAll.click(function(){
+			if(checkAll.is(":checked")){
+				checkBox.prop("checked", true);
+			}else{
+				checkBox.prop("checked", false);
+			}
+		});			
+		checkBox.click(function(){
+			if(checkBox.is(":checked").length == checkBox.length){
+				checkAll.prop("checked", true);
+			}else {
+				checkAll.prop("checked", false);
+			}
+		});		
 			
-			
+			$('#submitBtn').click(function(){
+				var purchasesList = /*[[${purchasesCheckList}]]*/
+				var arrayPurchases= []; 
+				
+				if(checkBox.length != 0){
+					checkBox.each(function(i){
+						if(checkBox.eq(i).is(":checked")){
+							var purchases = {};
+							purchases["incoCode"] = purchasesList[i].incoCode;
+							purchases["storeInfoCode"] = purchasesList[i].storeInfoCode;
+							purchases["articleCode"] = purchasesList[i].articleCode;
+							purchases["incoVolumeSubtotal"] = purchasesList[i].incoVolumeSubtotal;
+							purchases["incoCount"] = purchasesList[i].incoCount;
+							arrayPurchases.push(purchases);
+						}
+					})
+					console.log(arrayPurchases);
+					
+					var request = $.ajax({
+						method: "POST",
+						url: "addTotalStock",
+						traditional: true,
+						dataType: "text",
+						data: {"arrayPurchases" : JSON.stringify(arrayPurchases) }
+					});
+					request.done(function( data ){
+						console.log(data)
+						location.href="gettotalstock";
+					});
+					request.fail(function( err){
+						console.log(err)
+					});
+				
+				}
+				location.href="gettotalstock";
+			});	
 		</script>
 	</th:block>
 

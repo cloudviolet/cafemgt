@@ -25,4 +25,8 @@ public class SkkService {
 		
 		return skkMapper.getSkk(SSTORECODE);
 	}
+	
+	public int addSkk(SkkDto skkDto) {
+		return skkMapper.addSkk(skkDto);
+	}
 }

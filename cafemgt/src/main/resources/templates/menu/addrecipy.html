@@ -53,7 +53,7 @@
 									<div class="col-md-6 col-sm-6 ">
 										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}" >
 										<select class="form-control" name="menuCode" required="required">
-											<option value="" disabled selected>choice plz</option>
+											<option value="" disabled selected>선택해주세요.</option>
 											<th:block th:each="ml : ${menuList}">
 												<option th:value="${ml.menuCode}" th:text="${ml.menuName}"></option>
 											</th:block>
@@ -67,7 +67,7 @@
 										</label>
 										<div class="col-md-6 col-sm-6 ">
 											<select class="form-control" name="articleCode" required="required">
-												<option value="" disabled selected>choice plz</option>
+												<option value="" disabled selected>선택해주세요.</option>
 												<th:block th:each="al : ${articleList}">
 													<option th:value="${al.articleCode}" th:text="${al.articleName}"></option>
 												</th:block>
@@ -85,7 +85,7 @@
 										<label class="control-label col-md-3 col-sm-3 label-align">단위</label>
 										<div class="col-md-6 col-sm-6 ">
 											<select class="form-control" name="conDan" required="required">
-												<option value="" disabled selected>choice plz</option>
+												<option value="" disabled selected>선택해주세요.</option>
 												<option value="ea">* ea *</option>
 												<option value="ml">* ml *</option>
 												<option value="g">* g *</option>
@@ -106,7 +106,7 @@
 		<!-- Select2 -->
 		<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
 		<!-- Parsley -->
-		<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+		<script th:src="@{/vendors/parsleyjs/dist/parsley.js}"></script>
 		<!-- Autosize -->
 		<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
 		<!-- jQuery autocomplete -->

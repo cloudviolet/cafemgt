@@ -5,9 +5,7 @@ public class StockDto {
 	private String storeInfoCode;
 	private String storeInfoName;
 	private String articleCode;
-	private String articleName;
-	private String articleVolume;	
-	private String articleDan;	
+	private ArticleDto articleDto;
 	private int incoCount;	
 	private int incoVolumeSubtotal;	
 	private int stockIncoUnitTotal;
@@ -42,23 +40,11 @@ public class StockDto {
 	public void setArticleCode(String articleCode) {
 		this.articleCode = articleCode;
 	}
-	public String getArticleName() {
-		return articleName;
+	public ArticleDto getArticleDto() {
+		return articleDto;
 	}
-	public void setArticleName(String articleName) {
-		this.articleName = articleName;
-	}
-	public String getArticleVolume() {
-		return articleVolume;
-	}
-	public void setArticleVolume(String articleVolume) {
-		this.articleVolume = articleVolume;
-	}
-	public String getArticleDan() {
-		return articleDan;
-	}
-	public void setArticleDan(String articleDan) {
-		this.articleDan = articleDan;
+	public void setArticleDto(ArticleDto articleDto) {
+		this.articleDto = articleDto;
 	}
 	public int getIncoCount() {
 		return incoCount;
@@ -114,7 +100,6 @@ public class StockDto {
 	public void setStockRegDate(String stockRegDate) {
 		this.stockRegDate = stockRegDate;
 	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -126,12 +111,8 @@ public class StockDto {
 		builder.append(storeInfoName);
 		builder.append(", articleCode=");
 		builder.append(articleCode);
-		builder.append(", articleName=");
-		builder.append(articleName);
-		builder.append(", articleVolume=");
-		builder.append(articleVolume);
-		builder.append(", articleDan=");
-		builder.append(articleDan);
+		builder.append(", articleDto=");
+		builder.append(articleDto);
 		builder.append(", incoCount=");
 		builder.append(incoCount);
 		builder.append(", incoVolumeSubtotal=");
@@ -153,7 +134,5 @@ public class StockDto {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
 	
 }

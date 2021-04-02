@@ -5,11 +5,11 @@ public class SkkDto {
 	private String  skCode;
 	private String  storeInfoCode;
 	private String  storeInfoName;
-	private String  incoCode;
 	private String  stockCode;
 	private String  articleCode;
 	private String  articleName;
-	private int 	detailvolRemainVolume;
+	private String  articleDan;
+	private int 	skNowVolume;
 	private int 	skProbeVolume;
 	private int 	skErrorVolume;
 	private String  stockMinUnit;
@@ -17,6 +17,7 @@ public class SkkDto {
 	private String  skEtc;
 	private String  skDate;
 	private String  skRegDate;
+	private String  skDeadLine;
 	private String  skSystemId;
 	private String  skSystemName;
 	public String getSkCode() {
@@ -37,12 +38,6 @@ public class SkkDto {
 	public void setStoreInfoName(String storeInfoName) {
 		this.storeInfoName = storeInfoName;
 	}
-	public String getIncoCode() {
-		return incoCode;
-	}
-	public void setIncoCode(String incoCode) {
-		this.incoCode = incoCode;
-	}
 	public String getStockCode() {
 		return stockCode;
 	}
@@ -61,11 +56,17 @@ public class SkkDto {
 	public void setArticleName(String articleName) {
 		this.articleName = articleName;
 	}
-	public int getDetailvolRemainVolume() {
-		return detailvolRemainVolume;
+	public String getArticleDan() {
+		return articleDan;
 	}
-	public void setDetailvolRemainVolume(int detailvolRemainVolume) {
-		this.detailvolRemainVolume = detailvolRemainVolume;
+	public void setArticleDan(String articleDan) {
+		this.articleDan = articleDan;
+	}
+	public int getSkNowVolume() {
+		return skNowVolume;
+	}
+	public void setSkNowVolume(int skNowVolume) {
+		this.skNowVolume = skNowVolume;
 	}
 	public int getSkProbeVolume() {
 		return skProbeVolume;
@@ -109,6 +110,12 @@ public class SkkDto {
 	public void setSkRegDate(String skRegDate) {
 		this.skRegDate = skRegDate;
 	}
+	public String getSkDeadLine() {
+		return skDeadLine;
+	}
+	public void setSkDeadLine(String skDeadLine) {
+		this.skDeadLine = skDeadLine;
+	}
 	public String getSkSystemId() {
 		return skSystemId;
 	}
@@ -130,16 +137,16 @@ public class SkkDto {
 		builder.append(storeInfoCode);
 		builder.append(", storeInfoName=");
 		builder.append(storeInfoName);
-		builder.append(", incoCode=");
-		builder.append(incoCode);
 		builder.append(", stockCode=");
 		builder.append(stockCode);
 		builder.append(", articleCode=");
 		builder.append(articleCode);
 		builder.append(", articleName=");
 		builder.append(articleName);
-		builder.append(", detailvolRemainVolume=");
-		builder.append(detailvolRemainVolume);
+		builder.append(", articleDan=");
+		builder.append(articleDan);
+		builder.append(", skNowVolume=");
+		builder.append(skNowVolume);
 		builder.append(", skProbeVolume=");
 		builder.append(skProbeVolume);
 		builder.append(", skErrorVolume=");
@@ -154,6 +161,8 @@ public class SkkDto {
 		builder.append(skDate);
 		builder.append(", skRegDate=");
 		builder.append(skRegDate);
+		builder.append(", skDeadLine=");
+		builder.append(skDeadLine);
 		builder.append(", skSystemId=");
 		builder.append(skSystemId);
 		builder.append(", skSystemName=");
@@ -161,5 +170,6 @@ public class SkkDto {
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 }
