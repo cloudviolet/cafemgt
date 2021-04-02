@@ -24,6 +24,12 @@ public class StockService {
 		
 		return stockMapper.getStock(map);
 	}
+	
+	public List<StockDto> getStockByArticleCode(Map<String,Object> map) {
+		
+		return stockMapper.getStockByArticleCode(map);
+	}
+	
 	public List<StockDto> getStockByTable(String SSTORECODE) {
 		
 		return stockMapper.getStockByTable(SSTORECODE);

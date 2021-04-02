@@ -75,6 +75,11 @@ public class StockController {
 		model.addAttribute("articleList",articleList);
 		return "stock/addskk";
 	}
+	@PostMapping("/addskk")
+	public String addSkk(SkkDto skkDto) {
+		skkService.addSkk(skkDto);
+		return "redirect:/getskk";
+	}
 	
 	@GetMapping("/getarticle")
 	public String getArticle(Model model, HttpSession session) {
@@ -91,7 +96,19 @@ public class StockController {
 		model.addAttribute("skkList",skkList);
 		return "stock/getskk";
 	}
-	
+	@ResponseBody
+	@PostMapping("/getStockByArticleCode")
+	public List<StockDto> getStockByArticleCode(
+			 @RequestParam (value="articleCode", required = false) String articleCode
+			,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("articleCode", articleCode);
+		resultMap.put("SSTORECODE", SSTORECODE);
+		
+		List<StockDto> stockList =stockService.getStockByArticleCode(resultMap);
+		return stockList;
+	}
 	@GetMapping("/getstock")
 	public String getStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");

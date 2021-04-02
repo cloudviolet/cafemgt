@@ -14,6 +14,11 @@
 		<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+		<style>
+			.float-right{
+				color: gray;
+			}
+		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customContents">
@@ -42,44 +47,81 @@
 									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 										<thead>
 											<tr>
+												<!--
 												<th>재고조사코드</th>
 												<th>상호코드</th>
 												<th>상호명</th>
-												<th>입고코드</th>
 												<th>재고코드</th>
 												<th>품목코드</th>
+												<th>최소단위단가</th>
+												 -->
 												<th>품목명</th>
 												<th>현재재고용량</th>
 												<th>조사재고용량</th>
 												<th>오차재고용량</th>
-												<th>최소단위단가</th>
 												<th>오차금액</th>
 												<th>상세</th>
 												<th>조사날짜</th>
 												<th>등록날짜</th>
+												<th>수정</th>
+												<th>마감</th>
+												<!-- 
 												<th>등록자아이디</th>
 												<th>등록자이름</th>
+												 -->
 											</tr>
 										</thead>
 										<tbody>
 											<tr th:each="skkl :${skkList}">
+												<!-- 
 												<td th:text="${skkl.skCode}"></td>
 												<td th:text="${skkl.storeInfoCode}"></td>
 												<td th:text="${skkl.storeInfoName}"></td>
-												<td th:text="${skkl.incoCode}"></td>
 												<td th:text="${skkl.stockCode}"></td>
-												<td th:text="${skkl.articleCode}"></td>
-												<td th:text="${skkl.articleName}"></td>
-												<td th:text="${skkl.detailvolRemainVolume}"></td>
-												<td th:text="${skkl.skProbeVolume}"></td>
-												<td th:text="${skkl.skErrorVolume}"></td>
+												<td th:text="${skkl.articleCode}"></td> 
 												<td th:text="${skkl.stockMinUnit}"></td>
-												<td th:text="${skkl.skErrorPriceTotal}"></td>
-												<td th:text="${skkl.skEtc}"></td>
-												<td th:text="${skkl.skDate}"></td>
-												<td th:text="${skkl.skRegDate}"></td>
-												<td th:text="${skkl.skSystemId}"></td>
-												<td th:text="${skkl.skSystemName}"></td>
+												-->
+												<td>
+													<span>[[${skkl.articleName}]]</span>
+												</td>
+												<td>
+													<span>[[${skkl.skNowVolume}]]</span>
+													<span class="float-right">[[${skkl.articleDan}]]</span>
+												</td>
+												<td>
+													<span>[[${skkl.skProbeVolume}]]</span>
+													<span class="float-right">[[${skkl.articleDan}]]</span>
+												</td>
+												<td>
+													<span>[[${skkl.skErrorVolume}]]</span>
+													<span class="float-right">[[${skkl.articleDan}]]</span>
+												</td>
+												<td>
+													<span>[[${skkl.skErrorPriceTotal}]]</span>
+													<span class="float-right">₩</span>
+												</td>
+												<td>
+													<span>[[${skkl.skEtc}]]</span>
+												</td>
+												<td>
+													<span>[[${skkl.skDate}]]</span>
+												</td>
+												<td>
+													<span>[[${skkl.skRegDate}]]</span>
+												</td>
+												<td>
+													<span>
+														<a th:href="@{/}" class="btn btn-primary btn-sm">수정</a>
+													</span>
+												</td>
+												<td>
+													<span th:if="${skkl.skDeadLine == 'x'}">
+														<a th:href="@{/}" class="btn btn-dark btn-sm">마감</a>
+													</span>
+													<span th:unless="${skkl.skDeadLine == 'x'}" >
+														마감 완료
+													</span>
+												</td>
 											</tr>
 										</tbody>
 									</table>

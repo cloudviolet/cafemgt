@@ -62,9 +62,10 @@
 												<th>대분류</th>
 												<th>중분류</th>
 												<th>용량</th>
-												<th>상세</th>
 												<th>등록날짜</th>
+												<th>상세</th>
 												<th>수정</th>
+												<th>삭제</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -74,8 +75,12 @@
 												<td th:text="${al.storeInfoCode}"></td>
 												<td th:text="${al.storeInfoName}"></td>
 											-->
-												<td th:text="${al.articleName}"></td>
-												<td th:text="${al.articleTaxCate}"></td>
+												<td>
+													<span>[[${al.articleName}]]</span>
+												</td>
+												<td>
+													<span>[[${al.articleTaxCate}]]</span>
+												</td>
 												<td>
 													<span>[[${al.articleBig}]]</span>
 													<span class="float-right">[[${al.articleBigDan}]]</span>
@@ -88,10 +93,19 @@
 													<span>[[${al.articleVolume}]]</span>
 													<span class="float-right">[[${al.articleDan}]]</span>
 												</td>
-												<td th:text="${al.articleEtc}"></td>
-												<td th:text="${al.articleRegDate}"></td>
+												<td><span>[[${al.articleEtc}]]</span></td>
+												<td><span>[[${al.articleRegDate}]]</span></td>
 												<td>
-													<a class="btn btn-primary btn-sm" th:href="@{/modifyArticle(articleCode=${al.articleCode})}">수정</a>
+													<span>
+														<a class="btn btn-primary btn-sm" 
+														th:href="@{/modifyArticle(articleCode=${al.articleCode})}">수정</a>
+														</span>
+												</td>
+												<td>
+													<span>
+														<a class="btn btn-dark btn-sm" 
+														th:href="@{/modifyArticle(articleCode=${al.articleCode})}">삭제</a>
+													</span>
 												</td>
 											</tr>
 										</tbody>

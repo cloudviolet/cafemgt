@@ -67,6 +67,35 @@
 			,stock_now_volume = ${stockNowVolume}
 			,stock_reg_date = NOW()
 	</insert>
+	<select id="getStockByArticleCode" parameterType="HashMap" resultMap="StockResultMap">
+		SELECT
+			 stock_code
+			,s.store_info_code
+			,a.article_code
+			,a.article_name
+			,a.article_volume
+			,a.article_big_dan
+			,a.article_dan
+			,inco_count
+			,inco_volume_subtotal
+			,stock_inco_unit_total
+			,stock_min_unit
+			,stock_con_count
+			,stock_volume_total
+			,stock_now_count
+			,stock_now_volume
+			,stock_reg_date
+		FROM 
+			tb_stock AS s
+			LEFT join
+			tb_article AS a
+			ON
+			s.article_code = a.article_code
+		WHERE
+			s.store_info_code = #{SSTORECODE}
+			AND
+			a.article_code = #{articleCode}
+	</select>
 	<select id="getStockByTable" parameterType="String" resultMap="StockResultMap">
 		SELECT
 			 stock_code
@@ -91,6 +120,8 @@
 			tb_article AS a
 			ON
 			s.article_code = a.article_code
+		WHERE
+			s.store_info_code = #{SSTORECODE}
 	</select>
 	<select id="getStock" parameterType="HashMap" resultMap="StockResultMap">
 		SELECT 

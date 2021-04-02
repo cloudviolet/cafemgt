@@ -181,6 +181,7 @@
 			,inc.inco_count
 			,ar.article_volume
 			,ar.article_dan
+			,ar.article_big_dan
 			,inc.inco_volume_subtotal
 			,dtv.detailvol_volume_total
 			,dtv.detailvol_con_count

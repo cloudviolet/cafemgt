@@ -10,7 +10,6 @@ public class TotalStockDto {
 	private String 	articleCode;
 	private int 	incoCount;
 	private int 	incoVolumeSubtotal;
-	private String 	detailvolGroupCode;
 	private int 	detailvolVolumeTotal;
 	private int 	detailvolConCount;
 	private int 	detailvolRemainVolume;
@@ -20,7 +19,6 @@ public class TotalStockDto {
 	private String 	detailvolDeadlineCheck;
 	private String 	detailvolCheckString;
 	private int 	incoCheck;
-	private String 	detailvolStockGroupCode;
 	private String 	detailvolSystemId;
 	private String 	detailvolSystemName;
 	private PurchasesDto incoDto;	
@@ -67,12 +65,6 @@ public class TotalStockDto {
 	}
 	public void setIncoVolumeSubtotal(int incoVolumeSubtotal) {
 		this.incoVolumeSubtotal = incoVolumeSubtotal;
-	}
-	public String getDetailvolGroupCode() {
-		return detailvolGroupCode;
-	}
-	public void setDetailvolGroupCode(String detailvolGroupCode) {
-		this.detailvolGroupCode = detailvolGroupCode;
 	}
 	public int getDetailvolVolumeTotal() {
 		return detailvolVolumeTotal;
@@ -128,12 +120,6 @@ public class TotalStockDto {
 	public void setIncoCheck(int incoCheck) {
 		this.incoCheck = incoCheck;
 	}
-	public String getDetailvolStockGroupCode() {
-		return detailvolStockGroupCode;
-	}
-	public void setDetailvolStockGroupCode(String detailvolStockGroupCode) {
-		this.detailvolStockGroupCode = detailvolStockGroupCode;
-	}
 	public String getDetailvolSystemId() {
 		return detailvolSystemId;
 	}
@@ -176,8 +162,6 @@ public class TotalStockDto {
 		builder.append(incoCount);
 		builder.append(", incoVolumeSubtotal=");
 		builder.append(incoVolumeSubtotal);
-		builder.append(", detailvolGroupCode=");
-		builder.append(detailvolGroupCode);
 		builder.append(", detailvolVolumeTotal=");
 		builder.append(detailvolVolumeTotal);
 		builder.append(", detailvolConCount=");
@@ -196,8 +180,6 @@ public class TotalStockDto {
 		builder.append(detailvolCheckString);
 		builder.append(", incoCheck=");
 		builder.append(incoCheck);
-		builder.append(", detailvolStockGroupCode=");
-		builder.append(detailvolStockGroupCode);
 		builder.append(", detailvolSystemId=");
 		builder.append(detailvolSystemId);
 		builder.append(", detailvolSystemName=");
