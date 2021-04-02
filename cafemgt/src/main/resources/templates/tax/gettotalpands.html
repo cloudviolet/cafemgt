@@ -9,37 +9,15 @@
 
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-			<div class="col-md-12 col-sm-12 ">
+			<div class="col-md-12 col-sm-12">
               <div class="x_panel tile overflow_hidden">
                 <div class="x_title">
                   <h2>Device Usage</h2>
                  	<ul class="nav navbar-right panel_toolbox">
-						<li><button type="submit" class="btn btn-ifno btn-sm" data-toggle="modal" data-target="#myVatModal">예상 부가가치세 조회</button></li>					
+						<li><a type="submit" th:href="@{/getvat}" style="color: black;" class="btn btn-ifno btn-sm" >예상 부가가치세 조회</a></li>					
 					</ul>
                   <div class="clearfix"></div>
                 </div>
-                <!-- 모달 -->
-	              <div class="modal fade" id="myVatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					  <div class="modal-dialog  modal-lg">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h4 class="modal-title" id="myModalLabel">예상 부가가치세 조회</h4>
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					      </div>
-					      <div class="modal-body">
-					      	<select name="year" id="year" title="년도" class="custom-select"></select>
-					      	<select id="month" class="custom-select">					      	
-					      		<option value="1기">1기</option>
-					      		<option value="2기">2기</option>
-					      	</select>
-					      	<button type="button" id="forVatBtn" th:data-SSTORECODE="${session.SSTORECODE}" class="btn btn-info">검색</button>
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>
                 <div>
                 	<form>
                        <div class="form-group row col-lg-4 col-md-6 col-sm-6">
@@ -136,96 +114,64 @@
     <script>
     var searchFirstDate = $('#searchFirstDate');
     var searchLastDate = $('#searchLastDate');
+    var oldDate = '[[${oldDate}]]';
+    console.log(Number(oldDate.replace(/-/gi,'')));
     $('#searchBtn').click(function(){
-		var request = $.ajax({
-			url: "gettotalpands", 
-			method: "POST",
-			data: { searchFirstDate : searchFirstDate.val()
-					,searchLastDate : searchLastDate.val() },
-			dataType: "json"
-		,
-        success : function(result) {
-        	if(result){
-		        $('#chartTable').show();
-		        var totalSales = result.totalSales;
-		        var totalPurchases = result.totalPurchases;
-		        var totalOtherPurchases = result.totalOtherPurchases;
-		        var sumTotal = totalSales + totalPurchases + totalOtherPurchases;
-		        
-		        var totlaSalesPer = (totalSales/sumTotal*100).toFixed(2);
-		        var totalPurchasesPer = (totalPurchases/sumTotal*100).toFixed(2);
-		        var totalOtherPurchasesPer = (totalOtherPurchases/sumTotal*100).toFixed(2);
-		        $('#slaesPer').text(totlaSalesPer);
-		        $('#purchasesPer').text(totalPurchasesPer);
-		        $('#otherPurchasesPer').text(totalOtherPurchasesPer);
-		        
-		       	   data = {
-		       			   datasets: [{
-		       					 backgroundColor: ['#E6E6FA','#FFFACD','#AFEEEE'], 
-		       					data: [totalSales, totalPurchases, totalOtherPurchases] 
-		       				}], 
-		       				// 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 
-		       				labels: ['매출','매입','기타지출'] 
-		       				};
-		       	
-		       			var ctx1 = $('.purchasesandsales');
-		       			var myPieChart = new Chart(ctx1, { 
-		       				type: 'pie', 
-		       				data: data, 
-		       				options: {} 
-		       			})        		
-        	}
-        },
-        error : function(xhr,status,error) {
-        	console.log("xhr: " + xhr);
-        	console.log("status: " + status);
-        	console.log("error: " + error);
-        	 $('#chartTable').hide();
-        }
-		});
+	    var NumFirstDate = Number(searchFirstDate.val().replace(/-/gi,''));
+	    var NumLastDate = Number(searchLastDate.val().replace(/-/gi,''))
+	    if(NumFirstDate>NumLastDate){
+	    	alert('날짜를 제대로 입력해주세요.');
+	    }else{
+			var request = $.ajax({
+				url: "gettotalpands", 
+				method: "POST",
+				data: { searchFirstDate : searchFirstDate.val()
+						,searchLastDate : searchLastDate.val() },
+				dataType: "json"
+			,
+	        success : function(result) {
+	        	if(result){
+			        $('#chartTable').show();
+			        var totalSales = result.totalSales;
+			        var totalPurchases = result.totalPurchases;
+			        var totalOtherPurchases = result.totalOtherPurchases;
+			        var sumTotal = totalSales + totalPurchases + totalOtherPurchases;
+			        
+			        var totlaSalesPer = (totalSales/sumTotal*100).toFixed(2);
+			        var totalPurchasesPer = (totalPurchases/sumTotal*100).toFixed(2);
+			        var totalOtherPurchasesPer = (totalOtherPurchases/sumTotal*100).toFixed(2);
+			        $('#slaesPer').text(totlaSalesPer);
+			        $('#purchasesPer').text(totalPurchasesPer);
+			        $('#otherPurchasesPer').text(totalOtherPurchasesPer);
+			        
+			       	   data = {
+			       			   datasets: [{
+			       					 backgroundColor: ['#E6E6FA','#FFFACD','#AFEEEE'], 
+			       					data: [totalSales, totalPurchases, totalOtherPurchases] 
+			       				}], 
+			       				// 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 
+			       				labels: ['매출','매입','기타지출'] 
+			       				};
+			       	
+			       			var ctx1 = $('.purchasesandsales');
+			       			var myPieChart = new Chart(ctx1, { 
+			       				type: 'pie', 
+			       				data: data, 
+			       				options: {} 
+			       			})        		
+	        	}
+	        },
+	        error : function(xhr,status,error) {
+	        	console.log("xhr: " + xhr);
+	        	console.log("status: " + status);
+	        	console.log("error: " + error);
+	        	 $('#chartTable').hide();
+	        }
+			});
+	    	
+	    }
     });
-  
-    $(document).ready(function(){
-    	//가입년도 가져오기.
-	    var getYear = Number('[[${getYear}]]');
-	    console.log(getYear);
-	    //해당년도 가져오기
-    	var dt = new Date();
-        var Nowyear = dt.getFullYear();
-        //해당년도 - 가입년도
-        var yearInt = Nowyear-getYear;
-        console.log(yearInt);
-        //뿌려주기
-    	$('#year').append("<option value=''>해당 년도를 선택해주세요.</option>");
-    	//올해기준으로 가입년도까지 보여주기
-    	for(var y = (Nowyear); y >= (Nowyear-yearInt); y--){
-    		$('#year').append("<option value='"+y+"'>"+y+"년"+"</option>");
-    	}
-    });
-    $('#forVatBtn').click(function(){
-    	var SSTORECODE = $(this).attr('data-SSTORECODE');
-		var yearValue = $('#year').val();
-		var monthValue = $('#month').val();
-		var searchDays = yearValue+"년"+monthValue;
-		console.log(searchDays);
-		var request = $.ajax({
-			url: "getmyvat", 
-			method: "POST",
-			data: { searchDays : searchDays,
-					SSTORECODE : SSTORECODE},
-			dataType: "json"
-		,
-        success : function(vatResult) {
-        
-        },
-        error : function(xhr,status,error) {
-        	console.log("xhr: " + xhr);
-        	console.log("status: " + status);
-        	console.log("error: " + error);
-        	 $('#chartTable').hide();
-        }
-		});
-    });
+
     
     </script>
 	</th:block>

@@ -18,6 +18,12 @@ public class CustomerService {
 	public CustomerService(CustomerMapper customerMapper) {
 		this.customerMapper = customerMapper;
 	}
+	
+	//거래처 등록
+	public int addCustomer(CustomerDto customerDto) {
+		System.out.println("거래처 등록 서비스 확인");
+		return customerMapper.addCustomer(customerDto);
+	}
 
 	//거래처 조회
 	public List<CustomerDto> getCustomer(String SSTORECODE){

@@ -66,6 +66,8 @@
 											<th>퇴근시간</th>
 											<th>당일근무시간</th>
 											<th>등록날짜</th>
+											<th>수정</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -79,6 +81,12 @@
 											<td th:text="${slr.attEnd}">
 											<td th:text="${slr.attTodailyTime}">
 											<td th:text="${slr.attRegDate}">
+											<td>
+												<a class="btn btn-primary btn-sm" th:href="@{/modifyWtime(attCode=${slr.attCode})}">수정</a>
+											</td>
+											<td>
+												<a class="btn btn-primary btn-sm" >삭제</a>
+											</td>
 										</tr>
 									</tbody>
 									</table>

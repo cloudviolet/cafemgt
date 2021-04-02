@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.VatMapper">
+	<resultMap type="VatDto" id="VatDtoResultMap">
+		<result property="vatCode" 					column="vat_code"/>
+		<result property="storeInfoCode" 			column="store_info_code"/>
+		<result property="vatDate" 					column="vat_date"/>
+		<result property="vatSaleSupplyValue" 		column="vat_sale_supply_value"/>
+		<result property="vatSalesTax"				column="vat_sales_tax"/>
+		<result property="vatPurchaseSupplyValue" 	column="vat_purchase_supply_value"/>
+		<result property="vatPurchaseTax" 			column="vat_purchase_tax"/>
+		<result property="vatIntendedTax" 			column="vat_intended_tax"/>
+		<result property="vatDeemedInputTax" 		column="vat_deemed_input_tax"/>
+		<result property="vatExclusionTax" 			column="vat_exclusion_tax"/>
+		<result property="vatCardTax" 				column="vat_card_tax"/>
+		<result property="vatAdditionalTax" 		column="vat_additional_tax"/>
+		<result property="vatPaymentTax" 			column="vat_payment_tax"/>
+	</resultMap>
+	
+	<update id="addIntendedTax" parameterType="String">
+		UPDATE 
+			tb_vat
+		SET
+			vat_intended_tax= #{vatIntendedTax}
+		WHERE 
+			vat_date = #{intendedDays}
+		AND 
+			store_info_code = #{SSTORECODE};
+	</update>
+	
+	<select id="getMyVat" parameterType="String" resultMap="VatDtoResultMap">
+		SELECT 
+			vat_code
+			, store_info_code
+			, vat_date
+			, vat_sale_supply_value
+			, vat_sales_tax
+			, vat_purchase_supply_value
+			, vat_purchase_tax
+			, vat_intended_tax
+			, vat_deemed_input_tax
+			, vat_exclusion_tax
+			, vat_card_tax
+			, vat_additional_tax
+			, vat_payment_tax
+		FROM 
+			tb_vat
+		WHERE 
+			vat_date = #{searchDays}
+		AND 
+			store_info_code = #{SSTORECODE};
+	</select>
+	
+</mapper>
