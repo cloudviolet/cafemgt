@@ -47,7 +47,7 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" th:action="@{/addwtime}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" th:action="@{/modifyWtime}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 											
 									<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
 									<input type="hidden" name="salesSystemId" th:value="${session.OID}">
@@ -56,14 +56,14 @@
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">직원아이디 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="memberId" name="memberId" required="required" class="form-control ">
+												<input type="text" id="memberId" th:value="${wtimeDto.memberId}" name="memberId" required="required" class="form-control ">
 											</div>
 										</div>
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align">당일날짜 <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input id="attDate" name="attDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<input id="attDate" name="attDate" th:value="${wtimeDto.attDate}" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
 												<script>
 													function timeFunctionLong(input) {
 														setTimeout(function() {
@@ -76,13 +76,13 @@
 										<div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">출근시간<span class="required">*</span></label>
 	                                        <div class="col-md-6 col-sm-6">
-	                                            <input class="form-control" type="time" name="attStart" id="attStart" required="required">
+	                                            <input class="form-control" type="time" th:value="${wtimeDto.attStart}" name="attStart" id="attStart" required="required">
 	                                        </div>
                                         </div>
 										<div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">퇴근시간<span class="required">*</span></label>
 	                                        <div class="col-md-6 col-sm-6">
-	                                            <input class="form-control" type="time" name="attEnd" id="attEnd" required="required">
+	                                            <input class="form-control" type="time" th:value="${wtimeDto.attEnd}" name="attEnd" id="attEnd" required="required">
 	                                        </div>
                                         </div>
 										<div class="ln_solid"></div>

@@ -171,4 +171,17 @@ public class SalaryController {
 		dsalaryService.modifyDsalary(dsalaryDto);
 		return "redirect:/getdsalary";
 	}
+	
+	@GetMapping("/modifyWtime")
+	public String modifyWtime(Model model, String attCode) {
+		WtimeDto wtimeDto = wtimeService.getWtimeByAttCode(attCode);
+		model.addAttribute("wtimeDto",wtimeDto);
+		return "dsalary/modifywtime";
+	}
+	
+	@PostMapping("/modifyWtime")
+	public String modifyWtime(WtimeDto wtimeDto) {
+		wtimeService.modifyWtime(wtimeDto);
+		return "redirect:/getwtime";
+	}
 }
