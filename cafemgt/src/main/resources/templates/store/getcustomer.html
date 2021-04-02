@@ -72,6 +72,7 @@
 									</thead>
 									<tbody>
 										<tr th:each="cl,index : ${customerList}">
+											<!-- 표카운트 -->
 	                  						<td th:text ="${index.count}"></td>
 											<td th:text="${cl.custCode}">
 											<td th:text="${cl.storeInfoCode}">
