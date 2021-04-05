@@ -1,6 +1,8 @@
 package com.cafemgt.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -72,15 +74,37 @@ public class StoreController {
 				  
 				  System.out.println(memberDto.getMemberId());
 				  System.out.println(memberDto.getMemberName());
-				  System.out.println(memberDto.getStoreInfoCode());
-				  System.out.println(memberDto.getStoreInfoName());
+				  System.out.println(memberDto.getLevelCode());
 				  
 				  session.setAttribute("MID", memberDto.getMemberId());
-				  session.setAttribute("MNAME", memberDto.getMemberName());				 		 
-				  session.setAttribute("SSTORECODE", memberDto.getStoreInfoCode());				 
-				  session.setAttribute("SSTORENAME", memberDto.getStoreInfoName());				 
+				  session.setAttribute("MNAME", memberDto.getMemberName());				 			 
 				  session.setAttribute("SLEVEL", memberDto.getLevelCode());				 
-			}		
+			
+				  
+				  List<MemberDto> memberDtoList = memberService.getStoreChoice(memberDto.getMemberId());
+				  
+				  if(memberDtoList.size() >= 2) {
+					  for(int i=0; i<memberDtoList.size(); i++) {
+						  System.out.println(memberDtoList.get(i).getStoreInfoName()+"<---상호명");
+
+					  }
+					  
+					  return "redirect:/storechoice";
+				  }else if(memberDtoList.size() == 1) {
+					  String MID = (String)session.getAttribute("MID");
+					  System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+					  session.setAttribute("SSTORECODE", memberDtoList.get(0).getStoreInfoCode());				 
+					  session.setAttribute("SSTORENAME", memberDtoList.get(0).getStoreInfoName());		
+					  System.out.println(memberDtoList.get(0).getStoreInfoCode());
+					  System.out.println(session.getAttribute("SSTORECODE"));
+					  System.out.println(memberDtoList.get(0).getStoreInfoName());
+				  }else {
+					  return "redirect:/addstore";
+				  }
+				  
+				  System.out.println(memberDtoList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+			}	
 			return "redirect:/";			
 		}
 		return "redirect:/login";
@@ -90,6 +114,18 @@ public class StoreController {
 	public String login(Model model) {
 		
 		return "store/login";	
+	}
+	//사업장이 2개이상일 경우 사업장 선택
+	@GetMapping("storechoice")
+	public String storechoice(Model model, HttpSession session) {
+		String MID = (String)session.getAttribute("MID");
+		List<StoreDto> storeList = storeService.storeChoice(MID);
+		System.out.println(MID+"<<<<<<<<MID");
+		model.addAttribute("storeList", storeList);
+		System.out.println(storeList+"<<<<<storeList");
+		
+		
+		return "store/storechoice";
 	}
 	@GetMapping("/join")
 	public String join() {
@@ -172,7 +208,10 @@ public class StoreController {
 	@GetMapping("/getmember")
 	public String getmember(Model model, HttpSession session) {
 		String MID = (String)session.getAttribute("MID");
+		System.out.println(MID+"<-----getmember");
+	
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		System.out.println(SSTORECODE+"<<<SSTORECODE");
 		List<MemberDto> memberDtoList = memberService.getMember(MID);
 		List<StoreDto> storeDtoList = storeService.getStoreMy(SSTORECODE);
 		model.addAttribute("memberList", memberDtoList);

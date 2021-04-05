@@ -15,6 +15,23 @@
 		<result property="storeInfoPhone"	 			column="store_info_phone" />
 		<result property="storeInfoRegDate"	 			column="store_info_reg_date" />		
 	</resultMap>
+	<!-- 사업장이 2개일 경우 사업장 선택화면  -->
+	<select id="storeChoice" parameterType="String" resultMap="StoreResultMap">
+		SELECT
+		s.member_id
+		,s.store_info_name
+		,s.store_info_code
+		,m.level_code
+	FROM 
+		tb_store_info AS s
+	left join
+		tb_member AS m
+	on
+		m.member_id = s.member_id
+	WHERE s.member_id=#{MID}
+	
+	</select>
+	
 	<!-- store 사업장 등록 + 0401 주소 분리 -->
 	<insert id="addStore" parameterType="StoreDto">
 	INSERT INTO tb_store_info

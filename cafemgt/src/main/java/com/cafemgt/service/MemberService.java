@@ -1,6 +1,7 @@
 package com.cafemgt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,10 @@ public class MemberService {
 	@Autowired
 	public MemberService(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
+	}
+	
+	public  List<MemberDto> getStoreChoice(String MID){
+		return memberMapper.getStoreChoice(MID);
 	}
 	
 	public String login(String memberId, String memberPw) {

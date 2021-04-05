@@ -9,6 +9,8 @@ import com.cafemgt.dto.MemberDto;
 @Mapper
 public interface MemberMapper {	
 	
+	public List<MemberDto> getStoreChoice(String MID);
+	
 	public String getyear(String MID);
 	
 	public List<MemberDto> addMemberUser(String SSTORECODE);
