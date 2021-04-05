@@ -78,7 +78,7 @@ public class StockController {
 	@PostMapping("/addskk")
 	public String addSkk(SkkDto skkDto) {
 		skkService.addSkk(skkDto);
-		return "redirect:/getskk";
+		return "redirect:/getskkDeadLine";
 	}
 	
 	@GetMapping("/getarticle")
@@ -96,8 +96,128 @@ public class StockController {
 		model.addAttribute("skkList",skkList);
 		return "stock/getskk";
 	}
-	@ResponseBody
+	
+	@GetMapping("/modifySkk")
+	public String modifySkk(@RequestParam (value="skCode",required = false) String skCode
+							,Model model , HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		SkkDto skkDto = skkService.getSkkBySkCode(skCode);
+		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
+		model.addAttribute("skkDto",skkDto);
+		model.addAttribute("articleList",articleList);
+		return "stock/modifySkk";
+	}
+	@GetMapping("/getskkDeadLine")
+	public String getskkDeadLine(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<SkkDto> skkList = skkService.getSkkByDeadLine(SSTORECODE);
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
+		model.addAttribute("skkList",skkList);
+		model.addAttribute("totalStockList",totalStockList);
+		return "stock/getskkDeadLine";
+	}
+	@PostMapping("/getskkDeadLine")
+	public String getskkDeadLine( 
+								@RequestParam (value="volumeTotal", required = false) int volumeTotal
+								,SkkDto skkDto
+								,TotalStockDto totalStockDto
+								,ArticleDto articleDto) {
+		System.out.println(skkDto);
+		System.out.println(totalStockDto);
+		System.out.println(articleDto);
+		System.out.println(volumeTotal);
+		
+		totalStockDto.setArticleDto(articleDto);
+		Map<String , String> incoMap = new HashMap<>();
+		//이전용량
+		int preVolume =(totalStockDto.getIncoVolumeSubtotal() - totalStockDto.getDetailvolRemainVolume());
+		
+		//소모용량
+		int dtvVolumeTotal = totalStockDto.getDetailvolVolumeTotal();
+		
+		int conCount = 0;
+		
+		// 입고수량 == 입고용량 일때, 소모수량 = 소모용량
+		if(totalStockDto.getIncoCount() == totalStockDto.getIncoVolumeSubtotal()) {
+			conCount = totalStockDto.getDetailvolVolumeTotal();
+		}else {
+			//(이전용량+소모용량) / 품목용량 = 몇개품목사용갯수 계산
+			conCount = (preVolume+dtvVolumeTotal)/totalStockDto.getArticleDto().getArticleVolume();
+				System.out.println((double)dtvVolumeTotal/totalStockDto.getArticleDto().getArticleVolume());
+				System.out.println(totalStockDto);
+				System.out.println(conCount);	
+		}
+		if(conCount > totalStockDto.getDetailvolRemainCount()) {
+			//소모수량이 잔여수량보다 클 경우 div를 잔여용량으로
+			conCount = totalStockDto.getDetailvolRemainCount();
+		}
+		
+		incoMap.put("incoCode", totalStockDto.getIncoCode());
+		if(volumeTotal >= 0) {
+			/* 소모량이 잔여량보다 작음 
+			 * detailvol에 소모량(volumeTotal) insert
+			 * incoCheck 2단계로
+			 * */
+			int haveVolTotal = (totalStockDto.getDetailvolRemainVolume() - dtvVolumeTotal);//(전)잔여용량 - 소모용량
+			totalStockDto.setDetailvolRemainVolume(haveVolTotal);//(현)잔여용량 input
+			totalStockDto.setDetailvolConCount(conCount);//소모수량 input
+			
+			//(전)잔여수량 -소모수량 => (현)잔여수량 input
+			totalStockDto.setDetailvolRemainCount(totalStockDto.getDetailvolRemainCount()-conCount);
+			
+			if(volumeTotal ==0) {
+				incoMap.put("incoCheck", "3");
+			}else {
+				incoMap.put("incoCheck", "2");
+			}
+			skkService.modifySkkDeadlineCheck(skkDto.getSkCode());
+		}else {
+			/* 소모량이 잔여량보다 큼
+			 * skk에 -된만큼 insert
+			 * detailvol에 소모량(volumeTotal) insert
+			 * incoCheck에 단계 3으로
+			 * */
+			
+			incoMap.put("incoCheck", "3");
+			
+			if(volumeTotal < 0) {
+				volumeTotal = (volumeTotal * -1);
+			}
+			int stockMinUnit = skkDto.getSkErrorPriceTotal()/skkDto.getSkErrorVolume();
+			int beforeSkProbeVolume = skkDto.getSkProbeVolume();
+			int beforeSkErrorVolume =skkDto.getSkErrorVolume();
+			int dtvRemain = totalStockDto.getDetailvolRemainVolume();
+			
+			totalStockDto.setDetailvolVolumeTotal(totalStockDto.getDetailvolRemainVolume());
+			totalStockDto.setDetailvolConCount(conCount);
+			totalStockDto.setDetailvolRemainVolume(0);
+			totalStockDto.setDetailvolRemainCount(0);
+			
+			//skk update 
+			skkDto.setSkProbeVolume(beforeSkProbeVolume + volumeTotal);
+			skkDto.setSkErrorVolume(beforeSkErrorVolume - volumeTotal);
+			skkDto.setSkErrorPriceTotal(skkDto.getSkErrorVolume() * stockMinUnit );
+			System.out.println(skkDto);
+			skkService.modifySkk(skkDto);
+			
+			
+			//skk insert
+			skkDto.setSkNowVolume(skkDto.getSkNowVolume() - dtvRemain);
+			skkDto.setSkProbeVolume(beforeSkProbeVolume);
+			skkDto.setSkErrorVolume(volumeTotal);
+			skkDto.setSkErrorPriceTotal(skkDto.getSkErrorVolume()*stockMinUnit);
+			skkDto.setSkEtc("소모용량이 잔여용량보다 많아 계산된 용량만큼 재등록 되었습니다.");
+			System.out.println(skkDto);
+			skkService.addSkk(skkDto);
+			
+		}
+		totalStockService.modifyIncoCheck(incoMap);
+		totalStockService.addTotalStockOverVolume(totalStockDto);
+		return "redirect:/getskkDeadLine";
+	}
+	
 	@PostMapping("/getStockByArticleCode")
+	@ResponseBody
 	public List<StockDto> getStockByArticleCode(
 			 @RequestParam (value="articleCode", required = false) String articleCode
 			,HttpSession session) {
@@ -120,8 +240,8 @@ public class StockController {
 		model.addAttribute("getStockTableList",getStockTableList);
 		return "stock/getstock";
 	}
-	@ResponseBody
 	@PostMapping("/addStock")
+	@ResponseBody
 	public String addStock(@RequestParam(value = "arrayStock[]", required = false) List<String> arrayStock
 						  ,@RequestParam(value = "SSTORECODE", required = false) String SSTORECODE) {
 
@@ -139,8 +259,8 @@ public class StockController {
 			
 		return rtString;
 	}
-	@ResponseBody
 	@PostMapping("/addTotalStock")
+	@ResponseBody
 	public String addTotalStock( @RequestParam(value = "arrayPurchases", required = false) String arrayPurchases) {
 		
 		
@@ -222,6 +342,8 @@ public class StockController {
 		}
 		
 		incoMap.put("incoCode", totalStockDto.getIncoCode());
+		//마감확인 컬럼을 품목코드를 조건으로 해서 'o'로 변경
+		dailyVolService.modifyDailyVolDeadLine(articleDto.getArticleCode());
 		if(volumeTotal >= 0) {
 			/* 소모량이 잔여량보다 작음 
 			 * detailvol에 소모량(volumeTotal) insert
@@ -264,7 +386,6 @@ public class StockController {
 			dailyVolService.addDailyVolDeadLine(dailyVolDto);
 		}
 		totalStockService.modifyIncoCheck(incoMap);
-		dailyVolService.modifyDailyVolDeadLine(dailyVolDto.getDailyvolCode());
 		totalStockService.addTotalStockOverVolume(totalStockDto);
 		return "redirect:/getdailyvolDeadLine";
 	}
@@ -277,8 +398,8 @@ public class StockController {
 		return "stock/gettotalstock";
 	}
 	
-	@ResponseBody
 	@PostMapping("/getIncomeList")
+	@ResponseBody
 	public List<TotalStockDto> getIncomeList(@RequestParam (value = "incoCode",required = false) String incoCode
 			,Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -300,8 +421,8 @@ public class StockController {
 		return "redirect:/getarticle";
 	}
 	
-	@ResponseBody
 	@PostMapping("/salesDeadline")
+	@ResponseBody
 	public String salesDeadline(@RequestParam (value = "arraySales[]", required = false) List<String> arraySales
 								,HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");

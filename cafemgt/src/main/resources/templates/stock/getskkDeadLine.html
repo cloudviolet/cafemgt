@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-		<title>품목별 재고 총 수량 조회</title>
+		<title>재고 조사 등록</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
@@ -63,7 +63,7 @@
 				<div class="col-md-8">
 					<div class="x_panel">
 						 <div class="x_title">
-			                <h2>품목별 재고 총 수량 조회</h2>
+			                <h2>재고 조사 등록</h2>
 			                <!-- 상단 옵션네비바 시작 -->
 							<ul class="nav navbar-right panel_toolbox">
 								<li>
@@ -84,40 +84,66 @@
 											여기에 설명써주시면됩니다.
 											<code>강조!</code>
 										</p>
-										<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+										<table id="datatable-fixed-header" class="table table-striped table-bordered" style="width:100%">
 											<thead>
 												<tr>
-													<!-- 
-													<th>일 품목소모량 코드</th>
-													<th>사업장 코드</th>
-													<th>상호명</th>
-													 -->
 													<th>품목명</th>
-													<th>판매 수량</th>
-													<th>소모용량 소계</th>
-													<th>마감</th>
+													<!-- <th>현재재고용량</th> -->
+													<th>조사재고용량</th>
+													<th>오차재고용량</th>
+													<!-- <th>오차금액</th> -->
+													<th>상세</th>
+													<th>조사날짜</th>
+													<th>선택</th>
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:if="${#lists.size(dailyVolDeadLineList)>0}" th:each="dvl : ${dailyVolDeadLineList}">
-													<!--
-												 	<td th:text="${dvl.storeInfoCode}"></td>
-													<td th:text="${dvl.storeInfoName}"></td>
-													 -->
-													<td>[[${dvl.articleName}]]</td>
-													<td>[[${dvl.salesCount}]]</td>
+												<tr th:each="skkl :${skkList}">
+													<!-- 
+													<td th:text="${skkl.skCode}"></td>
+													<td th:text="${skkl.storeInfoCode}"></td>
+													<td th:text="${skkl.storeInfoName}"></td>
+													<td th:text="${skkl.stockCode}"></td>
+													<td th:text="${skkl.articleCode}"></td> 
+													<td th:text="${skkl.stockMinUnit}"></td>
+													-->
 													<td>
-														<span>[[${dvl.dailyvolSubtotal}]]</span>
-														<span class="float-right">[[${dvl.conDan}]]</span>
+														<span>[[${skkl.articleName}]]</span>
+													</td>
+													<!-- 
+													<td>
+														<span>[[${skkl.skNowVolume}]]</span>
+														<span class="float-right">[[${skkl.articleDan}]]</span>
+													</td>
+													 -->
+													<td>
+														<span>[[${skkl.skProbeVolume}]]</span>
+														<span class="float-right">[[${skkl.articleDan}]]</span>
+													</td>
+													<td>
+														<span>[[${skkl.skErrorVolume}]]</span>
+														<span class="float-right">[[${skkl.articleDan}]]</span>
+													</td>
+													<!--
+													<td>
+														<span>[[${skkl.skErrorPriceTotal}]]</span>
+														<span class="float-right">₩</span>
+													</td>
+													-->
+													<td>
+														<span>[[${skkl.skEtc}]]</span>
+													</td>
+													<td>
+														<span>[[${skkl.skDate}]]</span>
 													</td>
 													<td class="deadLineSelectBox-td">
 														<select class="form-control deadLineSelectBox" data-index="0">
 															<option th:value="0" th:text="선택해주세요."></option>
 															<th:block th:each="tsl : ${totalStockList}">
-																<option th:if="${tsl.articleCode == dvl.articleCode}" 
+																<option th:if="${tsl.articleCode == skkl.articleCode}" 
 																		th:text="${tsl.articleDto.articleName}+' &nbsp&nbsp'+${tsl.incoDate}"
 																		th:value="${tsl.incoCode}">
-																</option>
+																</option>	
 															</th:block>
 														</select>
 													</td>
@@ -153,7 +179,7 @@
 										</p>
 									</div>
 									<div>
-										<form th:action="@{getdailyvolDeadLine}" method="POST" id="demo-form2">
+										<form th:action="@{/getskkDeadLine}" method="POST" id="demo-form2">
 											<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 											
 
@@ -165,7 +191,7 @@
 												<label class="control-label label-align articleDan"></label>
 											</div>
 											<div class="form-group row horizontal">
-												<label class="col-form-label label-align input-label">사용 용량 </label>
+												<label class="col-form-label label-align input-label">오차 용량 </label>
 												<div class="col-md-7 col-sm-7">
 													<input type="text" name="detailvolVolumeTotal" id="detailvolVolumeTotal" readonly="readonly" class="form-control valueReset">
 												</div>
@@ -179,21 +205,26 @@
 												<label class="control-label label-align articleDan"></label>
 											</div>
 											<div>
-												<!-- <label class="col-form-label label-align input-label">일품 코드 </label> -->
-												<input type="hidden" name="dailyvolCode" 	id="dailyVolCode"	readonly="readonly"  class="form-control valueReset">
+												<!-- <label class="col-form-label label-align input-label">입고 코드 </label> -->
+												<input type="hidden" name="detailvolCode" 	id="detailvolCode"		readonly="readonly"  class="form-control valueReset">
 												<!-- <label class="col-form-label label-align input-label">입고 코드 </label> -->
 												<input type="hidden" name="incoCode" 		id="incoCode"		readonly="readonly"  class="form-control valueReset">
 												<!-- <label class="col-form-label label-align input-label">재고 코드 </label> -->
-												<input type="hidden" name="detailvolCode" 		id="detailvolCode"		readonly="readonly"  class="form-control valueReset">
+												<input type="hidden" name="stockCode" 		id="stockCode"			readonly="readonly"  class="form-control valueReset">
+												<!-- <label class="col-form-label label-align input-label">재고조사 코드 </label> -->
+												<input type="hidden" name="skCode" 			id="skCode"			readonly="readonly"  class="form-control valueReset">
 												<!-- <label class="col-form-label label-align input-label">품목 코드 </label> -->
 												<input type="hidden" name="articleCode" 	id="articleCode"	readonly="readonly"  class="form-control valueReset">
-											</div>
-											<div class="form-group row horizontal">
-												<label class="col-form-label label-align input-label">판매 수량 </label>
-												<div class="col-md-7 col-sm-7">
-													<input type="text" name="salesCount" 	id="salesCount"		readonly="readonly"  class="form-control valueReset">
-												</div>
-												<label class="control-label label-align articleBigDan"></label>
+												<!-- <label class="col-form-label label-align input-label">최소단위 원가 </label> -->
+												<input type="hidden" name="skErrorPriceTotal" 	id="skErrorPriceTotal"	readonly="readonly"  class="form-control valueReset">
+												<!-- <label class="col-form-label label-align input-label">현재 용량 </label> -->
+												<input type="hidden" name="skNowVolume" 	id="skNowVolume"	readonly="readonly"  class="form-control valueReset">
+												<!-- <label class="col-form-label label-align input-label">조사 용량 </label> -->
+												<input type="hidden" name="skProbeVolume" 	id="skProbeVolume"	readonly="readonly"  class="form-control valueReset">
+												<!-- <label class="col-form-label label-align input-label">오차 용량 </label> -->
+												<input type="hidden" name="skErrorVolume" 	id="skErrorVolume"	readonly="readonly"  class="form-control valueReset">
+												<!-- <label class="col-form-label label-align input-label">재고조사날짜 </label> -->
+												<input type="hidden" name="skDate" 			id="skDate"	readonly="readonly"  class="form-control valueReset">
 											</div>
 											<div class="form-group row horizontal">
 												<label class="col-form-label label-align input-label">소모 단계 </label>
@@ -259,13 +290,6 @@
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
 		
 		<script th:inline="javascript"> 
-			$('#submitBtn').click(function(){
-				if($('#incoVolumeSubtotal').val() != ''){
-					$('#demo-form2').submit();
-				}else{
-					alert('마감할 품목을 선택 해주세요.');
-				}
-			});
 			var deadLineSelectBox = $('.deadLineSelectBox');
 			deadLineSelectBox.mousedown(function(){
 				$('.deadLineSelectBox option').prop("selected",false);
@@ -276,11 +300,12 @@
 				for(var i = 0 ; i < deadLineSelectBox.length; i++){
 					deadLineSelectBox.eq(i).attr('data-index',i);
 				}
-				var incoCode = $(this).val();
 				var dataIndex = $(this).attr('data-index');
-				var dvl = /*[[${dailyVolDeadLineList}]]*/
+				var incoCode = deadLineSelectBox.eq(dataIndex).val();
+				var skkl = /*[[${skkList}]]*/
 				console.log(incoCode);
 				console.log(dataIndex);
+				console.log(skkl[dataIndex]);
 				
 				if(incoCode != 0){
 					var request = $.ajax({
@@ -292,30 +317,38 @@
 	
 					request.done(function( data ) {
 						console.log(data[0].articleCode);
-						
-						$('#incoVolumeSubtotal').val(data[0].incoVolumeSubtotal);
+						$('#stockCode').val(skkl[dataIndex].stockCode);
 						$('#detailvolRemainVolume').val(data[0].detailvolRemainVolume);
-						$('#detailvolVolumeTotal').val(dvl[dataIndex].dailyvolSubtotal);
-						$('#dailyVolCode').val(dvl[dataIndex].dailyvolCode);
-						$('#incoCode').val(data[0].incoCode);
+						$('#detailvolVolumeTotal').val(skkl[dataIndex].skErrorVolume);
 						$('#detailvolCode').val(data[0].detailvolCode);
-						$('#articleCode').val(data[0].articleCode);
-						$('#incoCheck').val(data[0].incoCheck);
 						$('#detailvolCheckString').val(data[0].detailvolCheckString);
-						$('#incoCount').val(data[0].incoCount);
-						$('#articleVolume').val(data[0].incoVolumeSubtotal/data[0].incoCount);
-						$('#volumeTotal').val((data[0].detailvolRemainVolume-dvl[dataIndex].dailyvolSubtotal));
-						$('#salesCount').val(dvl[dataIndex].salesCount);
 						$('#detailvolRemainCount').val(data[0].detailvolRemainCount);
+						$('#skCode').val(skkl[dataIndex].skCode);
+						$('#skNowVolume').val(skkl[dataIndex].skNowVolume);
+						$('#skProbeVolume').val(skkl[dataIndex].skProbeVolume);
+						$('#skErrorVolume').val(skkl[dataIndex].skErrorVolume);
+						$('#skErrorPriceTotal').val(skkl[dataIndex].skErrorPriceTotal)
+						$('#skDate').val(skkl[dataIndex].skDate)
+						$('#incoVolumeSubtotal').val(data[0].incoVolumeSubtotal);
+						$('#incoCode').val(data[0].incoCode);
+						$('#incoCheck').val(data[0].incoCheck);
+						$('#incoCount').val(data[0].incoCount);
+						$('#articleCode').val(data[0].articleCode);
+						$('#articleVolume').val(data[0].incoVolumeSubtotal/data[0].incoCount);
+						$('#volumeTotal').val(data[0].detailvolRemainVolume-skkl[dataIndex].skErrorVolume);
 						$('.articleDan').text(data[0].articleDto.articleDan)
 						$('.articleBigDan').text(data[0].articleDto.articleBigDan)
-						
 					});
 					request.fail(function( data ) {
 						console.log('aaaaaaaaaaaaaa');
 					});
 				}
 			});
+			
+			$('#submitBtn').click(function(){
+				$('#demo-form2').submit();
+			});
 		</script>
+		
 	</th:block>
 </html>
