@@ -23,7 +23,11 @@ public class TaxService {
 		this.dealingMapper = dealingMapper;
 	}
 	
-	public String getOldDateByDealing(String SSTORECODE) {
+	public String getVatYear(String SSTORECODE) {
+		return vatMapper.getVatYear(SSTORECODE);
+	}
+	
+	public Map<String,String> getOldDateByDealing(String SSTORECODE) {
 		return dealingMapper.getOldDateByDealing(SSTORECODE);
 	}
 	

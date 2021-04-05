@@ -21,6 +21,10 @@ public class SalesService {
 		this.salesMapper = salesMapper;
 	}
 	
+	public int addCostDetail(String salesCode,String SSTORECODE) {
+		return salesMapper.addCostDetail(salesCode,SSTORECODE);
+	}
+	
 	public int removeSales(String salesCode) {
 		return salesMapper.removeSales(salesCode);
 	}

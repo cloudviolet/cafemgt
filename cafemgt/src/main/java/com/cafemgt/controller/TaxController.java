@@ -157,8 +157,8 @@ public class TaxController {
 		return "pands/salesdeadlinefortax";
 	}
 	
-	@ResponseBody
 	@PostMapping("/salesDeadlineForTax")
+	@ResponseBody
 	public String salesDeadlineForTax(@RequestParam(value = "arraySales[]",required = false)List<String> arraySales
 									  ,HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -174,6 +174,10 @@ public class TaxController {
 		for(int i =0; i<getSalesList.size(); i++) {
 			System.out.println(getSalesList.get(i));
 			result += taxService.addDealing(getSalesList.get(i));
+			
+		}
+		for(int j = 0 ; j < arraySales.size() ; j++) {
+			salesService.addCostDetail(arraySales.get(j), SSTORECODE);
 		}
 		taxService.modifySalesDeadLineForTax(arraySales);
 		if(result>=1) {
@@ -202,14 +206,15 @@ public class TaxController {
 	public String getTotalPandS(Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		//dealing테이블에서 가장 오래된 날짜 가져오기
-		String oldDate = taxService.getOldDateByDealing(SSTORECODE);
-		System.out.println(oldDate+"<<<<<<<<<<<<<<<<<<<<<<<<<");
-		model.addAttribute("oldDate", oldDate);
+		Map<String, String> dateList = new HashMap<>();	
+		dateList = taxService.getOldDateByDealing(SSTORECODE);
+		System.out.println(dateList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		model.addAttribute("dateList", dateList);
 		return "tax/gettotalpands";
 	}
 	
-	@ResponseBody
 	@PostMapping("/gettotalpands")
+	@ResponseBody
 	public Map<String,Object> getTotalPandS(
 			@RequestParam (value = "searchFirstDate",required = false)String searchFirstDate 
 			,@RequestParam (value = "searchLastDate",required = false)String searchLastDate 
@@ -223,8 +228,8 @@ public class TaxController {
 			return map;			
 	}
 		
-	@ResponseBody
 	@PostMapping("/getmyvat")
+	@ResponseBody
 	public VatDto getMyVat( @RequestParam(value = "searchDays", required = false)String searchDays 
 						   ,HttpSession session){
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -236,16 +241,15 @@ public class TaxController {
 	
 	@GetMapping("/getvat")
 	public String getVat(HttpSession session,Model model) {
-		String MID = (String)session.getAttribute("MID");
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		String MNAME = (String)session.getAttribute("MNAME");	
-		model.addAttribute("getYear", memberService.getyear(MID));
+		model.addAttribute("getYear", taxService.getVatYear(SSTORECODE));
 		model.addAttribute("MNAME", MNAME);
-		System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<");
 		return "tax/getvat";
 	}
 	
-	@ResponseBody
 	@PostMapping("/addintendedtax")
+	@ResponseBody
 	public boolean addIntendedTax(@RequestParam(value = "intendedDays",required = false)String intendedDays
 								 ,@RequestParam(value = "vatIntendedTax",required = false)String vatIntendedTax
 								 ,HttpSession session) {
@@ -329,6 +333,11 @@ public class TaxController {
 	public String removeOtherPurchases(@RequestParam(value = "oeCode", required = false)String oeCode) {
 		otherPurchasesService.removeOtherPurchases(oeCode);
 		return "redirect:/getotherpurchases";
+	}
+	
+	@GetMapping("/gettotalsalary")
+	public String getTotalSalary() {
+		return "tax/gettotalsalary";
 	}
 
 }

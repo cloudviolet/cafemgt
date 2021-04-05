@@ -29,23 +29,22 @@
 						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						      </div>
 						      <div class="row modal-body">
-						      <form class="form-horizontal form-label-left" >						      
-							      	<div class="col-label col-md-6 col-sm-6">	
-							     		<select name="year" id="intendedYear" title="년도" class="custom-select"></select>
-							     	</div>
-							     	<div class="form-group col-label col-md-6 col-sm-6">	
-							     		<select id="intendedMonth" class="custom-select">					      	
-								      		<option value="">해당분기</option>
-								      		<option value="1기">1기</option>
-								      		<option value="2기">2기</option>
-								      	</select>
-								    </div>
-								    <div class="form-group row">										
-										<div class="col-label col-md-12 col-sm-12 ">
-											<input type="text" id="vatIntendedTax" class="form-control" name="vatIntendedTax"> 원												
-										</div>	
-									</div>								   
-						      </form>
+								<form class="form-inline">
+									<div class="form-group">
+										<select name="year" id="intendedYear" title="년도" class="custom-select"></select>
+									</div>
+									<div class="form-group">
+										<select id="intendedMonth" class="custom-select">					      	
+											<option value="">해당분기</option>
+											<option value="1기">1기</option>
+											<option value="2기">2기</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" id="vatIntendedTax" placeholder="중간예납금액">
+										<label for="vatIntendedTax"> 원</label>
+									</div>
+								</form>							   
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
@@ -192,6 +191,7 @@
 			        	if(intendedResult){
 			        		alert(intendedDays+' 중간예납금액 '+vatIntendedTax+'원이 등록되었습니다.');
 			        		$('#myModal').modal('hide');
+			        		$('#myModal').find('form')[0].reset();
 			        	}else{
 			        		alert('중간에납금액등록에 실패하였습니다.');
 			        	}
