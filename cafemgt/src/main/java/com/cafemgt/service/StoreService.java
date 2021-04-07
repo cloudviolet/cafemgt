@@ -23,6 +23,12 @@ public class StoreService {
 		System.out.println("사업장 등록서비스 확인");
 		return storeMapper.addStore(storeDto);		
 	}
+	//사업장이 2개이상일 경우 사업장 선택
+	public List<StoreDto> storeChoice(String MID){
+		List<StoreDto> storeDtoList = storeMapper.storeChoice(MID);
+		
+		return storeDtoList;
+	}
 	
 	public List<StoreDto> getStoreadmin(){
 		List<StoreDto> storeDtoList = storeMapper.getStoreadmin();
