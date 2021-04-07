@@ -99,7 +99,7 @@ public class StoreController {
 						  session.setAttribute("SSTORENAME", memberDtoList.get(0).getStoreInfoName());		
 						  System.out.println(memberDtoList.get(0).getStoreInfoCode());
 						  System.out.println(session.getAttribute("SSTORECODE"));
-						  System.out.println(memberDtoList.get(0).getStoreInfoName());
+						  System.out.println(memberDtoList.get(0).getStoreInfoName()+"<<<<<<<<<<<<<<<<<<<<<!!!!!!!!!!!!<<<<<<");
 						  
 						  
 					  }else {
@@ -260,6 +260,8 @@ public class StoreController {
 	@GetMapping("/getuser")
 	public String getuser(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		String SSTORENAME = (String)session.getAttribute("SSTORENAME");
+		System.out.println(SSTORENAME+"<<<<<<<<<<<<<<<<<");
 		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
 		model.addAttribute("userList", userDtoList);
 		

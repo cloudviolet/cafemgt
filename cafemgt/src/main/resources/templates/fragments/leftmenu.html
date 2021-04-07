@@ -22,6 +22,8 @@
 					<h2 th:text="${session.MID}"></h2>
 					<div th:unless="${session.MID == null}">
 						<label>[[${session.MNAME}]]님 로그인 중 </label>
+						<!-- 0407 사업장명 세션추가해야함 -->
+						<label>[[${session.SSTORENAME}]]</label>
 					</div>
 				</div>
 			</div> 
@@ -30,7 +32,7 @@
 			<a th:if = "${session.MID == null}" th:href ="@{/store/login}"  class="btn btn-success btn-block btn-md " style="float: right; margin-top: 30px;">Login</a>
 			
 			<br />
-
+			
 			<!-- sidebar menu -->
 			<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 				<div class="menu_section">
