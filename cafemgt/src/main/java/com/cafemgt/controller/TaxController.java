@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,6 +35,7 @@ import com.cafemgt.service.SalesService;
 import com.cafemgt.service.TaxService;
 
 @Controller
+@RequestMapping("/tax")
 public class TaxController {
 	
 	private final SalesService salesService;
@@ -85,7 +87,7 @@ public class TaxController {
 	@PostMapping("/addsales")
 	public String addSales(SalesDto salesDto) {
 		salesService.addSales(salesDto);
-		return "redirect:/getsales";
+		return "redirect:/tax/getsales";
 	}
 	
 	@GetMapping("/addpurchases")
@@ -103,7 +105,7 @@ public class TaxController {
 	@PostMapping("/addpurchases")
 	public String addPurchases(PurchasesDto purchasesDto) {
 		purchasesService.addPurchases(purchasesDto);
-		return "redirect:/getpurchases";
+		return "redirect:/tax/getpurchases";
 	}
 	
 	@GetMapping("/addotherpurchases")
@@ -114,7 +116,7 @@ public class TaxController {
 	@PostMapping("/addotherpurchases")
 	public String addOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
 		otherPurchasesService.addOtherPurchases(otherPurchasesDto);
-		return "redirect:/getotherpurchases";		
+		return "redirect:/tax/getotherpurchases";		
 	}
 	
 	@GetMapping("/getsales")
@@ -278,7 +280,7 @@ public class TaxController {
 	@PostMapping("/modifyotherpurchases")
 	public String modifyOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
 		otherPurchasesService.modifyOtherPurchases(otherPurchasesDto);
-		return "redirect:/getotherpurchases";
+		return "redirect:/tax/getotherpurchases";
 	}
 	
 	@GetMapping("/modifypurchases")
@@ -296,7 +298,7 @@ public class TaxController {
 	@PostMapping("/modifypurchases")
 	public String modifyPurchases(PurchasesDto purchasesDto) {
 		purchasesService.modifyPurchases(purchasesDto);
-		return "redirect:/getpurchases";
+		return "redirect:/tax/getpurchases";
 	}
 	
 	@GetMapping("/modifysales")
@@ -314,25 +316,25 @@ public class TaxController {
 	@PostMapping("/modifysales")
 	public String modifySales(SalesDto salesDto) {
 		salesService.modifySales(salesDto);
-		return "redirect:/getsales";
+		return "redirect:/tax/getsales";
 	}
 	
 	@GetMapping("/removePurchases")
 	public String removePurchases(@RequestParam(value = "incoCode", required = false)String incoCode) {
 		purchasesService.removePurchases(incoCode);
-		return "redirect:/getpurchases";
+		return "redirect:/tax/getpurchases";
 	}
 	
 	@GetMapping("/removeSales")
 	public String removeSales(@RequestParam(value = "salesCode", required = false)String salesCode) {
 		salesService.removeSales(salesCode);
-		return "redirect:/getsales";
+		return "redirect:/tax/getsales";
 	}
 	
 	@GetMapping("/removeOtherPurchases")
 	public String removeOtherPurchases(@RequestParam(value = "oeCode", required = false)String oeCode) {
 		otherPurchasesService.removeOtherPurchases(oeCode);
-		return "redirect:/getotherpurchases";
+		return "redirect:/tax/getotherpurchases";
 	}
 	
 	@GetMapping("/gettotalsalary")

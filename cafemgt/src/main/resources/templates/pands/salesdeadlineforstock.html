@@ -142,13 +142,13 @@
 				if(arraySales.length != 0){
 					$.ajax({
 				        type : 'POST',
-				        url : 'salesDeadline',
+				        url : '/tax/salesDeadline',
 				        dataType : "text",
 				        data : {"arraySales" : arraySales},
 				        success : function(data){
 				        	console.log(data)
 				            alert("요청되었습니다.")
-				            location.href = '/getdailyvolDeadLine';
+				            location.href = '/tax/getdailyvolDeadLine';
 				        },
 				        error : function(request,status,error){
 				        	console.log(request)

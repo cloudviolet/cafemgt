@@ -66,8 +66,8 @@
 												<td th:text="${pl.incoPayType}"></td>
 												<td th:text="${pl.incoDate}"></td>
 												<td th:text="${pl.incoDeadline}"></td>
-												<td><a th:href="@{/modifypurchases(incoCode=${pl.incoCode})}">수정</a></td>
-												<td><a class="removePurchases" th:href="@{/removePurchases(incoCode=${pl.incoCode})}">삭제</a></td>
+												<td><a th:href="@{/tax/modifypurchases(incoCode=${pl.incoCode})}">수정</a></td>
+												<td><a class="removePurchases" th:href="@{/tax/removePurchases(incoCode=${pl.incoCode})}">삭제</a></td>
 											</tr>
 										</tbody>
 									</table>

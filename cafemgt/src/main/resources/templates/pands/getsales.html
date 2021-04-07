@@ -69,8 +69,8 @@
 												<td th:text="${sl.salesDate}"></td>
 												<td th:text="${sl.salesDeadlineDailyvol}"></td>
 												<td th:text="${sl.salesDeadlineTax}"></td>
-												<td><a th:href="@{/modifysales(salesCode=${sl.salesCode})}">수정</a></td>
-												<td><a class="removeSales" th:href="@{/removeSales(salesCode=${sl.salesCode})}">삭제</a></td>
+												<td><a th:href="@{/tax/modifysales(salesCode=${sl.salesCode})}">수정</a></td>
+												<td><a class="removeSales" th:href="@{/tax/removeSales(salesCode=${sl.salesCode})}">삭제</a></td>
 											</tr>
 										</tbody>
 									</table>
