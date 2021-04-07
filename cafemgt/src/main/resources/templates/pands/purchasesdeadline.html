@@ -137,21 +137,21 @@
 					
 					var request = $.ajax({
 						method: "POST",
-						url: "addTotalStock",
+						url: "/tax/addTotalStock",
 						traditional: true,
 						dataType: "text",
 						data: {"arrayPurchases" : JSON.stringify(arrayPurchases) }
 					});
 					request.done(function( data ){
 						console.log(data)
-						location.href="gettotalstock";
+						location.href="/tax/gettotalstock";
 					});
 					request.fail(function( err){
 						console.log(err)
 					});
 				
 				}
-				location.href="gettotalstock";
+				location.href="/tax/gettotalstock";
 			});	
 		</script>
 	</th:block>

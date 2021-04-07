@@ -114,13 +114,18 @@
     <script>
     var searchFirstDate = $('#searchFirstDate');
     var searchLastDate = $('#searchLastDate');
-    var oldDate = '[[${oldDate}]]';
-    console.log(Number(oldDate.replace(/-/gi,'')));
+    var minDate = '[[${dateList.mindate}]]';
+    var maxDate = '[[${dateList.maxdate}]]';
+    console.log(minDate,maxDate);
+    console.log(Number(minDate.replace(/-/gi,'')));
+    console.log(Number(maxDate.replace(/-/gi,'')));
     $('#searchBtn').click(function(){
 	    var NumFirstDate = Number(searchFirstDate.val().replace(/-/gi,''));
-	    var NumLastDate = Number(searchLastDate.val().replace(/-/gi,''))
-	    if(NumFirstDate>NumLastDate){
-	    	alert('날짜를 제대로 입력해주세요.');
+	    var NumLastDate = Number(searchLastDate.val().replace(/-/gi,''));
+	    var NumMinDate = Number(minDate.replace(/-/gi,''));
+	    var NumMaxDate = Number(maxDate.replace(/-/gi,''));
+	    if(NumFirstDate>NumLastDate||NumMaxDate<NumFirstDate||NumLastDate<NumMinDate||NumFirstDate<=NumMinDate||NumLastDate>=NumMaxDate){
+	    	alert(minDate+' ~ '+maxDate+' 사이의 날짜를 선택해주세요.');
 	    }else{
 			var request = $.ajax({
 				url: "gettotalpands", 

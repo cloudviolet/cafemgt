@@ -67,10 +67,10 @@
 			                <!-- 상단 옵션네비바 시작 -->
 							<ul class="nav navbar-right panel_toolbox">
 								<li>
-									<a th:href="@{getstock}" class="btn btn-dark btn-sm">품목별 소모량 보기</a>
+									<a th:href="@{/stock/getStock}" class="btn btn-dark btn-sm">품목별 소모량 보기</a>
 								</li>
 								<li>
-									<a th:href="@{gettotalstock}" class="btn btn-dark btn-sm">매입별 소모량 보기</a>
+									<a th:href="@{/stock/getTotalStock}" class="btn btn-dark btn-sm">매입별 소모량 보기</a>
 								</li>
 							</ul>
 							<!-- 상단 옵션네비바 끝 -->
@@ -153,7 +153,7 @@
 										</p>
 									</div>
 									<div>
-										<form th:action="@{getdailyvolDeadLine}" method="POST" id="demo-form2">
+										<form th:action="@{/stock/getDailyvolDeadLine}" method="POST" id="demo-form2">
 											<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 											
 
@@ -284,7 +284,7 @@
 				
 				if(incoCode != 0){
 					var request = $.ajax({
-						url: "getIncomeList", 
+						url: "/stock/getIncomeList", 
 						method: "POST",
 						data: { incoCode : incoCode },
 						dataType: "json"
