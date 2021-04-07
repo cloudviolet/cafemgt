@@ -17,14 +17,16 @@
 		<result property="dealRegDate" 			column="deal_reg_date"/>
 	</resultMap>
 	
-	<select id="getOldDateByDealing" parameterType="String" resultType="String">
+	<select id="getOldDateByDealing" parameterType="String" resultType="HashMap">
 		SELECT 
-			deal_date 
+			MIN(deal_date) AS mindate
+			,MAX(deal_date) AS maxdate
 		FROM 
 			tb_dealing 
 		WHERE 
 			store_info_code = #{SSTORECODE}
-		ORDER BY deal_date ASC LIMIT 1;
+		ORDER BY 
+			deal_date;
 	</select>
 	
 	<update id="modifySalesDeadLineForTax">

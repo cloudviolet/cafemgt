@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,6 +35,7 @@ import com.cafemgt.service.SalesService;
 import com.cafemgt.service.TaxService;
 
 @Controller
+@RequestMapping("/tax")
 public class TaxController {
 	
 	private final SalesService salesService;
@@ -85,7 +87,7 @@ public class TaxController {
 	@PostMapping("/addsales")
 	public String addSales(SalesDto salesDto) {
 		salesService.addSales(salesDto);
-		return "redirect:/getsales";
+		return "redirect:/tax/getsales";
 	}
 	
 	@GetMapping("/addpurchases")
@@ -103,7 +105,7 @@ public class TaxController {
 	@PostMapping("/addpurchases")
 	public String addPurchases(PurchasesDto purchasesDto) {
 		purchasesService.addPurchases(purchasesDto);
-		return "redirect:/getpurchases";
+		return "redirect:/tax/getpurchases";
 	}
 	
 	@GetMapping("/addotherpurchases")
@@ -114,7 +116,7 @@ public class TaxController {
 	@PostMapping("/addotherpurchases")
 	public String addOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
 		otherPurchasesService.addOtherPurchases(otherPurchasesDto);
-		return "redirect:/getotherpurchases";		
+		return "redirect:/tax/getotherpurchases";		
 	}
 	
 	@GetMapping("/getsales")
@@ -157,8 +159,8 @@ public class TaxController {
 		return "pands/salesdeadlinefortax";
 	}
 	
-	@ResponseBody
 	@PostMapping("/salesDeadlineForTax")
+	@ResponseBody
 	public String salesDeadlineForTax(@RequestParam(value = "arraySales[]",required = false)List<String> arraySales
 									  ,HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -174,6 +176,10 @@ public class TaxController {
 		for(int i =0; i<getSalesList.size(); i++) {
 			System.out.println(getSalesList.get(i));
 			result += taxService.addDealing(getSalesList.get(i));
+			
+		}
+		for(int j = 0 ; j < arraySales.size() ; j++) {
+			salesService.addCostDetail(arraySales.get(j), SSTORECODE);
 		}
 		taxService.modifySalesDeadLineForTax(arraySales);
 		if(result>=1) {
@@ -202,14 +208,15 @@ public class TaxController {
 	public String getTotalPandS(Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		//dealing테이블에서 가장 오래된 날짜 가져오기
-		String oldDate = taxService.getOldDateByDealing(SSTORECODE);
-		System.out.println(oldDate+"<<<<<<<<<<<<<<<<<<<<<<<<<");
-		model.addAttribute("oldDate", oldDate);
+		Map<String, String> dateList = new HashMap<>();	
+		dateList = taxService.getOldDateByDealing(SSTORECODE);
+		System.out.println(dateList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		model.addAttribute("dateList", dateList);
 		return "tax/gettotalpands";
 	}
 	
-	@ResponseBody
 	@PostMapping("/gettotalpands")
+	@ResponseBody
 	public Map<String,Object> getTotalPandS(
 			@RequestParam (value = "searchFirstDate",required = false)String searchFirstDate 
 			,@RequestParam (value = "searchLastDate",required = false)String searchLastDate 
@@ -223,8 +230,8 @@ public class TaxController {
 			return map;			
 	}
 		
-	@ResponseBody
 	@PostMapping("/getmyvat")
+	@ResponseBody
 	public VatDto getMyVat( @RequestParam(value = "searchDays", required = false)String searchDays 
 						   ,HttpSession session){
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -236,16 +243,15 @@ public class TaxController {
 	
 	@GetMapping("/getvat")
 	public String getVat(HttpSession session,Model model) {
-		String MID = (String)session.getAttribute("MID");
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		String MNAME = (String)session.getAttribute("MNAME");	
-		model.addAttribute("getYear", memberService.getyear(MID));
+		model.addAttribute("getYear", taxService.getVatYear(SSTORECODE));
 		model.addAttribute("MNAME", MNAME);
-		System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<");
 		return "tax/getvat";
 	}
 	
-	@ResponseBody
 	@PostMapping("/addintendedtax")
+	@ResponseBody
 	public boolean addIntendedTax(@RequestParam(value = "intendedDays",required = false)String intendedDays
 								 ,@RequestParam(value = "vatIntendedTax",required = false)String vatIntendedTax
 								 ,HttpSession session) {
@@ -274,7 +280,7 @@ public class TaxController {
 	@PostMapping("/modifyotherpurchases")
 	public String modifyOtherPurchases(OtherPurchasesDto otherPurchasesDto) {
 		otherPurchasesService.modifyOtherPurchases(otherPurchasesDto);
-		return "redirect:/getotherpurchases";
+		return "redirect:/tax/getotherpurchases";
 	}
 	
 	@GetMapping("/modifypurchases")
@@ -292,7 +298,7 @@ public class TaxController {
 	@PostMapping("/modifypurchases")
 	public String modifyPurchases(PurchasesDto purchasesDto) {
 		purchasesService.modifyPurchases(purchasesDto);
-		return "redirect:/getpurchases";
+		return "redirect:/tax/getpurchases";
 	}
 	
 	@GetMapping("/modifysales")
@@ -310,25 +316,30 @@ public class TaxController {
 	@PostMapping("/modifysales")
 	public String modifySales(SalesDto salesDto) {
 		salesService.modifySales(salesDto);
-		return "redirect:/getsales";
+		return "redirect:/tax/getsales";
 	}
 	
 	@GetMapping("/removePurchases")
 	public String removePurchases(@RequestParam(value = "incoCode", required = false)String incoCode) {
 		purchasesService.removePurchases(incoCode);
-		return "redirect:/getpurchases";
+		return "redirect:/tax/getpurchases";
 	}
 	
 	@GetMapping("/removeSales")
 	public String removeSales(@RequestParam(value = "salesCode", required = false)String salesCode) {
 		salesService.removeSales(salesCode);
-		return "redirect:/getsales";
+		return "redirect:/tax/getsales";
 	}
 	
 	@GetMapping("/removeOtherPurchases")
 	public String removeOtherPurchases(@RequestParam(value = "oeCode", required = false)String oeCode) {
 		otherPurchasesService.removeOtherPurchases(oeCode);
-		return "redirect:/getotherpurchases";
+		return "redirect:/tax/getotherpurchases";
+	}
+	
+	@GetMapping("/gettotalsalary")
+	public String getTotalSalary() {
+		return "tax/gettotalsalary";
 	}
 
 }

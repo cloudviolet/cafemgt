@@ -31,7 +31,7 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" th:action="@{/modifypurchases}" method="post" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" th:action="@{/tax/modifypurchases}" method="post" data-parsley-validate class="form-horizontal form-label-left">
 										
 										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">	
 										<input type="hidden" name="incoCode" th:value="${purchasesDto.incoCode}">	

@@ -10,7 +10,7 @@ import com.cafemgt.dto.DealingDto;
 @Mapper
 public interface DealingMapper {
 	
-	public String getOldDateByDealing(String SSTORECODE);
+	public Map<String,String> getOldDateByDealing(String SSTORECODE);
 	
 	public int modifySalesDeadLineForTax(List<String> arraySales);
 	
