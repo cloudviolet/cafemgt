@@ -38,6 +38,7 @@
 										<thead>
 											<tr>
 												<th><input type="checkbox" id="check-all"></th>
+												<th>기타매입코드</th>
 												<th>매입 유형</th>
 												<th>상호 명</th>
 												<th>공급 가액</th>
@@ -52,6 +53,7 @@
 										<tbody>
 											<tr th:if="${#lists.size(otherPurchasesCheckList)>0}" th:each="ocl : ${otherPurchasesCheckList}">
 												<td><input type="checkbox" name="checkbox" id="check-all"></td>
+												<td th:text="${ocl.oeCode}"></td>
 												<td th:text="${ocl.oeVatType}"></td>
 												<td th:text="${ocl.oeStoreName}"></td>
 												<td th:text="${ocl.oeSupplyValue}"></td>
@@ -106,17 +108,33 @@
 				var arrayOtherPurchases = [];
 				var checkBox = $("input[name='checkbox']:checked");
 				checkBox.each(function(i){
-					var otherPurchases = {};
 					var tr = checkBox.parent().parent().eq(i);
 					var td = tr.children();
 										
-					var cate = td.eq(1).text();
-					otherPurchases[cate] = cate;
-					var test = td.eq(2).text();
-					otherPurchases[test] = test;
-					arrayOtherPurchases.push(otherPurchases);
+					var oeCode = td.eq(1).text();
+					arrayOtherPurchases.push(oeCode);
 				});
 				console.log(arrayOtherPurchases);
+				if(arrayOtherPurchases.length != 0){
+					$.ajax({
+				        type : 'POST',
+				        url : '/tax/otherpurchasesdeadline',
+				        dataType : "text",
+				        data : {"arrayOtherPurchases" : arrayOtherPurchases},
+				        success : function(data){
+				        	console.log(data)
+				            alert("요청되었습니다.")
+				            location.href = '/tax/gettotalpands';
+				        },
+				        error : function(request,status,error){
+				        	console.log(request)
+				        	console.log(status)
+				        	console.log(error)
+				        }
+				    }); 
+				}else{
+					alert('마감할 항목을 선택해주세요.');	
+				}
 			});
 		</script>
 	</th:block>

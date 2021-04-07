@@ -23,6 +23,14 @@ public class TaxService {
 		this.dealingMapper = dealingMapper;
 	}
 	
+	public int modifyOtherPurchasesDeadLine(List<String> arrayOtherPurchases) {
+		return dealingMapper.modifyOtherPurchasesDeadLine(arrayOtherPurchases);
+	}
+	
+	public List<DealingDto> getOtherPurchasesByDealing(Map<String,Object> otherPurchasesInfoMap){
+		return dealingMapper.getOtherPurchasesByDealing(otherPurchasesInfoMap);
+	}
+	
 	public String getVatYear(String SSTORECODE) {
 		return vatMapper.getVatYear(SSTORECODE);
 	}

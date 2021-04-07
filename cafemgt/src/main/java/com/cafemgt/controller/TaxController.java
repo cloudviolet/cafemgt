@@ -143,6 +143,14 @@ public class TaxController {
 		return "pands/purchasesdeadline";
 	}
 	
+	@GetMapping("/purchasesdeadlinetax")
+	public String purchasesDeadlineTax(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<PurchasesDto> purchasesTaxCheckList = purchasesService.getPurchasesDeadlineTax(SSTORECODE);
+		model.addAttribute("purchasesTaxCheckList", purchasesTaxCheckList);
+		return "pands/purchasesdeadlinetax";
+	}
+	
 	@GetMapping("/salesdeadlineforstock")
 	public String salesDeadlineForStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -175,8 +183,7 @@ public class TaxController {
 		List<DealingDto> getSalesList = taxService.getSalesByDealing(salesInfoMap);
 		for(int i =0; i<getSalesList.size(); i++) {
 			System.out.println(getSalesList.get(i));
-			result += taxService.addDealing(getSalesList.get(i));
-			
+			result += taxService.addDealing(getSalesList.get(i));			
 		}
 		for(int j = 0 ; j < arraySales.size() ; j++) {
 			salesService.addCostDetail(arraySales.get(j), SSTORECODE);
@@ -194,6 +201,30 @@ public class TaxController {
 		List<OtherPurchasesDto> otherPurchasesCheckList = otherPurchasesService.otherPurchasesDeadline(SSTORECODE);
 		model.addAttribute("otherPurchasesCheckList", otherPurchasesCheckList);
 		return "pands/otherpurchasesdeadline";
+	}
+	
+	@PostMapping("/otherpurchasesdeadline")
+	@ResponseBody
+	public String otherPurchasesDeadline(@RequestParam(value = "arrayOtherPurchases[]",required = false)List<String> arrayOtherPurchases
+										 ,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		Map<String, Object> otherPurchasesInfoMap = new HashMap<>();
+		otherPurchasesInfoMap.put("SSTORECODE", SSTORECODE);
+		otherPurchasesInfoMap.put("arrayOtherPurchases", arrayOtherPurchases);
+		System.out.println(otherPurchasesInfoMap+"<<<<<<<<<<<<<<<<<");
+		
+		String resultValue = "실패";
+		int result = 0;
+		List<DealingDto> otherPurchasesCheckList = taxService.getOtherPurchasesByDealing(otherPurchasesInfoMap);
+		for(int i=0; i<otherPurchasesCheckList.size();i++) {
+			System.out.println(otherPurchasesCheckList.get(i));
+			result += taxService.addDealing(otherPurchasesCheckList.get(i));
+		}
+		taxService.modifyOtherPurchasesDeadLine(arrayOtherPurchases);
+		if(result>=1) {
+			resultValue = "성공";
+		}
+		return resultValue;
 	}
 	
 	@GetMapping("/getotherpurchases")

@@ -51,7 +51,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:if="${#lists.size(purchasesCheckList)>0}" th:each="pcl : ${purchasesCheckList}">
+											<tr th:if="${#lists.size(purchasesTaxCheckList)>0}" th:each="pcl : ${purchasesTaxCheckList}">
 												<td><input type="checkbox" class="checkBox" name="checkBox"></td>
 												<td th:text="${pcl.articleName}"></td>
 												<td th:text="${pcl.custName}"></td>
@@ -118,18 +118,14 @@
 		});		
 			
 			$('#submitBtn').click(function(){
-				var purchasesList = /*[[${purchasesCheckList}]]*/
+				var purchasesList = /*[[${purchasesTaxCheckList}]]*/
 				var arrayPurchases= []; 
 				
 				if(checkBox.length != 0){
 					checkBox.each(function(i){
 						if(checkBox.eq(i).is(":checked")){
 							var purchases = {};
-							purchases["incoCode"] = purchasesList[i].incoCode;
-							purchases["storeInfoCode"] = purchasesList[i].storeInfoCode;
-							purchases["articleCode"] = purchasesList[i].articleCode;
-							purchases["incoVolumeSubtotal"] = purchasesList[i].incoVolumeSubtotal;
-							purchases["incoCount"] = purchasesList[i].incoCount;
+							purchases["incoCode"] = purchasesTaxCheckList[i].incoCode;
 							arrayPurchases.push(purchases);
 						}
 					})
@@ -137,21 +133,21 @@
 					
 					var request = $.ajax({
 						method: "POST",
-						url: "/stock/addTotalStock",
+						url: "/tax/addTotalStock",
 						traditional: true,
 						dataType: "text",
 						data: {"arrayPurchases" : JSON.stringify(arrayPurchases) }
 					});
 					request.done(function( data ){
 						console.log(data)
-						location.href="/stock/getTotalStock";
+						location.href="/tax/gettotalstock";
 					});
 					request.fail(function( err){
 						console.log(err)
 					});
 				
 				}
-				location.href="/stock/getTotalStock";
+				location.href="/tax/gettotalstock";
 			});	
 		</script>
 	</th:block>

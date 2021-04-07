@@ -17,6 +17,37 @@
 		<result property="dealRegDate" 			column="deal_reg_date"/>
 	</resultMap>
 	
+	<update id="modifyOtherPurchasesDeadLine">
+		UPDATE tb_other_expense
+		SET
+			oe_deadline='o'
+		WHERE 
+			oe_code IN
+		<foreach collection="arrayOtherPurchases" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<select id="getOtherPurchasesByDealing" parameterType="HashMap" resultMap="DealingDtoResultMap">
+		SELECT 
+			 store_info_code
+			,'기타매입' AS 'deal_cate'
+			,oe_vat_type AS 'deal_vat_type'
+			,SUM(oe_total) AS 'deal_total'
+			,at_debit_code AS 'at_debit_code'
+			,'101'  AS 'at_credit_code'
+			,oe_date AS 'deal_date'
+		FROM 
+			tb_other_expense
+		WHERE oe_deadline = 'x' 
+		AND oe_code IN
+		<foreach collection="arrayOtherPurchases" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach> 
+		GROUP BY at_debit_code, oe_vat_type
+			HAVING store_info_code =#{SSTORECODE}
+	</select>
+	
 	<select id="getOldDateByDealing" parameterType="String" resultType="HashMap">
 		SELECT 
 			MIN(deal_date) AS mindate
