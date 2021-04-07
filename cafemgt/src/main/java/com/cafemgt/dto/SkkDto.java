@@ -13,7 +13,7 @@ public class SkkDto {
 	private int 	skProbeVolume;
 	private int 	skErrorVolume;
 	private String  stockMinUnit;
-	private String  skErrorPriceTotal;
+	private int  skErrorPriceTotal;
 	private String  skEtc;
 	private String  skDate;
 	private String  skRegDate;
@@ -86,10 +86,10 @@ public class SkkDto {
 	public void setStockMinUnit(String stockMinUnit) {
 		this.stockMinUnit = stockMinUnit;
 	}
-	public String getSkErrorPriceTotal() {
+	public int getSkErrorPriceTotal() {
 		return skErrorPriceTotal;
 	}
-	public void setSkErrorPriceTotal(String skErrorPriceTotal) {
+	public void setSkErrorPriceTotal(int skErrorPriceTotal) {
 		this.skErrorPriceTotal = skErrorPriceTotal;
 	}
 	public String getSkEtc() {

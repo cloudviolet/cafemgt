@@ -36,77 +36,77 @@
 				<div class="menu_section">
 				<h6>.</h6>
 					<ul class="nav side-menu">
-						<li><a><i class="fa fa-home"></i> #기초 등록(??) <span	class="fa fa-chevron-down"></span></a>
+						<li><a><i class="fa fa-home"></i> #기초 등록 <span	class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a th:href="@{addstore}">사업장 등록(영은)</a></li>
-								<li><a href="#">품목 등록</a></li>
-								<li><a href="#">메뉴 등록</a></li>
-								<li><a href="#">메뉴 레시피 등록</a></li>
+								<li><a th:href="@{/store/addstore}">사업장 등록(영은)</a></li>
+								<li><a th:href="@{/stock/addArticle}">품목 등록</a></li>
+								<li><a th:href="@{/menu/addMenu}">메뉴(상품) 등록</a></li>
+								<li><a th:href="@{/menu/addRecipy}">메뉴(상품) 레시피 등록</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-home"></i> 마이페이지(최영은) <span	class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li class="sub_menu" th:if="${session.SLEVEL =='level_01'}"><a th:href="@{getmember}">내정보 조회(사업주)</a></li>
-								<li class="sub_menu" th:if="${session.SLEVEL =='level_02' or session.SLEVEL =='level_03'}"><a th:href="@{getmemberU}">내정보 조회(직원)</a></li>
+								<li class="sub_menu" th:if="${session.SLEVEL =='level_01'}"><a th:href="@{/store/getmember}">내정보 조회(사업주)</a></li>
+								<li class="sub_menu" th:if="${session.SLEVEL =='level_02' or session.SLEVEL =='level_03'}"><a th:href="@{/store/getmemberU}">내정보 조회(직원)</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-desktop"></i> #매장 관리(최영은)<span	class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">							
 								<li><a>#사업장 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addstore}">사업장 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getstore}">사업장 조회(사업주)</a></li>
+										<li class="sub_menu"><a th:href="@{/store/addstore}">사업장 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/store/getstore}">사업장 조회(사업주)</a></li>
 									</ul>
 								</li>
 								<li><a>#직원 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{adduserjoin}">직원 가입</a></li>
-										<li class="sub_menu"><a th:href="@{adduser}">직원 정보 추가등록</a></li>
-										<li class="sub_menu"><a th:href="@{getuser}">직원 조회(사업주)</a></li>
+										<li class="sub_menu"><a th:href="@{/store/adduserjoin}">직원 가입</a></li>
+										<li class="sub_menu"><a th:href="@{/store/adduser}">직원 정보 추가등록</a></li>
+										<li class="sub_menu"><a th:href="@{/store/getuser}">직원 조회(사업주)</a></li>
 									</ul>
 								</li>
 								<li><a>#거래처 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addcustomer}">거래처 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getcustomer}">거래처 조회(사업주+직원)</a></li>
+										<li class="sub_menu"><a th:href="@{/store/addcustomer}">거래처 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/store/getcustomer}">거래처 조회(사업주+직원)</a></li>
 									</ul>
 								</li>
 							</ul>
 						</li>
-						<li><a><i class="fa fa-cubes"></i> #재고 관리(진우주) <span class="fa fa-chevron-down"></span></a>
+						<li><a><i class="fa fa-cubes"></i>재고 관리(진우주) <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li><a>#메뉴(상품) 관리<span class="fa fa-chevron-down"></span></a>
+								<li><a>메뉴(상품) 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addmenu}">메뉴(상품) 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getmenu}">메뉴(상품) 조회</a></li>
+										<li class="sub_menu"><a th:href="@{menu/addmenu}">메뉴(상품) 등록</a></li>
+										<li class="sub_menu"><a th:href="@{menu/getmenu}">메뉴(상품) 조회</a></li>
 									</ul>
 								</li>
-								<li><a>#메뉴(상품) 레시피 관리<span class="fa fa-chevron-down"></span></a>
+								<li><a>메뉴(상품) 레시피 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addrecipy}">메뉴(상품) 레시피 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getrecipy}">메뉴(상품) 레시피 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/menu/addRecipy}">메뉴(상품) 레시피 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/menu/getRecipy}">메뉴(상품) 레시피 조회</a></li>
 									</ul>
 								</li>
-								<li><a>#품목 관리<span class="fa fa-chevron-down"></span></a>
+								<li><a>품목 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addarticle}">품목 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getarticle}">품목 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/stock/addArticle}">품목 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/stock/getArticle}">품목 조회</a></li>
 									</ul>
 								</li>
-								<li><a>#재고 조사<span class="fa fa-chevron-down"></span></a>
+								<li><a>재고 조사<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addskk}">재고 조사 내역 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getskk}">재고 조사 내역 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/stock/addSkk}">재고 조사 내역 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/stock/getSkk}">재고 조사 내역 조회</a></li>
 									</ul>
 								</li>
 								<li>
-									<a th:href="@{getdailyvolume}">#일일 품목 소모량 조회<span class="nav child_menu"></span></a>
+									<a th:href="@{/stock/getDailyvolume}">일일 품목 소모량 조회<span class="nav child_menu"></span></a>
 								</li>
 								<li>
-									<a th:href="@{getstock}">#매입별 품목 재고 조회<span class="nav child_menu"></span></a>
+									<a th:href="@{/stock/getTotalStock}">매입별 품목 재고 조회<span class="nav child_menu"></span></a>
 								</li>
 								<li>
-									<a th:href="@{gettotalstock}">#품목별 재고 총 수량 조회<span class="nav child_menu"></span></a>
+									<a th:href="@{/stock/getStock}">품목별 재고 총 수량 조회<span class="nav child_menu"></span></a>
 								</li>
 							</ul>
 						</li>
@@ -114,26 +114,26 @@
 							<ul class="nav child_menu">
 								<li><a>#추가수당 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addbonus}">추가수당 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getbonus}">추가수당 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/salary/addbonus}">추가수당 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/salary/getbonus}">추가수당 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#상용직 급여 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addsalary}">급여 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getsalary}">급여 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/salary/addsalary}">급여 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/salary/getsalary}">급여 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#일용직 급여 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{adddsalary}">급여 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getdsalary}">급여 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/salary/adddsalary}">급여 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/salary/getdsalary}">급여 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#출퇴근 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addwtime}">출퇴근 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getwtime}">출퇴근 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/salary/addwtime}">출퇴근 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/salary/getwtime}">출퇴근 조회</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -142,30 +142,30 @@
 							<ul class="nav child_menu">
 								<li><a>#매입 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addpurchases}">매입 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getpurchases}">매입 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/tax/addpurchases}">매입 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/tax/getpurchases}">매입 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#매출 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addsales}">매출 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getsales}">매출 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/tax/addsales}">매출 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/tax/getsales}">매출 조회</a></li>
 									</ul>
 								</li>
 								<li><a>#기타 지출 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{addotherpurchases}">기타 지출 등록</a></li>
-										<li class="sub_menu"><a th:href="@{getotherpurchases}">기타 지출 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/tax/addotherpurchases}">기타 지출 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/tax/getotherpurchases}">기타 지출 조회</a></li>
 									</ul>
 								</li>
 							</ul>
 						</li>	
 						<li><a><i class="fa fa-bar-chart-o"></i> #세무 관리(장현진) <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li class="sub_menu"><a th:href="@{gettotalpands}">기간별 매출매입 조회</a></li>
-								<li class="sub_menu"><a th:href="@{gettotalsalary}">기간별 급여 조회</a></li>
-								<li class="sub_menu"><a th:href="@{getvat}">부가세 조회</a></li>
-								<li class="sub_menu"><a th:href="@{getincomestatement}">손익계산서 조회</a></li>
+								<li class="sub_menu"><a th:href="@{/tax/gettotalpands}">기간별 매출매입 조회</a></li>
+								<li class="sub_menu"><a th:href="@{/tax/gettotalsalary}">기간별 급여 조회</a></li>
+								<li class="sub_menu"><a th:href="@{/tax/getvat}">부가세 조회</a></li>
+								<li class="sub_menu"><a th:href="@{/tax/getincomestatement}">손익계산서 조회</a></li>
 							</ul>
 						</li>
 						<li><a><i class="fa fa-bar-chart-o"></i> #고객센터 <span class="fa fa-chevron-down"></span></a>
@@ -176,9 +176,9 @@
 							</ul>
 						<li><a><i class="fa fa-bar-chart-o"></i> #관리자 설정 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
-								<li class="sub_menu"><a th:href="@{getmemberadmin}">회원 조회(관리자)</a></li>
-								<li class="sub_menu"><a th:href="@{getstoreadmin}">사업장 조회(관리자)</a></li>
-								<li class="sub_menu"><a th:href="@{getuseradmin}">직원 조회(관리자)</a></li>
+								<li class="sub_menu"><a th:href="@{/store/getmemberadmin}">회원 조회(관리자)</a></li>
+								<li class="sub_menu"><a th:href="@{/store/getstoreadmin}">사업장 조회(관리자)</a></li>
+								<li class="sub_menu"><a th:href="@{/store/getuseradmin}">직원 조회(관리자)</a></li>
 							</ul>
 						</li>
 					</ul>

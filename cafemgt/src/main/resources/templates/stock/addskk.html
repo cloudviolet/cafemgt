@@ -105,7 +105,7 @@
 								<div class="col-md-6 col-sm-6 offset-sm-3 text-center">
 									<button class="btn btn-primary" type="button" id="cancelBtn">Cancel</button>
 									<button class="btn btn-warning" type="reset" id="resetBtn">Reset</button>
-									<button class="btn btn-success" type="submit" id="submitBtn">Submit</button>
+									<button class="btn btn-success" type="submit" id="submitBtn">다음페이지 이동</button>
 								</div>
 							</div>
 						</div>
@@ -167,6 +167,7 @@
 				request.done(function(data){
 					if(data.length != 0){
 						$('#stockCode').val(data[0].stockCode);
+						console.log(data[0].stockCode);
 						$('#skNowVolume').val(data[0].stockNowVolume);
 						$('#skProbeVolume').on('keyup' ,function(){
 							$('#skErrorVolume').val(data[0].stockNowVolume-$(this).val());
