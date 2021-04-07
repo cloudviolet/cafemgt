@@ -16,6 +16,17 @@
 		<result property="memberBirth" 		column="member_birth" />
 		<result property="memberRegDate" 	column="member_reg_date" />
 	</resultMap>
+	
+	<select id="getStoreChoice" parameterType="String" resultMap="memberResultMap">
+		SELECT
+		member_id
+		,store_info_name
+		,store_info_code
+	FROM 
+		tb_store_info
+	WHERE member_id=#{MID}
+	</select>
+	
 	<!-- 가입년도 -->
 	<select id="getyear" parameterType="String" resultType="String">
 	SELECT 
@@ -105,11 +116,10 @@ SELECT
 	</select>
 	<!-- 회원정보 수정, 로그인, 아이디 체크 할때 사용함 -->
 	<select id="getinfoMember" parameterType="String" resultMap="memberResultMap">
-		SELECT m.member_id
+	SELECT m.member_id
 		, member_pw
 		, member_name
 		, m.level_code
-		, s.store_info_code
 		, member_phone
 		, member_email
 		, member_birth
@@ -120,11 +130,7 @@ SELECT
 		tb_user AS u
 		on
 		m.member_id = u.member_id
-		LEFT join
-		tb_store_info AS s
-		on
-		u.store_info_code = s.store_info_code or s.member_id = m.member_id
-		WHERE m.member_id = #{MID}	
+		WHERE m.member_id =#{MID}	
 	</select>
 	<!-- 직원 회원가입 -->
 	<insert id="addUserjoin" parameterType="MemberDto">

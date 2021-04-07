@@ -19,6 +19,14 @@
 		<result property="vatPaymentTax" 			column="vat_payment_tax"/>
 	</resultMap>
 	
+	<select id="getVatYear" parameterType="String" resultType="String">
+		SELECT 
+			MIN(CAST(SUBSTR(vat_date,1,4) AS SIGNED))
+		FROM 
+			tb_vat
+		WHERE store_info_code = #{SSTORECODE};
+	</select>
+	
 	<update id="addIntendedTax" parameterType="String">
 		UPDATE 
 			tb_vat
