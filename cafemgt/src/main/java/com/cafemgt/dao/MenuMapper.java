@@ -15,4 +15,6 @@ public interface MenuMapper {
 	public int modifyMenu(MenuDto menuDto);
 
 	public int addMenu(MenuDto menuDto);
+	
+	public int removeMenu(String menuCode);
 }

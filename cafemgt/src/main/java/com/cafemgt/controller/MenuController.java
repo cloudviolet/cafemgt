@@ -132,4 +132,10 @@ public class MenuController {
 		recipyService.modifyRecipy(recipyDto);
 		return "redirect:/menu/getRecipy";
 	}
+	
+	@GetMapping("/removeMenu")
+	public String removeMenu(@RequestParam (value = "menuCode",required = false)String menuCode) {
+		menuService.removeMenu(menuCode);
+		return "redirect:/menu/getMenu";
+	}
 }
