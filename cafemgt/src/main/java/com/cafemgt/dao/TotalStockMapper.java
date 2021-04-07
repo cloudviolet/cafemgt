@@ -13,9 +13,13 @@ public interface TotalStockMapper {
 	
 	public List<TotalStockDto> getTotalStockByIncoCode(String SSTORECODE, String incoCode);
 	
+	public int addTotalStock(Map<String, Object> purchasesMap);
+
 	public int addTotalStockOverVolume(TotalStockDto totalStockDto);
 	
 	public int modifyTotalStockDeadLine(TotalStockDto totalStockDto);
 	
 	public int modifyIncoCheck(Map<String, String> map);
+	
+	public int modifyIncoDeadLine(String incoCode);
 }

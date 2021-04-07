@@ -20,10 +20,13 @@
 		<result property="dailyvolRegDate"	 		column="dailyvol_reg_date" />
 	</resultMap>
 	<update id="modifyDailyVolDeadLine" parameterType="String">
-		UPDATE tb_daily_volume
+		UPDATE tb_daily_volume AS a
+		LEFT join
+		tb_consumption AS c
+		ON a.con_code = c.con_code
 		SET
 			dailyvol_deadline_check='o'
-		WHERE dailyvol_code = #{dailyVolCode}
+		WHERE c.article_code = #{articleCode}
 	</update>
 	<insert id="addDailyVolDeadLine" parameterType="DailyVolDto">
 		INSERT INTO tb_daily_volume 

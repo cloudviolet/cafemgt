@@ -19,13 +19,13 @@ public class CommonInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		log.info("CommonInterceptor ===================================== START");
-		log.info("ACCESS INFO ===================================== START");
-		log.info("PORT      	  :::::::::    {}", request.getLocalPort());
-		log.info("serverName      :::::::::    {}", request.getServerName());
-		log.info("method          :::::::::    {}", request.getMethod());
-		log.info("URI             :::::::::    {}", request.getRequestURI());
-		log.info("ACCESS INFO ===================================== END");
+		//log.info("CommonInterceptor ===================================== START");
+		//log.info("ACCESS INFO ===================================== START");
+		//log.info("PORT      	  :::::::::    {}", request.getLocalPort());
+		//log.info("serverName      :::::::::    {}", request.getServerName());
+		//log.info("method          :::::::::    {}", request.getMethod());
+		//log.info("URI             :::::::::    {}", request.getRequestURI());
+		//log.info("ACCESS INFO ===================================== END");
 		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
@@ -34,7 +34,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 
-		log.info("CommonInterceptor ===================================== END");
+		//log.info("CommonInterceptor ===================================== END");
 		
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
@@ -43,7 +43,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 
-		log.info("CommonInterceptor ===================================== AFTER");
+		//log.info("CommonInterceptor ===================================== AFTER");
 		
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
