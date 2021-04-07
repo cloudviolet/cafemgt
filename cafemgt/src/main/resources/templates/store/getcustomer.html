@@ -68,6 +68,8 @@
 											<th>연락처</th>
 											<th>상세</th>	
 											<th>등록날짜</th>
+											<th>수정</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -83,6 +85,12 @@
 											<td th:text="${cl.custPhone}">
 											<td th:text="${cl.custEtc}">
 											<td th:text="${cl.custRegDate}">
+											<td>
+											<a class="btn btn-primary btn-sm" th:href="@{/modifycustomer}">수정</a> 
+											</td>
+											<td>
+												<a class="btn btn-dark btn-sm" th:href="@{/}">삭제</a> 
+											</td>
 										</tr>
 									</tbody>
 								</table>								
