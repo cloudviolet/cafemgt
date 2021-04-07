@@ -23,6 +23,26 @@
 		<result property="skSystemId" 				column="sk_system_id" />
 		<result property="skSystemName" 			column="sk_system_name" />
 	</resultMap>
+	<update id="modifySkkDeadlineCheck" parameterType="String">
+		UPDATE tb_stocktaking
+		SET
+			sk_deadline='o'
+		WHERE 
+			sk_code = #{skCode}
+	</update>
+	<update id="modifySkk" parameterType="SkkDto">
+		UPDATE tb_stocktaking
+		SET
+			 sk_now_volume=${skNowVolume}
+			,sk_probe_volume=${skProbeVolume}
+			,sk_error_volume=${skErrorVolume}
+			,sk_error_price_total=${skErrorPriceTotal}
+			,sk_deadline='o'
+			<if test='skEtc != null'>
+				,sk_etc=#{skEtc}
+			</if>
+			WHERE sk_code=#{skCode}
+	</update>
 	<insert id="addSkk" parameterType="SkkDto">
 		INSERT INTO tb_stocktaking
 			(sk_code
@@ -32,7 +52,6 @@
 			,sk_now_volume
 			,sk_probe_volume
 			,sk_error_volume
-			,sk_error_price_total
 			,sk_error_price_total
 			,sk_deadline
 			,sk_etc
@@ -88,5 +107,81 @@
 			sk.stock_code = s.stock_code
 		WHERE
 			st.store_info_code= #{SSTORECODE}
+	</select>
+	<select id="getSkkByDeadLine" parameterType="String" resultMap="SkkResultMap">
+		SELECT
+			 sk.sk_code
+			,st.store_info_code
+			,st.store_info_name
+			,s.stock_code
+			,atc.article_code
+			,atc.article_name
+			,atc.article_dan
+			,sk.sk_now_volume
+			,sk.sk_probe_volume
+			,sk.sk_error_volume
+			,s.stock_min_unit
+			,sk.sk_error_price_total
+			,sk.sk_deadline
+			,sk.sk_etc
+			,sk.sk_date
+			,sk.sk_reg_date
+			,sk.sk_system_id
+			,sk.sk_system_name
+		FROM
+			tb_stocktaking AS sk
+			LEFT JOIN
+			tb_store_info AS st
+			on
+			sk.store_info_code = st.store_info_code
+			LEFT JOIN
+			tb_article AS atc
+			on
+			sk.article_code = atc.article_code
+			LEFT JOIN
+			tb_stock AS s
+			on
+			sk.stock_code = s.stock_code
+		WHERE
+			st.store_info_code= #{SSTORECODE}
+			AND
+			sk.sk_deadline = 'x'
+	</select>
+	<select id="getSkkBySkCode" parameterType="String" resultMap="SkkResultMap">
+		SELECT
+			 sk.sk_code
+			,st.store_info_code
+			,st.store_info_name
+			,s.stock_code
+			,atc.article_code
+			,atc.article_name
+			,atc.article_dan
+			,sk.sk_now_volume
+			,sk.sk_probe_volume
+			,sk.sk_error_volume
+			,s.stock_min_unit
+			,sk.sk_error_price_total
+			,sk.sk_deadline
+			,sk.sk_etc
+			,sk.sk_date
+			,sk.sk_reg_date
+			,sk.sk_system_id
+			,sk.sk_system_name
+		FROM
+			tb_stocktaking AS sk
+			LEFT JOIN
+			tb_store_info AS st
+			on
+			sk.store_info_code = st.store_info_code
+			LEFT JOIN
+			tb_article AS atc
+			on
+			sk.article_code = atc.article_code
+			LEFT JOIN
+			tb_stock AS s
+			on
+			sk.stock_code = s.stock_code
+		WHERE
+			sk.sk_code=#{skCode}
 	</select>
 </mapper>

@@ -25,8 +25,24 @@ public class SkkService {
 		
 		return skkMapper.getSkk(SSTORECODE);
 	}
-	
+	public List<SkkDto> getSkkByDeadLine(String SSTORECODE) {
+		
+		return skkMapper.getSkkByDeadLine(SSTORECODE);
+	}
+	public SkkDto getSkkBySkCode(String skCode){
+		
+		return skkMapper.getSkkBySkCode(skCode);
+	}
 	public int addSkk(SkkDto skkDto) {
 		return skkMapper.addSkk(skkDto);
+	}
+	
+	public int modifySkk(SkkDto skkDto) {
+		
+		return skkMapper.modifySkk(skkDto);
+	}
+	
+	public int modifySkkDeadlineCheck(String skCode) {
+		return skkMapper.modifySkkDeadlineCheck(skCode);
 	}
 }
