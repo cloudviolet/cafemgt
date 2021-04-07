@@ -67,7 +67,7 @@ public class StockController {
 	@PostMapping("/addArticle")
 	public String addArticle(ArticleDto articleDto) {
 		articleService.addArticle(articleDto);
-		return "redirect:/getarticle";
+		return "redirect:/stock/getArticle";
 	}
 	
 	@GetMapping("/addSkk")
@@ -80,7 +80,7 @@ public class StockController {
 	@PostMapping("/addSkk")
 	public String addSkk(SkkDto skkDto) {
 		skkService.addSkk(skkDto);
-		return "redirect:/getskkDeadLine";
+		return "redirect:/stock/getSkkDeadLine";
 	}
 	
 	@GetMapping("/getArticle")
@@ -109,6 +109,13 @@ public class StockController {
 		model.addAttribute("articleList",articleList);
 		return "stock/modifySkk";
 	}
+	@PostMapping("/modifySkk")
+	public String modifySkk(SkkDto skkDto) {
+		skkService.modifySkk(skkDto);
+		System.out.println(skkDto);
+		return "redirect:/stock/getSkk";
+	}
+	
 	@GetMapping("/getSkkDeadLine")
 	public String getskkDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -215,7 +222,7 @@ public class StockController {
 		}
 		totalStockService.modifyIncoCheck(incoMap);
 		totalStockService.addTotalStockOverVolume(totalStockDto);
-		return "redirect:/getskkDeadLine";
+		return "redirect:/stock/getSkkDeadLine";
 	}
 	
 	@PostMapping("/getStockByArticleCode")
@@ -389,7 +396,7 @@ public class StockController {
 		}
 		totalStockService.modifyIncoCheck(incoMap);
 		totalStockService.addTotalStockOverVolume(totalStockDto);
-		return "redirect:/getdailyvolDeadLine";
+		return "redirect:/stock/getDailyvolDeadLine";
 	}
 	
 	@GetMapping("/getTotalStock")
@@ -420,7 +427,7 @@ public class StockController {
 	@PostMapping("/modifyArticle")
 	public String modifyArticle(ArticleDto articleDto) {
 		articleService.modifyArticle(articleDto);
-		return "redirect:/getarticle";
+		return "redirect:/stock/getArticle";
 	}
 	
 	@PostMapping("/salesDeadline")
