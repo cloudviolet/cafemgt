@@ -76,33 +76,43 @@ public class StoreController {
 				  System.out.println(memberDto.getMemberId());
 				  System.out.println(memberDto.getMemberName());
 				  System.out.println(memberDto.getLevelCode());
-				  
+				 String SLEVEL = memberDto.getLevelCode();
 				  session.setAttribute("MID", memberDto.getMemberId());
 				  session.setAttribute("MNAME", memberDto.getMemberName());				 			 
-				  session.setAttribute("SLEVEL", memberDto.getLevelCode());				 
+				  session.setAttribute("SLEVEL", SLEVEL);				 
 			
 				  
 				  List<MemberDto> memberDtoList = memberService.getStoreChoice(memberDto.getMemberId());
-				  
-				  if(memberDtoList.size() >= 2) {
-					  for(int i=0; i<memberDtoList.size(); i++) {
-						  System.out.println(memberDtoList.get(i).getStoreInfoName()+"<---상호명");
-
+				  if("level_01".equals(SLEVEL)) {
+					  
+					  if(memberDtoList.size() >= 2) {
+						  for(int i=0; i<memberDtoList.size(); i++) {
+							  System.out.println(memberDtoList.get(i).getStoreInfoName()+"<---상호명");
+	
+						  }
+						  
+						  return "redirect:/store/storechoice";
+					  }else if(memberDtoList.size() == 1) {
+						  String MID = (String)session.getAttribute("MID");
+						  System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+						  session.setAttribute("SSTORECODE", memberDtoList.get(0).getStoreInfoCode());				 
+						  session.setAttribute("SSTORENAME", memberDtoList.get(0).getStoreInfoName());		
+						  System.out.println(memberDtoList.get(0).getStoreInfoCode());
+						  System.out.println(session.getAttribute("SSTORECODE"));
+						  System.out.println(memberDtoList.get(0).getStoreInfoName());
+						  
+						  
+					  }else {
+						  return "redirect:/store/addstore";
 					  }
 					  
-					  return "redirect:/store/storechoice";
-				  }else if(memberDtoList.size() == 1) {
-					  String MID = (String)session.getAttribute("MID");
-					  System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-					  session.setAttribute("SSTORECODE", memberDtoList.get(0).getStoreInfoCode());				 
-					  session.setAttribute("SSTORENAME", memberDtoList.get(0).getStoreInfoName());		
-					  System.out.println(memberDtoList.get(0).getStoreInfoCode());
-					  System.out.println(session.getAttribute("SSTORECODE"));
-					  System.out.println(memberDtoList.get(0).getStoreInfoName());
-				  }else {
-					  return "redirect:/store/addstore";
 				  }
-				  
+				  else if("level_02".equals(SLEVEL)||"level_03".equals(SLEVEL) ) {
+					  UserDto userDto = userService.userLogin(memberId);
+					  
+					  session.setAttribute("SSTORECODE", userDto.getStoreInfoCode());				 
+					  session.setAttribute("SSTORENAME", userDto.getStoreInfoCode());				 
+				  }
 				  System.out.println(memberDtoList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
 			}	
