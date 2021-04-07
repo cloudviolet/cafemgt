@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,6 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 @Controller
+@RequestMapping("/stock")
 public class StockController {
 	
 	private final ArticleService articleService;
@@ -57,31 +59,31 @@ public class StockController {
 		System.out.println("======================================");
 	}
 	
-	@GetMapping("/addarticle")
+	@GetMapping("/addArticle")
 	public String addArticle() {
 
 		return "stock/addarticle";
 	}
-	@PostMapping("/addarticle")
+	@PostMapping("/addArticle")
 	public String addArticle(ArticleDto articleDto) {
 		articleService.addArticle(articleDto);
 		return "redirect:/getarticle";
 	}
 	
-	@GetMapping("/addskk")
+	@GetMapping("/addSkk")
 	public String addSkk(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
 		model.addAttribute("articleList",articleList);
 		return "stock/addskk";
 	}
-	@PostMapping("/addskk")
+	@PostMapping("/addSkk")
 	public String addSkk(SkkDto skkDto) {
 		skkService.addSkk(skkDto);
 		return "redirect:/getskkDeadLine";
 	}
 	
-	@GetMapping("/getarticle")
+	@GetMapping("/getArticle")
 	public String getArticle(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
@@ -89,7 +91,7 @@ public class StockController {
 		return "stock/getarticle";
 	}
 	
-	@GetMapping("/getskk")
+	@GetMapping("/getSkk")
 	public String getSkk(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<SkkDto> skkList = skkService.getSkk(SSTORECODE);
@@ -107,7 +109,7 @@ public class StockController {
 		model.addAttribute("articleList",articleList);
 		return "stock/modifySkk";
 	}
-	@GetMapping("/getskkDeadLine")
+	@GetMapping("/getSkkDeadLine")
 	public String getskkDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<SkkDto> skkList = skkService.getSkkByDeadLine(SSTORECODE);
@@ -116,7 +118,7 @@ public class StockController {
 		model.addAttribute("totalStockList",totalStockList);
 		return "stock/getskkDeadLine";
 	}
-	@PostMapping("/getskkDeadLine")
+	@PostMapping("/getSkkDeadLine")
 	public String getskkDeadLine( 
 								@RequestParam (value="volumeTotal", required = false) int volumeTotal
 								,SkkDto skkDto
@@ -229,7 +231,7 @@ public class StockController {
 		List<StockDto> stockList =stockService.getStockByArticleCode(resultMap);
 		return stockList;
 	}
-	@GetMapping("/getstock")
+	@GetMapping("/getStock")
 	public String getStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		Map<String, Object> stockMap = new HashMap<>();
@@ -289,7 +291,7 @@ public class StockController {
 			
 		return rtString;
 	}
-	@GetMapping("/getdailyvolume")
+	@GetMapping("/getDailyvolume")
 	public String getDailyVol(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<DailyVolDto> dailyVolList = dailyVolService.getDailyVol(SSTORECODE);
@@ -297,7 +299,7 @@ public class StockController {
 		return "stock/getdailyvol";
 	}
 
-	@GetMapping("/getdailyvolDeadLine")
+	@GetMapping("/getDailyvolDeadLine")
 	public String getDailyVolDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<DailyVolDto> dailyVolDeadLineList = dailyVolService.getDailyVolDeadLine(SSTORECODE);
@@ -307,7 +309,7 @@ public class StockController {
 		return "stock/getdailyvolDeadLine";
 	}
 	/* 일일 품목 소모량 조회에서 마감처리시 품목별 재고 총 수량 조회에 등록하는 컨트롤러  */
-	@PostMapping("/getdailyvolDeadLine")
+	@PostMapping("/getDailyvolDeadLine")
 	public String getDailyVolDeadLine(
 									  @RequestParam (value="volumeTotal", required = false) int volumeTotal
 									 ,DailyVolDto dailyVolDto
@@ -390,7 +392,7 @@ public class StockController {
 		return "redirect:/getdailyvolDeadLine";
 	}
 	
-	@GetMapping("/gettotalstock")
+	@GetMapping("/getTotalStock")
 	public String getTotalStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<TotalStockDto> totalStockList = totalStockService.getTotalStock(SSTORECODE);
