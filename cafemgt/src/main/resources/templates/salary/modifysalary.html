@@ -46,7 +46,7 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" th:action="@{/modifySalary}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="demo-form2" th:action="@{/salary/modifySalary}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 										<div class="item form-group">
 											<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
 											<input type="hidden" name="salaryCode" th:value ="${salaryDto.salaryCode}" >

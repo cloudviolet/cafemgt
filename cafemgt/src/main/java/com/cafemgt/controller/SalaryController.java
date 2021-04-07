@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cafemgt.dto.BonusDto;
 import com.cafemgt.dto.DsalaryDto;
@@ -21,6 +22,7 @@ import com.cafemgt.service.BonusService;
 import com.cafemgt.service.DsalaryService;
 
 @Controller
+@RequestMapping("/salary")
 public class SalaryController {
 	
 	private final SalaryService salaryService;
@@ -58,7 +60,7 @@ public class SalaryController {
 	@PostMapping("/addsalary")
 	public String addsalary(SalaryDto salaryDto) {
 		salaryService.addSalary(salaryDto);
-		return "redirect:/getsalary";
+		return "redirect:/salary/getsalary";
 	}
 	
 	
@@ -110,7 +112,7 @@ public class SalaryController {
 	public String addwtime(WtimeDto wtimeDto) {
 		wtimeService.addWtime(wtimeDto);	
 		
-		return "redirect:/getwtime";
+		return "redirect:/salary/getwtime";
 	}
 	
 	@GetMapping("/getwtime")
@@ -134,7 +136,7 @@ public class SalaryController {
 	@PostMapping("/addbonus")
 	public String addbonus(BonusDto bonusDto) {
 		bonusService.addBonus(bonusDto);
-		return "redirect:/getbonus";
+		return "redirect:/salary/getbonus";
 	}
 	
 	@GetMapping("/getbonus")
@@ -156,7 +158,7 @@ public class SalaryController {
 	@PostMapping("/modifySalary")
 	public String modifySalary(SalaryDto salaryDto) {
 		salaryService.modifySalary(salaryDto);
-		return "redirect:/getsalary";
+		return "redirect:/salary/getsalary";
 	}
 	
 	@GetMapping("/modifyDsalary")
@@ -169,7 +171,7 @@ public class SalaryController {
 	@PostMapping("/modifyDsalary")
 	public String modifyDsalary(DsalaryDto dsalaryDto) {
 		dsalaryService.modifyDsalary(dsalaryDto);
-		return "redirect:/getdsalary";
+		return "redirect:/salary/getdsalary";
 	}
 	
 	@GetMapping("/modifyWtime")
@@ -182,6 +184,6 @@ public class SalaryController {
 	@PostMapping("/modifyWtime")
 	public String modifyWtime(WtimeDto wtimeDto) {
 		wtimeService.modifyWtime(wtimeDto);
-		return "redirect:/getwtime";
+		return "redirect:/salary/getwtime";
 	}
 }

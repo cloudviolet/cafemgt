@@ -20,6 +20,7 @@
 		<result property="salaryInsuCalc" 		column="salary_insu_calc"/>
 		<result property="salaryDeduction" 		column="salary_deduction"/>
 		<result property="salaryReceipts" 		column="salary_receipts"/>
+		<result property="salaryDeadlineCheck"	column="salary_deadline_check"/>
 		<result property="salaryPayDate" 		column="salary_pay_date"/>
 		<result property="salaryRegDate" 		column="salary_reg_date"/>
 	</resultMap>
@@ -87,6 +88,7 @@
 			, salary_insu_calc
 			, salary_deduction
 			, salary_receipts
+			, salary_deadline_check
 			, salary_pay_date
 			, salary_reg_date)
 		VALUES 
@@ -103,6 +105,7 @@
 			, #{salaryInsuCalc}
 			, #{salaryDeduction}
 			, #{salaryReceipts}
+			, 'x'
 			, #{salaryPayDate}
 			, NOW())
 	</insert>
@@ -124,6 +127,7 @@
 			,slr.salary_insu_calc
 			,slr.salary_deduction
 			,slr.salary_receipts
+			,slr.salary_deadline_check
 			,slr.salary_pay_date
 			,slr.salary_reg_date
 		FROM
