@@ -37,27 +37,52 @@
 									<label class="control-label col-md-3 col-sm-3 label-align">품목 명 <span class="required">*</span></label>
 									<div class="col-md-6 col-sm-6 ">
 										<!-- session Id  -->
-										<input type="hidden" th:value="${session.SSTORECODE}">
-										<select class="form-control" required="required">
-											<option value="">choice plz</option>
-											<th:block th:each="al : ${articleList}" name="articleName">
-												<option th:value="${al.articleCode}" th:text="${al.articleName}"></option>
+										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
+										<input type="hidden" name="stockCode" id="stockCode">
+										<select class="form-control" required="required" name="articleCode" id="articleCode">
+											<th:block th:each="al : ${articleList}">
+												<option th:value="${al.articleCode}" data-index="0" th:text="${al.articleName}"></option>
 											</th:block>
+											<option value="" selected="selected">선택해주세요.</option>
 										</select>
 									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="skNowVolume">현재 용량 <span class="required">*</span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="skNowVolume" name="skNowVolume" required="required" class="form-control" readonly="readonly">
+									</div>
+									<div><label style="font-size: medium; color: black;" class="control-label label-align articleDan"></label></div>
 								</div>
 								<div class="form-group row">
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="skProbeVolume">조사 용량 <span class="required">*</span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="text" id="skProbeVolume" name="skProbeVolume" required="required" class="form-control ">
+										<input type="text" id="skProbeVolume" name="skProbeVolume" required="required" class="form-control">
+									</div>
+									<div><label style="font-size: medium; color: black;" class="control-label label-align articleDan"></label></div>
+								</div>
+								<div class="form-group row"> 
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="skErrorVolume">오차 용량 <span class="required">*</span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="skErrorVolume" name="skErrorVolume" required="required" class="form-control" readonly="readonly">
+									</div>
+									<div><label style="font-size: medium; color: black;" class="control-label label-align articleDan"></label></div>
+								</div>
+								<div class="form-group row"> 
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="skErrorPriceTotal">손실 원가 <span class="required">*</span>
+									</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="skErrorPriceTotal" name="skErrorPriceTotal" required="required" class="form-control">
 									</div>
 								</div>
 								<div class="item form-group">
 									<label class="col-form-label col-md-3 col-sm-3 label-align">조사 날짜 <span class="required">*</span>
 									</label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="text" id="skDate" name="skDate" class="date-picker form-control" placeholder="연도-월-일" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+										<input type="text" id="skDate" name="skDate" class="date-picker form-control" placeholder="연도-월-일" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)" />
 										<script>
 											function timeFunctionLong(input) {
 												setTimeout(function() {
@@ -75,14 +100,14 @@
 									</div>
 								</div>
 								<div class="ln_solid"></div>
-								<div class="form-group row">
-									<div class="col-md-6 col-sm-6 offset-sm-3 text-center">
-										<button class="btn btn-primary" type="button">Cancel</button>
-										<button class="btn btn-warning" type="reset">Reset</button>
-										<button class="btn btn-success" type="submit">Submit</button>
-									</div>
-								</div>
 							</form>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 offset-sm-3 text-center">
+									<button class="btn btn-primary" type="button" id="cancelBtn">Cancel</button>
+									<button class="btn btn-warning" type="reset" id="resetBtn">Reset</button>
+									<button class="btn btn-success" type="submit" id="submitBtn">다음페이지 이동</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -112,6 +137,65 @@
 	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 	<!-- starrr -->
 	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script  th:inline="javascript">
+		var option = $('#articleCode').children('option');
+		
+		for(var i = 0 ; i < option.length; i++){
+			option.eq(i).attr('data-index',i);
+		}
+		
+		var articleList = /*[[${articleList}]]*/
+		console.log(articleList);
+		
+
+		$('#articleCode').change(function(){
+			var optionIndex = 99;
+			for(var j = 0 ; j < option.length; j++){
+				if(option.eq(j).is(':selected') && option.eq(j).val() != ''){
+					optionIndex = option.eq(j).attr('data-index');
+					$('.articleDan').text(articleList[optionIndex].articleDan);
+				}
+			}
+			if(optionIndex != 99){
+				var request = $.ajax({
+					url: "getStockByArticleCode", 
+					method: "POST",
+					data: { articleCode : articleList[optionIndex].articleCode },
+					dataType: "json"
+				}); 
+				request.done(function(data){
+					if(data.length != 0){
+						$('#stockCode').val(data[0].stockCode);
+						console.log(data[0].stockCode);
+						$('#skNowVolume').val(data[0].stockNowVolume);
+						$('#skProbeVolume').on('keyup' ,function(){
+							$('#skErrorVolume').val(data[0].stockNowVolume-$(this).val());
+							$('#skErrorPriceTotal').val(
+								(data[0].stockNowVolume-$(this).val())  * data[0].stockMinUnit)
+						});
+					}else{
+						$('#skProbeVolume').val('입고되지 않은 품목');
+					}
+				});
+			}
+		});
+		
+		$('#submitBtn').click(function(){
+			$('#demo-form2').submit();
+		});
+		$('#resetBtn').click(function(){
+			$('#demo-form2')[0].reset();
+		})
+		$('#cancelBtn').click(function(){
+			location.href="/getskk";
+		})
+		$('#articleCode').mousedown(function(){
+			$('#demo-form2')[0].reset();
+		});
+		
+		
+	</script>
 	</th:block>
 		
 </html>

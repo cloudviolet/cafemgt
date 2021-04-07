@@ -28,10 +28,10 @@ public class LoginInterceptor implements HandlerInterceptor{
 		String SSTORECODE = (String) session.getAttribute("SSTORECODE");
 		String requestUri 	= request.getRequestURI();
 		
-		log.info("LoginInterceptor ======================================START");
-		log.info("MID               :::::    {}", MID);
-		log.info("SLEVEL            :::::    {}", SLEVEL);
-		log.info("SSTORECODE            :::::    {}", SSTORECODE);
+		//log.info("LoginInterceptor ======================================START");
+		//log.info("MID               :::::    {}", MID);
+		//log.info("SLEVEL            :::::    {}", SLEVEL);
+		//log.info("SSTORECODE            :::::    {}", SSTORECODE);
 		
 		if(MID == null || SLEVEL == null) {
 			response.sendRedirect("/login");
@@ -95,7 +95,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.info("LoginInterceptor ======================================END");
+		//log.info("LoginInterceptor ======================================END");
 
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}

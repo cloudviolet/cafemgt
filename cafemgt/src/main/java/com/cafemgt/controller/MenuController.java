@@ -19,7 +19,7 @@ import com.cafemgt.service.ArticleService;
 import com.cafemgt.service.MenuService;
 import com.cafemgt.service.RecipyService;
 
-@Controller
+@Controller("/menu")
 public class MenuController {
 	
 	private final MenuService menuService;

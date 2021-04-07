@@ -24,17 +24,32 @@ public class TotalStockService {
 		List<TotalStockDto> totalStockList = totalStockMapper.getTotalStock(SSTORECODE);
 		for(int i = 0 ; i < totalStockList.size(); i++) {
 			if(totalStockList.get(i).getIncoCheck() == 1) {
-				totalStockList.get(i).setDetailvolCheckString("사용전");
+				totalStockList.get(i).setDetailvolCheckString("사용 전");
 			}else if(totalStockList.get(i).getIncoCheck() == 2) {
-				totalStockList.get(i).setDetailvolCheckString("사용중");
+				totalStockList.get(i).setDetailvolCheckString("사용 중");
 			}else if(totalStockList.get(i).getIncoCheck() == 3) {
-				totalStockList.get(i).setDetailvolCheckString("사용완료");
+				totalStockList.get(i).setDetailvolCheckString("사용 완료");
 			}
 		}
 		return totalStockList;
 	}
 	public List<TotalStockDto> getTotalStockByIncoCode(String SSTORECODE, String incoCode){
-		return totalStockMapper.getTotalStockByIncoCode(SSTORECODE,incoCode);
+		List<TotalStockDto> totalStockList = totalStockMapper.getTotalStockByIncoCode(SSTORECODE,incoCode);
+		for(int i = 0 ; i < totalStockList.size(); i++) {
+			if(totalStockList.get(i).getIncoCheck() == 1) {
+				totalStockList.get(i).setDetailvolCheckString("사용 전");
+			}else if(totalStockList.get(i).getIncoCheck() == 2) {
+				totalStockList.get(i).setDetailvolCheckString("사용 중");
+			}else if(totalStockList.get(i).getIncoCheck() == 3) {
+				totalStockList.get(i).setDetailvolCheckString("사용 완료");
+			}
+		}
+		return totalStockList;
+	}
+	
+	public int addTotalStock(Map<String, Object> purchasesMap) {
+		
+		return totalStockMapper.addTotalStock(purchasesMap);
 	}
 	
 	public int addTotalStockOverVolume(TotalStockDto totalStockDto) {
@@ -43,8 +58,15 @@ public class TotalStockService {
 		
 		return 0;
 	}
-	public int modifyIncoCheck(Map incoMap) {
+	
+	public int modifyIncoCheck(Map<String, String> incoMap) {
 			totalStockMapper.modifyIncoCheck(incoMap);
 		return 0;
 	}
+	
+	public int modifyIncoDeadLine(String incoCode) {
+		totalStockMapper.modifyIncoDeadLine(incoCode);
+		return 0;
+	}
+	
 }
