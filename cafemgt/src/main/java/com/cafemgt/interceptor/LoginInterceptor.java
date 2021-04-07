@@ -34,7 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		//log.info("SSTORECODE            :::::    {}", SSTORECODE);
 		
 		if(MID == null || SLEVEL == null) {
-			response.sendRedirect("/login");
+			response.sendRedirect("/store/login");
 			return false;
 		}else {
 			SLEVEL = SLEVEL.trim();

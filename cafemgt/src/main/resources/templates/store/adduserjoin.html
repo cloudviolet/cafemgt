@@ -45,7 +45,7 @@
 				<div class="animate form login_form">
 					<section class="login_content">
 						<div class="x_content">
-							<form data-parsley-validate class="form-horizontal form-label-left" th:action="@{/adduserjoin}" id="demo-form2" method="post" novalidate>
+							<form data-parsley-validate class="form-horizontal form-label-left" th:action="@{/store/adduserjoin}" id="demo-form2" method="post" novalidate>
 							<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 								<h1>직원 회원가입</h1>
 								<div class="form-group row horizontal">
@@ -193,7 +193,7 @@
 					var memberId = $('#memberId');
 					console.log(memberId.val());
 					$.ajax({
-						url: '/idCheck', 
+						url: '/store/idCheck', 
 						type: 'POST',	
 						data: { memberId : memberId.val() }, 
 						success : function(data){
