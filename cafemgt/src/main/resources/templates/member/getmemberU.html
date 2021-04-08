@@ -26,7 +26,7 @@
               </div>
             </div>
             
-            <div class="clearfix"></div>
+           <div class="clearfix"></div>
 
             <div class="row">
               <div class="col-md-12 col-sm-12 ">
@@ -34,7 +34,7 @@
                 <th:block th:each="ml : ${memberList}">
                 <th:block th:each="sl : ${storeDtoList}">
                   <div class="x_title">
-                    <h2><a th:text="${ml.storeInfoName}"></a> <small>사업장번호</small></h2>
+                    <h2><a th:text="${ml.storeInfoName}"></a> <small>[[${ml.memberName}]]님 기본정보</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -48,44 +48,21 @@
                       <div class="profile_img">
                         <div id="crop-avatar">
                           <!-- Current avatar -->
-                          <img class="col-lg-12 col-md-12 col-sm-12 img-responsive avatar-view" th:src="@{/images/cafemgt2.jpg}" alt="Avatar" title="Change the avatar">
+                          <img class="col-lg-12 col-md-12 col-sm-12 img-responsive avatar-view"  th:src="@{/images/cafemgt2.jpg}" alt="Avatar" title="Change the avatar">
+
+	             		  <a class="col-lg-12 col-md-9 col-sm-12 btn btn-success" style="color: white; margin-top: 20px;" th:href="@{/store/modifymemberU(memberId=${ml.memberId})}"><i class="fa fa-edit m-right-xs"></i> 정보 수정하기</a>
+
                         </div>
                       </div>
-                      <h3 class="col-lg-10 col-md-12 col-sm-12"><a th:text="${ml.memberName}"></a></h3>
+ 
 
-                      <ul class="list-unstyled user_data">
-                        <li class="col-lg-10 col-md-12 col-sm-12"><i class="fa fa-map-marker user-profile-icon"></i> <a th:text="${sl.storeInfoAddr}"></a></li>
 
-                        <li class="col-lg-10 col-md-12 col-sm-12">
-                          <i class="fa fa-briefcase user-profile-icon"></i> Software Engineer
-                        </li>
-
-                        <li class="col-lg-10 col-md-12 col-sm-12">
-                          <i class="fa fa-external-link user-profile-icon"></i>
-                          <a href="http://cloudviolet.cafe24.com/" target="_blank">http://cloudviolet.cafe24.com/</a>
-                        </li>
-                      </ul>
-
-                      <a class="col-lg-10 col-md-9 col-sm-12 btn btn-success" style="color: white;"><i class="fa fa-edit m-right-xs"></i> 정보 수정하기</a>
                       <br />
 
                     </div>
                     <div class="col-md-9 col-sm-9 ">
-
-                      <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">필수정보</a>
-                          </li>
-                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">추가정보</a>
-                          </li>
-                          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
-                          </li>
-                        </ul>
-                        <div id="myTabContent" class="tab-content">
-                          <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
-
                             <!-- start 필수정보 -->
-                           <table class="data table no-margin">
+                            <table class="data table no-margin">
                               <thead>
                                 <tr>
                                   <td class="col-md-2 col-sm-2"><strong>아이디</strong></td>
@@ -119,57 +96,10 @@
                                 </tr>
                               </tbody>
                             </table>
-                
-                      
+                          </div>
                             <!-- 필수정보 -->
-                          </div>
-                          <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                           <!-- start 추가정보 -->
-                            <table class="data table no-margin">
-                            
-                              <thead>
-                                 <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>사업장코드</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoCode}">
-                                </tr>
-                              </thead>
-                              <tbody>
-                              	<tr>
-                                  <td class="col-md-2 col-sm-2"><strong>상호명</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoName}">
-                                </tr>
-                                <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>사업자번호</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoLicenseNumber}">
-                                </tr>
-                                <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>업종</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoIndustryType}">
-                                </tr>
-                                <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>주소지</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoAddr}">
-                                </tr>
-                                <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>사업장 연락처</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoPhone}">
-                                </tr>
-                                <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>등록일</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoRegDate}">
-                                </tr>
-                              </tbody>
-                            </table>
-                            <!-- end 추가정보  -->
 
-                          </div>
-                          <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                            <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
-                              photo booth letterpress, commodo enim craft beer mlkshk </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
                   </div>
                 </th:block>
                	</th:block>                

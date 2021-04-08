@@ -1,8 +1,7 @@
 package com.cafemgt.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -111,7 +110,7 @@ public class StoreController {
 					  UserDto userDto = userService.userLogin(memberId);
 					  
 					  session.setAttribute("SSTORECODE", userDto.getStoreInfoCode());				 
-					  session.setAttribute("SSTORENAME", userDto.getStoreInfoCode());				 
+					  session.setAttribute("SSTORENAME", userDto.getStoreInfoName());				 
 				  }
 				  System.out.println(memberDtoList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
@@ -208,6 +207,54 @@ public class StoreController {
 		System.out.println("사업장 수정화면");
 		return "store/modifystore";		
 	}
+	
+	//사업주 마이페이지
+	@GetMapping("/modifymember")
+	public String modifymember(Model model, String memberId) {
+		System.out.println("마이페이지 수정화면");
+		System.out.println(memberId);
+		MemberDto memberDto = memberService.getinfoMember(memberId);
+		model.addAttribute("memberDto", memberDto);
+		return "member/modifymember";		
+	}
+	//사업 마이페이지 수정 
+	@PostMapping("/modifymember")
+	public String modifymember(MemberDto memberDto) {
+		memberService.updateMemberMy(memberDto);
+		
+		return "redirect:/store/getmember";		
+	}
+	
+	//직원 마이페이지
+		@GetMapping("/modifymemberU")
+		public String modifymemberU(Model model, String memberId) {
+			System.out.println("마이페이지 수정화면");
+			System.out.println(memberId);
+			MemberDto memberDto = memberService.getinfoMember(memberId);
+			model.addAttribute("memberDto", memberDto);
+			return "member/modifymemberU";		
+		}
+	
+	//직원 마이페이지 수정 
+	@PostMapping("/modifymemberU")
+	public String modifymemberU(MemberDto memberDto) {
+		memberService.updateMemberMy(memberDto);
+		
+		return "redirect:/store/getmemberU";		
+	}
+	
+	//직원 마이페이지
+	@GetMapping("/getmemberU")
+	public String getmemberU(Model model, HttpSession session) {
+		String MID = (String)session.getAttribute("MID");
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<MemberDto> memberDtoList = memberService.getMember(MID);
+		List<StoreDto> storeDtoList = storeService.getStoreMy(SSTORECODE);
+		model.addAttribute("memberList", memberDtoList);
+		model.addAttribute("storeDtoList",storeDtoList);
+		
+		return "member/getmemberU";		
+	}
 
 	
 	//마이페이지
@@ -228,18 +275,7 @@ public class StoreController {
 		return "member/getmember";		
 	}
 	
-	//마이페이지
-	@GetMapping("/getmemberU")
-	public String getmemberU(Model model, HttpSession session) {
-		String MID = (String)session.getAttribute("MID");
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<MemberDto> memberDtoList = memberService.getMember(MID);
-		List<StoreDto> storeDtoList = storeService.getStoreMy(SSTORECODE);
-		model.addAttribute("memberList", memberDtoList);
-		model.addAttribute("storeDtoList",storeDtoList);
-		
-		return "member/getmemberU";		
-	}
+	
 		
 	@GetMapping("/getmemberadmin")
 	public String getmemberadmin(Model model) {
@@ -260,8 +296,6 @@ public class StoreController {
 	@GetMapping("/getuser")
 	public String getuser(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		String SSTORENAME = (String)session.getAttribute("SSTORENAME");
-		System.out.println(SSTORENAME+"<<<<<<<<<<<<<<<<<");
 		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
 		model.addAttribute("userList", userDtoList);
 		
