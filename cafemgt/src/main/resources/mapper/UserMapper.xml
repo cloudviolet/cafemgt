@@ -34,6 +34,20 @@
 				<result property="memberRegDate" 	column="member_reg_date" />
 		</association>
 	</resultMap>
+	
+	<select id="userLogin" parameterType="String" resultMap="userResulMap">
+		SELECT 
+	 	u.member_id
+		 , store_info_code
+		 , m.level_code
+		 , member_pw
+		FROM tb_user AS u
+		LEFT JOIN 
+			tb_member AS m
+		ON 
+			u.member_id =m.member_id
+		WHERE u.member_id = #{memberId}	
+	</select>
 	<!-- 직원 추가등록/수정 화면 -->
 	<select id="getinfoUser" parameterType="String" resultMap="userResulMap">
 		SELECT 

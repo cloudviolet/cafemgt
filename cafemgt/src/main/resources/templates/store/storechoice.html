@@ -1,50 +1,45 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<th:block layout:fragment="customTitle">
-		<title>사업장 선택</title>
-</th:block>
+    <title>사업장 선택</title>
 
-<th:block layout:fragment="customCss">
-	<!-- Datatables -->
-	<link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link th:href="@{/vendors/animate.css/animate.min.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/build/css/custom.min.css}" rel="stylesheet">
+  </head>
+	<div class="profile_info">
 	
-</th:block>
-<th:block layout:fragment="customContents">
-
-<div class="right_col" role="main">
+		<h2 th:text="${session.MID}"></h2>
+		<div th:unless="${session.MID == null}">
+			<h1>사업장을 선택해 주세요</h1>
+			<label>[[${session.MNAME}]]님 로그인 중 </label>
+		</div>
+	</div>
+  <body class="login storeChoice">
+    <div>  
+      <div class="right_col" role="main">
 		<div class="storeChoice col-md-6 col-sm-6 " th:if="${#lists.size(storeList)>=2}" th:each="sl : ${storeList}">
 			<div class="x_panel">
 				 <div class="x_title">
-                    <h2>사업장 선택</h2>
+                    <h2 th:text="${sl.storeInfoCode}"></h2>
 					<ul class="nav navbar-right panel_toolbox">
-						<li>
-							<a class="collapse-link">
-								<i class="fa fa-chevron-up"></i>
-							</a>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle"	data-toggle="dropdown" role="button" aria-expanded="false">
-								<i class="fa fa-wrench"></i>
-							</a>
-								
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" href="#">Settings 1</a> 
-								<a class="dropdown-item" href="#">Settings 2</a>
-							</div>
-						</li>
-						<li>
-							<a class="close-link">
-								<i class="fa fa-close">
-								</i>
-							</a>
-						</li>
+
 					</ul>
 					<div class="clearfix"></div>
 				</div>
@@ -55,8 +50,7 @@
 								<div class="card-box table-responsive col-md-12 col-sm-12" >
 									<div class="center-block col-md-12 col-sm-12">										
 										<a type="button" class="btn btn-app" th:href="@{/(storeInfoCode = ${sl.storeInfoCode}) }" th:text="${sl.storeInfoName}" style="width: 95%;"><i class="fa fa-edit"></i></a>
-									</div>
-									 								
+									</div>									 								
 								</div>				
 							</div>
 						</div>
@@ -65,42 +59,6 @@
 			</div>
 		</div>
 	</div>
-</th:block>
-<th:block layout:fragment="customJs">
-	<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
-	<script
-		src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-	<script
-		src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-	<script
-		src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-	<script
-		src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-	<script
-		src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-	<script
-		src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-	<script
-		src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-	<script
-		src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-	<script src="../vendors/jszip/dist/jszip.min.js"></script>
-	<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-	<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
-	<script th:inline="javascript"> 
-			$('.btn-app').click(function(){
-				$(this).val();
-				console.log($(this).attr('value'));
-				
-				
-				
-			
-			});
-	</script>
-</th:block>
-
-
+   </div>
+  </body>
 </html>

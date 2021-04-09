@@ -15,6 +15,9 @@
 		<result property="storeInfoPhone"	 			column="store_info_phone" />
 		<result property="storeInfoRegDate"	 			column="store_info_reg_date" />		
 	</resultMap>
+	
+
+	
 	<!-- 사업장이 2개일 경우 사업장 선택화면  -->
 	<select id="storeChoice" parameterType="String" resultMap="StoreResultMap">
 		SELECT
