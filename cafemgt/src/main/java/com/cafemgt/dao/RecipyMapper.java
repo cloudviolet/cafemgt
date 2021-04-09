@@ -16,6 +16,6 @@ public interface RecipyMapper {
 	
 	public int modifyRecipy(RecipyDto recipyDto);
 	
-	
+	public int removeRecipy(String conCode);
 	
 }
