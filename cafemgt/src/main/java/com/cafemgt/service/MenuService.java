@@ -37,4 +37,9 @@ public class MenuService {
 		//등록
 		return menuMapper.addMenu(menuDto);
 	}
+	
+	public int removeMenu(String menuCode) {
+		
+		return menuMapper.removeMenu(menuCode);
+	}
 }

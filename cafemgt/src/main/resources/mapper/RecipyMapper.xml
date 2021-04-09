@@ -14,6 +14,11 @@
 		<result property="conVolume" 		column="con_volume" />
 		<result property="conDan" 			column="con_dan" />
 	</resultMap>
+	<delete id="removeRecipy" parameterType="String">
+		DELETE 
+		 FROM tb_consumption
+		WHERE con_code = #{conCode}
+		</delete>
 	<select id="getRecipyByConCode" parameterType="String" resultMap="recipyResultMap">
 		SELECT
 			 c.con_code
@@ -63,6 +68,8 @@
 			ON c.article_code = a.article_code
 		WHERE
 			st.store_info_code= #{SSTORECODE}
+			AND
+			m.menu_remove = 'x'
 	</select>
 	<insert id="addRecipy" parameterType="RecipyDto">
 		INSERT INTO tb_consumption

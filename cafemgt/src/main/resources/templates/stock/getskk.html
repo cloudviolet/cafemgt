@@ -119,7 +119,7 @@
 												</td>
 												<td>
 													<span th:if="${skkl.skDeadLine == 'x'}">
-														<a th:href="@{/stock/getskkDeadLine}" class="btn btn-dark btn-sm">마감</a>
+														<a th:href="@{/stock/getSkkDeadLine}" class="btn btn-dark btn-sm">마감</a>
 													</span>
 													<span th:unless="${skkl.skDeadLine == 'x'}" >
 														<button disabled="disabled" class="btn btn-danger btn-sm">완료</button>
