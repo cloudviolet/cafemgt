@@ -18,6 +18,10 @@ public class PurchasesService {
 		this.purchasesMapper = purchasesMapper;
 	}
 	
+	public List<PurchasesDto> getPurchasesDeadlineTax(String SSTORECODE){
+		return purchasesMapper.getPurchasesDeadlineTax(SSTORECODE);
+	}
+	
 	public int removePurchases(String incoCode) {
 		return purchasesMapper.removePurchases(incoCode);
 	}

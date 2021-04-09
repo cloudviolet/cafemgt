@@ -9,6 +9,8 @@ import com.cafemgt.dto.PurchasesDto;
 @Mapper
 public interface PurchasesMapper {
 	
+	public List<PurchasesDto> getPurchasesDeadlineTax(String SSTORECODE);
+	
 	public int removePurchases(String incoCode);
 	
 	public int modifyPurchases(PurchasesDto purchasesDto);

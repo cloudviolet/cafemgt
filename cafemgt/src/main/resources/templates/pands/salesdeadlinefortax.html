@@ -118,7 +118,7 @@
 			//그리고 체크되어있는 것들 반복문으로 돌리기
 			checkBox.each(function(i){
 				//반복되는 수만큼 객체 생성
-				var sales = {};
+				//var sales = {};
 				// checkbox.parent() : checkbox의 부모는 <td>이다.
 				// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
 				var tr = checkBox.parent().parent().eq(i);
@@ -126,7 +126,7 @@
 				
 				var cate = td.eq(1).text();
 				// 객체에 넣기
-				sales["salesCode"] = cate;
+				//sales["salesCode"] = cate;
 				
 				arraySales.push(cate);
 			});			
