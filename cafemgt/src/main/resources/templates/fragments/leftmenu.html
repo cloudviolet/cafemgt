@@ -15,7 +15,7 @@
 			
 			<div th:if = "${session.MID != null}" class="profile clearfix">
 				<div class="profile_pic">
-					<img src="images/img.jpg" alt="..." class="img-circle profile_img">
+					<img th:src="@{/images/img.jpg}" alt="..." class="img-circle profile_img">
 				</div>
 				<div class="profile_info">
 					<span>Welcome,</span>
@@ -30,7 +30,7 @@
 			<a th:if = "${session.MID == null}" th:href ="@{/store/login}"  class="btn btn-success btn-block btn-md " style="float: right; margin-top: 30px;">Login</a>
 			
 			<br />
-
+			
 			<!-- sidebar menu -->
 			<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 				<div class="menu_section">
@@ -77,8 +77,8 @@
 							<ul class="nav child_menu">
 								<li><a>메뉴(상품) 관리<span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li class="sub_menu"><a th:href="@{/menu/addmenu}">메뉴(상품) 등록</a></li>
-										<li class="sub_menu"><a th:href="@{/menu/getmenu}">메뉴(상품) 조회</a></li>
+										<li class="sub_menu"><a th:href="@{/menu/addMenu}">메뉴(상품) 등록</a></li>
+										<li class="sub_menu"><a th:href="@{/menu/getMenu}">메뉴(상품) 조회</a></li>
 									</ul>
 								</li>
 								<li><a>메뉴(상품) 레시피 관리<span class="fa fa-chevron-down"></span></a>

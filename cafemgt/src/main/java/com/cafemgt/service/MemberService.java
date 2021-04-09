@@ -1,7 +1,6 @@
 package com.cafemgt.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,11 +60,16 @@ public class MemberService {
 		return memberDtolist;	
 	}
 	
+	// 마이페이지-> -> 수정페이지 업데이트 member
+	public int updateMemberMy(MemberDto memberDto) {
+		return memberMapper.updateMemberMy(memberDto);
+	}
+	
 	// 직원관리-> 직원조회-> 수정페이지 업데이트 member
 	public int updateMember(MemberDto memberDto) {
 		return memberMapper.updateMember(memberDto);
 	}
-	
+
 	
 	public MemberDto getinfoMember(String memberId) {
 		return memberMapper.getinfoMember(memberId);

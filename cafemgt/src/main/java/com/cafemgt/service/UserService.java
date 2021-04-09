@@ -30,6 +30,12 @@ public class UserService {
 		return userMapper.addUserjoin1(userDto);
 	}
 	
+	public UserDto userLogin(String memberId){
+		UserDto userDto = userMapper.userLogin(memberId);
+		
+		return userDto;
+	}
+	
 
 	// 직원관리-> 직원조회-> 수정페이지 업데이트 user
 	public int updateUser(UserDto userDto) {

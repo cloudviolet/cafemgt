@@ -19,6 +19,8 @@ public interface MemberMapper {
 	
 	public List<MemberDto> getMemberadmin();
 	
+	public int updateMemberMy(MemberDto memberDto);
+	
 	public int updateMember(MemberDto memberDto);
 	
 	public MemberDto getinfoMember(String memberId);

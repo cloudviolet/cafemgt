@@ -84,16 +84,27 @@ SELECT
 			tb_store_info AS s
 		ON u.store_info_code = s.store_info_code or s.member_id = m.member_id	
 	</select>
-	<!-- 직원 추가정보 수정에서 member 정보 수정 업데이트  -->
-	<update id="updateMember" parameterType="MemberDto">
+	
+	
+	<!-- 마이페이지 수정에서 기본정보 수정 업데이트  -->
+	<update id="updateMemberMy" parameterType="MemberDto">
 		UPDATE tb_member
 	SET
 		member_pw=#{memberPw},
 		member_name=#{memberName},
-		level_code=#{levelCode},
 		member_phone=#{memberPhone},
 		member_email=#{memberEmail},
 		member_birth=#{memberBirth}
+	WHERE member_id=#{memberId}
+	</update>
+	<!-- 마이페이지에서 기본정보 조회 -->
+	<!-- 직원 추가정보 수정에서 member 정보 수정 업데이트  -->
+	<update id="updateMember" parameterType="MemberDto">
+		UPDATE tb_member
+	SET
+		member_name=#{memberName},
+		level_code=#{levelCode},
+		member_phone=#{memberPhone},
 	WHERE member_id=#{memberId}
 	</update>
 	<!-- 마이페이지에서 기본정보 조회 -->

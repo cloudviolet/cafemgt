@@ -12,16 +12,16 @@
     <title>로그인 </title>
 
     <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
     <!-- NProgress -->
-    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
     <!-- Animate.css -->
-    <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
+    <link th:href="@{/vendors/animate.css/animate.min.css}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link th:href="@{/build/css/custom.min.css}" rel="stylesheet">
   </head>
 
   <body class="login">
@@ -45,7 +45,7 @@
 
               <div class="separator">
                 <p class="change_link">도움이 필요하신가요?
-                  <a th:href="@{/join}" class="btn btn-round btn-info btn-block btn-md "> 회원가입 </a>
+                  <a th:href="@{/store/join}" class="btn btn-round btn-info btn-block btn-md "> 회원가입 </a>
                   <a href="#" class="btn btn-round btn-dark btn-block btn-md"> 비밀번호 찾기 </a>
                 </p>
 
