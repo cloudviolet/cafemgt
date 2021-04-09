@@ -18,15 +18,52 @@
 		<result property="incoVolumeSubtotal" 		column="inco_volume_subtotal"/>
 		<result property="incoSupplyValue" 			column="inco_supply_value"/>
 		<result property="incoTax" 					column="inco_tax"/>
-		<result property="incoDealingGroupCode" 	column="inco_dealing_group_code"/>
-		<result property="incoStockGroupCode" 		column="inco_stock_group_code"/>
 		<result property="incoDate" 				column="inco_date"/>
 		<result property="incoRegDate" 				column="inco_reg_date"/>
 		<result property="incoDeadline" 			column="inco_deadline"/>
+		<result property="incoDeadlineTax" 			column="inco_deadline_tax"/>
 		<result property="incoSystemId" 			column="inco_system_id"/>
 		<result property="incoSystemName" 			column="inco_system_name"/>
 		<result property="incoCheck" 				column="inco_check"/>
 	</resultMap>
+	
+	<select id="getPurchasesDeadlineTax" parameterType="String" resultMap="purchasesDtoResultMap">
+		SELECT 
+			i.inco_code, 
+			i.store_info_code, 
+			i.article_code, 
+			a.article_name,
+			i.cust_code, 
+			c.cust_name,
+			i.inco_vat_type, 
+			i.inco_pay_type, 
+			i.inco_total, 
+			i.inco_count, 
+			i.inco_volume_subtotal, 
+			i.inco_supply_value, 
+			i.inco_tax, 
+			i.inco_date, 
+			i.inco_reg_date, 
+			i.inco_deadline, 
+			i.inco_deadline_tax,
+			i.inco_system_id, 
+			i.inco_system_name, 
+			i.inco_check
+		FROM 
+			tb_incoming AS i
+			LEFT JOIN 
+			tb_customer AS c
+			ON 
+			i.cust_code = c.cust_code
+			LEFT JOIN
+			tb_article AS a
+			ON
+			i.article_code = a.article_code
+		WHERE
+			i.store_info_code = #{SSTORECODE}
+		AND
+			i.inco_deadline_tax = 'x';
+	</select>
 	
 	<delete id="removePurchases" parameterType="String">
 		DELETE FROM 
@@ -68,8 +105,6 @@
 			, i.inco_volume_subtotal
 			, i.inco_supply_value
 			, i.inco_tax
-			, i.inco_dealing_group_code
-			, i.inco_stock_group_code
 			, i.inco_date
 			, i.inco_reg_date
 			, i.inco_deadline
@@ -97,9 +132,7 @@
 			inco_count, 
 			inco_volume_subtotal, 
 			inco_supply_value, 
-			inco_tax, 
-			inco_dealing_group_code, 
-			inco_stock_group_code, 
+			inco_tax,  
 			inco_date, 
 			inco_reg_date, 
 			inco_deadline, 
@@ -125,8 +158,6 @@
 			i.inco_volume_subtotal, 
 			i.inco_supply_value, 
 			i.inco_tax, 
-			i.inco_dealing_group_code, 
-			i.inco_stock_group_code, 
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 
@@ -164,8 +195,6 @@
 			i.inco_volume_subtotal, 
 			i.inco_supply_value, 
 			i.inco_tax, 
-			i.inco_dealing_group_code, 
-			i.inco_stock_group_code, 
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 
@@ -203,8 +232,6 @@
 			i.inco_volume_subtotal, 
 			i.inco_supply_value, 
 			i.inco_tax, 
-			i.inco_dealing_group_code, 
-			i.inco_stock_group_code, 
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 

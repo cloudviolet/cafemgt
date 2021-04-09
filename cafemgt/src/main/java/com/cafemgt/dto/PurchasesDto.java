@@ -14,15 +14,13 @@ public class PurchasesDto {
 	private int incoVolumeSubtotal;
 	private int incoSupplyValue;
 	private int incoTax;
-	private String incoDealingGroupCode;
-	private String incoStockGroupCode;
 	private String incoDate;
 	private String incoRegDate;
 	private String incoDeadline;
+	private String incoDeadlineTax;
 	private String incoSystemId;
 	private String incoSystemName;
 	private int incoCheck;
-	
 	public String getIncoCode() {
 		return incoCode;
 	}
@@ -101,18 +99,6 @@ public class PurchasesDto {
 	public void setIncoTax(int incoTax) {
 		this.incoTax = incoTax;
 	}
-	public String getIncoDealingGroupCode() {
-		return incoDealingGroupCode;
-	}
-	public void setIncoDealingGroupCode(String incoDealingGroupCode) {
-		this.incoDealingGroupCode = incoDealingGroupCode;
-	}
-	public String getIncoStockGroupCode() {
-		return incoStockGroupCode;
-	}
-	public void setIncoStockGroupCode(String incoStockGroupCode) {
-		this.incoStockGroupCode = incoStockGroupCode;
-	}
 	public String getIncoDate() {
 		return incoDate;
 	}
@@ -130,6 +116,12 @@ public class PurchasesDto {
 	}
 	public void setIncoDeadline(String incoDeadline) {
 		this.incoDeadline = incoDeadline;
+	}
+	public String getIncoDeadlineTax() {
+		return incoDeadlineTax;
+	}
+	public void setIncoDeadlineTax(String incoDeadlineTax) {
+		this.incoDeadlineTax = incoDeadlineTax;
 	}
 	public String getIncoSystemId() {
 		return incoSystemId;
@@ -155,10 +147,127 @@ public class PurchasesDto {
 				+ articleCode + ", articleName=" + articleName + ", custCode=" + custCode + ", custName=" + custName
 				+ ", incoVatType=" + incoVatType + ", incoPayType=" + incoPayType + ", incoTotal=" + incoTotal
 				+ ", incoCount=" + incoCount + ", incoVolumeSubtotal=" + incoVolumeSubtotal + ", incoSupplyValue="
-				+ incoSupplyValue + ", incoTax=" + incoTax + ", incoDealingGroupCode=" + incoDealingGroupCode
-				+ ", incoStockGroupCode=" + incoStockGroupCode + ", incoDate=" + incoDate + ", incoRegDate="
-				+ incoRegDate + ", incoDeadline=" + incoDeadline + ", incoSystemId=" + incoSystemId
-				+ ", incoSystemName=" + incoSystemName + ", incoCheck=" + incoCheck + "]";
+				+ incoSupplyValue + ", incoTax=" + incoTax + ", incoDate=" + incoDate + ", incoRegDate=" + incoRegDate
+				+ ", incoDeadline=" + incoDeadline + ", incoDeadlineTax=" + incoDeadlineTax + ", incoSystemId="
+				+ incoSystemId + ", incoSystemName=" + incoSystemName + ", incoCheck=" + incoCheck + "]";
 	}
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((articleCode == null) ? 0 : articleCode.hashCode());
+		result = prime * result + ((articleName == null) ? 0 : articleName.hashCode());
+		result = prime * result + ((custCode == null) ? 0 : custCode.hashCode());
+		result = prime * result + ((custName == null) ? 0 : custName.hashCode());
+		result = prime * result + incoCheck;
+		result = prime * result + ((incoCode == null) ? 0 : incoCode.hashCode());
+		result = prime * result + incoCount;
+		result = prime * result + ((incoDate == null) ? 0 : incoDate.hashCode());
+		result = prime * result + ((incoDeadline == null) ? 0 : incoDeadline.hashCode());
+		result = prime * result + ((incoDeadlineTax == null) ? 0 : incoDeadlineTax.hashCode());
+		result = prime * result + ((incoPayType == null) ? 0 : incoPayType.hashCode());
+		result = prime * result + ((incoRegDate == null) ? 0 : incoRegDate.hashCode());
+		result = prime * result + incoSupplyValue;
+		result = prime * result + ((incoSystemId == null) ? 0 : incoSystemId.hashCode());
+		result = prime * result + ((incoSystemName == null) ? 0 : incoSystemName.hashCode());
+		result = prime * result + incoTax;
+		result = prime * result + incoTotal;
+		result = prime * result + ((incoVatType == null) ? 0 : incoVatType.hashCode());
+		result = prime * result + incoVolumeSubtotal;
+		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PurchasesDto other = (PurchasesDto) obj;
+		if (articleCode == null) {
+			if (other.articleCode != null)
+				return false;
+		} else if (!articleCode.equals(other.articleCode))
+			return false;
+		if (articleName == null) {
+			if (other.articleName != null)
+				return false;
+		} else if (!articleName.equals(other.articleName))
+			return false;
+		if (custCode == null) {
+			if (other.custCode != null)
+				return false;
+		} else if (!custCode.equals(other.custCode))
+			return false;
+		if (custName == null) {
+			if (other.custName != null)
+				return false;
+		} else if (!custName.equals(other.custName))
+			return false;
+		if (incoCheck != other.incoCheck)
+			return false;
+		if (incoCode == null) {
+			if (other.incoCode != null)
+				return false;
+		} else if (!incoCode.equals(other.incoCode))
+			return false;
+		if (incoCount != other.incoCount)
+			return false;
+		if (incoDate == null) {
+			if (other.incoDate != null)
+				return false;
+		} else if (!incoDate.equals(other.incoDate))
+			return false;
+		if (incoDeadline == null) {
+			if (other.incoDeadline != null)
+				return false;
+		} else if (!incoDeadline.equals(other.incoDeadline))
+			return false;
+		if (incoDeadlineTax == null) {
+			if (other.incoDeadlineTax != null)
+				return false;
+		} else if (!incoDeadlineTax.equals(other.incoDeadlineTax))
+			return false;
+		if (incoPayType == null) {
+			if (other.incoPayType != null)
+				return false;
+		} else if (!incoPayType.equals(other.incoPayType))
+			return false;
+		if (incoRegDate == null) {
+			if (other.incoRegDate != null)
+				return false;
+		} else if (!incoRegDate.equals(other.incoRegDate))
+			return false;
+		if (incoSupplyValue != other.incoSupplyValue)
+			return false;
+		if (incoSystemId == null) {
+			if (other.incoSystemId != null)
+				return false;
+		} else if (!incoSystemId.equals(other.incoSystemId))
+			return false;
+		if (incoSystemName == null) {
+			if (other.incoSystemName != null)
+				return false;
+		} else if (!incoSystemName.equals(other.incoSystemName))
+			return false;
+		if (incoTax != other.incoTax)
+			return false;
+		if (incoTotal != other.incoTotal)
+			return false;
+		if (incoVatType == null) {
+			if (other.incoVatType != null)
+				return false;
+		} else if (!incoVatType.equals(other.incoVatType))
+			return false;
+		if (incoVolumeSubtotal != other.incoVolumeSubtotal)
+			return false;
+		if (storeInfoCode == null) {
+			if (other.storeInfoCode != null)
+				return false;
+		} else if (!storeInfoCode.equals(other.storeInfoCode))
+			return false;
+		return true;
+	}
 }
