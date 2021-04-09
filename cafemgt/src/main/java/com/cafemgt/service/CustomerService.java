@@ -19,6 +19,17 @@ public class CustomerService {
 		this.customerMapper = customerMapper;
 	}
 	
+	//거래처 수정
+	public int updateCustomer(CustomerDto customerDto) {
+		return customerMapper.updateCustomer(customerDto);
+	}
+	
+	//거래처 수정에서 정보 보기
+	public CustomerDto getinfoCustomer(String custCode) {
+		return customerMapper.getinfoCustomer(custCode);
+		
+	}
+	
 	//거래처 등록
 	public int addCustomer(CustomerDto customerDto) {
 		System.out.println("거래처 등록 서비스 확인");

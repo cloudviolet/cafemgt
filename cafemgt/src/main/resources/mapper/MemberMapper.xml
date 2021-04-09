@@ -104,7 +104,7 @@ SELECT
 	SET
 		member_name=#{memberName},
 		level_code=#{levelCode},
-		member_phone=#{memberPhone},
+		member_phone=#{memberPhone}
 	WHERE member_id=#{memberId}
 	</update>
 	<!-- 마이페이지에서 기본정보 조회 -->

@@ -9,6 +9,10 @@ import com.cafemgt.dto.CustomerDto;
 @Mapper
 public interface CustomerMapper {
 	
+	//거래처 수정
+	public int updateCustomer(CustomerDto customerDto);
+	//거래처 수정화면
+	public CustomerDto getinfoCustomer(String custCode);
 	//거래처 등록
 	public int addCustomer(CustomerDto customerDto);
 	//거래처 조회

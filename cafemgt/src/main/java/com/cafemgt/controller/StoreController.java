@@ -183,6 +183,26 @@ public class StoreController {
 	
 	
 	
+	@GetMapping("/modifycustomer")
+	public String modifycustomer(Model model,  String custCode, HttpSession session) {
+		System.out.println("거래처 수정 화면 ");
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		StoreDto storeDto = storeService.getinfoStore(SSTORECODE);
+		CustomerDto customerDto = customerService.getinfoCustomer(custCode);
+		System.out.println(customerDto);
+		model.addAttribute("storeDto", storeDto);
+		model.addAttribute("customerDto", customerDto);
+
+		return "store/modifycustomer";		
+	}
+	
+	@PostMapping("/modifycustomer")
+	public String modifycustomer(CustomerDto customerDto) {
+		customerService.updateCustomer(customerDto);
+		System.out.println(customerDto +"<--customerDto");
+		return "redirect:/store/getcustomer";	
+	}
+	
 	@GetMapping("/modifyuser")
 	public String modifyuser(Model model, String memberId) {
 		System.out.println("직원 추가등록/수정 화면 ");
@@ -203,12 +223,23 @@ public class StoreController {
 	}
 	
 	@GetMapping("/modifystore")
-	public String modifystore() {
-		System.out.println("사업장 수정화면");
+	public String modifystore(Model model, HttpSession session) {
+		System.out.println("사업장 수정화면");		
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		StoreDto storeDto = storeService.getinfoStore(SSTORECODE);
+		System.out.println(storeDto);
+		model.addAttribute("storeDto", storeDto);
 		return "store/modifystore";		
 	}
+	@PostMapping("/modifystore")
+	public String modifystore(StoreDto storeDto) {
+		storeService.updateStore(storeDto);
+		System.out.println(storeDto);
+		
+		return "redirect:/store/getstore";
+	}
 	
-	//사업주 마이페이지
+	//사업주 마이페이지 수정화면
 	@GetMapping("/modifymember")
 	public String modifymember(Model model, String memberId) {
 		System.out.println("마이페이지 수정화면");
@@ -370,15 +401,6 @@ public class StoreController {
 		
 		return "redirect:/store/getuser";			
 	}
-	
-
-	
-	@PostMapping("/modifystore")
-	public String modifystore(StoreDto storeDto) {
-		
-		return "redirect:/store/getstore";		
-	}
-	
 
 	@GetMapping("/getstoreadmin")
 	public String getstoreadmin(Model model) {

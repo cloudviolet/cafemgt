@@ -86,7 +86,7 @@
 											<td th:text="${cl.custEtc}">
 											<td th:text="${cl.custRegDate}">
 											<td>
-											<a class="btn btn-primary btn-sm" th:href="@{/modifycustomer}">수정</a> 
+											<a class="btn btn-primary btn-sm" th:href="@{/store/modifycustomer(custCode=${cl.custCode})}">수정</a> 
 											</td>
 											<td>
 												<a class="btn btn-dark btn-sm" th:href="@{/}">삭제</a> 
