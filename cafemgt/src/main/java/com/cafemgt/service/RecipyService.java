@@ -38,4 +38,11 @@ public class RecipyService {
 		
 		return recipyMapper.getRecipyByConCode(conCode);
 	}
+	
+	public int removeRecipy(String conCode) {
+		
+		return recipyMapper.removeRecipy(conCode);
+	}
+	
+	
 }
