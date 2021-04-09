@@ -95,21 +95,21 @@
 	
 	<th:block layout:fragment="customJs">
 	<!-- Chart.js -->
-    <script th:src="@{vendors/Chart.js/dist/Chart.min.js}"></script>
+    <script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
     <!-- gauge.js -->
-    <script th:src="@{vendors/gauge.js/dist/gauge.min.js}"></script>
+    <script th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
 	<!-- Flot -->
-    <script th:src="@{vendors/Flot/jquery.flot.js}"></script>
-    <script th:src="@{vendors/Flot/jquery.flot.pie.js}"></script>
-    <script th:src="@{vendors/Flot/jquery.flot.time.js}"></script>
-    <script th:src="@{vendors/Flot/jquery.flot.stack.js}"></script>
-    <script th:src="@{vendors/Flot/jquery.flot.resize.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
     <!-- Flot plugins -->
-    <script th:src="@{vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
-    <script th:src="@{vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
-    <script th:src="@{vendors/flot.curvedlines/curvedLines.js}"></script>
+    <script th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
+    <script th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
+    <script th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
     <!-- DateJS -->
-    <script th:src="@{vendors/DateJS/build/date.js}"></script>
+    <script th:src="@{/vendors/DateJS/build/date.js}"></script>
    
     <script>
     var searchFirstDate = $('#searchFirstDate');
@@ -128,7 +128,7 @@
 	    	alert(minDate+' ~ '+maxDate+' 사이의 날짜를 선택해주세요.');
 	    }else{
 			var request = $.ajax({
-				url: "gettotalpands", 
+				url: "/tax/gettotalpands", 
 				method: "POST",
 				data: { searchFirstDate : searchFirstDate.val()
 						,searchLastDate : searchLastDate.val() },
