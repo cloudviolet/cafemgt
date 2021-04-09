@@ -23,6 +23,10 @@ public class TaxService {
 		this.dealingMapper = dealingMapper;
 	}
 	
+	public Map<String,Object> getTotalpands(String SSTORECODE,String nowMonth){
+		return dealingMapper.getTotalpands(SSTORECODE,nowMonth);
+	}
+	
 	public int modifyPurchasesDeadLineTax(List<String> arrayPurchases) {
 		return dealingMapper.modifyPurchasesDeadLineTax(arrayPurchases);
 	}

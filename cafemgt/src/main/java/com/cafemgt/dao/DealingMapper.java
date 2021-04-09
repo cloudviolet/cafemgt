@@ -10,6 +10,8 @@ import com.cafemgt.dto.DealingDto;
 @Mapper
 public interface DealingMapper {
 	
+	public Map<String,Object> getTotalpands(String SSTORECODE,String nowMonth);
+	
 	public int modifyPurchasesDeadLineTax(List<String> arrayPurchases);
 	
 	public List<DealingDto> getPurchasesByDealing(Map<String,Object> purchasesInfoMap);

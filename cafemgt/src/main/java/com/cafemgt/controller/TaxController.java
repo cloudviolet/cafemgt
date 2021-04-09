@@ -260,28 +260,32 @@ public class TaxController {
 	}
 	
 	@GetMapping("/gettotalpands")
-	public String getTotalPandS(Model model , HttpSession session) {
+	public String getTotalPandS(@RequestParam(value = "nowMonth",required = false)String nowMonth
+								,Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		//dealing테이블에서 가장 오래된 날짜 가져오기
-		Map<String, String> dateList = new HashMap<>();	
-		dateList = taxService.getOldDateByDealing(SSTORECODE);
-		System.out.println(dateList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		model.addAttribute("dateList", dateList);
+		Map<String, Object> map = new HashMap<>();
+			
+		map = taxService.getTotalpands(SSTORECODE,nowMonth);
+		System.out.println(map.get("totalOtherPurchases"));
+		System.out.println(map.get("totalPurchases"));
+		System.out.println(map.get("now"));
+		System.out.println(map.get("totalSales"));
+		model.addAttribute("totalPandS", map);
+
 		return "tax/gettotalpands";
 	}
 	
 	@PostMapping("/gettotalpands")
 	@ResponseBody
-	public Map<String,Object> getTotalPandS(
-			@RequestParam (value = "searchFirstDate",required = false)String searchFirstDate 
-			,@RequestParam (value = "searchLastDate",required = false)String searchLastDate 
-			,Model model , HttpSession session){
-		System.out.println(searchFirstDate);
-		System.out.println(searchLastDate);
+	public Map<String, Object> getTotalPandS(
+			@RequestParam (value = "nowMonth",required = false)String nowMonth 
+			, HttpSession session){
+		System.out.println(nowMonth+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		Map<String, Object> map = new HashMap<>();	
-		map = salesService.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
-		System.out.println(map);
+		Map<String, Object> map = new HashMap<>();
+		
+		map = taxService.getTotalpands(SSTORECODE,nowMonth);
+		System.out.println(map+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			return map;			
 	}
 		

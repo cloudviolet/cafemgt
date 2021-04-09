@@ -17,6 +17,27 @@
 		<result property="dealRegDate" 			column="deal_reg_date"/>
 	</resultMap>
 	
+	<select id="getTotalpands" parameterType="String" resultType="HashMap">
+		SELECT 
+			 date_format(NOW(),'%Y') AS 'year'
+			,date_format(NOW(),'%m') AS 'month'
+			,SUM(if(deal_cate='매출', deal_total, 0)) AS 'totalSales'
+			,SUM(if(deal_cate='매입', deal_total, 0)) AS 'totalPurchases'
+			,SUM(if(deal_cate='기타매입', deal_total, 0)) AS 'totalOtherPurchases'
+		FROM
+			tb_dealing
+		WHERE 
+			date_format(deal_date,'%Y-%m') =
+			<if test="nowMonth == null">
+				 date_format(now(),'%Y-%m')
+			</if>
+			<if test="nowMonth != null">
+				 #{nowMonth}
+			</if>
+		AND
+			store_info_code = #{SSTORECODE}
+	</select>
+	
 	<update id="modifyPurchasesDeadLineTax">
 	UPDATE tb_incoming
 		SET
