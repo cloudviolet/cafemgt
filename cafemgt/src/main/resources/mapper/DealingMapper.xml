@@ -17,6 +17,38 @@
 		<result property="dealRegDate" 			column="deal_reg_date"/>
 	</resultMap>
 	
+	<update id="modifyPurchasesDeadLineTax">
+	UPDATE tb_incoming
+		SET
+			inco_deadline_tax='o'
+		WHERE 
+			inco_code IN
+		<foreach collection="arrayPurchases" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<select id="getPurchasesByDealing" parameterType="HashMap" resultMap="DealingDtoResultMap">
+		SELECT 
+			 store_info_code
+			,'매입' AS 'deal_cate'
+			,inco_vat_type AS 'deal_vat_type'
+			,SUM(inco_total) AS 'deal_total'
+			,'146' AS 'at_debit_code'
+			,if(inco_pay_type='미지급', '251','101')  AS 'at_credit_code'
+			,inco_date AS 'deal_date'
+		FROM 
+			tb_incoming
+		WHERE inco_deadline_tax = 'x'
+		AND inco_code IN 
+		<foreach collection="arrayPurchases" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		GROUP BY inco_vat_type, inco_pay_type
+			HAVING store_info_code = #{SSTORECODE};
+	
+	</select>
+	
 	<update id="modifyOtherPurchasesDeadLine">
 		UPDATE tb_other_expense
 		SET
@@ -105,8 +137,8 @@
 			,'매출' AS 'deal_cate'
 			,sales_vat_type AS 'deal_vat_type'
 			,sum(sales_total) AS 'deal_total'
-			,'401' AS 'at_debit_code'
-			,if(sales_pay_type='미수', '108','101')  AS 'at_credit_code'
+			,'401' AS 'at_credit_code'
+			,if(sales_pay_type='미수', '108','101')  AS 'at_debit_code'
 			,sales_date AS 'deal_date'
 		FROM 
 			tb_sales

@@ -33,6 +33,8 @@ import com.cafemgt.service.OtherPurchasesService;
 import com.cafemgt.service.PurchasesService;
 import com.cafemgt.service.SalesService;
 import com.cafemgt.service.TaxService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @Controller
 @RequestMapping("/tax")
@@ -149,6 +151,28 @@ public class TaxController {
 		List<PurchasesDto> purchasesTaxCheckList = purchasesService.getPurchasesDeadlineTax(SSTORECODE);
 		model.addAttribute("purchasesTaxCheckList", purchasesTaxCheckList);
 		return "pands/purchasesdeadlinetax";
+	}
+	
+	@PostMapping("/purchasesdeadlinetax")
+	@ResponseBody
+	public String purchasesDeadlineTax(@RequestParam(value = "arrayPurchases[]",required = false)List<String> arrayPurchases
+									   ,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		System.out.println(arrayPurchases+"<<<<<<<<<<<<<<<<");
+		Map<String, Object> purchasesInfoMap = new HashMap<>();
+		purchasesInfoMap.put("SSTORECODE", SSTORECODE);
+		purchasesInfoMap.put("arrayPurchases", arrayPurchases);
+		List<DealingDto> getPurchsesList = taxService.getPurchasesByDealing(purchasesInfoMap);
+		String resultValue = "실패";
+		int result = 0;
+		for(int i=0; i<getPurchsesList.size();i++) {
+			result += taxService.addDealing(getPurchsesList.get(i));
+		}
+		taxService.modifyPurchasesDeadLineTax(arrayPurchases);
+		if(result>=1) {
+			resultValue ="성공";
+		}		
+		return resultValue;
 	}
 	
 	@GetMapping("/salesdeadlineforstock")

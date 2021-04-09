@@ -23,6 +23,14 @@ public class TaxService {
 		this.dealingMapper = dealingMapper;
 	}
 	
+	public int modifyPurchasesDeadLineTax(List<String> arrayPurchases) {
+		return dealingMapper.modifyPurchasesDeadLineTax(arrayPurchases);
+	}
+	
+	public List<DealingDto> getPurchasesByDealing(Map<String,Object> purchasesInfoMap){
+		return dealingMapper.getPurchasesByDealing(purchasesInfoMap);
+	}
+	
 	public int modifyOtherPurchasesDeadLine(List<String> arrayOtherPurchases) {
 		return dealingMapper.modifyOtherPurchasesDeadLine(arrayOtherPurchases);
 	}

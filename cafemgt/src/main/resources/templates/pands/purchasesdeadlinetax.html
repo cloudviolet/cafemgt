@@ -23,7 +23,7 @@
 					 <div class="x_title">
 	                    <h2>매입 재고 마감</h2>
 						<ul class="nav navbar-right panel_toolbox">
-							<li><a id="submitBtn" class="btn btn-info">재고마감 / 매출조회로</a></li>
+							<li><a id="submitBtn" class="btn btn-info">마감</a></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -118,36 +118,39 @@
 		});		
 			
 			$('#submitBtn').click(function(){
-				var purchasesList = /*[[${purchasesTaxCheckList}]]*/
+				var purchasesTaxCheckList = /*[[${purchasesTaxCheckList}]]*/
 				var arrayPurchases= []; 
 				
 				if(checkBox.length != 0){
 					checkBox.each(function(i){
 						if(checkBox.eq(i).is(":checked")){
-							var purchases = {};
-							purchases["incoCode"] = purchasesTaxCheckList[i].incoCode;
-							arrayPurchases.push(purchases);
+							//var purchases = {};
+							//purchases["incoCode"] = purchasesTaxCheckList[i].incoCode;
+							arrayPurchases.push(purchasesTaxCheckList[i].incoCode);
 						}
 					})
 					console.log(arrayPurchases);
-					
-					var request = $.ajax({
+					if(arrayPurchases.length != 0){
+					$.ajax({
 						method: "POST",
-						url: "/tax/addTotalStock",
-						traditional: true,
+						url: "/tax/purchasesdeadlinetax",
 						dataType: "text",
-						data: {"arrayPurchases" : JSON.stringify(arrayPurchases) }
-					});
-					request.done(function( data ){
-						console.log(data)
-						location.href="/tax/gettotalstock";
-					});
-					request.fail(function( err){
-						console.log(err)
-					});
-				
+						data: {"arrayPurchases" : arrayPurchases },
+			       		success : function(data){
+				        	console.log(data)
+				            alert("요청되었습니다.")
+				            location.href = '/tax/gettotalpands';
+				        },
+				        error : function(request,status,error){
+				        	console.log(request)
+				        	console.log(status)
+				        	console.log(error)
+				        }
+				   });
+				}else{
+					alert('마감할 항목을 선택해주세요.');	
+					}
 				}
-				location.href="/tax/gettotalstock";
 			});	
 		</script>
 	</th:block>

@@ -10,6 +10,10 @@ import com.cafemgt.dto.DealingDto;
 @Mapper
 public interface DealingMapper {
 	
+	public int modifyPurchasesDeadLineTax(List<String> arrayPurchases);
+	
+	public List<DealingDto> getPurchasesByDealing(Map<String,Object> purchasesInfoMap);
+	
 	public int modifyOtherPurchasesDeadLine(List<String> arrayOtherPurchases);
 	
 	public List<DealingDto> getOtherPurchasesByDealing(Map<String,Object> otherPurchasesInfoMap);
