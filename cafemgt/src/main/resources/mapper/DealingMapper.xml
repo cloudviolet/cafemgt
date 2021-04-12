@@ -17,7 +17,37 @@
 		<result property="dealRegDate" 			column="deal_reg_date"/>
 	</resultMap>
 	
-	<select id="getTotalpands" parameterType="String" resultType="HashMap">
+	<select id="getYearFromDealing" parameterType="String" resultType="HashMap">
+		SELECT 
+			date_format(NOW(),'%Y') AS 'year'
+			,date_format(NOW(),'%m') AS 'month'
+			,MIN(SUBSTR(deal_date,1,4)) AS 'minYear'
+		FROM 
+			tb_dealing
+		WHERE store_info_code = #{SSTORECODE}
+		GROUP BY 'year','month'
+	</select>
+	
+	<select id="getTotalpandsPeriod" parameterType="HashMap" resultType="HashMap">
+		SELECT 
+			 date_format(NOW(),'%Y') AS 'year'
+			,date_format(NOW(),'%m') AS 'month'
+			,SUM(if(deal_cate='매출', deal_total, 0)) AS 'totalSales'
+			,SUM(if(deal_cate='매입', deal_total, 0)) AS 'totalPurchases'
+			,SUM(if(deal_cate='기타매입', deal_total, 0)) AS 'totalOtherPurchases'
+		FROM
+			tb_dealing
+		WHERE
+			date_format(deal_date,'%Y-%m')
+				BETWEEN 
+					#{firstValue}
+				AND 
+					#{lastValue}
+		AND
+			store_info_code = #{SSTORECODE}
+	</select>
+	
+	<select id="getTotalpands" parameterType="HashMap" resultType="HashMap">
 		SELECT 
 			 date_format(NOW(),'%Y') AS 'year'
 			,date_format(NOW(),'%m') AS 'month'
@@ -27,12 +57,12 @@
 		FROM
 			tb_dealing
 		WHERE 
-			date_format(deal_date,'%Y-%m') =
+			date_format(deal_date,'%Y-%m')
 			<if test="nowMonth == null">
-				 date_format(now(),'%Y-%m')
+				 = date_format(now(),'%Y-%m')
 			</if>
 			<if test="nowMonth != null">
-				 #{nowMonth}
+				 = #{nowMonth}
 			</if>
 		AND
 			store_info_code = #{SSTORECODE}

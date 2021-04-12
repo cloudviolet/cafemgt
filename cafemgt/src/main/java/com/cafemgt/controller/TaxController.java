@@ -260,18 +260,11 @@ public class TaxController {
 	}
 	
 	@GetMapping("/gettotalpands")
-	public String getTotalPandS(@RequestParam(value = "nowMonth",required = false)String nowMonth
-								,Model model , HttpSession session) {
+	public String getTotalPandS(Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		Map<String, Object> map = new HashMap<>();
-			
-		map = taxService.getTotalpands(SSTORECODE,nowMonth);
-		System.out.println(map.get("totalOtherPurchases"));
-		System.out.println(map.get("totalPurchases"));
-		System.out.println(map.get("now"));
-		System.out.println(map.get("totalSales"));
-		model.addAttribute("totalPandS", map);
-
+		Map<String,String> yearFromDealing = new HashMap<>();
+		yearFromDealing = taxService.getYearFromDealing(SSTORECODE);
+		model.addAttribute("yearFromDealing", yearFromDealing);		
 		return "tax/gettotalpands";
 	}
 	
@@ -279,14 +272,28 @@ public class TaxController {
 	@ResponseBody
 	public Map<String, Object> getTotalPandS(
 			@RequestParam (value = "nowMonth",required = false)String nowMonth 
+			,@RequestParam(value="firstValue",required = false)String firstValue
+			,@RequestParam(value = "lastValue",required = false)String lastValue
 			, HttpSession session){
 		System.out.println(nowMonth+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(firstValue+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(lastValue+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		Map<String, Object> map = new HashMap<>();
-		
-		map = taxService.getTotalpands(SSTORECODE,nowMonth);
-		System.out.println(map+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			return map;			
+		Map<String, Object> monthMap = new HashMap<>();
+		Map<String, Object> periodMap = new HashMap<>();
+		Map<String, Object> resultMap = new HashMap<>();
+		monthMap.put("SSTORECODE", SSTORECODE);
+		monthMap.put("nowMonth", nowMonth);
+		periodMap.put("SSTORECODE", SSTORECODE);
+		periodMap.put("firstValue", firstValue);
+		periodMap.put("lastValue", lastValue);
+		resultMap = taxService.getTotalpands(monthMap);
+		if(firstValue!= null &&lastValue!=null) {
+			resultMap = taxService.getTotalpandsPeriod(periodMap);
+			System.out.println(resultMap);
+			return resultMap;		
+		}
+		return resultMap;			
 	}
 		
 	@PostMapping("/getmyvat")
