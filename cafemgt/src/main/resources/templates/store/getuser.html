@@ -102,7 +102,7 @@
 												<a class="btn btn-warning btn-sm" th:if="${ul.userPay == 0}"> 정보 추가등록 후 이용 가능</a> 
 											</td>
 											<td>
-												<a class="btn btn-dark btn-sm" th:href="@{/}">삭제</a> 
+												<a class="btn btn-dark btn-sm" th:href="@{/store/deleteMemberUser(memberId=${ul.memberDto.memberId})}">삭제</a> 
 											</td>
 										</tr>
 									</tbody>

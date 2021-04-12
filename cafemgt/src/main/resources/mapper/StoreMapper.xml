@@ -14,8 +14,18 @@
 		<result property="storeInfoAddr2"	 			column="store_info_addr2" />
 		<result property="storeInfoPhone"	 			column="store_info_phone" />
 		<result property="storeInfoRegDate"	 			column="store_info_reg_date" />		
+		<result property="storeInfoDelete"	 			column="store_info_delete" />		
 	</resultMap>
 	
+	<!-- 사업장 삭제 -->
+	<update id="deleteStore" parameterType="String">
+	UPDATE 
+		tb_store_info
+	SET
+		store_info_delete= 'o'
+	WHERE store_info_code = #{storeInfoCode}
+	
+	</update>
 	<!-- 사업장 정보 업데이트 -->
 	<update id="updateStore" parameterType="StoreDto">
 	UPDATE tb_store_info
@@ -45,7 +55,7 @@
 	on
 		m.member_id = s.member_id
 	WHERE s.member_id=#{MID}
-	
+	AND s.store_info_delete = 'x'
 	</select>
 	
 	<!-- store 사업장 등록 + 0401 주소 분리 -->
@@ -60,7 +70,8 @@
 		, store_info_addr
 		, store_info_addr2
 		, store_info_phone
-		, store_info_reg_date)
+		, store_info_reg_date
+		, store_info_delete)
 	VALUES (sf_new_store_info_code()
 			, #{memberId}
 			, #{storeInfoName}
@@ -70,7 +81,8 @@
 			, #{storeInfoAddr}
 			, #{storeInfoAddr2}
 			, #{storeInfoPhone}
-			, NOW())
+			, NOW()
+			, 'x')
 	
 	</insert>
 	
@@ -85,8 +97,10 @@
 			,store_info_addr
 			,store_info_phone
 			,store_info_reg_date
+			,store_info_delete
 		FROM 
 			tb_store_info
+		where store_info_delete = 'x'
 	</select>
 	
 	<!---->
@@ -116,10 +130,12 @@
          , store_info_addr
          , store_info_phone
          , store_info_reg_date
+         , store_info_delete
       FROM 
          tb_store_info
       WHERE 
          member_id =#{MID}
+      AND store_info_delete = 'x'   
    </select>
 		
 	<!-- 마이페이지 사업장(추가) 정보 부분 -->

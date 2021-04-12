@@ -182,7 +182,15 @@ public class StoreController {
 	}
 	
 	
+	//거래처 삭제
+	@GetMapping("/deletecustomer")
+	public String deleteCustomer(String custCode) {
 	
+		customerService.deleteCustomer(custCode);
+		
+		
+		return "redirect:/store/getcustomer";		
+	}
 	@GetMapping("/modifycustomer")
 	public String modifycustomer(Model model,  String custCode, HttpSession session) {
 		System.out.println("거래처 수정 화면 ");
@@ -201,6 +209,16 @@ public class StoreController {
 		customerService.updateCustomer(customerDto);
 		System.out.println(customerDto +"<--customerDto");
 		return "redirect:/store/getcustomer";	
+	}
+	
+	//직원 삭제
+	@GetMapping("/deleteMemberUser")
+	public String deleteMemberUser(String memberId) {
+	
+		userService.deleteMemberUser(memberId);
+		System.out.println(memberId + "<---직원삭제 memberId");
+		
+		return "redirect:/store/getuser";		
 	}
 	
 	@GetMapping("/modifyuser")
@@ -222,6 +240,14 @@ public class StoreController {
 		return "redirect:/store/getuser";		
 	}
 	
+	//사업장 삭제
+	@GetMapping("/deleteStore")
+		public String deleteStore(String storeInfoCode) {		
+			storeService.deleteStore(storeInfoCode);	
+			System.out.println(storeInfoCode);
+			return "redirect:/store/getstore";		
+		}
+
 	@GetMapping("/modifystore")
 	public String modifystore(Model model, HttpSession session) {
 		System.out.println("사업장 수정화면");		
@@ -333,12 +359,11 @@ public class StoreController {
 		return "store/getuser";	
 	}
 	
-	@GetMapping("/getuseradmin")
-	public String getuseradmin(Model model) {
-		List<UserDto> userDtoList = userService.getUseradmin();
-		model.addAttribute("userList", userDtoList);
-		
-		return "admin/getuseradmin";	
+	@GetMapping("/getoutmemberadmin")
+	public String getoutmemberadmin(Model model) {
+		List<MemberDto> memberDtoList = memberService.getoutmemberadmin();
+		model.addAttribute("memberList", memberDtoList);
+		return "admin/getoutmemberadmin";		
 	}
 
 	@GetMapping("/getusermy")
@@ -409,10 +434,13 @@ public class StoreController {
 		
 		return "admin/getstoreadmin";	
 	}
-	
-	
-
-	
-
+	//직원조회 관리자
+   @GetMapping("/getuseradmin")
+   public String getuseradmin(Model model) {
+      List<UserDto> userDtoList = userService.getUseradmin();
+      model.addAttribute("userList", userDtoList);
+      
+      return "admin/getuseradmin";   
+   }
 
 }

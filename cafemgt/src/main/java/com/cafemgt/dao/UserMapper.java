@@ -9,7 +9,8 @@ import com.cafemgt.dto.UserDto;
 @Mapper
 public interface UserMapper {
 	
-	
+	//직원삭제
+	public int deleteMemberUser(String memberId);
 	//직원가입
 	public int addUserjoin1(UserDto userDto);
 	//직원로그인

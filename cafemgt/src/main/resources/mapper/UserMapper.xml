@@ -32,8 +32,19 @@
 				<result property="memberEmail" 		column="member_email" />
 				<result property="memberBirth" 		column="member_birth" />
 				<result property="memberRegDate" 	column="member_reg_date" />
+				<result property="memberOutDate" 	column="member_out_date" />
+				<result property="memberDelete" 	column="member_delete" />
 		</association>
 	</resultMap>
+	
+	<!-- User 삭제  -->
+	<update id="deleteMemberUser" parameterType="String">
+		UPDATE tb_member
+	SET
+		member_out_date =now()
+		,member_delete='o'
+	WHERE member_id=#{memberId}
+	</update>
 	
 	<select id="userLogin" parameterType="String" resultMap="userResulMap">
 		SELECT 
@@ -140,6 +151,7 @@
 		, u.user_agreement
 		, u.user_health_card
 		, u.user_etc
+		, m.member_delete
 		FROM 
 			tb_member AS m
 		LEFT join
@@ -152,6 +164,7 @@
 			tb_store_info AS s
 			ON u.store_info_code = s.store_info_code or s.member_id = m.member_id
 		WHERE m.level_code IN ('level_02','level_03')
+			AND m.member_delete = 'x'
 	</select>
 	<!-- User 직원 조회  -->
 	<select id="getUser" parameterType="String" resultMap="userResulMap">
@@ -171,6 +184,7 @@
 	, u.user_agreement
 	, u.user_health_card
 	, u.user_etc
+	, m.member_delete
 	FROM 
 		tb_member AS m
 	LEFT join
@@ -183,6 +197,7 @@
 		tb_store_info AS s
 		ON u.store_info_code = s.store_info_code or s.member_id = m.member_id
 	WHERE s.store_info_code =#{SSTORECODE} AND m.level_code IN ('level_02','level_03')
+		AND m.member_delete = 'x'
 	</select>
 	<!-- 직원 가입시 사업장 코드 입력 -->
 	<insert id="addUserjoin1" parameterType="UserDto">

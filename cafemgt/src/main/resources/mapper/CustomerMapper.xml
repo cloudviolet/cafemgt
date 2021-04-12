@@ -14,7 +14,16 @@
 		<result property="custPhone" 			column="cust_phone"/>
 		<result property="custEtc" 				column="cust_etc"/>
 		<result property="custRegDate" 			column="cust_reg_date"/>
+		<result property="custDelete" 			column="cust_delete"/>
 	</resultMap>
+	<!-- 거래처 삭제  -->
+	<update id="deleteCustomer" parameterType="String">
+	UPDATE tb_customer
+	SET
+		cust_delete='o'
+	WHERE cust_code = #{custCode}	
+	</update>
+	
 	<!-- 거래처 업데이트 -->
 	<update id="updateCustomer" parameterType="CustomerDto">
 	UPDATE
@@ -42,7 +51,8 @@
 		, cust_owner_name
 		, cust_phone
 		, cust_etc
-		, cust_reg_date)
+		, cust_reg_date
+		, cust_delete)
 	VALUES (sf_new_cust_code()
 				, #{storeInfoCode}
 				, #{custNumber}
@@ -51,7 +61,9 @@
 				, #{custOwnerName}
 				, #{custPhone}
 				, #{custEtc}
-				, NOW())
+				, NOW()
+				,'x'
+				)
 	</insert>
 	
 	<!-- 거래처 수정에서 정보가져오는 쿼리 -->
@@ -87,6 +99,7 @@
 		,cr.cust_phone
 		,cr.cust_etc
 		,cr.cust_reg_date
+		,cr.cust_delete
 	FROM 
 		tb_customer AS cr
 		LEFT join
@@ -95,5 +108,7 @@
 		cr.store_info_code = st.store_info_code
 	WHERE
 		st.store_info_code= #{SSTORECODE}
+	AND
+		cr.cust_delete = 'x'
 	</select>
 </mapper>

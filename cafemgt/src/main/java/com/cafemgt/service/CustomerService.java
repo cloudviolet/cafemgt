@@ -19,6 +19,10 @@ public class CustomerService {
 		this.customerMapper = customerMapper;
 	}
 	
+	//거래처 삭제
+	public int deleteCustomer(String custCode) {
+		return customerMapper.deleteCustomer(custCode);
+	}
 	//거래처 수정
 	public int updateCustomer(CustomerDto customerDto) {
 		return customerMapper.updateCustomer(customerDto);

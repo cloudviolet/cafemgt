@@ -18,6 +18,10 @@ public class StoreService {
 	public StoreService(StoreMapper storeMapper) {
 		this.storeMapper = storeMapper;
 	}
+	//사업장 삭제
+	public int deleteStore(String SSTORECODE) {
+		return storeMapper.deleteStore(SSTORECODE);
+	}
 	//사업장 수정
 	public int updateStore(StoreDto storeDto) {
 		return storeMapper.updateStore(storeDto);
