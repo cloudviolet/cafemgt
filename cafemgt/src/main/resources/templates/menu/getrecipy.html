@@ -80,7 +80,7 @@
 													<span><a class="btn btn-primary btn-sm" th:href="@{/menu/modifyRecipy(conCode=${rl.conCode})}">수정</a></span>
 												</td>
 												<td>
-													<span><a class="btn btn-dark btn-sm" th:href="@{/menu/removeRecipy(conCode=${rl.conCode})}">삭제</a></span>
+													<button class="conCode btn btn-dark btn-sm" th:data-conCode="${rl.conCode}" data-toggle="modal" data-target="#myModal" >삭제</button>
 												</td>
 											</tr>
 										</tbody>
@@ -91,6 +91,23 @@
 					</div>
 				</div>
 			</div>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+							<h4 class="modal-title">삭제 경고</h4>
+						</div>
+						<div class="modal-body">
+							<h5>삭제하시겠습니까 ?</h5>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-primary" id="removeBtn">삭제</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
@@ -110,5 +127,18 @@
 		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+		<script>
+			var conCode = null;
+			
+			$('.conCode').click(function(){
+				conCode = $(this).attr('data-conCode');
+			});
+			$('#removeBtn').click(function(){
+				console.log(conCode);
+				if(conCode != null){
+					location.href ="/menu/removeRecipy?conCode="+conCode;
+				}
+			});
+		</script>
 	</th:block>
 </html>

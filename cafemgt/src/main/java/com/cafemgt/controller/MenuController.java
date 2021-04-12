@@ -141,7 +141,6 @@ public class MenuController {
 	@GetMapping("/removeRecipy")
 	public String removeRecipy(@RequestParam (value="conCode", required = false) String conCode) {
 		recipyService.removeRecipy(conCode);
-		
 		return "redirect:/menu/getRecipy";
 	}
 	
