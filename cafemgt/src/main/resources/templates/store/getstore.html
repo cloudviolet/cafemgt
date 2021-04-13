@@ -79,14 +79,14 @@
 										<td th:text="${sl.storeInfoName}">
 										<td th:text="${sl.storeInfoLicenseNumber}">
 										<td th:text="${sl.storeInfoIndustryType}">
-										<td th:text="${sl.storeInfoAddr}">
+										<td th:text="${sl.storeInfoAddr}+'    '+${sl.storeInfoAddr2}">
 										<td th:text="${sl.storeInfoPhone}">
 										<td th:text="${sl.storeInfoRegDate}">
 										<td>
 											<a class="btn btn-primary btn-sm" th:href="@{/store/modifystore}">수정</a> 
 										</td>
 										<td>
-											<a class="btn btn-dark btn-sm" th:href="@{/store/deleteStore(storeInfoCode=${sl.storeInfoCode})}">삭제</a> 
+											<button class="storeInfoCode btn btn-dark btn-sm" th:data-storeInfoCode="${sl.storeInfoCode}" data-toggle="modal" data-target="#myModal" >삭제</button>
 										</td>
 										</tr>
 									</tbody>
@@ -97,32 +97,55 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+							<h6 class="modal-title">삭제 경고</h6>
+						</div>
+						<div class="modal-body">
+							<h6>삭제하시겠습니까 ?</h6>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-danger" id="removeBtn">삭제</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 	</div>
 </th:block>
 <th:block layout:fragment="customJs">
 	<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
 	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
 	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
 	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
-	<script
-		th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
 	<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
 	<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
 	<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+	
+	<script type="text/javascript">
+		var storeInfoCode = null;
+	
+		$('.storeInfoCode').click(function(){
+			storeInfoCode = $(this).attr('data-storeInfoCode');
+		});
+		$('#removeBtn').click(function(){
+			console.log(storeInfoCode);
+			if(storeInfoCode != null){
+				location.href ="/store/deleteStore?storeInfoCode="+storeInfoCode;
+			}
+		});
+	</script>
 </th:block>
 
 

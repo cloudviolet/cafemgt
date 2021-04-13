@@ -54,7 +54,7 @@
                       <h3 class="col-lg-10 col-md-12 col-sm-12"><a th:text="${ml.memberName}"></a></h3>
 
                       <ul class="list-unstyled user_data">
-                        <li class="col-lg-10 col-md-12 col-sm-12"><i class="fa fa-map-marker user-profile-icon"></i> <a th:text="${sl.storeInfoAddr}"></a></li>
+                        <li class="col-lg-10 col-md-12 col-sm-12"><i class="fa fa-map-marker user-profile-icon"></i> <a th:text="${sl.storeInfoAddr}+'    '+${sl.storeInfoAddr2}"></a></li>
 
                         <li class="col-lg-10 col-md-12 col-sm-12">
                           <i class="fa fa-briefcase user-profile-icon"></i> Software Engineer
@@ -146,7 +146,7 @@
                                 </tr>
                                 <tr>
                                   <td class="col-md-2 col-sm-2"><strong>주소지</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoAddr}">
+                                  <td class="col-md-4 col-sm-4" th:text="'('+${sl.storeInfoZipCode}+')'+' '+${sl.storeInfoAddr}+'    '+${sl.storeInfoAddr2}">
                                 </tr>
                                 <tr>
                                   <td class="col-md-2 col-sm-2"><strong>사업장 연락처</strong></td>

@@ -111,7 +111,9 @@
          , store_info_name
          , store_info_license_number
          , store_info_industry_type
+         , store_info_zip_code
          , store_info_addr
+         , store_info_addr2
          , store_info_phone
          , store_info_reg_date
       FROM 
@@ -128,6 +130,7 @@
          , store_info_license_number
          , store_info_industry_type
          , store_info_addr
+         , store_info_addr2
          , store_info_phone
          , store_info_reg_date
          , store_info_delete
@@ -146,7 +149,9 @@
          , store_info_name
          , store_info_license_number
          , store_info_industry_type
+         , store_info_zip_code
          , store_info_addr
+         , store_info_addr2         
          , store_info_phone
          , store_info_reg_date
       FROM 

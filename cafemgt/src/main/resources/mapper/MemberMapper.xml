@@ -27,6 +27,7 @@
 	FROM 
 		tb_store_info
 	WHERE member_id=#{MID}
+	AND store_info_delete = 'x'
 	</select>
 	
 	<!-- 가입년도 -->
