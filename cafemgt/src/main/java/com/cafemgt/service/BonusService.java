@@ -30,4 +30,13 @@ public class BonusService {
 		
 		return bonusMapper.addBonus(bonusDto);
 	}
+	public BonusDto getBonusByUbCode(String ubCode) {
+		
+		return bonusMapper.getBonusByUbCode(ubCode);
+	}
+	
+	public int modifyBonus(BonusDto bonusDto) {
+		
+		return bonusMapper.modifyBonus(bonusDto);
+	}
 }

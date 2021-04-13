@@ -17,6 +17,42 @@
 		<result property="ubRegDate" 		column="ub_reg_date"/>
 	</resultMap>
 	
+	<update id="modifyBonus" parameterType="BonusDto">
+		UPDATE tb_user_bonus
+			SET
+				ub_year_month=#{ubYearMonth}
+				, ub_option=#{ubOption}
+				, ub_pay=#{ubPay}
+				, ub_etc=#{ubEtc}
+			WHERE ub_code=#{ubCode}
+	</update>
+	
+	<select id="getBonusByUbCode" parameterType="String" resultMap="bonusResultMap">
+		SELECT
+			ub.ub_code
+			,st.store_info_code
+			,st.store_info_name
+			,us.member_id
+			,us.member_name
+			,ub.ub_year_month
+			,ub.ub_option
+			,ub.ub_pay
+			,ub.ub_etc
+			,ub.ub_reg_date
+		FROM
+			tb_user_bonus AS ub
+		LEFT JOIN
+			tb_store_info AS st
+		ON
+			ub.store_info_code = st.store_info_code
+		LEFT JOIN
+			tb_member AS us
+		ON
+			ub.member_id = us.member_id
+		WHERE
+			ub_code=#{ubCode}
+	</select>
+	
 	<insert id="addBonus" parameterType="BonusDto">
 	INSERT INTO tb_user_bonus
 	(ub_code

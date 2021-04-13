@@ -48,7 +48,6 @@ public class SalaryController {
 		System.out.println("======================================");
 	}
 	
-	
 	@GetMapping("/addsalary")
 	public String addsalary(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -63,7 +62,6 @@ public class SalaryController {
 		return "redirect:/salary/getsalary";
 	}
 	
-	
 	@GetMapping("/getsalary")
 	public String getsalary(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -72,8 +70,6 @@ public class SalaryController {
 		
 		return "salary/getsalary";
 	}
-	
-	
 	
 	@GetMapping("/adddsalary")
 	public String adddsalary(Model model,HttpSession session) {
@@ -185,5 +181,18 @@ public class SalaryController {
 	public String modifyWtime(WtimeDto wtimeDto) {
 		wtimeService.modifyWtime(wtimeDto);
 		return "redirect:/salary/getwtime";
+	}
+	
+	@GetMapping("/modifyBonus")
+	public String modifyBonus(Model model, String ubCode) {
+		BonusDto bonusDto = bonusService.getBonusByUbCode(ubCode);
+		model.addAttribute("bonusDto",bonusDto);
+		return "bonus/modifybonus";
+	}
+	
+	@PostMapping("/modifyBonus")
+	public String modifyBonus(BonusDto bonusDto) {
+		bonusService.modifyBonus(bonusDto);
+		return "redirect:/salary/getbonus";
 	}
 }

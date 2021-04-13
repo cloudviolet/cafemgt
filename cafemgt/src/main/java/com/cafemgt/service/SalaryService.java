@@ -39,7 +39,4 @@ public class SalaryService {
 		
 		return salaryMapper.addSalary(salaryDto);
 	}
-	
-	
-	
 }

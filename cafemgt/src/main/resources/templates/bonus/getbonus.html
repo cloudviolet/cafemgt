@@ -65,6 +65,8 @@
 											<th>금액</th>
 											<th>상세</th>
 											<th>등록날짜</th>
+											<th>수정</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -78,6 +80,12 @@
 											<td th:text="${slr.ubPay}">
 											<td th:text="${slr.ubEtc}">
 											<td th:text="${slr.ubRegDate}">
+											<td>
+												<a class="btn btn-primary btn-sm" th:href="@{/salary/modifyBonus(ubCode=${slr.ubCode})}">수정</a>
+											</td>
+											<td>
+												<a class="btn btn-primary btn-sm" >삭제</a>
+											</td>
 										</tr>
 									</tbody>
 								</table>
