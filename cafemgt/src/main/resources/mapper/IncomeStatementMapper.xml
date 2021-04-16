@@ -4,6 +4,101 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafemgt.dao.IncomeStatementMapper">
 	<resultMap type="IncomeStatementDto" id="IncomeStatementDtoResultMap">
-		<result property="" column=""/>
+		<result property="instPurchaseCode" column="inst_purchase_code"/>
+		<result property="storeInfoCode" column="store_info_code"/>
+		<result property="instYear" column="inst_year"/>
+		<result property="instUniqueCode" column="inst_unique_code"/>
+		<result property="instSaleSupplyValue" column="inst_sale_supply_value"/>
+		<result property="instPurchaseSupplyValue" column="inst_purchase_supply_value"/>
+		<result property="instSalesAmtTotal" column="inst_sales_amt_total"/>
+		<result property="instExpenses" column="inst_expenses"/>
+		<result property="instOp" column="inst_op"/>
+		<result property="instNoi" column="inst_noi"/>
+		<result property="instNoe" column="inst_noe"/>
+		<result property="instNetIncome" column="inst_net_income"/>
 	</resultMap>
+	
+	<select id="getIncomeStatement" parameterType="String" resultMap="IncomeStatementDtoResultMap">
+		SELECT 
+			 inst_code	
+			,store_info_code
+			,inst_year
+			,inst_unique_code
+			,inst_sale_supply_value
+			,inst_purchase_supply_value
+			,inst_sales_amt_total
+			,inst_expenses
+			,inst_op
+			,inst_noi
+			,inst_noe
+			,inst_net_income
+		FROM 
+			tb_income_statement
+		WHERE
+			store_info_code = #{SSTORECODE}
+		AND 
+			<if test="searchYear == null">
+				inst_year = DATE_FORMAT(NOW(),'%Y')
+			</if>
+			<if test="searchYear != null">
+				inst_year = #{searchYear}
+			</if>
+	</select>
+	
+	<insert id="addIncomeStatement" parameterType="IncomeStatementDto">
+		INSERT INTO tb_income_statement(
+				inst_code
+				,store_info_code
+				,inst_year
+				,inst_unique_code
+				,inst_sale_supply_value
+				,inst_purchase_supply_value
+				,inst_sales_amt_total
+				,inst_expenses
+				,inst_op
+				,inst_noi
+				,inst_noe
+				,inst_net_income
+				)
+			VALUES 
+				(sf_new_inst_code()
+				,#{storeInfoCode}
+				,#{instYear}
+				,#{instUniqueCode}
+				,${instSaleSupplyValue}
+				,${instPurchaseSupplyValue}
+				,${instSalesAmtTotal}
+				,${instExpenses}
+				,${instOp}
+				,0
+				,0
+				,inst_op+inst_noi-inst_noe
+				)
+			ON DUPLICATE KEY UPDATE 
+				 store_info_code = #{storeInfoCode}
+				,inst_unique_code = #{instUniqueCode}
+				,inst_sale_supply_value = ${instSaleSupplyValue}
+				,inst_purchase_supply_value = ${instPurchaseSupplyValue}
+				,inst_sales_amt_total= ${instSalesAmtTotal}
+				,inst_expenses= ${instExpenses}
+				,inst_op= ${instOp}
+				,inst_noi= ${instNoi}
+				,inst_noe= ${instNoe}
+				,inst_net_income= inst_op+inst_noi-inst_noe;
+	</insert>
+	
+	<select id="getIncomeStatementByDealing" resultMap="IncomeStatementDtoResultMap">
+		SELECT
+			 d.store_info_code AS 'store_info_code'
+			,DATE_FORMAT(d.deal_date,'%Y') AS 'inst_year'
+			,CONCAT(d.store_info_code,'_',DATE_FORMAT(d.deal_date,'%Y')) AS 'inst_unique_code'
+			,SUM(if(d.deal_cate ='매출',d.deal_supply_value,0)) AS 'inst_sale_supply_value'
+			,SUM(if(d.deal_cate='매입',d.deal_supply_value,0)) AS 'inst_purchase_supply_value'
+			,SUM(if(d.deal_cate ='매출',d.deal_supply_value,0))-SUM(if(d.deal_cate='매입',d.deal_supply_value,0)) AS 'inst_sales_amt_total'
+			,SUM(if(d.deal_cate= '기타매입',d.deal_supply_value,0)) AS 'inst_expenses'
+			,SUM(if(d.deal_cate ='매출',d.deal_supply_value,0))-SUM(if(d.deal_cate='매입',d.deal_supply_value,0))-SUM(if(d.deal_cate= '기타매입',d.deal_supply_value,0)) AS 'inst_op'
+		FROM
+			tb_dealing AS d	
+		GROUP BY d.store_info_code, inst_year
+	</select>
 </mapper>

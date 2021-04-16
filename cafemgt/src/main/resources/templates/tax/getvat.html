@@ -21,30 +21,25 @@
 	                    	</li>
 						</ul>
 						<!-- 중간예납 등록 모달 -->
-						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h4 class="modal-title" id="myModalLabel">중간예납 등록</h4>
 						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						      </div>
-						      <div class="row modal-body">
-								<form class="form-inline">
-									<div class="form-group">
-										<select name="year" id="intendedYear" title="년도" class="custom-select"></select>
-									</div>
-									<div class="form-group">
-										<select id="intendedMonth" class="custom-select">					      	
-											<option value="">해당분기</option>
-											<option value="1기">1기</option>
-											<option value="2기">2기</option>
-										</select>
-									</div>
-									<div class="form-group">
-										<input type="text" class="form-control" id="vatIntendedTax" placeholder="중간예납금액">
-										<label for="vatIntendedTax"> 원</label>
-									</div>
-								</form>							   
+						      <div class="row modal-body">										
+									<input type="hidden" id="intendedYearMonth">									
+									<div class="form-group col-md-12">
+										<form>
+											<div class="col-md-11">
+												<input type="text" class="form-control" id="vatIntendedTax" placeholder="중간예납금액">
+											</div>			
+											<div class="col-md-1">
+												<label for="vatIntendedTax" style="position:relative; top: 8px;"> 원</label>
+											</div>							
+										</form>
+									</div>						   
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
@@ -53,29 +48,33 @@
 						    </div>
 						  </div>
 						</div>
+						<!-- 모달 끝 -->						
 						<div class="clearfix"></div>
 					</div>
+					
+					<!-- 부가세 예상조회페이지 -->
 					<div class="x_content">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="card-box table-responsive">
 									<p class="text-muted font-13 m-b-30">
-										여기에 설명써주시면됩니다.
 										<code>강조!</code>
 									</p>
-							<div class="col-label col-md-4 col-sm-4">				
-						      	<select name="year" id="year" title="년도" class="custom-select"></select>
-						    </div>
-						    <div class="col-label col-md-4 col-sm-4">
-						      	<select id="month" class="custom-select">					      	
-						      		<option value="">분기</option>
-						      		<option value="1기">1기</option>
-						      		<option value="2기">2기</option>
-						      	</select>
-						   </div>
-						     <div class="col-label col-md-2 col-sm-2">
-						      	<button  type="button" id="forVatBtn" class="btn btn-info">검색</button>
-						     </div>					      
+								<div style="margin-left: 15%;">								
+										<div class="col-label col-md-6 col-sm-6">				
+									      	<select name="year" id="year" title="년도" class="custom-select"></select>
+									    </div>
+									    <div class="col-label col-md-3 col-sm-3">
+									      	<select id="month" class="custom-select">					      	
+									      		<option value="">분기</option>
+									      		<option value="1기">1기</option>
+									      		<option value="2기">2기</option>
+									      	</select>
+									   </div>
+									     <div class="col-label col-md-3 col-sm-3">
+									      	<button  type="button" id="forVatBtn" class="btn btn-info">검색</button>
+									     </div>					      
+							
 					      <div class="col-label col-md-6 col-sm-6 label-align" style="font-size: large; line-height: 50px;">
 						      <div id="vatTitle"></div>
 						      <div id="getSalesTotal"></div>
@@ -87,6 +86,7 @@
 						      <div id="getIntendedTax"></div>
 						      <div id="i"></div>
 					      </div>
+									</div>		
 								</div>
 							</div>
 						</div>
@@ -98,7 +98,11 @@
 	
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript">
+		    var MNAME = ('[[${MNAME}]]');
 			var year = $('#year');
+			var month = $('#month');
+	    	var intendedYearMonth =  $('#intendedYearMonth');
+			
 		    $(document).ready(function(){
 		    	//가입년도 가져오기.
 			    var getYear = Number('[[${getYear}]]');		    	
@@ -111,28 +115,27 @@
 		        console.log(yearInt);
 		        //뿌려주기
 		    	year.append("<option value=''>해당 년도를 선택해주세요.</option>");
-		    	$('#intendedYear').append("<option value=''>해당 년도</option>");
 		    	//올해기준으로 가입년도까지 보여주기
 		    	for(var y = (Nowyear); y >= (Nowyear-yearInt); y--){
 		    		year.append("<option value='"+y+"'>"+y+"년"+"</option>");
-		    		$('#intendedYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
 		    	}
+		    	$('#middleAdd').hide();
 		    });	
 		    
-		    var MNAME = ('[[${MNAME}]]');
-			var yearValue = $('#year');
-			var monthValue = $('#month');
 		    //부가세 조회버튼 
-		    $('#forVatBtn').click(function(){
-				var searchDays = yearValue.val()+"년"+monthValue.val();
+		    $('#forVatBtn').click(function(){		    	
+				var searchDays = year.val()+"년"+month.val();
 				console.log(searchDays);
+				intendedYearMonth.val(searchDays);
+				console.log(intendedYearMonth.val()+'~~~~~~~~~~~')				
 				var request = $.ajax({
-					url: "getmyvat", 
+					url: "getvat", 
 					method: "POST",
-					data: { searchDays : searchDays},
+					data: { searchDays : searchDays },
 					dataType: "json"
 				,
-		        success : function(vatResult) {
+		        success : function(vatResult) {	    
+		        	$('#middleAdd').show();
 		        	console.log(vatResult,"<><<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		        	var vatCode = vatResult.vatCode;
 		        	var StoreInfoCode = vatResult.StoreInfoCode;
@@ -156,58 +159,51 @@
 		        	$('#getPurchasesTotal').text('매입총공급합계:  '+VatPurchasesTotal+'원');
 		        	$('#getPurchasesSupply').text('매입총공급가액:  '+VatSalesTax+'원');
 		        	$('#getPurchasesTax').text('매입총공급세액:  '+VatPurchaseSupplyValue+'원');
-		        	$('#getIntendedTax').text('중간예납금액:  '+VatIntendedTax+'원');
+		        	$('#getIntendedTax').text('중간예납금액:  '+VatIntendedTax+'원');		        	
 		        },
 		        error : function(xhr,status,error) {
 		        	console.log("xhr: " + xhr);
 		        	console.log("status: " + status);
 		        	console.log("error: " + error);
-		        	 $('#chartTable').hide();
 		        }
 				});
 		    });
-
+		    
 		    //중간예납등록버튼
 		    $('#addIntendedTax').click(function(){
-		    	var intendedYearValue =  $('#intendedYearValue').val();
-				var intendedMonthValue = $('#intendedMonth').val(monthValue.val());
-				var intendedDays = intendedYearValue+"년"+intendedMonthValue;
-				var vatIntendedTax = $('#vatIntendedTax').val();
-				console.log(intendedDays);
-				if(vatIntendedTax==''){
+				var vatIntendedTaxValue = $('#vatIntendedTax').val();
+				if(vatIntendedTaxValue==''){
 					alert('중간예납금액을 입력해주세요.');
 				}else{					
 					var request = $.ajax({
 						url: "addintendedtax", 
 						method: "POST",
-						data: { intendedDays : intendedDays,
-								vatIntendedTax : vatIntendedTax},
+						data: { intendedYearMonth : intendedYearMonth.val(),
+								vatIntendedTaxValue : vatIntendedTaxValue},
 						dataType: "json"
 					,
 			        success : function(intendedResult) {
 			        	if(intendedResult){
-			        		alert(intendedDays+' 중간예납금액 '+vatIntendedTax+'원이 등록되었습니다.');
+			        		alert(intendedYearMonth.val()+' 중간예납금액 '+vatIntendedTaxValue+'원이 등록되었습니다.');
 			        		$('#myModal').modal('hide');
 			        		$('#myModal').find('form')[0].reset();
 			        		$('#forVatBtn').trigger('click');
 			        	}else{
 			        		alert('중간예납금액등록에 실패하였습니다.');
+			        		$('#myModal').find('form')[0].reset();
+			        		$('#myModal').modal('hide');
 			        	}
 			        },
 			        error : function(xhr,status,error) {
 			        	console.log("xhr: " + xhr);
 			        	console.log("status: " + status);
 			        	console.log("error: " + error);
-			        	 $('#chartTable').hide();
 			        }
 					});
 				}
 			    });
 		    
-		    $('#middleAdd').click(function(){
-		    	var intendedYearValue = null;
-		    	console.log( yearValue.val());
-		    });
+		    
 		</script>
 	</th:block>
 </html>

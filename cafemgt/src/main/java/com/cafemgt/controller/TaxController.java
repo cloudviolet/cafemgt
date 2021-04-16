@@ -75,7 +75,7 @@ public class TaxController {
 	}
 	
 	@GetMapping("/addsales")
-	public String addsales(Model model, HttpSession session) {
+	public String addSales(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		String MID = (String)session.getAttribute("MID");
 		String MNAME = (String)session.getAttribute("MNAME");
@@ -93,7 +93,7 @@ public class TaxController {
 	}
 	
 	@GetMapping("/addpurchases")
-	public String addpurchases(Model model, HttpSession session) {
+	public String addPurchases(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		String MID = (String)session.getAttribute("MID");
 		String MNAME = (String)session.getAttribute("MNAME");
@@ -191,7 +191,7 @@ public class TaxController {
 		return "pands/salesdeadlinefortax";
 	}
 	
-	@PostMapping("/salesDeadlineForTax")
+	@PostMapping("/salesdeadlinefortax")
 	@ResponseBody
 	public String salesDeadlineForTax(@RequestParam(value = "arraySales[]",required = false)List<String> arraySales
 									  ,HttpSession session) {
@@ -296,7 +296,7 @@ public class TaxController {
 		return resultMap;			
 	}
 		
-	@PostMapping("/getmyvat")
+	@PostMapping("/getvat")
 	@ResponseBody
 	public VatDto getMyVat( @RequestParam(value = "searchDays", required = false)String searchDays 
 						   ,HttpSession session){
@@ -318,11 +318,11 @@ public class TaxController {
 	
 	@PostMapping("/addintendedtax")
 	@ResponseBody
-	public boolean addIntendedTax(@RequestParam(value = "intendedDays",required = false)String intendedDays
-								 ,@RequestParam(value = "vatIntendedTax",required = false)String vatIntendedTax
+	public boolean addIntendedTax(@RequestParam(value = "intendedYearMonth",required = false)String intendedYearMonth
+								 ,@RequestParam(value = "vatIntendedTaxValue",required = false)String vatIntendedTaxValue
 								 ,HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");	
-		int result = taxService.addIntendedTax(intendedDays,vatIntendedTax,SSTORECODE);
+		int result = taxService.addIntendedTax(intendedYearMonth,vatIntendedTaxValue,SSTORECODE);
 		System.out.println(result);
 		boolean addIntendedTaxResult = false;
 		if(result==1) {
