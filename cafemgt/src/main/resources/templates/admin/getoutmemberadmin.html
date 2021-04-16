@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-		<title>사업장 조회</title>
+	<title>탈퇴회원 조회</title>
 </th:block>
 
 <th:block layout:fragment="customCss">
@@ -21,7 +21,7 @@
 		<div class="col-md-12 col-sm-12 ">
 			<div class="x_panel">
 				 <div class="x_title">
-                    <h2>사업장 조회</h2>
+                    <h2>탈퇴회원(관리자) 조회</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li>
 							<a class="collapse-link">
@@ -58,33 +58,34 @@
 									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th>no.</th>
-											<th>사업장코드</th>
 											<th>아이디</th>
+											<th>이름</th>
+											<th>회원 구분</th>
 											<th>상호명</th>
-											<th>사업자번호</th>
-											<th>업종</th>
-											<th>주소지</th>
-											<th>전화번호</th>
-											<th>등록일</th>
+											<th>핸드폰 번호</th>
+											<th>이메일</th>
+											<th>생년월일</th>	
+											<th>등록날짜</th>
+											<th>탈퇴날짜</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="sl,index : ${storeDtoList}">
-										<td th:text ="${index.count}"></td>
-										<td th:text="${sl.storeInfoCode}">
-										<td th:text="${sl.memberId}">
-										<td th:text="${sl.storeInfoName}">
-										<td th:text="${sl.storeInfoLicenseNumber}">
-										<td th:text="${sl.storeInfoIndustryType}">
-										<td th:text="${sl.storeInfoAddr}">
-										<td th:text="${sl.storeInfoPhone}">
-										<td th:text="${sl.storeInfoRegDate}">
+										<tr th:each="ml : ${memberList}">
+											<td th:text="${ml.memberId}">
+											<td th:text="${ml.memberName}">								 		
+											<td th:text="${ml.levelName}">
+											<td th:text="${ml.storeInfoName}">
+											<td th:text="${ml.memberPhone}">
+											<td th:text="${ml.memberEmail}">
+											<td th:text="${ml.memberBirth}">
+											<td th:text="${ml.memberRegDate}">
+											<td th:text="${ml.memberOutDate}">
 										</tr>
 									</tbody>
 								</table>								
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</div>

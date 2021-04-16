@@ -16,8 +16,10 @@ public interface MemberMapper {
 	public List<MemberDto> addMemberUser(String SSTORECODE);
 	
 	public int addUserjoin(MemberDto memberDto);
-	
+	//관리자 회원조회
 	public List<MemberDto> getMemberadmin();
+	//관리자 탈퇴회원조회
+	public List<MemberDto> getoutmemberadmin();
 	
 	public int updateMemberMy(MemberDto memberDto);
 	

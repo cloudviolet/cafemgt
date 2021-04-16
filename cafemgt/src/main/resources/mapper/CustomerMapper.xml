@@ -14,7 +14,32 @@
 		<result property="custPhone" 			column="cust_phone"/>
 		<result property="custEtc" 				column="cust_etc"/>
 		<result property="custRegDate" 			column="cust_reg_date"/>
+		<result property="custDelete" 			column="cust_delete"/>
 	</resultMap>
+	<!-- 거래처 삭제  -->
+	<update id="deleteCustomer" parameterType="String">
+	UPDATE tb_customer
+	SET
+		cust_delete='o'
+	WHERE cust_code = #{custCode}	
+	</update>
+	
+	<!-- 거래처 업데이트 -->
+	<update id="updateCustomer" parameterType="CustomerDto">
+	UPDATE
+		tb_customer
+	SET
+		cust_number= #{custNumber},
+		cust_name= #{custName},
+		cust_business_type= #{custBusinessType},
+		cust_owner_name= #{custOwnerName},
+		cust_phone= #{custPhone},
+		cust_etc= #{custEtc}
+	WHERE cust_code=#{custCode}
+	
+	
+	</update>
+	
 	<!-- 거래처 등록 -->
 	<insert id="addCustomer" parameterType="CustomerDto">
 	INSERT INTO tb_customer
@@ -26,7 +51,8 @@
 		, cust_owner_name
 		, cust_phone
 		, cust_etc
-		, cust_reg_date)
+		, cust_reg_date
+		, cust_delete)
 	VALUES (sf_new_cust_code()
 				, #{storeInfoCode}
 				, #{custNumber}
@@ -35,11 +61,13 @@
 				, #{custOwnerName}
 				, #{custPhone}
 				, #{custEtc}
-				, NOW())
+				, NOW()
+				,'x'
+				)
 	</insert>
 	
-	<!-- 거래처 조회 -->
-	<select id="getCustomer" resultMap="customerResulMap">
+	<!-- 거래처 수정에서 정보가져오는 쿼리 -->
+	<select id="getinfoCustomer" resultMap="customerResulMap">
 	SELECT 
 		cr.cust_code
 		,st.store_info_code
@@ -57,6 +85,30 @@
 		on
 		cr.store_info_code = st.store_info_code
 	WHERE
+		cust_code= #{custCode}
+	</select>
+	<!-- 거래처 조회 -->
+	<select id="getCustomer" resultMap="customerResulMap">
+	SELECT 
+		cr.cust_code
+		,st.store_info_code
+		,cr.cust_number
+		,cr.cust_name
+		,cr.cust_business_type
+		,cr.cust_owner_name
+		,cr.cust_phone
+		,cr.cust_etc
+		,cr.cust_reg_date
+		,cr.cust_delete
+	FROM 
+		tb_customer AS cr
+		LEFT join
+		tb_store_info AS st
+		on
+		cr.store_info_code = st.store_info_code
+	WHERE
 		st.store_info_code= #{SSTORECODE}
+	AND
+		cr.cust_delete = 'x'
 	</select>
 </mapper>

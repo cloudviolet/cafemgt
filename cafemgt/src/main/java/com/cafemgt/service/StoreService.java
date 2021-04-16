@@ -18,6 +18,15 @@ public class StoreService {
 	public StoreService(StoreMapper storeMapper) {
 		this.storeMapper = storeMapper;
 	}
+	//사업장 삭제
+	public int deleteStore(String SSTORECODE) {
+		return storeMapper.deleteStore(SSTORECODE);
+	}
+	//사업장 수정
+	public int updateStore(StoreDto storeDto) {
+		return storeMapper.updateStore(storeDto);
+	}
+	
 	// 사업장 등록
 	public int addStore(StoreDto storeDto) {
 		System.out.println("사업장 등록서비스 확인");
@@ -34,6 +43,11 @@ public class StoreService {
 		List<StoreDto> storeDtoList = storeMapper.getStoreadmin();
 		
 		return storeDtoList;
+	}
+	//
+	public StoreDto getinfoStore(String SSTORECODE){
+		return storeMapper.getinfoStore(SSTORECODE);	
+		
 	}
 	//사업장 관리에서 사업장 조회
 	public List<StoreDto> getStore(String MID){
