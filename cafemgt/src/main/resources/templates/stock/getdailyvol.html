@@ -71,7 +71,7 @@
 										<tbody>
 											<tr th:if="${#lists.size(dailyVolList)>0}" th:each="dvl : ${dailyVolList}">
 											<!-- 
-												<td th:text="${dvl.dailyvolCode}"></td>
+												<td th:text="${dvl.dailyvolCode}+" "+${dvl.dailyvolCode}"></td>
 												<td th:text="${dvl.storeInfoCode}"></td>
 												<td th:text="${dvl.storeInfoName}"></td>
 												<td th:text="${dvl.menuCode}"></td>
