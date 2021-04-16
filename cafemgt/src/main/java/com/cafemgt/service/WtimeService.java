@@ -38,4 +38,9 @@ public class WtimeService {
 			
 		return wtimeMapper.addWtime(wtimeDto);
 	}
+	
+	public int removeWtime(String attCode) {
+		
+		return wtimeMapper.removeWtime(attCode);
+	}
 }

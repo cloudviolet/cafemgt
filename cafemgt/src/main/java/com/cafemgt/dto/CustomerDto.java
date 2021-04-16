@@ -10,6 +10,7 @@ public class CustomerDto {
 	private String custPhone;
 	private String custEtc;
 	private String custRegDate;
+	private String custDelete;
 	public String getCustCode() {
 		return custCode;
 	}
@@ -64,29 +65,11 @@ public class CustomerDto {
 	public void setCustRegDate(String custRegDate) {
 		this.custRegDate = custRegDate;
 	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("CustomerDto [custCode=");
-		builder.append(custCode);
-		builder.append(", storeInfoCode=");
-		builder.append(storeInfoCode);
-		builder.append(", custNumber=");
-		builder.append(custNumber);
-		builder.append(", custName=");
-		builder.append(custName);
-		builder.append(", custBusinessType=");
-		builder.append(custBusinessType);
-		builder.append(", custOwnerName=");
-		builder.append(custOwnerName);
-		builder.append(", custPhone=");
-		builder.append(custPhone);
-		builder.append(", custEtc=");
-		builder.append(custEtc);
-		builder.append(", custRegDate=");
-		builder.append(custRegDate);
-		builder.append("]");
-		return builder.toString();
+	public String getCustDelete() {
+		return custDelete;
+	}
+	public void setCustDelete(String custDelete) {
+		this.custDelete = custDelete;
 	}
 	@Override
 	public int hashCode() {
@@ -94,6 +77,7 @@ public class CustomerDto {
 		int result = 1;
 		result = prime * result + ((custBusinessType == null) ? 0 : custBusinessType.hashCode());
 		result = prime * result + ((custCode == null) ? 0 : custCode.hashCode());
+		result = prime * result + ((custDelete == null) ? 0 : custDelete.hashCode());
 		result = prime * result + ((custEtc == null) ? 0 : custEtc.hashCode());
 		result = prime * result + ((custName == null) ? 0 : custName.hashCode());
 		result = prime * result + ((custNumber == null) ? 0 : custNumber.hashCode());
@@ -121,6 +105,11 @@ public class CustomerDto {
 			if (other.custCode != null)
 				return false;
 		} else if (!custCode.equals(other.custCode))
+			return false;
+		if (custDelete == null) {
+			if (other.custDelete != null)
+				return false;
+		} else if (!custDelete.equals(other.custDelete))
 			return false;
 		if (custEtc == null) {
 			if (other.custEtc != null)
@@ -159,5 +148,32 @@ public class CustomerDto {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CustomerDto [custCode=");
+		builder.append(custCode);
+		builder.append(", storeInfoCode=");
+		builder.append(storeInfoCode);
+		builder.append(", custNumber=");
+		builder.append(custNumber);
+		builder.append(", custName=");
+		builder.append(custName);
+		builder.append(", custBusinessType=");
+		builder.append(custBusinessType);
+		builder.append(", custOwnerName=");
+		builder.append(custOwnerName);
+		builder.append(", custPhone=");
+		builder.append(custPhone);
+		builder.append(", custEtc=");
+		builder.append(custEtc);
+		builder.append(", custRegDate=");
+		builder.append(custRegDate);
+		builder.append(", custDelete=");
+		builder.append(custDelete);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 
 }
