@@ -22,7 +22,15 @@
 		<result property="sdRegDate" 			column="sd_reg_date"/>
 		<result property="sdPayManGroupCode"	column="sd_pay_man_group_code"/>
 	</resultMap>
-
+	
+	<delete id="removeDsalary" parameterType="String">
+		DELETE
+		FROM
+			tb_daily_salary
+		WHERE
+			sd_code = #{sdCode}
+	</delete>
+	
 	<update id="modifyDsalary" parameterType="DsalaryDto">
 		UPDATE tb_daily_salary
 			SET

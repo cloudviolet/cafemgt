@@ -14,9 +14,32 @@
 		<result property="storeInfoAddr2"	 			column="store_info_addr2" />
 		<result property="storeInfoPhone"	 			column="store_info_phone" />
 		<result property="storeInfoRegDate"	 			column="store_info_reg_date" />		
+		<result property="storeInfoDelete"	 			column="store_info_delete" />		
 	</resultMap>
 	
-
+	<!-- 사업장 삭제 -->
+	<update id="deleteStore" parameterType="String">
+	UPDATE 
+		tb_store_info
+	SET
+		store_info_delete= 'o'
+	WHERE store_info_code = #{storeInfoCode}
+	
+	</update>
+	<!-- 사업장 정보 업데이트 -->
+	<update id="updateStore" parameterType="StoreDto">
+	UPDATE tb_store_info
+	SET
+		store_info_name= #{storeInfoName},
+		store_info_license_number= #{storeInfoLicenseNumber},
+		store_info_industry_type= #{storeInfoIndustryType},
+		store_info_zip_code= #{storeInfoZipCode},
+		store_info_addr= #{storeInfoAddr},
+		store_info_addr2= #{storeInfoAddr2},
+		store_info_phone= #{storeInfoPhone}
+	WHERE store_info_code = #{storeInfoCode}
+	
+	</update>
 	
 	<!-- 사업장이 2개일 경우 사업장 선택화면  -->
 	<select id="storeChoice" parameterType="String" resultMap="StoreResultMap">
@@ -32,7 +55,7 @@
 	on
 		m.member_id = s.member_id
 	WHERE s.member_id=#{MID}
-	
+	AND s.store_info_delete = 'x'
 	</select>
 	
 	<!-- store 사업장 등록 + 0401 주소 분리 -->
@@ -47,7 +70,8 @@
 		, store_info_addr
 		, store_info_addr2
 		, store_info_phone
-		, store_info_reg_date)
+		, store_info_reg_date
+		, store_info_delete)
 	VALUES (sf_new_store_info_code()
 			, #{memberId}
 			, #{storeInfoName}
@@ -57,7 +81,8 @@
 			, #{storeInfoAddr}
 			, #{storeInfoAddr2}
 			, #{storeInfoPhone}
-			, NOW())
+			, NOW()
+			, 'x')
 	
 	</insert>
 	
@@ -72,10 +97,30 @@
 			,store_info_addr
 			,store_info_phone
 			,store_info_reg_date
+			,store_info_delete
 		FROM 
 			tb_store_info
+		where store_info_delete = 'x'
 	</select>
 	
+	<!---->
+	<select id="getinfoStore" parameterType="String" resultMap="StoreResultMap">
+      SELECT 
+         store_info_code
+         , member_id
+         , store_info_name
+         , store_info_license_number
+         , store_info_industry_type
+         , store_info_zip_code
+         , store_info_addr
+         , store_info_addr2
+         , store_info_phone
+         , store_info_reg_date
+      FROM 
+         tb_store_info
+      WHERE 
+         store_info_code =#{SSTORECODE}
+   </select>
 	<!-- store 사업장 조회(사업자) -->
 	<select id="getStore" parameterType="String" resultMap="StoreResultMap">
       SELECT 
@@ -85,12 +130,15 @@
          , store_info_license_number
          , store_info_industry_type
          , store_info_addr
+         , store_info_addr2
          , store_info_phone
          , store_info_reg_date
+         , store_info_delete
       FROM 
          tb_store_info
       WHERE 
          member_id =#{MID}
+      AND store_info_delete = 'x'   
    </select>
 		
 	<!-- 마이페이지 사업장(추가) 정보 부분 -->
@@ -101,7 +149,9 @@
          , store_info_name
          , store_info_license_number
          , store_info_industry_type
+         , store_info_zip_code
          , store_info_addr
+         , store_info_addr2         
          , store_info_phone
          , store_info_reg_date
       FROM 

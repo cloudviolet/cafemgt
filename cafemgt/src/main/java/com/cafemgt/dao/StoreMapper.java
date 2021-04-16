@@ -8,6 +8,13 @@ import com.cafemgt.dto.StoreDto;
 
 @Mapper
 public interface StoreMapper {
+	
+	public StoreDto getinfoStore(String SSTORECODE);
+	
+	//사업장 삭제
+	public int deleteStore(String SSTORECODE);
+	//사업장수정
+	public int updateStore(StoreDto storeDto);
 	//사업장이 2개이상일 경우 사업장 선택
 	public List<StoreDto> storeChoice(String MID); 	
 	//사업장 등록

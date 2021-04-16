@@ -6,10 +6,161 @@
 	<th:block layout:fragment="customTitle">
 		<title>추가수당 수정</title>
 	</th:block>
-
+	
+	<th:block layout:fragment="customCss">
+			<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	</th:block>
+	
 	<th:block layout:fragment="customContents">
 		<div class="right_col" role="main">
-		</div>
-	</th:block>
+		<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>추가수당 수정 <!-- <small>different form elements</small> --></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+												<ul class="dropdown-menu" role="menu">
+													<li><a class="dropdown-item" href="#">Settings 1</a>
+													</li>
+													<li><a class="dropdown-item" href="#">Settings 2</a>
+													</li>
+												</ul> -->
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<br />
+									<form id="demo-form2" th:action="@{/salary/modifyBonus}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 
+									<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
+									<input type="hidden" name="salesSystemId" th:value="${session.OID}">
+
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">직원 아이디 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="memberId" name="memberId" th:value="${bonusDto.memberId}" required="required" class="form-control" readonly="readonly">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">귀속년월 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="ubYearMonth" name="ubYearMonth" th:value="${bonusDto.ubYearMonth}" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+												<script>
+													function timeFunctionLong(input) {
+														setTimeout(function() {
+															input.type = 'text';
+														}, 60000);
+													}
+												</script>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">과세항목 선택</label>
+											<div class="col-md-6 col-sm-6 ">
+												<select class="form-control" id="ubCheck" name="ubCheck">
+													<option>::과세항목선택::</option>
+													<option>상여금</option>
+													<option>추가수당</option>
+													<option>기타등등</option>
+													<option>기타등등</option>
+													<option>해당없음</option>
+												</select>
+											</div>
+										</div>
+										<input type="hidden" id="ubOption" name="ubOption">
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">금액 입력 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="ubPay" name="ubPay" th:value="${bonusDto.ubPay}" required="required" class="form-control">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">상세 내역 <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="ubEtc" name="ubEtc" required="required" class="form-control">
+											</div>
+										</div>
+										<div class="ln_solid"></div>
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												<button class="btn btn-primary" type="button">Cancel</button>
+												<button class="btn btn-primary" type="reset">Reset</button>
+												<button type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	</th:block>
+	
+	<th:block layout:fragment="customJs">
+	<!-- bootstrap-daterangepicker -->
+	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+	<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+	<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+	<!-- jQuery Tags Input -->
+	<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+	<!-- Switchery -->
+	<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+	<!-- Select2 -->
+	<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+	<!-- Parsley -->
+	<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+	<!-- Autosize -->
+	<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+	<!-- jQuery autocomplete -->
+	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+	<!-- starrr -->
+	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+	
+	<script type="text/javascript">
+		var ubCheck=$('#ubCheck');
+		var ubOption=$('#ubOption');
+		var ubEtc=$('#ubEtc');
+		$(function(){
+			$('#ubCheck').on('change',function(){
+				console.log(ubCheck.val());
+				if(ubCheck.val()=="해당없음"){
+					var a = "비과세";
+					ubOption.val(a);
+					ubEtc.val("");
+				console.log(a);
+				}else{
+					var a = "과세";
+					ubOption.val(a);
+					ubEtc.val(a);
+				console.log(a);
+				}
+			});
+		});
+	</script>
+	
+	</th:block>
+		
 </html>

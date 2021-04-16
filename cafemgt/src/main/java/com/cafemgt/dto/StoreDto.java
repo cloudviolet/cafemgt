@@ -12,6 +12,7 @@ public class StoreDto {
 	private String storeInfoAddr2;
 	private String storeInfoPhone;
 	private String storeInfoRegDate;
+	private String storeInfoDelete;
 	public String getStoreInfoCode() {
 		return storeInfoCode;
 	}
@@ -72,6 +73,12 @@ public class StoreDto {
 	public void setStoreInfoRegDate(String storeInfoRegDate) {
 		this.storeInfoRegDate = storeInfoRegDate;
 	}
+	public String getStoreInfoDelete() {
+		return storeInfoDelete;
+	}
+	public void setStoreInfoDelete(String storeInfoDelete) {
+		this.storeInfoDelete = storeInfoDelete;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -80,6 +87,7 @@ public class StoreDto {
 		result = prime * result + ((storeInfoAddr == null) ? 0 : storeInfoAddr.hashCode());
 		result = prime * result + ((storeInfoAddr2 == null) ? 0 : storeInfoAddr2.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
+		result = prime * result + ((storeInfoDelete == null) ? 0 : storeInfoDelete.hashCode());
 		result = prime * result + ((storeInfoIndustryType == null) ? 0 : storeInfoIndustryType.hashCode());
 		result = prime * result + ((storeInfoLicenseNumber == null) ? 0 : storeInfoLicenseNumber.hashCode());
 		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
@@ -116,6 +124,11 @@ public class StoreDto {
 			if (other.storeInfoCode != null)
 				return false;
 		} else if (!storeInfoCode.equals(other.storeInfoCode))
+			return false;
+		if (storeInfoDelete == null) {
+			if (other.storeInfoDelete != null)
+				return false;
+		} else if (!storeInfoDelete.equals(other.storeInfoDelete))
 			return false;
 		if (storeInfoIndustryType == null) {
 			if (other.storeInfoIndustryType != null)
@@ -172,9 +185,10 @@ public class StoreDto {
 		builder.append(storeInfoPhone);
 		builder.append(", storeInfoRegDate=");
 		builder.append(storeInfoRegDate);
+		builder.append(", storeInfoDelete=");
+		builder.append(storeInfoDelete);
 		builder.append("]");
 		return builder.toString();
 	}
-
 	
 }
