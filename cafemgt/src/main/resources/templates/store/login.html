@@ -29,13 +29,25 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form th:action="@{/store/login}" method="post">
+          <div class="row">
+          <div class="col-md-12">          
+          <button type="submit" id="owner" class="btn btn-round btn-success">사업주 로그인</button>
+          </div>          
+          <div class="col-md-12">          
+          <button type="submit" id="user" class="btn btn-round btn-info">&nbsp;직&nbsp;원 &nbsp;  로그인</button>
+          </div>          
+          <div class="col-md-12">          
+          <button type="submit" id="admin" class="btn btn-round btn-info">관리자 로그인</button>
+          </div>          
+          </div>
+            <form id="loginform" th:action="@{/store/login}" method="post">
+            
               <h1>로그인</h1>
               <div>
-                <input type="text" class="form-control" name="inId" value="oid001" placeholder="Userid" required="required" />
+                <input type="text" class="form-control" id="loginId" name="inId" value="oid001" placeholder="Userid" required="required" />
               </div>
               <div>
-                <input type="password" class="form-control" name="inPw" value="opw001" placeholder="Password" required="required" />
+                <input type="password" class="form-control" id="loginPw" name="inPw" value="opw001" placeholder="Password" required="required" />
               </div>
               <div>
               	<button type="submit" class="btn btn-round btn-success">로그인</button>
@@ -63,4 +75,31 @@
       </div>
     </div>
   </body>
+  <!-- jQuery -->
+	<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+	<script type="text/javascript">
+		var owner = $('#owner');
+		var user = $('#user');
+		var admin = $('#admin');
+		owner.click(function(){
+			console.log("owner");
+			$('#loginform').submit();
+		})
+		
+		user.click(function(){
+			console.log("user");
+			$('#loginId').val("id001");
+			$('#loginPw').val("pw001");
+			
+			$('#loginform').submit();
+		})
+		
+		admin.click(function(){
+			console.log("admin");
+			$('#loginId').val("admin999");
+			$('#loginPw').val("admin999");
+			$('#loginform').submit();
+		})
+	
+	</script>
 </html>

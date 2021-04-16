@@ -41,26 +41,24 @@ public class LoginInterceptor implements HandlerInterceptor{
 			
 			//사업주
 			if("level_01".equals(SLEVEL)){
-				if(requestUri.indexOf("memberList") 		> -1 || 
-				   requestUri.indexOf("goodsList") 			> -1 ||
-				   requestUri.indexOf("addMember")  		> -1 || 
-				   requestUri.indexOf("modifyMember") 		> -1 || 
-				   requestUri.indexOf("deleteMember") 		> -1 ||	
-				   requestUri.indexOf("modifyGoods") 		> -1 ||	
-				   requestUri.indexOf("deleteGoods") 		> -1 	
+				if(requestUri.indexOf("/store/login") 		> -1 || 
+				   requestUri.indexOf("/store/join") 			> -1 ||
+				   requestUri.indexOf("/store/logout")  		> -1				  
 				   ) {
 
 					// 가정 : 1.아이디로 로그인 처리가 완료된 후 (memberController -> 로그인 시 세션에 메뉴list 등록)
 					// 가정 : 2.세션에 등록된 메뉴리스트 -> List로 변환
 					// List<사용자정의클래스> menuList = (List<사용자정의클래스>) session.getAttribute("S_MENU");
 					List<String> list = new ArrayList<String>();
-					list.add("/addMember");
+					list.add("/store/login");
+					list.add("/store/join");
+					list.add("/store/logout");
 					
 					log.info("test ::: {}",list.contains(requestUri));
 					
 					// 현재 요청받은 주소와 사용자 접근 주소와 일치하지 않을 때
 					if(!list.contains(requestUri)) {						
-						response.sendRedirect("/");
+						response.sendRedirect("/store/login");
 						return false;
 					}
 					
@@ -68,13 +66,18 @@ public class LoginInterceptor implements HandlerInterceptor{
 			}
 			//상용직, 일용직
 			if("level_02".equals(SLEVEL) || "level_03".equals(SLEVEL)){
-				if(requestUri.indexOf("memberList") 		> -1 || 
-				   requestUri.indexOf("goodsList") 			> -1 ||
-				   requestUri.indexOf("addMember")  		> -1 || 
-				   requestUri.indexOf("modifyMember") 		> -1 || 
-				   requestUri.indexOf("deleteMember") 		> -1 ||	
-				   requestUri.indexOf("addGoods") 			> -1 ||	
-				   requestUri.indexOf("modifyGoods") 		> -1 ||	
+				if(requestUri.indexOf("/store/addstore") 		> -1 || 
+				   requestUri.indexOf("/stock/addArticle") 			> -1 ||
+				   requestUri.indexOf("/menu/addMenu")  		> -1 || 
+				   requestUri.indexOf("/menu/addRecipy") 		> -1 || 
+				   requestUri.indexOf("/store/getstore") 		> -1 ||	
+				   requestUri.indexOf("/store/adduserjoin") 		> -1 ||	
+				   requestUri.indexOf("/store/adduser") 		> -1 ||	
+				   requestUri.indexOf("/store/getuser") 		> -1 ||	
+				   requestUri.indexOf("/store/addcustomer") 			> -1 ||	
+				   requestUri.indexOf("/store/getmemberadmin") 		> -1 ||	
+				   requestUri.indexOf("/store/getuseradmin") 		> -1 ||	
+				   requestUri.indexOf("/store/getoutmemberadmin") 		> -1 ||	
 				   requestUri.indexOf("deleteGoods") 		> -1 	
 				   ) {
 

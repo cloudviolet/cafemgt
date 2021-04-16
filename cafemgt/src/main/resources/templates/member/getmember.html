@@ -78,6 +78,8 @@
                           </li>
                           <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">카페 정보</a>
                           </li>
+                          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="etc-tab" data-toggle="tab" aria-expanded="false">회원관리(탈퇴)</a>
+                          </li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                           <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
@@ -159,6 +161,13 @@
                               </tbody>
                             </table>
                             <!-- end 추가정보  -->
+                            
+                            </div>
+                          <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="etc-tab">
+                           <!-- start 기타 -->
+                                                    
+                             <a class="col-lg-10 col-md-9 col-sm-12 btn btn-danger" style="color: white; width: 30%;" th:href="@{/}">탈퇴하기</a>
+                  		   <!-- end 기타  -->
 
                           </div>
                         </div>

@@ -172,7 +172,8 @@
 		tb_user AS u
 		on
 		m.member_id = u.member_id
-		WHERE m.member_id =#{MID}	
+		WHERE m.member_id =#{MID}
+		AND m.member_delete ='x'	
 	</select>
 	<!-- 직원 회원가입 -->
 	<insert id="addUserjoin" parameterType="MemberDto">

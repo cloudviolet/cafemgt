@@ -114,7 +114,9 @@ public class StoreController {
 				  }
 				  System.out.println(memberDtoList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
-			}	
+			}else {
+				return "redirect:/store/login";	
+			}
 			return "redirect:/";			
 		}
 		return "redirect:/store/login";
@@ -366,15 +368,6 @@ public class StoreController {
 		return "admin/getoutmemberadmin";		
 	}
 
-	@GetMapping("/getusermy")
-	public String getusermy(Model model, HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
-		model.addAttribute("userList", userDtoList);
-		
-		return "store/getusermy";	
-	}
-	
 	@GetMapping("/getcustomer")
 	public String getcustomer(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
