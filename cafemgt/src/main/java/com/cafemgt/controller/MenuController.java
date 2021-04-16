@@ -42,20 +42,19 @@ public class MenuController {
 	}
 	//메뉴 등록
 	@GetMapping("/addMenu")
-
-	public String addmenu() {
+	public String addMenu() {
 		return "menu/addmenu";
 	}
 	
 	@PostMapping("/addMenu")
-	public String addmenu(MenuDto menuDto) {
+	public String addMenu(MenuDto menuDto) {
 		menuService.addMenu(menuDto);
 		return "redirect:/menu/getMenu";
 	}
 	
 	//레시피 등록
 	@GetMapping("/addRecipy")
-	public String addrecipy(Model model, HttpSession session) {
+	public String addRecipy(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<MenuDto> menuList = menuService.getMenu(SSTORECODE);
 		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
@@ -64,7 +63,7 @@ public class MenuController {
 		return "menu/addrecipy";
 	}
 	@PostMapping("/addRecipy")
-	public String addrecipy( @RequestParam(value="articleCode")List<String> articleCode
+	public String addRecipy( @RequestParam(value="articleCode")List<String> articleCode
 							,@RequestParam(value="conVolume")List<String> conVolume
 							,@RequestParam(value="conDan")List<String> conDan
 							,RecipyDto inputRecipyDto) {
@@ -85,7 +84,7 @@ public class MenuController {
 	}
 	
 	@GetMapping("/getMenu")
-	public String getmenu(Model model, HttpSession session) {
+	public String getMenu(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<MenuDto> menuList = menuService.getMenu(SSTORECODE);
 		model.addAttribute("menuList",menuList);
@@ -93,7 +92,7 @@ public class MenuController {
 	}
 	
 	@GetMapping("/getRecipy")
-	public String getrecipy(Model model, HttpSession session) {
+	public String getRecipy(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<RecipyDto> recipyList = recipyService.getRecipy(SSTORECODE);
 		model.addAttribute("recipyList",recipyList);
@@ -124,7 +123,7 @@ public class MenuController {
 		model.addAttribute("menuList",menuList);
 		model.addAttribute("articleList",articleList);
 		model.addAttribute("recipyList",recipyList);
-		return "menu/modifyRecipy";
+		return "menu/modifyrecipy";
 	}
 	
 	@PostMapping("/modifyRecipy")
@@ -141,7 +140,6 @@ public class MenuController {
 	@GetMapping("/removeRecipy")
 	public String removeRecipy(@RequestParam (value="conCode", required = false) String conCode) {
 		recipyService.removeRecipy(conCode);
-		
 		return "redirect:/menu/getRecipy";
 	}
 	
