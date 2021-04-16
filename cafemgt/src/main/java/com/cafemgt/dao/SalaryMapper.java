@@ -15,4 +15,6 @@ public interface SalaryMapper {
 	public int modifySalary(SalaryDto salaryDto);
 	
 	public int addSalary(SalaryDto salaryDto);
+	
+	public int removeSalary(String salaryCode);
 }

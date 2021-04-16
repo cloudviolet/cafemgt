@@ -39,4 +39,9 @@ public class SalaryService {
 		
 		return salaryMapper.addSalary(salaryDto);
 	}
+	
+	public int removeSalary(String salaryCode) {
+		
+		return salaryMapper.removeSalary(salaryCode);
+	}
 }

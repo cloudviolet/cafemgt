@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafemgt.dto.BonusDto;
 import com.cafemgt.dto.DsalaryDto;
@@ -83,7 +84,7 @@ public class SalaryController {
 	@PostMapping("/adddsalary")
 	public String addDsalary(DsalaryDto dsalaryDto) {
 		dsalaryService.addDsalary(dsalaryDto);	
-		return "redirect:/getdsalary";
+		return "redirect:/salary/getdsalary";
 	}
 	
 	@GetMapping("/getdsalary")
@@ -193,6 +194,26 @@ public class SalaryController {
 	@PostMapping("/modifyBonus")
 	public String modifyBonus(BonusDto bonusDto) {
 		bonusService.modifyBonus(bonusDto);
+		return "redirect:/salary/getbonus";
+	}
+	@GetMapping("/removeSalary")
+	public String removeSalary(@RequestParam (value = "salaryCode",required = false)String salaryCode) {
+		salaryService.removeSalary(salaryCode);
+		return "redirect:/salary/getsalary";
+	}
+	@GetMapping("/removeDsalary")
+	public String removeDsalary(@RequestParam (value = "sdCode",required = false)String sdCode) {
+		dsalaryService.removeDsalary(sdCode);
+		return "redirect:/salary/getdsalary";
+	}
+	@GetMapping("/removeWtime")
+	public String removeWtime(@RequestParam (value = "attCode",required = false)String attCode) {
+		wtimeService.removeWtime(attCode);
+		return "redirect:/salary/getwtime";
+	}
+	@GetMapping("/removeBonus")
+	public String removeBonus(@RequestParam (value = "ubCode",required = false)String ubCode) {
+		bonusService.removeBonus(ubCode);
 		return "redirect:/salary/getbonus";
 	}
 }

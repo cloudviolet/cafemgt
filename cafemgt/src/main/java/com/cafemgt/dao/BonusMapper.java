@@ -15,4 +15,6 @@ public interface BonusMapper {
 	public int modifyBonus(BonusDto bonusDto);
 
 	public int addBonus(BonusDto bonusDto);
+	
+	public int removeBonus(String ubCode);
 }

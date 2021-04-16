@@ -16,4 +16,5 @@ public interface WtimeMapper {
 	
 	public int modifyWtime(WtimeDto wtimeDto);
 
+	public int removeWtime(String attCode);
 }

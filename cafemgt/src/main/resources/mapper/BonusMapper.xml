@@ -17,6 +17,14 @@
 		<result property="ubRegDate" 		column="ub_reg_date"/>
 	</resultMap>
 	
+	<delete id="removeBonus" parameterType="String">
+		DELETE
+		FROM
+			tb_user_bonus
+		WHERE
+			ub_code = #{ubCode}
+	</delete>
+	
 	<update id="modifyBonus" parameterType="BonusDto">
 		UPDATE tb_user_bonus
 			SET

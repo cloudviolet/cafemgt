@@ -39,4 +39,9 @@ public class BonusService {
 		
 		return bonusMapper.modifyBonus(bonusDto);
 	}
+	
+	public int removeBonus(String ubCode) {
+		
+		return bonusMapper.removeBonus(ubCode);
+	}
 }
