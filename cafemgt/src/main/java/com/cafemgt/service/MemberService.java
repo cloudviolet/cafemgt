@@ -53,9 +53,15 @@ public class MemberService {
 		
 		return memberMapper.addUserjoin(memberDto);	
 	}
-	
+	//관리자회원조회
 	public List<MemberDto> getMemberadmin(){
 		List<MemberDto> memberDtolist = memberMapper.getMemberadmin();
+		
+		return memberDtolist;	
+	}
+	//관리자탈퇴회원조회
+	public List<MemberDto> getoutmemberadmin(){
+		List<MemberDto> memberDtolist = memberMapper.getoutmemberadmin();
 		
 		return memberDtolist;	
 	}

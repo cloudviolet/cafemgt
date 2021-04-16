@@ -114,7 +114,9 @@ public class StoreController {
 				  }
 				  System.out.println(memberDtoList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
-			}	
+			}else {
+				return "redirect:/store/login";	
+			}
 			return "redirect:/";			
 		}
 		return "redirect:/store/login";
@@ -182,6 +184,44 @@ public class StoreController {
 	}
 	
 	
+	//거래처 삭제
+	@GetMapping("/deletecustomer")
+	public String deleteCustomer(String custCode) {
+	
+		customerService.deleteCustomer(custCode);
+		
+		
+		return "redirect:/store/getcustomer";		
+	}
+	@GetMapping("/modifycustomer")
+	public String modifycustomer(Model model,  String custCode, HttpSession session) {
+		System.out.println("거래처 수정 화면 ");
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		StoreDto storeDto = storeService.getinfoStore(SSTORECODE);
+		CustomerDto customerDto = customerService.getinfoCustomer(custCode);
+		System.out.println(customerDto);
+		model.addAttribute("storeDto", storeDto);
+		model.addAttribute("customerDto", customerDto);
+
+		return "store/modifycustomer";		
+	}
+	
+	@PostMapping("/modifycustomer")
+	public String modifycustomer(CustomerDto customerDto) {
+		customerService.updateCustomer(customerDto);
+		System.out.println(customerDto +"<--customerDto");
+		return "redirect:/store/getcustomer";	
+	}
+	
+	//직원 삭제
+	@GetMapping("/deleteMemberUser")
+	public String deleteMemberUser(String memberId) {
+	
+		userService.deleteMemberUser(memberId);
+		System.out.println(memberId + "<---직원삭제 memberId");
+		
+		return "redirect:/store/getuser";		
+	}
 	
 	@GetMapping("/modifyuser")
 	public String modifyuser(Model model, String memberId) {
@@ -202,13 +242,32 @@ public class StoreController {
 		return "redirect:/store/getuser";		
 	}
 	
+	//사업장 삭제
+	@GetMapping("/deleteStore")
+		public String deleteStore(String storeInfoCode) {		
+			storeService.deleteStore(storeInfoCode);	
+			System.out.println(storeInfoCode);
+			return "redirect:/store/getstore";		
+		}
+
 	@GetMapping("/modifystore")
-	public String modifystore() {
-		System.out.println("사업장 수정화면");
+	public String modifystore(Model model, HttpSession session) {
+		System.out.println("사업장 수정화면");		
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		StoreDto storeDto = storeService.getinfoStore(SSTORECODE);
+		System.out.println(storeDto);
+		model.addAttribute("storeDto", storeDto);
 		return "store/modifystore";		
 	}
+	@PostMapping("/modifystore")
+	public String modifystore(StoreDto storeDto) {
+		storeService.updateStore(storeDto);
+		System.out.println(storeDto);
+		
+		return "redirect:/store/getstore";
+	}
 	
-	//사업주 마이페이지
+	//사업주 마이페이지 수정화면
 	@GetMapping("/modifymember")
 	public String modifymember(Model model, String memberId) {
 		System.out.println("마이페이지 수정화면");
@@ -302,23 +361,13 @@ public class StoreController {
 		return "store/getuser";	
 	}
 	
-	@GetMapping("/getuseradmin")
-	public String getuseradmin(Model model) {
-		List<UserDto> userDtoList = userService.getUseradmin();
-		model.addAttribute("userList", userDtoList);
-		
-		return "admin/getuseradmin";	
+	@GetMapping("/getoutmemberadmin")
+	public String getoutmemberadmin(Model model) {
+		List<MemberDto> memberDtoList = memberService.getoutmemberadmin();
+		model.addAttribute("memberList", memberDtoList);
+		return "admin/getoutmemberadmin";		
 	}
 
-	@GetMapping("/getusermy")
-	public String getusermy(Model model, HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
-		model.addAttribute("userList", userDtoList);
-		
-		return "store/getusermy";	
-	}
-	
 	@GetMapping("/getcustomer")
 	public String getcustomer(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -370,15 +419,6 @@ public class StoreController {
 		
 		return "redirect:/store/getuser";			
 	}
-	
-
-	
-	@PostMapping("/modifystore")
-	public String modifystore(StoreDto storeDto) {
-		
-		return "redirect:/store/getstore";		
-	}
-	
 
 	@GetMapping("/getstoreadmin")
 	public String getstoreadmin(Model model) {
@@ -387,10 +427,13 @@ public class StoreController {
 		
 		return "admin/getstoreadmin";	
 	}
-	
-	
-
-	
-
+	//직원조회 관리자
+   @GetMapping("/getuseradmin")
+   public String getuseradmin(Model model) {
+      List<UserDto> userDtoList = userService.getUseradmin();
+      model.addAttribute("userList", userDtoList);
+      
+      return "admin/getuseradmin";   
+   }
 
 }
