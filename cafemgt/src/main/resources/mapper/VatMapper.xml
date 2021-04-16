@@ -31,9 +31,9 @@
 		UPDATE 
 			tb_vat
 		SET
-			vat_intended_tax= #{vatIntendedTax}
+			vat_intended_tax= #{vatIntendedTaxValue}
 		WHERE 
-			vat_date = #{intendedDays}
+			vat_date = #{intendedYearMonth}
 		AND 
 			store_info_code = #{SSTORECODE};
 	</update>
