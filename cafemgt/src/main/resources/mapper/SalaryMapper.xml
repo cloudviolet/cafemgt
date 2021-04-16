@@ -25,6 +25,14 @@
 		<result property="salaryRegDate" 		column="salary_reg_date"/>
 	</resultMap>
 	
+	<delete id="removeSalary" parameterType="String">
+		DELETE
+		FROM
+			tb_salary
+		WHERE
+			salary_code = #{salaryCode}
+	</delete>
+	
 	<update id="modifySalary" parameterType="SalaryDto">
 		UPDATE tb_salary
 			SET

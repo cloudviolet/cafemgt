@@ -4,6 +4,7 @@ public class IncomeStatementDto {
 	private String instPurchaseCode;
 	private String storeInfoCode;
 	private String instYear;
+	private String instUniqueCode;
 	private int instSaleSupplyValue;
 	private int instPurchaseSupplyValue;
 	private int instSalesAmtTotal;
@@ -12,7 +13,6 @@ public class IncomeStatementDto {
 	private int instNoi;
 	private int instNoe;
 	private int instNetIncome;
-	
 	public String getInstPurchaseCode() {
 		return instPurchaseCode;
 	}
@@ -30,6 +30,12 @@ public class IncomeStatementDto {
 	}
 	public void setInstYear(String instYear) {
 		this.instYear = instYear;
+	}
+	public String getInstUniqueCode() {
+		return instUniqueCode;
+	}
+	public void setInstUniqueCode(String instUniqueCode) {
+		this.instUniqueCode = instUniqueCode;
 	}
 	public int getInstSaleSupplyValue() {
 		return instSaleSupplyValue;
@@ -82,10 +88,10 @@ public class IncomeStatementDto {
 	@Override
 	public String toString() {
 		return "IncomeStatementDto [instPurchaseCode=" + instPurchaseCode + ", storeInfoCode=" + storeInfoCode
-				+ ", instYear=" + instYear + ", instSaleSupplyValue=" + instSaleSupplyValue
-				+ ", instPurchaseSupplyValue=" + instPurchaseSupplyValue + ", instSalesAmtTotal=" + instSalesAmtTotal
-				+ ", instExpenses=" + instExpenses + ", instOp=" + instOp + ", instNoi=" + instNoi + ", instNoe="
-				+ instNoe + ", instNetIncome=" + instNetIncome + "]";
+				+ ", instYear=" + instYear + ", instUniqueCode=" + instUniqueCode + ", instSaleSupplyValue="
+				+ instSaleSupplyValue + ", instPurchaseSupplyValue=" + instPurchaseSupplyValue + ", instSalesAmtTotal="
+				+ instSalesAmtTotal + ", instExpenses=" + instExpenses + ", instOp=" + instOp + ", instNoi=" + instNoi
+				+ ", instNoe=" + instNoe + ", instNetIncome=" + instNetIncome + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -100,6 +106,7 @@ public class IncomeStatementDto {
 		result = prime * result + instPurchaseSupplyValue;
 		result = prime * result + instSaleSupplyValue;
 		result = prime * result + instSalesAmtTotal;
+		result = prime * result + ((instUniqueCode == null) ? 0 : instUniqueCode.hashCode());
 		result = prime * result + ((instYear == null) ? 0 : instYear.hashCode());
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
 		return result;
@@ -134,6 +141,11 @@ public class IncomeStatementDto {
 			return false;
 		if (instSalesAmtTotal != other.instSalesAmtTotal)
 			return false;
+		if (instUniqueCode == null) {
+			if (other.instUniqueCode != null)
+				return false;
+		} else if (!instUniqueCode.equals(other.instUniqueCode))
+			return false;
 		if (instYear == null) {
 			if (other.instYear != null)
 				return false;
@@ -146,4 +158,5 @@ public class IncomeStatementDto {
 			return false;
 		return true;
 	}
+	
 }

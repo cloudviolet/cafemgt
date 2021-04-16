@@ -86,6 +86,8 @@
 			tb_article AS a
 			on
 			c.article_code = a.article_code
+		WHERE
+			dv.dailyvol_deadline_check = 'x'
 	</select>
 	<select id="getDailyVolDeadLine" parameterType="String" resultMap="DailyVolResultMap">
 		SELECT 

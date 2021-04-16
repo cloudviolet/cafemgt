@@ -17,6 +17,14 @@
 		<result property="attRegDate" 		column="att_reg_date"/>
 	</resultMap>
 	
+	<delete id="removeWtime" parameterType="String">
+		DELETE
+		FROM
+			tb_attendance_checking
+		WHERE
+			att_code = #{attCode}
+	</delete>
+	
 	<update id="modifyWtime" parameterType="WtimeDto">
 		UPDATE tb_attendance_checking
 			SET
