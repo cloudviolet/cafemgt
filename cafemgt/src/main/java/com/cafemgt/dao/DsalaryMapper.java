@@ -15,4 +15,6 @@ public interface DsalaryMapper {
 	public int modifyDsalary(DsalaryDto dsalaryDto);
 
 	public int addDsalary(DsalaryDto dsalaryDto);
+	
+	public int removeDsalary(String sdCode);
 }

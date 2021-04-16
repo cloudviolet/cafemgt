@@ -10,5 +10,11 @@ import com.cafemgt.dto.BonusDto;
 public interface BonusMapper {
 	public List<BonusDto> getBonus(String SSTORECODE);
 	
+	public BonusDto getBonusByUbCode(String ubCode);
+	
+	public int modifyBonus(BonusDto bonusDto);
+
 	public int addBonus(BonusDto bonusDto);
+	
+	public int removeBonus(String ubCode);
 }
