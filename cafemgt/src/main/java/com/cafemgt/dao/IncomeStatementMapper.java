@@ -9,7 +9,7 @@ import com.cafemgt.dto.IncomeStatementDto;
 @Mapper
 public interface IncomeStatementMapper {
 	
-	public List<IncomeStatementDto> getIncomeStatement(String SSTORECODE, String searchYear);
+	public IncomeStatementDto getIncomeStatement(String SSTORECODE, String searchYear);
 	
 	public int addIncomeStatement(IncomeStatementDto incomestatemnetList);
 	

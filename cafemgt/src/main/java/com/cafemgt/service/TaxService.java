@@ -29,7 +29,7 @@ public class TaxService {
 		this.incomeStatementMapper = incomeStatementMapper;
 	}
 	
-	public List<IncomeStatementDto> getIncomeStatement(String SSTORECODE, String searchYear){
+	public IncomeStatementDto getIncomeStatement(String SSTORECODE, String searchYear){
 		return incomeStatementMapper.getIncomeStatement(SSTORECODE, searchYear);
 	}
 	
