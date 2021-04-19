@@ -20,6 +20,42 @@
 				 margin: auto; 
 				 text-align: center;
 			}
+			.myChart-legend ol, 
+			.myChart-legend ul { 
+				list-style: none; 
+				margin:0; 
+				padding:0; 
+				text-align:right; 
+			} 
+			.myChart-legend li { 
+				cursor:pointer; 
+				display: inline-table;
+				 margin: 10px 4px; 
+			} 
+			.myChart-legend li span.bar{ 
+				position:relative; 
+				padding: 0px 10px; 
+				margin: 5px; 
+				border-radius:100px; 
+				color:white; 
+			} 
+			.myChart-legend li span.line{ 
+				position:relative; 
+				padding: 1px 10px; 
+				margin: 5px; 
+				color:white; 
+			} 
+			.myChart-legend li div.line{ 
+				float:left; 
+				height:2px; 
+				background:#000;
+				font-size:0; 
+				line-height:0; 
+				width:25px; 
+				padding:1px 0px; 
+				border-radius:100px; 
+				margin: 9px 5px; 
+			}
 		</style>
 	</th:block>
 
@@ -76,9 +112,10 @@
 											</div>
 											<div class="col-md-12 col-sm-12">
 												<!-- CHART 시작  -->
+												<div id="myChartLegend" class="myChart-legend"></div>
 												<div class="col-md-12 col-sm-12" style="align-content: center; margin-top: 20px;">
-									                <div class="container" style="width: 80%;"> 
-														<canvas class="myChart"></canvas> 
+									                <div class="container" > 
+														<canvas class="myChart" style="width: 80%; height: auto;"></canvas> 
 													</div>
 									            </div>
 									            <!-- chart 끝  -->										
@@ -202,13 +239,36 @@
 			    		          display: true
 			    		        }
 			    		     }]
-			    	    }
+			    	       },
+			    	       legend: {
+			    	                display: false
+			    	       },
+			    	       legendCallback: function(chart){
+			    	    	   return drawCustomLegend(chart); 
+			    	       }// 사용자 범례를 만들 때 쓰는 함수를 지정
 			    	  }
 			    });
+			    $('#myChartLegend').html(myChart.generateLegend());
 			}
 		});
 	};
-    
+    //사용자 범례 함수
+	function drawCustomLegend(chart){ 
+		var legendLabel = []; 
+		legendLabel.push('<ul class="' + chart.id + '-legend">'); 
+		for (i = 0; i <chart.data.datasets.length; i++) { 
+			if(!(chart.data.datasets[i].hideLegend) && chart.data.datasets[i].label){ 
+				legendLabel.push('<li datasetIndex="'+i+'"><span class="line" style="background-color:' + chart.data.datasets[i].borderColor + '"></span>'); 
+				legendLabel.push('<span>'+chart.data.datasets[i].label+'</span>');
+				legendLabel.push('</li>'); 
+			} 
+		}
+		legendLabel.push('</ul>'); 
+		return legendLabel.join('');
+	}
+
+	
+	
 	$(document).ready(function(){
 		var now = new Date();
 	    var year= now.getFullYear();
