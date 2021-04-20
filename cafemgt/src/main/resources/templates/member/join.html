@@ -178,30 +178,32 @@
 				$(document).on('click', '#memberIdCheck', function(){
 					var memberId = $('#memberId');
 					console.log(memberId.val());
+					if(memberId.val()==''){
+						alert('아이디를 입력해주세요.');
+					}else{
 					$.ajax({
 						url: '/store/idCheck', 
 						type: 'POST',	
 						data: { memberId : memberId.val() }, 
 						success : function(data){
 							console.log(data)
-							if(memberId.val()==''){
-								alert('아이디를 입력해주세요.');
-							}else{
+							
 								if(data){
 									alert('중복된 아이디입니다.');
 									memberId.focus();
 								}else{
 									alert('사용 가능한 아이디입니다.');
 								}
-							}
-						},
+							
+							},
 						error : function(xhr,status,error){
 							console.log("xhr: " + xhr);
 							console.log("status: " + status);
 							console.log("error: " + error);
 						}
 					});
-				});
+					}
+				});				
 			});
 		</script>
 	</th:block>

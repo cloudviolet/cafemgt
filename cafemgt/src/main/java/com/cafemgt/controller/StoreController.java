@@ -163,12 +163,12 @@ public class StoreController {
 	
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
 	public @ResponseBody boolean idCheck(@RequestParam(value = "memberId", required = false) String memberId) {
-		System.out.println(memberId+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		System.out.println(memberId+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 입력받은 아이디");
 		boolean checkResult = false;
 		
 		if(memberId != null && !"".equals(memberId)) {
 			MemberDto memberDto = memberService.getinfoMember(memberId);
-			System.out.println(memberDto+"<<<<<<<<<<<<");
+			System.out.println(memberDto+"<<<<<<<<<<<<memberDto");
 			if(memberDto != null) {
 				checkResult = true;
 			}
@@ -251,10 +251,10 @@ public class StoreController {
 		}
 
 	@GetMapping("/modifystore")
-	public String modifystore(Model model, HttpSession session) {
+	public String modifystore(Model model, HttpSession session, @RequestParam(value="storeInfoCode") String storeInfoCode) {
 		System.out.println("사업장 수정화면");		
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		StoreDto storeDto = storeService.getinfoStore(SSTORECODE);
+		StoreDto storeDto = storeService.getinfoStore(storeInfoCode);
 		System.out.println(storeDto);
 		model.addAttribute("storeDto", storeDto);
 		return "store/modifystore";		
