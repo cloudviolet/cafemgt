@@ -1,7 +1,7 @@
 package com.cafemgt.dto;
 
 public class IncomeStatementDto {
-	private String instPurchaseCode;
+	private String instCode;
 	private String storeInfoCode;
 	private String instYear;
 	private String instUniqueCode;
@@ -13,11 +13,11 @@ public class IncomeStatementDto {
 	private int instNoi;
 	private int instNoe;
 	private int instNetIncome;
-	public String getInstPurchaseCode() {
-		return instPurchaseCode;
+	public String getInstCode() {
+		return instCode;
 	}
-	public void setInstPurchaseCode(String instPurchaseCode) {
-		this.instPurchaseCode = instPurchaseCode;
+	public void setInstCode(String instCode) {
+		this.instCode = instCode;
 	}
 	public String getStoreInfoCode() {
 		return storeInfoCode;
@@ -86,23 +86,15 @@ public class IncomeStatementDto {
 		this.instNetIncome = instNetIncome;
 	}
 	@Override
-	public String toString() {
-		return "IncomeStatementDto [instPurchaseCode=" + instPurchaseCode + ", storeInfoCode=" + storeInfoCode
-				+ ", instYear=" + instYear + ", instUniqueCode=" + instUniqueCode + ", instSaleSupplyValue="
-				+ instSaleSupplyValue + ", instPurchaseSupplyValue=" + instPurchaseSupplyValue + ", instSalesAmtTotal="
-				+ instSalesAmtTotal + ", instExpenses=" + instExpenses + ", instOp=" + instOp + ", instNoi=" + instNoi
-				+ ", instNoe=" + instNoe + ", instNetIncome=" + instNetIncome + "]";
-	}
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((instCode == null) ? 0 : instCode.hashCode());
 		result = prime * result + instExpenses;
 		result = prime * result + instNetIncome;
 		result = prime * result + instNoe;
 		result = prime * result + instNoi;
 		result = prime * result + instOp;
-		result = prime * result + ((instPurchaseCode == null) ? 0 : instPurchaseCode.hashCode());
 		result = prime * result + instPurchaseSupplyValue;
 		result = prime * result + instSaleSupplyValue;
 		result = prime * result + instSalesAmtTotal;
@@ -120,6 +112,11 @@ public class IncomeStatementDto {
 		if (getClass() != obj.getClass())
 			return false;
 		IncomeStatementDto other = (IncomeStatementDto) obj;
+		if (instCode == null) {
+			if (other.instCode != null)
+				return false;
+		} else if (!instCode.equals(other.instCode))
+			return false;
 		if (instExpenses != other.instExpenses)
 			return false;
 		if (instNetIncome != other.instNetIncome)
@@ -129,11 +126,6 @@ public class IncomeStatementDto {
 		if (instNoi != other.instNoi)
 			return false;
 		if (instOp != other.instOp)
-			return false;
-		if (instPurchaseCode == null) {
-			if (other.instPurchaseCode != null)
-				return false;
-		} else if (!instPurchaseCode.equals(other.instPurchaseCode))
 			return false;
 		if (instPurchaseSupplyValue != other.instPurchaseSupplyValue)
 			return false;
@@ -158,5 +150,12 @@ public class IncomeStatementDto {
 			return false;
 		return true;
 	}
-	
+	@Override
+	public String toString() {
+		return "IncomeStatementDto [instCode=" + instCode + ", storeInfoCode=" + storeInfoCode + ", instYear="
+				+ instYear + ", instUniqueCode=" + instUniqueCode + ", instSaleSupplyValue=" + instSaleSupplyValue
+				+ ", instPurchaseSupplyValue=" + instPurchaseSupplyValue + ", instSalesAmtTotal=" + instSalesAmtTotal
+				+ ", instExpenses=" + instExpenses + ", instOp=" + instOp + ", instNoi=" + instNoi + ", instNoe="
+				+ instNoe + ", instNetIncome=" + instNetIncome + "]";
+	}
 }

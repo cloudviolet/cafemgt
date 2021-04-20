@@ -10,7 +10,6 @@ public class VatDto {
 	private int vatPurchaseTax;
 	private int vatIntendedTax;
 	private int vatDeemedInputTax;
-	private int vatExclusionTax;
 	private int vatCardTax;
 	private int vatAdditionalTax;
 	private int vatPaymentTax;
@@ -68,12 +67,6 @@ public class VatDto {
 	public void setVatDeemedInputTax(int vatDeemedInputTax) {
 		this.vatDeemedInputTax = vatDeemedInputTax;
 	}
-	public int getVatExclusionTax() {
-		return vatExclusionTax;
-	}
-	public void setVatExclusionTax(int vatExclusionTax) {
-		this.vatExclusionTax = vatExclusionTax;
-	}
 	public int getVatCardTax() {
 		return vatCardTax;
 	}
@@ -97,9 +90,8 @@ public class VatDto {
 		return "VatDto [vatCode=" + vatCode + ", storeInfoCode=" + storeInfoCode + ", vatDate=" + vatDate
 				+ ", vatSaleSupplyValue=" + vatSaleSupplyValue + ", vatSalesTax=" + vatSalesTax
 				+ ", vatPurchaseSupplyValue=" + vatPurchaseSupplyValue + ", vatPurchaseTax=" + vatPurchaseTax
-				+ ", vatIntendedTax=" + vatIntendedTax + ", vatDeemedInputTax=" + vatDeemedInputTax
-				+ ", vatExclusionTax=" + vatExclusionTax + ", vatCardTax=" + vatCardTax + ", vatAdditionalTax="
-				+ vatAdditionalTax + ", vatPaymentTax=" + vatPaymentTax + "]";
+				+ ", vatIntendedTax=" + vatIntendedTax + ", vatDeemedInputTax=" + vatDeemedInputTax + ", vatCardTax="
+				+ vatCardTax + ", vatAdditionalTax=" + vatAdditionalTax + ", vatPaymentTax=" + vatPaymentTax + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -111,7 +103,6 @@ public class VatDto {
 		result = prime * result + ((vatCode == null) ? 0 : vatCode.hashCode());
 		result = prime * result + ((vatDate == null) ? 0 : vatDate.hashCode());
 		result = prime * result + vatDeemedInputTax;
-		result = prime * result + vatExclusionTax;
 		result = prime * result + vatIntendedTax;
 		result = prime * result + vatPaymentTax;
 		result = prime * result + vatPurchaseSupplyValue;
@@ -150,8 +141,6 @@ public class VatDto {
 			return false;
 		if (vatDeemedInputTax != other.vatDeemedInputTax)
 			return false;
-		if (vatExclusionTax != other.vatExclusionTax)
-			return false;
 		if (vatIntendedTax != other.vatIntendedTax)
 			return false;
 		if (vatPaymentTax != other.vatPaymentTax)
@@ -166,5 +155,5 @@ public class VatDto {
 			return false;
 		return true;
 	}
-
+	
 }

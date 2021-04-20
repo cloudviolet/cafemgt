@@ -23,6 +23,7 @@ import com.cafemgt.dao.MenuMapper;
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.CustomerDto;
 import com.cafemgt.dto.DealingDto;
+import com.cafemgt.dto.IncomeStatementDto;
 import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.OtherPurchasesDto;
 import com.cafemgt.dto.PurchasesDto;
@@ -332,8 +333,23 @@ public class TaxController {
 	}
 	
 	@GetMapping("/getincomestatement")
-	public String getIncomeStatement() {
+	public String getIncomeStatement() {		
 		return "tax/getincomestatement";
+	}
+	
+	@PostMapping("/getincomestatement")
+	@ResponseBody
+	public Map<String, Object> getIncomeStatement(@RequestParam(value = "searchYear",required = false)String searchYear
+									 ,@RequestParam(value = "secondDateYear", required = false)String secondDateYear
+									 ,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		System.out.println(searchYear+"<<<<<<<<<<<<<<<<<<<");
+		IncomeStatementDto nowISList =  taxService.getIncomeStatement(SSTORECODE, searchYear);
+		IncomeStatementDto agoISList =  taxService.getIncomeStatement(SSTORECODE, secondDateYear);
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("nowISList", nowISList);
+		resultMap.put("agoISList", agoISList);
+		return resultMap;
 	}
 	
 	@GetMapping("/modifyotherpurchases")
@@ -403,9 +419,4 @@ public class TaxController {
 		return "redirect:/tax/getotherpurchases";
 	}
 	
-	@GetMapping("/gettotalsalary")
-	public String getTotalSalary() {
-		return "tax/gettotalsalary";
-	}
-
 }

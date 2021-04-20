@@ -13,7 +13,6 @@
 		<result property="vatPurchaseTax" 			column="vat_purchase_tax"/>
 		<result property="vatIntendedTax" 			column="vat_intended_tax"/>
 		<result property="vatDeemedInputTax" 		column="vat_deemed_input_tax"/>
-		<result property="vatExclusionTax" 			column="vat_exclusion_tax"/>
 		<result property="vatCardTax" 				column="vat_card_tax"/>
 		<result property="vatAdditionalTax" 		column="vat_additional_tax"/>
 		<result property="vatPaymentTax" 			column="vat_payment_tax"/>
@@ -49,7 +48,6 @@
 			, vat_purchase_tax
 			, vat_intended_tax
 			, vat_deemed_input_tax
-			, vat_exclusion_tax
 			, vat_card_tax
 			, vat_additional_tax
 			, vat_payment_tax

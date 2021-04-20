@@ -6,10 +6,53 @@
 	<th:block layout:fragment="customTitle">
 		<title>부가세조회</title>
 	</th:block>
-
+	<th:block layout:fragment="customCss">
+		<style>
+			tbody tr th, td {
+				font-weight: lighter;
+			}
+			
+			.myChart-legend ol, 
+			.myChart-legend ul { 
+				list-style: none; 
+				margin:0; 
+				padding:0; 
+				text-align:right; 
+			} 
+			.myChart-legend li { 
+				cursor:pointer; 
+				display: inline-table;
+				 margin: 10px 4px; 
+			} 
+			.myChart-legend li span.bar{ 
+				position:relative; 
+				padding: 0px 10px; 
+				margin: 5px; 
+				border-radius:100px; 
+				color:white; 
+			} 
+			.myChart-legend li span.line{ 
+				position:relative; 
+				padding: 1px 10px; 
+				margin: 5px; 
+				color:white; 
+			} 
+			.myChart-legend li div.line{ 
+				float:left; 
+				height:2px; 
+				background:#000;
+				font-size:0; 
+				line-height:0; 
+				width:25px; 
+				padding:1px 0px; 
+				border-radius:100px; 
+				margin: 9px 5px; 
+			}
+		</style>
+	</th:block>
 	<th:block layout:fragment="customContents">
 			<div class="right_col" role="main">
-			<div class="col-md-12 col-sm-12 ">
+			<div class="col-md-12 col-sm-12 panel">
 				<div class="x_panel">
 					 <div class="x_title">
 	                    <h2>예상 부가세 조회</h2>
@@ -60,33 +103,87 @@
 									<p class="text-muted font-13 m-b-30">
 										<code>강조!</code>
 									</p>
-								<div style="margin-left: 15%;">								
-										<div class="col-label col-md-6 col-sm-6">				
-									      	<select name="year" id="year" title="년도" class="custom-select"></select>
-									    </div>
-									    <div class="col-label col-md-3 col-sm-3">
-									      	<select id="month" class="custom-select">					      	
-									      		<option value="">분기</option>
-									      		<option value="1기">1기</option>
-									      		<option value="2기">2기</option>
-									      	</select>
-									   </div>
-									     <div class="col-label col-md-3 col-sm-3">
-									      	<button  type="button" id="forVatBtn" class="btn btn-info">검색</button>
-									     </div>					      
-							
-					      <div class="col-label col-md-6 col-sm-6 label-align" style="font-size: large; line-height: 50px;">
-						      <div id="vatTitle"></div>
-						      <div id="getSalesTotal"></div>
-						      <div id="getSalesSupply"></div>
-						      <div id="getSalesTax"></div>
-						      <div id="getPurchasesTotal"></div>
-						      <div id="getPurchasesSupply"></div>
-						      <div id="getPurchasesTax"></div>
-						      <div id="getIntendedTax"></div>
-						      <div id="i"></div>
-					      </div>
-									</div>		
+									<div class="col-md-6 col-sm-6">
+										<div style="margin-left: 0%;">								
+												<div class="col-label col-md-6 col-sm-6">				
+											      	<select name="year" id="year" title="년도" class="custom-select"></select>
+											    </div>
+											    <div class="col-label col-md-3 col-sm-3">
+											      	<select id="month" class="custom-select">					      	
+											      		<option value="">분기</option>
+											      		<option value="1기">1기</option>
+											      		<option value="2기">2기</option>
+											      	</select>
+											   </div>
+										       <div class="col-label col-md-3 col-sm-3">
+										      		<button  type="button" id="forVatBtn" class="btn btn-info">검색</button>
+										       </div>					      
+									
+										      <div class="col-label col-md-12 col-sm-12 label-align" style="font-size: large; line-height: 50px;">
+										      	<table>
+													<tbody>
+														<tr>
+															<th></th>
+															<th>공급가액</th>
+															<th>공급세액</th>
+														</tr>
+														<tr>
+															<!-- <td><span id="getSalesTotal"></span></td> -->
+															<th>매출</th>
+															<td><span id="getSalesSupply"></span></td>
+															<td><span id="getSalesTax"></span></td>
+														</tr>
+														<tr>
+															<th>매입</th>
+															<td><span id="getPurchasesSupply"></span></td>
+															<td><span id="getPurchasesTax"></span></td>
+														</tr>
+														<tr>
+															<th>의제매입</th>
+															<td><span id="getVatDeemedInputSupply"></span></td>
+															<td><span id="getVatDeemedInputTax"></span></td>
+														</tr>
+														<tr>
+															<th>납부(환급)세액</th>
+															<td><span id="getPaymentSupply"></span></td>
+															<td><span id="getPaymentTax"></span></td>
+														</tr>
+														<tr>
+															<th>신용카드발행세액공제</th>
+															<td><span></span></td>
+															<td><span id="getVatCardTax"></span></td>
+														</tr>
+														<tr>
+															<th>중간예납</th>
+															<td><span></span></td>
+															<td><span id="getVatIntendedTax"></span></td>
+														</tr>
+														<tr>
+															<th>총괄납부(환급)세액</th>
+															<td><span></span></td>
+															<td><span id="getVatPaymentTax"></span></td>
+														</tr>
+													</tbody>
+												</table>
+										      </div>
+										</div>	
+									</div>
+									<div class="col-md-6 col-sm-6">
+										<div class="row">
+											<div class="col-md-12 col-sm-12">
+												<h3 style="text-align: center;">매출 매입 비교</h3>
+											</div>
+											<div class="col-md-12 col-sm-12">												
+												<div id="myChartLegend" class="myChart-legend"></div>
+												<div class="col-md-12 col-sm-12" style="align-content: center; margin-top: 20px;">
+									                <div class="container" > 
+														<canvas class="myChart" style="width: 100%; height: auto;"></canvas> 
+													</div>
+									            </div>
+									            <!-- chart 끝  -->										
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -97,6 +194,22 @@
 	</th:block>
 	
 	<th:block layout:fragment="customJs">
+	<!-- Chart.js -->
+    <script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+    <!-- gauge.js -->
+    <script th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
+	<!-- Flot -->
+    <script th:src="@{/vendors/Flot/jquery.flot.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
+    <!-- Flot plugins -->
+    <script th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
+    <script th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
+    <script th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
+    <!-- DateJS -->
+    <script th:src="@{/vendors/DateJS/build/date.js}"></script>
 		<script type="text/javascript">
 		    var MNAME = ('[[${MNAME}]]');
 			var year = $('#year');
@@ -122,44 +235,64 @@
 		    	$('#middleAdd').hide();
 		    });	
 		    
-		    //부가세 조회버튼 
-		    $('#forVatBtn').click(function(){		    	
-				var searchDays = year.val()+"년"+month.val();
-				console.log(searchDays);
-				intendedYearMonth.val(searchDays);
-				console.log(intendedYearMonth.val()+'~~~~~~~~~~~')				
-				var request = $.ajax({
-					url: "getvat", 
-					method: "POST",
-					data: { searchDays : searchDays },
-					dataType: "json"
-				,
+		    //부가세 조회
+		    var request = function(searchDays){
+		    	$.ajax({
+				url: "getvat", 
+				method: "POST",
+				data: { searchDays : searchDays },
+				dataType: "json",
 		        success : function(vatResult) {	    
-		        	$('#middleAdd').show();
-		        	console.log(vatResult,"<><<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		        	var vatCode = vatResult.vatCode;
-		        	var StoreInfoCode = vatResult.StoreInfoCode;
-		        	var VatDate = vatResult.vatDate;
+		        	$('#middleAdd').show();		        	
 		        	var VatSaleSupplyValue = vatResult.vatSaleSupplyValue;
 		        	var VatSalesTax = vatResult.vatSalesTax;
-		        	var VatSalesTotal = VatSaleSupplyValue+VatSalesTax;
 		        	var VatPurchaseSupplyValue = vatResult.vatPurchaseSupplyValue;
 		        	var VatPurchaseTax = vatResult.vatPurchaseTax;
-		        	var VatPurchasesTotal = VatPurchaseSupplyValue+VatPurchaseTax;
 		        	var VatIntendedTax = vatResult.vatIntendedTax;
 		        	var VatDeemedInputTax = vatResult.vatDeemedInputTax;
-		        	var VatExclusionTax = vatResult.vatExclusionTax;
 		        	var VatCardTax = vatResult.vatCardTax;
 		        	var VatAdditionalTax = vatResult.vatAdditionalTax;
 		        	var VatPaymentTax = vatResult.vatPaymentTax;
-		        	$('#vatTitle').text(MNAME+'님의 '+searchDays+' 예상 부가가치세 내역입니다.');
-		        	$('#getSalesTotal').text('매출총공급합계:  '+VatSalesTotal+'원');
-		        	$('#getSalesSupply').text('매출총공급가액:  '+VatSaleSupplyValue+'원');
-		        	$('#getSalesTax').text('매출총공급세액:  '+VatSalesTax+'원');
-		        	$('#getPurchasesTotal').text('매입총공급합계:  '+VatPurchasesTotal+'원');
-		        	$('#getPurchasesSupply').text('매입총공급가액:  '+VatSalesTax+'원');
-		        	$('#getPurchasesTax').text('매입총공급세액:  '+VatPurchaseSupplyValue+'원');
-		        	$('#getIntendedTax').text('중간예납금액:  '+VatIntendedTax+'원');		        	
+		        	//납부세액
+		        	var paymentSupply = VatSaleSupplyValue-(VatPurchaseSupplyValue+Number(VatDeemedInputTax)*10);
+		        	var paymentTax = VatSalesTax-(VatPurchaseTax+VatDeemedInputTax);
+		        	$('#getSalesSupply').text(VatSaleSupplyValue+'원');
+		        	$('#getSalesTax').text(VatSalesTax+'원');
+		        	$('#getPurchasesSupply').text(VatPurchaseSupplyValue+'원');
+		        	$('#getPurchasesTax').text(VatPurchaseTax+'원');
+		        	$('#getVatDeemedInputSupply').text((Number(VatDeemedInputTax)*10)+'원');	        	
+		        	$('#getVatDeemedInputTax').text(VatDeemedInputTax+'원');	    
+		        	$('#getPaymentSupply').text(paymentSupply+'원');
+		        	$('#getPaymentTax').text(paymentTax+'원');
+		        	$('#getIntendedTax').text(VatIntendedTax+'원');
+		        	$('#getVatCardTax').text(VatCardTax+'원');
+		        	$('#getVatIntendedTax').text(VatIntendedTax+'원');
+		        	$('#getVatPaymentTax').text(VatPaymentTax+'원');
+		        	
+		        	//chart
+			       	var ctx = $('.myChart');
+					    var myChart = new Chart(ctx, {
+					    	type: 'pie', 
+					    	data: { 
+					    		labels: ['매출', '매입'], 
+					    		datasets: [{ 					    			 
+					    			data: [VatSaleSupplyValue, VatPurchaseSupplyValue],
+						    		backgroundColor: [ 
+						    			'#E6E6FA','#FFFACD'
+						    		],
+						    		borderWidth: 1 	
+						    		}] 
+						    	},
+					    	options: { 
+					    		legend: {
+			    	                display: false
+				    	       },
+				    	       legendCallback: function(chart){
+				    	    	   return drawCustomLegend(chart); 
+				    	       }// 사용자 범례를 만들 때 쓰는 함수를 지정
+					    	}
+					});
+				    $('#myChartLegend').html(myChart.generateLegend());    
 		        },
 		        error : function(xhr,status,error) {
 		        	console.log("xhr: " + xhr);
@@ -167,7 +300,46 @@
 		        	console.log("error: " + error);
 		        }
 				});
+		    }
+		    
+		    //사용자 범례 함수
+			function drawCustomLegend(chart){ 
+				var legendLabel = []; 
+				legendLabel.push('<ul class="' + chart.id + '-legend">'); 
+				for (i = 0; i <chart.data.labels.length; i++) { 
+					legendLabel.push('<li datasetIndex="'+[i]+'"><span class="line" style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '"></span>');
+					legendLabel.push('<span>'+chart.data.labels[i]+'</span>');
+					legendLabel.push('</li>'); 
+				}
+				legendLabel.push('</ul>'); 
+				return legendLabel.join('');
+			}
+		    
+		    var searchDays = '';
+		    
+		    $(document).ready(function(){
+		    	var d = new Date();
+		    	var nowYear= d.getFullYear();
+		    	var nowMonth= d.getMonth();
+		    	var harf = '';
+		    	if(nowMonth<=6){
+		    		harf = '1기';
+		    	}else{
+		    		harf ='2기';
+		    	}
+		    	searchDays = nowYear+'년'+harf;
+		    	request(searchDays);
+		    })		    
+		    
+		    //부가세 조회버튼 
+		    $('#forVatBtn').click(function(){		    	
+				searchDays = year.val()+"년"+month.val();
+				console.log(searchDays);
+				intendedYearMonth.val(searchDays);
+				console.log(intendedYearMonth.val()+'~~~~~~~~~~~')				
+				request(searchDays);
 		    });
+		    
 		    
 		    //중간예납등록버튼
 		    $('#addIntendedTax').click(function(){
