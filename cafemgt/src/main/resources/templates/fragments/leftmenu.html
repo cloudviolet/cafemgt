@@ -6,7 +6,7 @@
 		<div class="left_col scroll-view">
 			<div class="navbar nav_title" style="border: 0;">
 				<a href="/index" class="site_title"><i>$‿$</i>
-					<span>cafe ~ system</span></a>
+					<span>&nbsp;cafe system</span></a>
 			</div>
 
 			<div class="clearfix"></div>
@@ -15,7 +15,7 @@
 			
 			<div th:if = "${session.MID != null}" class="profile clearfix">
 				<div class="profile_pic">
-					<img th:src="@{/images/img.jpg}" alt="..." class="img-circle profile_img">
+					<img th:src="@{/images/cafemgt3.jpg}" alt="..." class="img-circle profile_img">
 				</div>
 				<div class="profile_info">
 					<span>Welcome,</span>
@@ -163,18 +163,17 @@
 						<li><a><i class="fa fa-bar-chart-o"></i> #세무 관리(장현진) <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li class="sub_menu"><a th:href="@{/tax/gettotalpands}">기간별 매출매입 조회</a></li>
-								<li class="sub_menu"><a th:href="@{/tax/gettotalsalary}">기간별 급여 조회</a></li>
 								<li class="sub_menu"><a th:href="@{/tax/getvat}">부가세 조회</a></li>
 								<li class="sub_menu"><a th:href="@{/tax/getincomestatement}">손익계산서 조회</a></li>
 							</ul>
 						</li>
-						<li><a><i class="fa fa-bar-chart-o"></i> #고객센터 <span class="fa fa-chevron-down"></span></a>
+						<li><a><i class="fa fa-question-circle"></i> #고객센터 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">	
 								<li><a href="#">고객센터</a></li>
 								<li><a href="#">1:1문의</a></li>
 								<li><a href="#">자주묻는질문(FAQ)</a></li>
 							</ul>
-						<li><a><i class="fa fa-bar-chart-o"></i> #관리자 설정 <span class="fa fa-chevron-down"></span></a>
+						<li><a><i class="fa fa-qq"></i> #관리자 설정 <span class="fa fa-chevron-down"></span></a>
 							<ul class="nav child_menu">
 								<li class="sub_menu"><a th:href="@{/store/getmemberadmin}">회원 조회(관리자)</a></li>
 								<li class="sub_menu"><a th:href="@{/store/getuseradmin}">직원 조회(관리자)</a></li>
@@ -184,25 +183,6 @@
 						</li>
 					</ul>
 				</div>
-				<div class="menu_section">
-					<h3>메모</h3>
-					<ul class="nav side-menu">
-						<li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span
-								class="fa fa-chevron-down"></span></a>
-							<ul class="nav child_menu">
-								<li><a>Level One<span class="fa fa-chevron-down"></span></a>
-									<ul class="nav child_menu">
-										<li class="sub_menu"><a href="level2.html">Level Two</a>
-										</li>
-										<li><a href="#level2_1">Level Two</a></li>
-										<li><a href="#level2_2">Level Two</a></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-
 			</div>
 			<!-- /sidebar menu -->
 
@@ -214,8 +194,8 @@
 				<a data-toggle="tooltip" data-placement="top" title="FullScreen">
 					<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
 				</a> 
-				<a data-toggle="tooltip" data-placement="top" title="Lock"> <span
-					class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+				<a data-toggle="tooltip" data-placement="top" id="githubBtn" th:href="@{#}" title="github"> <span
+					class="fa fa-github-alt" aria-hidden="true"></span>
 				</a> 
 				<a data-toggle="tooltip" data-placement="top" title="Logout" th:href="@{/store/logout}"> 
 					<span class="glyphicon glyphicon-off"aria-hidden="true"></span>
