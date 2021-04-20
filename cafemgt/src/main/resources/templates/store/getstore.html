@@ -83,7 +83,7 @@
 										<td th:text="${sl.storeInfoPhone}">
 										<td th:text="${sl.storeInfoRegDate}">
 										<td>
-											<a class="btn btn-primary btn-sm" th:href="@{/store/modifystore}">수정</a> 
+											<a class="btn btn-primary btn-sm" th:href="@{/store/modifystore(storeInfoCode=${sl.storeInfoCode})}">수정</a> 
 										</td>
 										<td>
 											<button class="storeInfoCode btn btn-dark btn-sm" th:data-storeInfoCode="${sl.storeInfoCode}" data-toggle="modal" data-target="#myModal" >삭제</button>
