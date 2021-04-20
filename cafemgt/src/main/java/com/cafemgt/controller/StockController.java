@@ -104,6 +104,29 @@ public class StockController {
 		articleService.modifyArticle(articleDto);
 		return "redirect:/stock/getArticle";
 	}
+	@PostMapping("/removeArticle")
+	@ResponseBody
+	public String removeArticle(@RequestParam(value = "articleCode" , required = false)String articleCode) {
+		List<String> articleCodeList = articleService.getArticleByRemove();
+		boolean checking = true;
+		String returnString = "삭제 되었습니다.";
+		//다른 테이블에 사용하는지 확인
+		if(articleCode !=null && !"".equals(articleCode)) {
+			for(int i=0; i < articleCodeList.size();i++ ) {
+				if(articleCode.equals(articleCodeList.get(i))) {
+					checking = false;
+					returnString = "삭제 할 수 없습니다.";
+					return returnString;
+				}
+			}
+		}
+		//사용하지 않으면 삭제
+		if(checking) {
+			articleService.removeArticle(articleCode);
+		}
+		System.out.println(articleCodeList);
+		return returnString;
+	}
 	
 	/** Skk */
 	@GetMapping("/addSkk")
@@ -145,7 +168,12 @@ public class StockController {
 		System.out.println(skkDto);
 		return "redirect:/stock/getSkk";
 	}
-	
+	@GetMapping("/removeSkk")
+	public String removeSkk(String skCode) {
+		skkService.removeSkk(skCode);
+		
+		return "redirect:/stock/getSkk";
+	}
 	@GetMapping("/getSkkDeadLine")
 	public String getskkDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
