@@ -26,4 +26,8 @@ public interface StoreMapper {
 	//마이페이지 조회
 	public List<StoreDto> getStoreMy(String SSTORECODE);
 
+	public int addLogIn(String memberId);
+	
+	public int addLogOut(String memberId);
+	
 }

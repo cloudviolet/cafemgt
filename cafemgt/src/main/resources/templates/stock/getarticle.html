@@ -103,8 +103,8 @@
 												</td>
 												<td>
 													<span>
-														<a class="btn btn-dark btn-sm" 
-														th:href="@{/stock/modifyArticle(articleCode=${al.articleCode})}">삭제</a>
+														<button class="btn btn-dark btn-sm removeBtn"
+														th:data-articleCode="${al.articleCode}">삭제</button>
 													</span>
 												</td>
 											</tr>
@@ -135,5 +135,23 @@
 		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+		<script>
+			$('.removeBtn').click(function(){
+				var articleCode= $(this).attr('data-articleCode');
+				var request = $.ajax({
+					url: "/stock/removeArticle", 
+					method: "POST",
+					data: { articleCode : articleCode },
+					dataType: "text"
+				}); 
+				request.done(function( data ){
+					alert(data);
+					location.href="/stock/getArticle"
+				});
+				request.fail(function( err ){
+					console.log(err);
+				});
+			});
+		</script>
 	</th:block>
 </html>

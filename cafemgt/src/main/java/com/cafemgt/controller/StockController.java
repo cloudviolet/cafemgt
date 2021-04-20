@@ -1,5 +1,6 @@
 package com.cafemgt.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.DailyVolDto;
+import com.cafemgt.dto.DealingDto;
 import com.cafemgt.dto.SkkDto;
 import com.cafemgt.dto.StockDto;
 import com.cafemgt.dto.TotalStockDto;
 import com.cafemgt.service.ArticleService;
 import com.cafemgt.service.DailyVolService;
+import com.cafemgt.service.SalesService;
 import com.cafemgt.service.SkkService;
 import com.cafemgt.service.StockService;
+import com.cafemgt.service.TaxService;
 import com.cafemgt.service.TotalStockService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,18 +42,24 @@ public class StockController {
 	private final StockService stockService;
 	private final TotalStockService totalStockService;
 	private final DailyVolService dailyVolService;
+	private final TaxService taxService;
+	private final SalesService salesService;
 	
 	@Autowired
 	public StockController(ArticleService articleService
 						  ,SkkService skkService
 						  ,StockService stockService
 						  ,TotalStockService totalStockService
-						  ,DailyVolService dailyVolService) {
+						  ,DailyVolService dailyVolService
+						  ,TaxService taxService
+						  ,SalesService salesService) {
 		this.articleService = articleService;
 		this.skkService = skkService;
 		this.stockService = stockService;
 		this.totalStockService = totalStockService;
 		this.dailyVolService = dailyVolService;
+		this.taxService = taxService;
+		this.salesService = salesService;
 	}
 	
 	@PostConstruct
@@ -59,28 +69,17 @@ public class StockController {
 		System.out.println("======================================");
 	}
 	
+	/** article */
 	@GetMapping("/addArticle")
 	public String addArticle() {
 
 		return "stock/addarticle";
 	}
+	
 	@PostMapping("/addArticle")
 	public String addArticle(ArticleDto articleDto) {
 		articleService.addArticle(articleDto);
 		return "redirect:/stock/getArticle";
-	}
-	
-	@GetMapping("/addSkk")
-	public String addSkk(Model model, HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
-		model.addAttribute("articleList",articleList);
-		return "stock/addskk";
-	}
-	@PostMapping("/addSkk")
-	public String addSkk(SkkDto skkDto) {
-		skkService.addSkk(skkDto);
-		return "redirect:/stock/getSkkDeadLine";
 	}
 	
 	@GetMapping("/getArticle")
@@ -89,6 +88,59 @@ public class StockController {
 		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
 		model.addAttribute("articleList",articleList);
 		return "stock/getarticle";
+	}
+	
+	
+	@GetMapping("/modifyArticle")
+	public String modifyArticle(@RequestParam (value="articleCode", required = false) String articleCode
+							   ,Model model) {
+		ArticleDto articleDto = articleService.getArticleByArticleCode(articleCode);
+		model.addAttribute("articleDto",articleDto);
+		return "stock/modifyarticle";
+	}
+	
+	@PostMapping("/modifyArticle")
+	public String modifyArticle(ArticleDto articleDto) {
+		articleService.modifyArticle(articleDto);
+		return "redirect:/stock/getArticle";
+	}
+	@PostMapping("/removeArticle")
+	@ResponseBody
+	public String removeArticle(@RequestParam(value = "articleCode" , required = false)String articleCode) {
+		List<String> articleCodeList = articleService.getArticleByRemove();
+		boolean checking = true;
+		String returnString = "삭제 되었습니다.";
+		//다른 테이블에 사용하는지 확인
+		if(articleCode !=null && !"".equals(articleCode)) {
+			for(int i=0; i < articleCodeList.size();i++ ) {
+				if(articleCode.equals(articleCodeList.get(i))) {
+					checking = false;
+					returnString = "삭제 할 수 없습니다.";
+					return returnString;
+				}
+			}
+		}
+		//사용하지 않으면 삭제
+		if(checking) {
+			articleService.removeArticle(articleCode);
+		}
+		System.out.println(articleCodeList);
+		return returnString;
+	}
+	
+	/** Skk */
+	@GetMapping("/addSkk")
+	public String addSkk(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
+		model.addAttribute("articleList",articleList);
+		return "stock/addskk";
+	}
+	
+	@PostMapping("/addSkk")
+	public String addSkk(SkkDto skkDto) {
+		skkService.addSkk(skkDto);
+		return "redirect:/stock/getSkkDeadLine";
 	}
 	
 	@GetMapping("/getSkk")
@@ -109,13 +161,19 @@ public class StockController {
 		model.addAttribute("articleList",articleList);
 		return "stock/modifySkk";
 	}
+	
 	@PostMapping("/modifySkk")
 	public String modifySkk(SkkDto skkDto) {
 		skkService.modifySkk(skkDto);
 		System.out.println(skkDto);
 		return "redirect:/stock/getSkk";
 	}
-	
+	@GetMapping("/removeSkk")
+	public String removeSkk(String skCode) {
+		skkService.removeSkk(skCode);
+		
+		return "redirect:/stock/getSkk";
+	}
 	@GetMapping("/getSkkDeadLine")
 	public String getskkDeadLine(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -125,6 +183,7 @@ public class StockController {
 		model.addAttribute("totalStockList",totalStockList);
 		return "stock/getskkDeadLine";
 	}
+	
 	@PostMapping("/getSkkDeadLine")
 	public String getskkDeadLine( 
 								@RequestParam (value="volumeTotal", required = false) int volumeTotal
@@ -225,79 +284,7 @@ public class StockController {
 		return "redirect:/stock/getSkkDeadLine";
 	}
 	
-	@PostMapping("/getStockByArticleCode")
-	@ResponseBody
-	public List<StockDto> getStockByArticleCode(
-			 @RequestParam (value="articleCode", required = false) String articleCode
-			,HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("articleCode", articleCode);
-		resultMap.put("SSTORECODE", SSTORECODE);
-		
-		List<StockDto> stockList =stockService.getStockByArticleCode(resultMap);
-		return stockList;
-	}
-	@GetMapping("/getStock")
-	public String getStock(Model model, HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		Map<String, Object> stockMap = new HashMap<>();
-		stockMap.put("SSTORECODE", SSTORECODE);
-		List<StockDto> stockList = stockService.getStock(stockMap);
-		List<StockDto> getStockTableList = stockService.getStockByTable(SSTORECODE);
-		model.addAttribute("stockList",stockList);
-		model.addAttribute("getStockTableList",getStockTableList);
-		return "stock/getstock";
-	}
-	@PostMapping("/addStock")
-	@ResponseBody
-	public String addStock(@RequestParam(value = "arrayStock[]", required = false) List<String> arrayStock
-						  ,@RequestParam(value = "SSTORECODE", required = false) String SSTORECODE) {
-
-		Map<String, Object> stockMap = new HashMap<>();
-		stockMap.put("SSTORECODE", SSTORECODE);
-		stockMap.put("arrayStock", arrayStock);
-		List<StockDto> stockList = stockService.getStock(stockMap);
-		int result = stockService.addStock(stockList);
-		String rtString = "";
-		if(result > 0 ) {
-			rtString = "정상 동작";
-		}else {
-			rtString = "insert 실패";
-		}
-			
-		return rtString;
-	}
-	@PostMapping("/addTotalStock")
-	@ResponseBody
-	public String addTotalStock( @RequestParam(value = "arrayPurchases", required = false) String arrayPurchases) {
-		
-		
-		System.out.println(arrayPurchases);
-		try {
-			
-			List<Map<String,Object>> info = new Gson().fromJson(arrayPurchases, 
-											new TypeToken<List<Map<String, Object>>>(){}.getType());
-			
-			for(int i = 0 ; i < info.size(); i++) {
-				Map<String, Object> purchasesMap = new HashMap<>();
-				purchasesMap.put("storeInfoCode",info.get(i).get("storeInfoCode")); 
-				purchasesMap.put("incoCode",info.get(i).get("incoCode")); 
-				purchasesMap.put("articleCode",info.get(i).get("articleCode")); 
-				purchasesMap.put("incoVolumeSubtotal",info.get(i).get("incoVolumeSubtotal")); 
-				purchasesMap.put("incoCount",info.get(i).get("incoCount")); 
-				System.out.println(purchasesMap);
-				totalStockService.addTotalStock(purchasesMap);
-				totalStockService.modifyIncoDeadLine((String)info.get(i).get("incoCode"));
-			}
-		
-		}catch (Exception e) {
-		}
-		
-		String rtString = "";
-			
-		return rtString;
-	}
+	/**  dailyVol */
 	@GetMapping("/getDailyvolume")
 	public String getDailyVol(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -315,6 +302,7 @@ public class StockController {
 		model.addAttribute("totalStockList",totalStockList);
 		return "stock/getdailyvolDeadLine";
 	}
+	
 	/* 일일 품목 소모량 조회에서 마감처리시 품목별 재고 총 수량 조회에 등록하는 컨트롤러  */
 	@PostMapping("/getDailyvolDeadLine")
 	public String getDailyVolDeadLine(
@@ -399,6 +387,21 @@ public class StockController {
 		return "redirect:/stock/getDailyvolDeadLine";
 	}
 	
+	/** Stock */
+	@GetMapping("/getStock")
+	public String getStock(Model model, HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		Map<String, Object> stockMap = new HashMap<>();
+		stockMap.put("SSTORECODE", SSTORECODE);
+		List<StockDto> stockList = stockService.getStock(stockMap);
+		List<StockDto> getStockTableList = stockService.getStockByTable(SSTORECODE);
+		model.addAttribute("stockList",stockList);
+		model.addAttribute("getStockTableList",getStockTableList);
+		return "stock/getstock";
+	}
+	
+	
+	/** TotalStock */
 	@GetMapping("/getTotalStock")
 	public String getTotalStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
@@ -407,29 +410,8 @@ public class StockController {
 		return "stock/gettotalstock";
 	}
 	
-	@PostMapping("/getIncomeList")
-	@ResponseBody
-	public List<TotalStockDto> getIncomeList(@RequestParam (value = "incoCode",required = false) String incoCode
-			,Model model , HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, incoCode);
-		return totalStockList;
-	}
 	
-	@GetMapping("/modifyArticle")
-	public String modifyArticle(@RequestParam (value="articleCode", required = false) String articleCode
-							   ,Model model) {
-		ArticleDto articleDto = articleService.getArticleByArticleCode(articleCode);
-		model.addAttribute("articleDto",articleDto);
-		return "stock/modifyarticle";
-	}
-	
-	@PostMapping("/modifyArticle")
-	public String modifyArticle(ArticleDto articleDto) {
-		articleService.modifyArticle(articleDto);
-		return "redirect:/stock/getArticle";
-	}
-	
+	/** ajax */
 	@PostMapping("/salesDeadline")
 	@ResponseBody
 	public String salesDeadline(@RequestParam (value = "arraySales[]", required = false) List<String> arraySales
@@ -446,12 +428,23 @@ public class StockController {
 		int result = 0;
 		
 		  List<DailyVolDto> dailyVolList = dailyVolService.getSalesByDailyVol(salesInfoMap); 
-		  for(int i =0 ; i <  dailyVolList.size(); i++) {
-			  System.out.println(dailyVolList.get(i)); 
-			  result  += dailyVolService.addDailyVol(dailyVolList.get(i)); 
-		  }
-		 
+		  List<DealingDto> getSalesList = taxService.getSalesByDealing(salesInfoMap);
+		  
+		for(int i =0 ; i <  dailyVolList.size(); i++) {
+			System.out.println(dailyVolList.get(i)); 
+			result += dailyVolService.addDailyVol(dailyVolList.get(i));
+		}
+		for(int k=0; k<getSalesList.size(); k++) {
+			System.out.println(getSalesList.get(k)); 
+			result += taxService.addDealing(getSalesList.get(k));
+		}
+		for(int j = 0 ; j < arraySales.size() ; j++) {
+			salesService.addCostDetail(arraySales.get(j), SSTORECODE);
+		}
+		
 		dailyVolService.modifySalesDeadLine(arraySales);
+		taxService.modifySalesDeadLineForTax(arraySales);
+		 
 		if(result >= 1) {
 			returnValue = "정상처리";
 		}
@@ -459,5 +452,93 @@ public class StockController {
 		return returnValue;
 	}
 	
+	@PostMapping("/getIncomeList")
+	@ResponseBody
+	public List<TotalStockDto> getIncomeList(@RequestParam (value = "incoCode",required = false) String incoCode
+			,Model model , HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		List<TotalStockDto> totalStockList = totalStockService.getTotalStockByIncoCode(SSTORECODE, incoCode);
+		return totalStockList;
+	}
 	
+	@PostMapping("/getStockByArticleCode")
+	@ResponseBody
+	public List<StockDto> getStockByArticleCode(
+			 @RequestParam (value="articleCode", required = false) String articleCode
+			,HttpSession session) {
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("articleCode", articleCode);
+		resultMap.put("SSTORECODE", SSTORECODE);
+		
+		List<StockDto> stockList =stockService.getStockByArticleCode(resultMap);
+		return stockList;
+	}
+	
+	@PostMapping("/addStock")
+	@ResponseBody
+	public String addStock(@RequestParam(value = "arrayStock[]", required = false) List<String> arrayStock
+						  ,@RequestParam(value = "SSTORECODE", required = false) String SSTORECODE) {
+
+		Map<String, Object> stockMap = new HashMap<>();
+		stockMap.put("SSTORECODE", SSTORECODE);
+		stockMap.put("arrayStock", arrayStock);
+		List<StockDto> stockList = stockService.getStock(stockMap);
+		int result = stockService.addStock(stockList);
+		String rtString = "";
+		if(result > 0 ) {
+			rtString = "정상 동작";
+		}else {
+			rtString = "insert 실패";
+		}
+			
+		return rtString;
+	}
+
+	@PostMapping("/addTotalStock")
+	@ResponseBody
+	public String addTotalStock( @RequestParam(value = "arrayPurchases", required = false) String arrayPurchases
+								,HttpSession session) {
+		
+		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
+		System.out.println(arrayPurchases);
+		try {
+			if(!"".equals(arrayPurchases)) {
+				List<Map<String,Object>> info = new Gson().fromJson(arrayPurchases, 
+												new TypeToken<List<Map<String, Object>>>(){}.getType());
+				List<String> arrayPurchasesTax = new ArrayList<>();
+				for(int i = 0 ; i < info.size(); i++) {
+					Map<String, Object> purchasesMap = new HashMap<>();
+					purchasesMap.put("storeInfoCode",info.get(i).get("storeInfoCode")); 
+					purchasesMap.put("incoCode",info.get(i).get("incoCode")); 
+					purchasesMap.put("articleCode",info.get(i).get("articleCode")); 
+					purchasesMap.put("incoVolumeSubtotal",info.get(i).get("incoVolumeSubtotal")); 
+					purchasesMap.put("incoCount",info.get(i).get("incoCount")); 
+					System.out.println(purchasesMap);
+					
+					String incoCode = (String) info.get(i).get("incoCode");
+					arrayPurchasesTax.add(incoCode);
+					
+					totalStockService.addTotalStock(purchasesMap);
+					totalStockService.modifyIncoDeadLine(incoCode);
+				}
+				
+				Map<String, Object> purchasesInfoMap = new HashMap<>();
+				
+				purchasesInfoMap.put("SSTORECODE", SSTORECODE);
+				purchasesInfoMap.put("arrayPurchases", arrayPurchasesTax);
+				
+				List<DealingDto> getPurchsesList = taxService.getPurchasesByDealing(purchasesInfoMap);
+				for(int i=0; i<getPurchsesList.size();i++) {
+					taxService.addDealing(getPurchsesList.get(i));
+				}
+				taxService.modifyPurchasesDeadLineTax(arrayPurchasesTax);
+			}
+		}catch (Exception e) {
+		}
+		
+		String rtString = "";
+			
+		return rtString;
+	}
 }

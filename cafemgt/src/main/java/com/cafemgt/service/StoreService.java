@@ -62,7 +62,11 @@ public class StoreService {
 		return storeDtoList;
 	}
 	
+	public int addLogIn(String memberId) {
+		return storeMapper.addLogIn(memberId);
+	}
 	
-	
-
+	public int addLogOut(String memberId) {
+		return storeMapper.addLogOut(memberId);
+	}
 }

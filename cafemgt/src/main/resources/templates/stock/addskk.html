@@ -103,9 +103,8 @@
 							</form>
 							<div class="form-group row">
 								<div class="col-md-6 col-sm-6 offset-sm-3 text-center">
-									<button class="btn btn-primary" type="button" id="cancelBtn">Cancel</button>
-									<button class="btn btn-warning" type="reset" id="resetBtn">Reset</button>
-									<button class="btn btn-success" type="submit" id="submitBtn">다음페이지 이동</button>
+									<button class="btn btn-success" type="reset" id="resetBtn">다시작성</button>
+									<button class="btn btn-primary" type="submit" id="submitBtn">다음페이지 이동</button>
 								</div>
 							</div>
 						</div>
@@ -186,9 +185,6 @@
 		});
 		$('#resetBtn').click(function(){
 			$('#demo-form2')[0].reset();
-		})
-		$('#cancelBtn').click(function(){
-			location.href="/getskk";
 		})
 		$('#articleCode').mousedown(function(){
 			$('#demo-form2')[0].reset();

@@ -45,4 +45,8 @@ public class SkkService {
 	public int modifySkkDeadlineCheck(String skCode) {
 		return skkMapper.modifySkkDeadlineCheck(skCode);
 	}
+	
+	public int removeSkk(String skCode) {
+		return skkMapper.removeSkk(skCode);
+	}
 }
