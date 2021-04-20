@@ -75,7 +75,7 @@ public class TaxController {
 	}
 	
 	@GetMapping("/addsales")
-	public String addsales(Model model, HttpSession session) {
+	public String addSales(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		String MID = (String)session.getAttribute("MID");
 		String MNAME = (String)session.getAttribute("MNAME");
@@ -93,7 +93,7 @@ public class TaxController {
 	}
 	
 	@GetMapping("/addpurchases")
-	public String addpurchases(Model model, HttpSession session) {
+	public String addPurchases(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		String MID = (String)session.getAttribute("MID");
 		String MNAME = (String)session.getAttribute("MNAME");
@@ -191,7 +191,7 @@ public class TaxController {
 		return "pands/salesdeadlinefortax";
 	}
 	
-	@PostMapping("/salesDeadlineForTax")
+	@PostMapping("/salesdeadlinefortax")
 	@ResponseBody
 	public String salesDeadlineForTax(@RequestParam(value = "arraySales[]",required = false)List<String> arraySales
 									  ,HttpSession session) {
@@ -262,30 +262,41 @@ public class TaxController {
 	@GetMapping("/gettotalpands")
 	public String getTotalPandS(Model model , HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		//dealing테이블에서 가장 오래된 날짜 가져오기
-		Map<String, String> dateList = new HashMap<>();	
-		dateList = taxService.getOldDateByDealing(SSTORECODE);
-		System.out.println(dateList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		model.addAttribute("dateList", dateList);
+		Map<String,String> yearFromDealing = new HashMap<>();
+		yearFromDealing = taxService.getYearFromDealing(SSTORECODE);
+		model.addAttribute("yearFromDealing", yearFromDealing);		
 		return "tax/gettotalpands";
 	}
 	
 	@PostMapping("/gettotalpands")
 	@ResponseBody
-	public Map<String,Object> getTotalPandS(
-			@RequestParam (value = "searchFirstDate",required = false)String searchFirstDate 
-			,@RequestParam (value = "searchLastDate",required = false)String searchLastDate 
-			,Model model , HttpSession session){
-		System.out.println(searchFirstDate);
-		System.out.println(searchLastDate);
+	public Map<String, Object> getTotalPandS(
+			@RequestParam (value = "nowMonth",required = false)String nowMonth 
+			,@RequestParam(value="firstValue",required = false)String firstValue
+			,@RequestParam(value = "lastValue",required = false)String lastValue
+			, HttpSession session){
+		System.out.println(nowMonth+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(firstValue+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(lastValue+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		Map<String, Object> map = new HashMap<>();	
-		map = salesService.getTotalPandS(searchFirstDate,searchLastDate,SSTORECODE);
-		System.out.println(map);
-			return map;			
+		Map<String, Object> monthMap = new HashMap<>();
+		Map<String, Object> periodMap = new HashMap<>();
+		Map<String, Object> resultMap = new HashMap<>();
+		monthMap.put("SSTORECODE", SSTORECODE);
+		monthMap.put("nowMonth", nowMonth);
+		periodMap.put("SSTORECODE", SSTORECODE);
+		periodMap.put("firstValue", firstValue);
+		periodMap.put("lastValue", lastValue);
+		resultMap = taxService.getTotalpands(monthMap);
+		if(firstValue!= null &&lastValue!=null) {
+			resultMap = taxService.getTotalpandsPeriod(periodMap);
+			System.out.println(resultMap);
+			return resultMap;		
+		}
+		return resultMap;			
 	}
 		
-	@PostMapping("/getmyvat")
+	@PostMapping("/getvat")
 	@ResponseBody
 	public VatDto getMyVat( @RequestParam(value = "searchDays", required = false)String searchDays 
 						   ,HttpSession session){
@@ -307,11 +318,11 @@ public class TaxController {
 	
 	@PostMapping("/addintendedtax")
 	@ResponseBody
-	public boolean addIntendedTax(@RequestParam(value = "intendedDays",required = false)String intendedDays
-								 ,@RequestParam(value = "vatIntendedTax",required = false)String vatIntendedTax
+	public boolean addIntendedTax(@RequestParam(value = "intendedYearMonth",required = false)String intendedYearMonth
+								 ,@RequestParam(value = "vatIntendedTaxValue",required = false)String vatIntendedTaxValue
 								 ,HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");	
-		int result = taxService.addIntendedTax(intendedDays,vatIntendedTax,SSTORECODE);
+		int result = taxService.addIntendedTax(intendedYearMonth,vatIntendedTaxValue,SSTORECODE);
 		System.out.println(result);
 		boolean addIntendedTaxResult = false;
 		if(result==1) {

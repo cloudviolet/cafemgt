@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+	
+	<th:block layout:fragment="customTitle">
+		<title>매출매입조회</title>
+	</th:block>
+
+	<th:block layout:fragment="customContents">
+		<div class="right_col" role="main">
+			<div class="col-md-12 col-sm-12">
+              <div class="x_panel tile overflow_hidden">
+                <div class="x_title">
+                  <h2>Device Usage</h2>
+                 	<ul class="nav navbar-right panel_toolbox">
+						<li><a type="submit" th:href="@{/getvat}" style="color: black;" class="btn btn-ifno btn-sm" >예상 부가가치세 조회</a></li>					
+					</ul>
+                  <div class="clearfix"></div>
+                </div>
+                 <div class="col-md-9 col-sm-9 ">
+
+                      <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">기본 정보</a>
+                          </li>
+                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">추가 정보</a>
+                          </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                          <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+
+                          </div>
+                          <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+                            <!-- end 추가정보  -->
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+	</th:block>
+	
+	<th:block layout:fragment="customJs">
+	<!-- Chart.js -->
+    <script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+    <!-- gauge.js -->
+    <script th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
+	<!-- Flot -->
+    <script th:src="@{/vendors/Flot/jquery.flot.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
+    <!-- Flot plugins -->
+    <script th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
+    <script th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
+    <script th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
+    <!-- DateJS -->
+    <script th:src="@{/vendors/DateJS/build/date.js}"></script>
+   
+    <script>
+    var searchFirstDate = $('#searchFirstDate');
+    var searchLastDate = $('#searchLastDate');
+    var minDate = '[[${dateList.mindate}]]';
+    var maxDate = '[[${dateList.maxdate}]]';
+    console.log(minDate,maxDate);
+    console.log(Number(minDate.replace(/-/gi,'')));
+    console.log(Number(maxDate.replace(/-/gi,'')));
+    
+    
+    
+    
+    $('#searchBtn').click(function(){
+	    var NumFirstDate = Number(searchFirstDate.val().replace(/-/gi,''));
+	    var NumLastDate = Number(searchLastDate.val().replace(/-/gi,''));
+	    var NumMinDate = Number(minDate.replace(/-/gi,''));
+	    var NumMaxDate = Number(maxDate.replace(/-/gi,''));
+	    if(NumFirstDate>NumLastDate||NumMaxDate<NumFirstDate||NumLastDate<NumMinDate||NumFirstDate<=NumMinDate||NumLastDate>=NumMaxDate){
+	    	alert(minDate+' ~ '+maxDate+' 사이의 날짜를 선택해주세요.');
+	    }else{
+			var request = $.ajax({
+				url: "/tax/gettotalpands", 
+				method: "POST",
+				data: { searchFirstDate : searchFirstDate.val()
+						,searchLastDate : searchLastDate.val() },
+				dataType: "json"
+			,
+	        success : function(result) {
+	        	if(result){
+			        $('#chartTable').show();
+			        var totalSales = result.totalSales;
+			        var totalPurchases = result.totalPurchases;
+			        var totalOtherPurchases = result.totalOtherPurchases;
+			        var sumTotal = totalSales + totalPurchases + totalOtherPurchases;
+			        
+			        var totlaSalesPer = (totalSales/sumTotal*100).toFixed(2);
+			        var totalPurchasesPer = (totalPurchases/sumTotal*100).toFixed(2);
+			        var totalOtherPurchasesPer = (totalOtherPurchases/sumTotal*100).toFixed(2);
+			        $('#slaesPer').text(totlaSalesPer);
+			        $('#purchasesPer').text(totalPurchasesPer);
+			        $('#otherPurchasesPer').text(totalOtherPurchasesPer);
+			        
+			       	   data = {
+			       			   datasets: [{
+			       					backgroundColor: ['#E6E6FA','#FFFACD','#AFEEEE'], 
+			       					data: [totalSales, totalPurchases, totalOtherPurchases] 
+			       				}], 
+			       				// 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 
+			       				labels: ['매출','매입','기타지출'] 
+			       				};
+			       	
+			       			var ctx1 = $('.purchasesandsales');
+			       			var myPieChart = new Chart(ctx1, { 
+			       				type: 'pie', 
+			       				data: data, 
+			       				options: {} 
+			       			})        		
+	        	}
+	        },
+	        error : function(xhr,status,error) {
+	        	console.log("xhr: " + xhr);
+	        	console.log("status: " + status);
+	        	console.log("error: " + error);
+	        	 $('#chartTable').hide();
+	        }
+			});
+	    	
+	    }
+    });
+
+    
+    </script>
+	</th:block>
+
+</html>
