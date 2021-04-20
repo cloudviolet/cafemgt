@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +56,8 @@ public class StoreController {
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
+		String MID = (String)session.getAttribute("MID");
+		storeService.addLogOut(MID);
 		session.invalidate();
 		return "redirect:/";
 	}
@@ -63,60 +66,60 @@ public class StoreController {
 	public String login(@RequestParam(value="inId", required = false)String memberId
 					   ,@RequestParam(value="inPw", required = false)String memberPw
 					   ,HttpSession session) {
-		System.out.println(memberId + "++++++++++++++++++++++++id");
-		System.out.println(memberPw + "++++++++++++++++++++++++pw");
 		if((memberId != null && !"".equals(memberId)) &&
 		   (memberPw != null && !"".equals(memberPw))) {
-			String result = memberService.login(memberId, memberPw);
-			System.out.println(result +"++++++로그인성공++++++");
-			if(result.equals("로그인 성공")) {				
-				  MemberDto memberDto = memberService.getinfoMember(memberId);
+			
+			  String result = memberService.login(memberId, memberPw);
+			  
+			  System.out.println(result +"++++++로그인성공++++++");
+			  
+			  if(result.equals("로그인 성공")) {
+				  MemberDto memberDto =memberService.getinfoMember(memberId);
 				  
 				  System.out.println(memberDto.getMemberId());
 				  System.out.println(memberDto.getMemberName());
-				  System.out.println(memberDto.getLevelCode());
-				 String SLEVEL = memberDto.getLevelCode();
-				  session.setAttribute("MID", memberDto.getMemberId());
-				  session.setAttribute("MNAME", memberDto.getMemberName());				 			 
-				  session.setAttribute("SLEVEL", SLEVEL);				 
-			
+				  System.out.println(memberDto.getLevelCode()); 
+				  String SLEVEL = memberDto.getLevelCode(); 
+				  session.setAttribute("MID", memberDto.getMemberId()); 
+				  session.setAttribute("MNAME", memberDto.getMemberName()); 
+				  session.setAttribute("SLEVEL", SLEVEL);
+				  storeService.addLogIn(memberDto.getMemberId());
 				  
 				  List<MemberDto> memberDtoList = memberService.getStoreChoice(memberDto.getMemberId());
 				  if("level_01".equals(SLEVEL)) {
 					  
-					  if(memberDtoList.size() >= 2) {
-						  for(int i=0; i<memberDtoList.size(); i++) {
-							  System.out.println(memberDtoList.get(i).getStoreInfoName()+"<---상호명");
-	
-						  }
-						  
-						  return "redirect:/store/storechoice";
-					  }else if(memberDtoList.size() == 1) {
-						  String MID = (String)session.getAttribute("MID");
-						  System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-						  session.setAttribute("SSTORECODE", memberDtoList.get(0).getStoreInfoCode());				 
-						  session.setAttribute("SSTORENAME", memberDtoList.get(0).getStoreInfoName());		
-						  System.out.println(memberDtoList.get(0).getStoreInfoCode());
-						  System.out.println(session.getAttribute("SSTORECODE"));
-						  System.out.println(memberDtoList.get(0).getStoreInfoName()+"<<<<<<<<<<<<<<<<<<<<<!!!!!!!!!!!!<<<<<<");
-						  
-						  
-					  }else {
-						  return "redirect:/store/addstore";
+					  if(memberDtoList.size() >= 2) { for(int i=0; i<memberDtoList.size(); i++) {
+					  System.out.println(memberDtoList.get(i).getStoreInfoName()+"<---상호명");
+					  
 					  }
 					  
+					  return "redirect:/store/storechoice"; 
 				  }
-				  else if("level_02".equals(SLEVEL)||"level_03".equals(SLEVEL) ) {
-					  UserDto userDto = userService.userLogin(memberId);
 					  
-					  session.setAttribute("SSTORECODE", userDto.getStoreInfoCode());				 
-					  session.setAttribute("SSTORENAME", userDto.getStoreInfoName());				 
+				  else if(memberDtoList.size() == 1) {
+				  String MID = (String)session.getAttribute("MID");
+				 
+				  System.out.println(MID+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+				  session.setAttribute("SSTORECODE", memberDtoList.get(0).getStoreInfoCode());
+				  session.setAttribute("SSTORENAME", memberDtoList.get(0).getStoreInfoName());
+				  System.out.println(memberDtoList.get(0).getStoreInfoCode());
+				  System.out.println(session.getAttribute("SSTORECODE"));
+				  System.out.println(memberDtoList.get(0).getStoreInfoName()+ "<<<<<<<<<<<<<<<<<<<<<!!!!!!!!!!!!<<<<<<");
+					  
+					  
+				  }else {
+					  return "redirect:/store/addstore"; 
 				  }
-				  System.out.println(memberDtoList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-
-			}else {
-				return "redirect:/store/login";	
-			}
+				  
+			  } else if("level_02".equals(SLEVEL)||"level_03".equals(SLEVEL) ) { UserDto
+			  userDto = userService.userLogin(memberId);
+			  
+			  session.setAttribute("SSTORECODE", userDto.getStoreInfoCode());
+			  session.setAttribute("SSTORENAME", userDto.getStoreInfoName()); }
+			  System.out.println(memberDtoList+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			  
+			  }else { return "redirect:/store/login"; }
+			 
 			return "redirect:/";			
 		}
 		return "redirect:/store/login";
@@ -154,6 +157,12 @@ public class StoreController {
 	
 	@PostMapping("/adduserjoin")
 	public String adduserjoin(MemberDto memberDto, UserDto userDto) {
+		StandardPBEStringEncryptor stringPBEConfig = new StandardPBEStringEncryptor();
+		stringPBEConfig.setPassword("cafemgt");		   //대칭키 (암호화 키) 설정
+		stringPBEConfig.setAlgorithm("PBEWithMD5AndDES");  //사용할 암호화  알고리즘
+
+		memberDto.setMemberPw(stringPBEConfig.encrypt(memberDto.getMemberPw()));
+
 		memberService.addUserjoin(memberDto);
 		System.out.println(memberDto);
 		System.out.println(userDto);
@@ -163,12 +172,12 @@ public class StoreController {
 	
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
 	public @ResponseBody boolean idCheck(@RequestParam(value = "memberId", required = false) String memberId) {
-		System.out.println(memberId+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		System.out.println(memberId+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 입력받은 아이디");
 		boolean checkResult = false;
 		
 		if(memberId != null && !"".equals(memberId)) {
 			MemberDto memberDto = memberService.getinfoMember(memberId);
-			System.out.println(memberDto+"<<<<<<<<<<<<");
+			System.out.println(memberDto+"<<<<<<<<<<<<memberDto");
 			if(memberDto != null) {
 				checkResult = true;
 			}
@@ -179,6 +188,12 @@ public class StoreController {
 	
 	@PostMapping("/join")
 	public String addMember(MemberDto memberDto) {
+		StandardPBEStringEncryptor stringPBEConfig = new StandardPBEStringEncryptor();
+		stringPBEConfig.setPassword("cafemgt");		   //대칭키 (암호화 키) 설정
+		stringPBEConfig.setAlgorithm("PBEWithMD5AndDES");  //사용할 암호화  알고리즘
+
+		memberDto.setMemberPw(stringPBEConfig.encrypt(memberDto.getMemberPw()));
+
 		memberService.addMember(memberDto);
 		return "redirect:/store/login";	
 	}
@@ -251,10 +266,10 @@ public class StoreController {
 		}
 
 	@GetMapping("/modifystore")
-	public String modifystore(Model model, HttpSession session) {
+	public String modifystore(Model model, HttpSession session, @RequestParam(value="storeInfoCode") String storeInfoCode) {
 		System.out.println("사업장 수정화면");		
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		StoreDto storeDto = storeService.getinfoStore(SSTORECODE);
+		StoreDto storeDto = storeService.getinfoStore(storeInfoCode);
 		System.out.println(storeDto);
 		model.addAttribute("storeDto", storeDto);
 		return "store/modifystore";		

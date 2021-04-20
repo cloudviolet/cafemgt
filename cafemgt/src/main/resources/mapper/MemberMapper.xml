@@ -172,8 +172,7 @@
 		tb_user AS u
 		on
 		m.member_id = u.member_id
-		WHERE m.member_id =#{MID}
-		AND m.member_delete ='x'	
+		WHERE m.member_id =#{MID}	
 	</select>
 	<!-- 직원 회원가입 -->
 	<insert id="addUserjoin" parameterType="MemberDto">
@@ -185,8 +184,9 @@
 		, member_phone
 		, member_email
 		, member_birth
-		, member_reg_date)
-	VALUES (#{memberId}, #{memberPw}, #{memberName}, #{levelCode}, #{memberPhone}, #{memberEmail}, #{memberBirth}, NOW())
+		, member_reg_date
+		, member_delete)
+	VALUES (#{memberId}, #{memberPw}, #{memberName}, #{levelCode}, #{memberPhone}, #{memberEmail}, #{memberBirth}, NOW(),'x')
 	</insert>
 	
 	<!-- 사업주 회원 가입 -->
@@ -199,8 +199,9 @@
 		, member_phone
 		, member_email
 		, member_birth
-		, member_reg_date)
-	VALUES (#{memberId}, #{memberPw}, #{memberName}, 'level_01', #{memberPhone}, #{memberEmail}, #{memberBirth}, NOW())
+		, member_reg_date
+		, member_delete)
+	VALUES (#{memberId}, #{memberPw}, #{memberName}, 'level_01', #{memberPhone}, #{memberEmail}, #{memberBirth}, NOW(),'x')
 	
 	
 	</insert>

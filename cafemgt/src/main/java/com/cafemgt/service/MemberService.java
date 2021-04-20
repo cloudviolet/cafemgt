@@ -2,6 +2,7 @@ package com.cafemgt.service;
 
 import java.util.List;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +26,18 @@ public class MemberService {
 	}
 	
 	public String login(String memberId, String memberPw) {
+		StandardPBEStringEncryptor stringPBEConfig = new StandardPBEStringEncryptor();
+		stringPBEConfig.setPassword("cafemgt");		   //대칭키 (암호화 키) 설정
+		stringPBEConfig.setAlgorithm("PBEWithMD5AndDES");  //사용할 암호화  알고리즘
+		
 		String result = "로그인 성공 실패";
 		if(memberId != null && !"".equals(memberId) &&
 		   memberPw != null && !"".equals(memberPw)) {			
 			MemberDto memberDto = memberMapper.getinfoMember(memberId);
+			String decryptMemberPw = (stringPBEConfig.decrypt(memberDto.getMemberPw()));
+			System.out.println(decryptMemberPw);
 			if(memberId.equals(memberDto.getMemberId())) {
-				if(memberPw.equals(memberDto.getMemberPw())) {
+				if(memberPw.equals(decryptMemberPw)) {
 					result ="로그인 성공";
 				}else {
 					result ="비밀번호 불일치";
