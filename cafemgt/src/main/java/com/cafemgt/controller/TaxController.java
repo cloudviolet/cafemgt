@@ -419,9 +419,4 @@ public class TaxController {
 		return "redirect:/tax/getotherpurchases";
 	}
 	
-	@GetMapping("/gettotalsalary")
-	public String getTotalSalary() {
-		return "tax/gettotalsalary";
-	}
-
 }

@@ -17,8 +17,8 @@
 				 font-size:20px; 
 				 width:100%; 
 				 height: 100px; 
-				 margin: auto; 
-				 text-align: center;
+				 margin-left: 40px; 
+				 text-align: left;
 			}
 			.myChart-legend ol, 
 			.myChart-legend ul { 
@@ -56,6 +56,12 @@
 				border-radius:100px; 
 				margin: 9px 5px; 
 			}
+			tbody i {
+				margin-left : 10px;
+			}
+			tbody a:hover {
+				cursor:pointer;
+			}
 		</style>
 	</th:block>
 
@@ -75,43 +81,73 @@
 									<div class="col-md-6 col-sm-6" id="contend1">
 										<div class="row">
 											<div class="col-md-12 col-sm-12">
-												<h3 style="text-align: center;">2021년</h3>
+												<h3 style="text-align: center;"><span id="incomeStatementTitle"></span></h3>
 											</div>
 											<div class="col-md-12 col-sm-12">
 												<table id="incomeStatementTable">
 													<tbody>
 														<tr>
-															<th>매출액</th>
-															<td>300000</td>
+															<th>매출</th>
+															<td><span id="totalSalse"></span></td>
 														</tr>
 														<tr>
-															<th>매출액</th>
-															<td>300000</td>
+															<th>매입</th>
+															<td><span id="totalPurchases"></span></td>
 														</tr>
 														<tr>
-															<th>매출액</th>
-															<td>300000</td>
+															<th>매출총이익</th>
+															<td><span id="instSalesAmtTotal"></span></td>
 														</tr>
 														<tr>
-															<th>매출액</th>
-															<td>300000</td>
+															<th><a data-toggle="modal" data-target="#myModal">판매비와 일반관리비<i class="fa fa-angle-double-right fa-lg	"></i></a></th>
+															<td><span id="totalOtherPurchases"></span></td>
 														</tr>
 														<tr>
-															<th>매출액</th>
-															<td>300000</td>
+															<th>영업이익</th>
+															<td><span id="totalOp"></span></td>
+														</tr>
+														<tr>
+															<th>영업외수익</th>
+															<td><span id="instNoi"></span></td>
+														</tr>
+														<tr>
+															<th>영업외비용</th>
+															<td><span id="instNoe"></span></td>
+														</tr>
+														<tr>
+															<th>당기순이익</th>
+															<td><span id="instNetIncome"></span></td>
 														</tr>
 													</tbody>
-												</table>
+												</table>												
 											</div>
 										</div>
 									</div>
+									<!-- 판관비 -->
+									<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										      </div>
+										      <div class="modal-body">
+										        ...
+										      </div>
+										      <div class="modal-footer">
+										        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										        <button type="button" class="btn btn-primary">Save changes</button>
+										      </div>
+										    </div>
+										  </div>
+										</div>
+									<!-- CHART 시작  -->
 									<div class="col-md-6 col-sm-6" id="contend2">
 										<div class="row">
 											<div class="col-md-12 col-sm-12">
-												<h3 style="text-align: center;">2020년과 2021년비교</h3>
+												<h3 style="text-align: center;"><span id="chartTitle"></span></h3>
 											</div>
-											<div class="col-md-12 col-sm-12">
-												<!-- CHART 시작  -->
+											<div class="col-md-12 col-sm-12">												
 												<div id="myChartLegend" class="myChart-legend"></div>
 												<div class="col-md-12 col-sm-12" style="align-content: center; margin-top: 20px;">
 									                <div class="container" > 
@@ -172,8 +208,11 @@
 				//현재
 				var nowTotalSalse = result.nowISList.instSaleSupplyValue;
 				var nowTotalPurchases = result.nowISList.instPurchaseSupplyValue;
+				var nowInstSalesAmtTotal =result.nowISList.instSalesAmtTotal;
 				var nowTotalOtherPurchases = result.nowISList.instExpenses;
 				var nowTotalOp = result.nowISList.instOp;
+				var nowInstNoi = result.nowISList.instNoi;
+				var nowInstNoe = result.nowISList.instNoe;
 				var nowInstNetIncome = result.nowISList.instNetIncome;
 				//1년전꺼
 				var agoTotalSalse = result.agoISList.instSaleSupplyValue;
@@ -182,6 +221,26 @@
 				var agoTotalOp = result.agoISList.instOp;
 				var agoInstNetIncome = result.agoISList.instNetIncome;
 				
+				//table
+				const cn1 = nowTotalSalse.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				const cn2 = nowTotalPurchases.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				const cn3 = nowInstSalesAmtTotal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				const cn4 = nowTotalOtherPurchases.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				const cn5 = nowTotalOp.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				const cn6 = nowInstNoi.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				const cn7 = nowInstNoe.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				const cn8 = nowInstNetIncome.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				
+				$('#totalSalse').text(cn1+' 원');
+				$('#totalPurchases').text(cn2+' 원');
+				$('#instSalesAmtTotal').text(cn3+' 원');
+				$('#totalOtherPurchases').text(cn4+' 원');
+				$('#totalOp').text(cn5+' 원');
+				$('#instNoi').text(cn6+' 원');
+				$('#instNoe').text(cn7+' 원');
+				$('#instNetIncome').text(cn8+' 원');
+				
+				//chart
 				var ctx = $('.myChart');
 			    var myChart = new Chart(ctx, {
 			    	type: 'line',
@@ -267,16 +326,16 @@
 		return legendLabel.join('');
 	}
 
-	
-	
 	$(document).ready(function(){
 		var now = new Date();
 	    var year= now.getFullYear();
 	    var secondDateYear = Number(year)-1; 
+	    $('#incomeStatementTitle').text(year+'년 손익계산서')
+	    $('#chartTitle').text(year+'년과 '+secondDateYear+'년 비교');
     	request({
     		"secondDateYear" : secondDateYear
     	});
-    });    
+    });
  	
     </script>
     
