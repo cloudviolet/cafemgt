@@ -19,6 +19,22 @@
 		<result property="articleEtc" 		column="article_etc" />
 		<result property="articleRegDate"	column="article_reg_date" />
 	</resultMap>
+	<delete id="removeArticle" parameterType="String">
+		DELETE FROM tb_article
+		WHERE article_code = #{articleCode}
+	
+	</delete>
+	<select id="getArticleByRemove" resultType="String">
+		SELECT article_code	FROM tb_incoming
+		UNION
+		SELECT article_code FROM tb_stock
+		UNION
+		SELECT article_code	FROM tb_stocktaking
+		UNION
+		SELECT article_code FROM tb_consumption
+		UNION
+		SELECT article_code FROM tb_detail_volume
+	</select>
 	<update id="modifyArticle" parameterType="ArticleDto">
 	UPDATE tb_article
 		SET

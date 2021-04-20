@@ -19,4 +19,6 @@ public interface SkkMapper {
 	public int modifySkk(SkkDto skkDto);
 	
 	public int modifySkkDeadlineCheck(String skCode);
+	
+	public int removeSkk(String skCode);
 }

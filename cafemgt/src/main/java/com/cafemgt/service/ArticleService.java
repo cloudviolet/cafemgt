@@ -37,4 +37,12 @@ public class ArticleService {
 		
 		return articleMapper.modifyArticle(articleDto);
 	}
+	public List<String> getArticleByRemove() {
+		return articleMapper.getArticleByRemove();
+	}
+	public int removeArticle(String articleCode) {
+		
+		return articleMapper.removeArticle(articleCode);
+	}
+	
 }

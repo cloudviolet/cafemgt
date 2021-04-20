@@ -23,6 +23,10 @@
 		<result property="skSystemId" 				column="sk_system_id" />
 		<result property="skSystemName" 			column="sk_system_name" />
 	</resultMap>
+	<delete id="removeSkk" parameterType="String">
+		DELETE FROM tb_stocktaking
+		WHERE sk_code = #{skCode}
+	</delete>
 	<update id="modifySkkDeadlineCheck" parameterType="String">
 		UPDATE tb_stocktaking
 		SET

@@ -64,6 +64,7 @@
 												<th>조사날짜</th>
 												<th>등록날짜</th>
 												<th>수정</th>
+												<th>삭제</th>
 												<th>마감</th>
 												<!-- 
 												<th>등록자아이디</th>
@@ -112,6 +113,14 @@
 												<td>
 													<span th:if="${skkl.skDeadLine == 'x'}">
 														<a th:href="@{/stock/modifySkk(skCode = ${skkl.skCode})}" class="btn btn-primary btn-sm">수정</a>
+													</span>
+													<span th:unless="${skkl.skDeadLine == 'x'}" >
+														<button disabled="disabled" class="btn btn-danger btn-sm">불가</button>
+													</span>
+												</td>
+												<td>
+													<span th:if="${skkl.skDeadLine == 'x'}">
+														<a th:href="@{/stock/removeSkk(skCode = ${skkl.skCode})}" class="btn btn-primary btn-sm">삭제</a>
 													</span>
 													<span th:unless="${skkl.skDeadLine == 'x'}" >
 														<button disabled="disabled" class="btn btn-danger btn-sm">불가</button>

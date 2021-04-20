@@ -16,4 +16,8 @@ public interface ArticleMapper {
 	public ArticleDto getArticleByArticleCode(String articleCode);
 	
 	public int modifyArticle(ArticleDto articleDto);
+	
+	public List<String> getArticleByRemove();
+	
+	public int removeArticle(String articleCode);
 }
