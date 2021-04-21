@@ -26,36 +26,36 @@
 	
 	<insert id="addCostDetail" parameterType="String">
 	INSERT INTO tb_cost_detail
-(costdetail_code,store_info_code,menu_code,costdetail_sales_count,costdetail_unit_total,costdetail_daily_sales_total,costdetail_reg_date)
-SELECT
-	sf_new_costdetail_code()
-	,s.store_info_code
-	,b2.menu_code
-	,sum(s.sales_count)
-	,b2.cosdetail_unit_total
-	,(b2.cosdetail_unit_total * sum(s.sales_count)) AS 'cosdetail_daily_sales_total'
-	,NOW()
-FROM
-tb_sales AS s
-INNER JOIN 
-	(SELECT
-		m.menu_code
-		,m.menu_name
-		,SUM(c.con_volume * s.stock_min_unit) AS 'cosdetail_unit_total'
+	(costdetail_code,store_info_code,menu_code,costdetail_sales_count,costdetail_unit_total,costdetail_daily_sales_total,costdetail_reg_date)
+	SELECT
+		sf_new_costdetail_code()
+		,s.store_info_code
+		,b2.menu_code
+		,sum(s.sales_count)
+		,b2.cosdetail_unit_total
+		,(b2.cosdetail_unit_total * sum(s.sales_count)) AS 'cosdetail_daily_sales_total'
+		,NOW()
 	FROM
-		tb_menu AS m
-		LEFT JOIN
-		tb_consumption AS c
-		ON m.menu_code = c.menu_code
-		LEFT JOIN 
-		tb_stock AS s
-		ON c.article_code = s.article_code
-	WHERE 
-		m.store_info_code = #{SSTORECODE}
-	GROUP BY m.menu_code) AS b2
-ON s.menu_code = b2.menu_code
-WHERE s.sales_deadline_tax = 'x' AND s.sales_code = #{salesCode}
-GROUP BY b2.menu_code
+	tb_sales AS s
+	INNER JOIN 
+		(SELECT
+			m.menu_code
+			,m.menu_name
+			,SUM(c.con_volume * s.stock_min_unit) AS 'cosdetail_unit_total'
+		FROM
+			tb_menu AS m
+			LEFT JOIN
+			tb_consumption AS c
+			ON m.menu_code = c.menu_code
+			LEFT JOIN 
+			tb_stock AS s
+			ON c.article_code = s.article_code
+		WHERE 
+			m.store_info_code = #{SSTORECODE}
+		GROUP BY m.menu_code) AS b2
+	ON s.menu_code = b2.menu_code
+	WHERE s.sales_deadline_tax = 'x' AND s.sales_code = #{salesCode}
+	GROUP BY b2.menu_code
 	
 	</insert>
 	

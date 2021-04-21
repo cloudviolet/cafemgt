@@ -4,6 +4,7 @@ public class VatDto {
 	private String vatCode;
 	private String storeInfoCode;
 	private String vatDate;
+	private String vatUnique;
 	private int vatSaleSupplyValue;
 	private int vatSalesTax;
 	private int vatPurchaseSupplyValue;
@@ -30,6 +31,12 @@ public class VatDto {
 	}
 	public void setVatDate(String vatDate) {
 		this.vatDate = vatDate;
+	}
+	public String getVatUnique() {
+		return vatUnique;
+	}
+	public void setVatUnique(String vatUnique) {
+		this.vatUnique = vatUnique;
 	}
 	public int getVatSaleSupplyValue() {
 		return vatSaleSupplyValue;
@@ -88,10 +95,11 @@ public class VatDto {
 	@Override
 	public String toString() {
 		return "VatDto [vatCode=" + vatCode + ", storeInfoCode=" + storeInfoCode + ", vatDate=" + vatDate
-				+ ", vatSaleSupplyValue=" + vatSaleSupplyValue + ", vatSalesTax=" + vatSalesTax
-				+ ", vatPurchaseSupplyValue=" + vatPurchaseSupplyValue + ", vatPurchaseTax=" + vatPurchaseTax
-				+ ", vatIntendedTax=" + vatIntendedTax + ", vatDeemedInputTax=" + vatDeemedInputTax + ", vatCardTax="
-				+ vatCardTax + ", vatAdditionalTax=" + vatAdditionalTax + ", vatPaymentTax=" + vatPaymentTax + "]";
+				+ ", vatUnique=" + vatUnique + ", vatSaleSupplyValue=" + vatSaleSupplyValue + ", vatSalesTax="
+				+ vatSalesTax + ", vatPurchaseSupplyValue=" + vatPurchaseSupplyValue + ", vatPurchaseTax="
+				+ vatPurchaseTax + ", vatIntendedTax=" + vatIntendedTax + ", vatDeemedInputTax=" + vatDeemedInputTax
+				+ ", vatCardTax=" + vatCardTax + ", vatAdditionalTax=" + vatAdditionalTax + ", vatPaymentTax="
+				+ vatPaymentTax + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -109,6 +117,7 @@ public class VatDto {
 		result = prime * result + vatPurchaseTax;
 		result = prime * result + vatSaleSupplyValue;
 		result = prime * result + vatSalesTax;
+		result = prime * result + ((vatUnique == null) ? 0 : vatUnique.hashCode());
 		return result;
 	}
 	@Override
@@ -152,6 +161,11 @@ public class VatDto {
 		if (vatSaleSupplyValue != other.vatSaleSupplyValue)
 			return false;
 		if (vatSalesTax != other.vatSalesTax)
+			return false;
+		if (vatUnique == null) {
+			if (other.vatUnique != null)
+				return false;
+		} else if (!vatUnique.equals(other.vatUnique))
 			return false;
 		return true;
 	}

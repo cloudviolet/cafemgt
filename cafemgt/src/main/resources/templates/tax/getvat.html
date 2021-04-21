@@ -8,10 +8,21 @@
 	</th:block>
 	<th:block layout:fragment="customCss">
 		<style>
-			tbody tr th, td {
-				font-weight: lighter;
+		
+			#forVatBtn{
+				width : 100%;
 			}
 			
+			.table tbody tr th {
+				font-weight: lighter;	
+				width: 40%;
+				padding : 0;	
+			}
+			
+			.table tbody td{
+				font-weight: lighter;
+				padding : 0;
+			}		
 			.myChart-legend ol, 
 			.myChart-legend ul { 
 				list-style: none; 
@@ -104,7 +115,7 @@
 										<code>강조!</code>
 									</p>
 									<div class="col-md-6 col-sm-6">
-										<div style="margin-left: 0%;">								
+										<div style="margin-left: 5%;">								
 												<div class="col-label col-md-6 col-sm-6">				
 											      	<select name="year" id="year" title="년도" class="custom-select"></select>
 											    </div>
@@ -118,14 +129,16 @@
 										       <div class="col-label col-md-3 col-sm-3">
 										      		<button  type="button" id="forVatBtn" class="btn btn-info">검색</button>
 										       </div>					      
-									
+										</div>
+										<div>
 										      <div class="col-label col-md-12 col-sm-12 label-align" style="font-size: large; line-height: 50px;">
-										      	<table>
+										      	<table class="table" style="padding : 0px;" id ="vatTable">
+										      		<h4><span id="vatTitle"></span></h4>
 													<tbody>
 														<tr>
 															<th></th>
-															<th>공급가액</th>
-															<th>공급세액</th>
+															<td>공급가액</td>
+															<td>공급세액</td>
 														</tr>
 														<tr>
 															<!-- <td><span id="getSalesTotal"></span></td> -->
@@ -231,10 +244,14 @@
 		    	//올해기준으로 가입년도까지 보여주기
 		    	for(var y = (Nowyear); y >= (Nowyear-yearInt); y--){
 		    		year.append("<option value='"+y+"'>"+y+"년"+"</option>");
+		    		if((Nowyear-yearInt)==0){
+		    			return;
+		    		}
 		    	}
 		    	$('#middleAdd').hide();
 		    });	
 		    
+		    var myChart = null;
 		    //부가세 조회
 		    var request = function(searchDays){
 		    	$.ajax({
@@ -271,11 +288,11 @@
 		        	
 		        	//chart
 			       	var ctx = $('.myChart');
-					    var myChart = new Chart(ctx, {
+					    myChart = new Chart(ctx, {
 					    	type: 'pie', 
 					    	data: { 
 					    		labels: ['매출', '매입'], 
-					    		datasets: [{ 					    			 
+					    		datasets: [{ 	    			 
 					    			data: [VatSaleSupplyValue, VatPurchaseSupplyValue],
 						    		backgroundColor: [ 
 						    			'#E6E6FA','#FFFACD'
@@ -298,6 +315,21 @@
 		        	console.log("xhr: " + xhr);
 		        	console.log("status: " + status);
 		        	console.log("error: " + error);
+		        	$('#getSalesSupply').text(0+'원');
+		        	$('#getSalesTax').text(0+'원');
+		        	$('#getPurchasesSupply').text(0+'원');
+		        	$('#getPurchasesTax').text(0+'원');
+		        	$('#getVatDeemedInputSupply').text(0+'원');	        	
+		        	$('#getVatDeemedInputTax').text(0+'원');	    
+		        	$('#getPaymentSupply').text(0+'원');
+		        	$('#getPaymentTax').text(0+'원');
+		        	$('#getIntendedTax').text(0+'원');
+		        	$('#getVatCardTax').text(0+'원');
+		        	$('#getVatIntendedTax').text(0+'원');
+		        	$('#getVatPaymentTax').text(0+'원');
+		        	if(myChart !=null){
+			        	myChart.destroy();		        		
+		        	}
 		        }
 				});
 		    }
@@ -328,6 +360,7 @@
 		    		harf ='2기';
 		    	}
 		    	searchDays = nowYear+'년'+harf;
+		    	$('#vatTitle').text(searchDays);
 		    	request(searchDays);
 		    })		    
 		    
@@ -338,6 +371,7 @@
 				intendedYearMonth.val(searchDays);
 				console.log(intendedYearMonth.val()+'~~~~~~~~~~~')				
 				request(searchDays);
+				$('#vatTitle').text(searchDays);
 		    });
 		    
 		    

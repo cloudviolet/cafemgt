@@ -8,6 +8,7 @@ public class PurchasesDto {
 	private String custCode;
 	private String custName;
 	private String incoVatType;
+	private String incoVatCate;
 	private String incoPayType;
 	private int incoTotal;
 	private int incoCount;
@@ -18,8 +19,6 @@ public class PurchasesDto {
 	private String incoRegDate;
 	private String incoDeadline;
 	private String incoDeadlineTax;
-	private String incoSystemId;
-	private String incoSystemName;
 	private int incoCheck;
 	public String getIncoCode() {
 		return incoCode;
@@ -62,6 +61,12 @@ public class PurchasesDto {
 	}
 	public void setIncoVatType(String incoVatType) {
 		this.incoVatType = incoVatType;
+	}
+	public String getIncoVatCate() {
+		return incoVatCate;
+	}
+	public void setIncoVatCate(String incoVatCate) {
+		this.incoVatCate = incoVatCate;
 	}
 	public String getIncoPayType() {
 		return incoPayType;
@@ -123,18 +128,6 @@ public class PurchasesDto {
 	public void setIncoDeadlineTax(String incoDeadlineTax) {
 		this.incoDeadlineTax = incoDeadlineTax;
 	}
-	public String getIncoSystemId() {
-		return incoSystemId;
-	}
-	public void setIncoSystemId(String incoSystemId) {
-		this.incoSystemId = incoSystemId;
-	}
-	public String getIncoSystemName() {
-		return incoSystemName;
-	}
-	public void setIncoSystemName(String incoSystemName) {
-		this.incoSystemName = incoSystemName;
-	}
 	public int getIncoCheck() {
 		return incoCheck;
 	}
@@ -145,11 +138,11 @@ public class PurchasesDto {
 	public String toString() {
 		return "PurchasesDto [incoCode=" + incoCode + ", storeInfoCode=" + storeInfoCode + ", articleCode="
 				+ articleCode + ", articleName=" + articleName + ", custCode=" + custCode + ", custName=" + custName
-				+ ", incoVatType=" + incoVatType + ", incoPayType=" + incoPayType + ", incoTotal=" + incoTotal
-				+ ", incoCount=" + incoCount + ", incoVolumeSubtotal=" + incoVolumeSubtotal + ", incoSupplyValue="
-				+ incoSupplyValue + ", incoTax=" + incoTax + ", incoDate=" + incoDate + ", incoRegDate=" + incoRegDate
-				+ ", incoDeadline=" + incoDeadline + ", incoDeadlineTax=" + incoDeadlineTax + ", incoSystemId="
-				+ incoSystemId + ", incoSystemName=" + incoSystemName + ", incoCheck=" + incoCheck + "]";
+				+ ", incoVatType=" + incoVatType + ", incoVatCate=" + incoVatCate + ", incoPayType=" + incoPayType
+				+ ", incoTotal=" + incoTotal + ", incoCount=" + incoCount + ", incoVolumeSubtotal=" + incoVolumeSubtotal
+				+ ", incoSupplyValue=" + incoSupplyValue + ", incoTax=" + incoTax + ", incoDate=" + incoDate
+				+ ", incoRegDate=" + incoRegDate + ", incoDeadline=" + incoDeadline + ", incoDeadlineTax="
+				+ incoDeadlineTax + ", incoCheck=" + incoCheck + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -168,10 +161,9 @@ public class PurchasesDto {
 		result = prime * result + ((incoPayType == null) ? 0 : incoPayType.hashCode());
 		result = prime * result + ((incoRegDate == null) ? 0 : incoRegDate.hashCode());
 		result = prime * result + incoSupplyValue;
-		result = prime * result + ((incoSystemId == null) ? 0 : incoSystemId.hashCode());
-		result = prime * result + ((incoSystemName == null) ? 0 : incoSystemName.hashCode());
 		result = prime * result + incoTax;
 		result = prime * result + incoTotal;
+		result = prime * result + ((incoVatCate == null) ? 0 : incoVatCate.hashCode());
 		result = prime * result + ((incoVatType == null) ? 0 : incoVatType.hashCode());
 		result = prime * result + incoVolumeSubtotal;
 		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
@@ -242,19 +234,14 @@ public class PurchasesDto {
 			return false;
 		if (incoSupplyValue != other.incoSupplyValue)
 			return false;
-		if (incoSystemId == null) {
-			if (other.incoSystemId != null)
-				return false;
-		} else if (!incoSystemId.equals(other.incoSystemId))
-			return false;
-		if (incoSystemName == null) {
-			if (other.incoSystemName != null)
-				return false;
-		} else if (!incoSystemName.equals(other.incoSystemName))
-			return false;
 		if (incoTax != other.incoTax)
 			return false;
 		if (incoTotal != other.incoTotal)
+			return false;
+		if (incoVatCate == null) {
+			if (other.incoVatCate != null)
+				return false;
+		} else if (!incoVatCate.equals(other.incoVatCate))
 			return false;
 		if (incoVatType == null) {
 			if (other.incoVatType != null)
@@ -270,4 +257,5 @@ public class PurchasesDto {
 			return false;
 		return true;
 	}
+	
 }

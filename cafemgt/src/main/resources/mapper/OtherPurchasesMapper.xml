@@ -20,6 +20,28 @@
 		<result property="oeDeadline" 		column="oe_deadline"/>
 	</resultMap>
 	
+	<select id="getOtherPurchasesListForIS" parameterType="String" resultType="HashMap">
+		SELECT 
+			 sum(oe.oe_supply_value) AS 'otherPurchasesTotal'
+			,a.at_name AS 'otherPurchasesTitle'
+		FROM 
+			tb_other_expense AS oe
+			LEFT JOIN
+			tb_account_title AS a
+			ON 
+			oe.at_debit_code = a.at_code
+		WHERE 
+			oe.store_info_code = #{SSTORECODE}
+			AND
+			<if test="searchYear == null">
+				date_format(oe.oe_date, '%Y') = DATE_FORMAT(NOW(),'%Y')
+			</if>
+			<if test="searchYear != null">
+				date_format(oe.oe_date, '%Y') = #{searchYear}
+			</if>
+		GROUP BY a.at_name
+	</select>
+	
 	<delete id="removeOtherPurchases" parameterType="String">
 		DELETE FROM 
 			tb_other_expense 

@@ -12,6 +12,7 @@
 		<result property="custCode" 				column="cust_code"/>
 		<result property="custName" 				column="cust_name"/>
 		<result property="incoVatType" 				column="inco_vat_type"/>
+		<result property="incoVatCate" 				column="inco_vat_cate"/>
 		<result property="incoPayType" 				column="inco_pay_type"/>
 		<result property="incoTotal" 				column="inco_total"/>
 		<result property="incoCount" 				column="inco_count"/>
@@ -22,8 +23,6 @@
 		<result property="incoRegDate" 				column="inco_reg_date"/>
 		<result property="incoDeadline" 			column="inco_deadline"/>
 		<result property="incoDeadlineTax" 			column="inco_deadline_tax"/>
-		<result property="incoSystemId" 			column="inco_system_id"/>
-		<result property="incoSystemName" 			column="inco_system_name"/>
 		<result property="incoCheck" 				column="inco_check"/>
 	</resultMap>
 	
@@ -46,8 +45,6 @@
 			i.inco_reg_date, 
 			i.inco_deadline, 
 			i.inco_deadline_tax,
-			i.inco_system_id, 
-			i.inco_system_name, 
 			i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -108,8 +105,6 @@
 			, i.inco_date
 			, i.inco_reg_date
 			, i.inco_deadline
-			, i.inco_system_id
-			, i.inco_system_name
 			, i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -122,25 +117,45 @@
 	
 	<insert id="addPurchases" parameterType="PurchasesDto">
 		INSERT INTO tb_incoming
-			(inco_code, 
-			store_info_code, 
-			article_code, 
-			cust_code, 
-			inco_vat_type, 
-			inco_pay_type, 
-			inco_total, 
-			inco_count, 
-			inco_volume_subtotal, 
-			inco_supply_value, 
-			inco_tax,  
-			inco_date, 
-			inco_reg_date, 
-			inco_deadline, 
-			inco_system_id, 
-			inco_system_name, 
-			inco_check)
+				(inco_code, 
+				store_info_code, 
+				article_code, 
+				cust_code, 
+				inco_vat_type, 
+				inco_vat_cate, 
+				inco_pay_type, 
+				inco_total, 
+				inco_count, 
+				inco_volume_subtotal, 
+				inco_supply_value, 
+				inco_tax,  
+				inco_date, 
+				inco_reg_date, 
+				inco_deadline, 
+				inco_check)
 			VALUES 
-			(sf_new_inco_code(), #{storeInfoCode}, #{articleCode}, #{custCode}, #{incoVatType}, #{incoPayType}, #{incoTotal} ,#{incoCount}, #{incoVolumeSubtotal}, #{incoSupplyValue}, #{incoTax}, '', '', #{incoDate}, NOW(), 'x', '', '', 1)
+				(sf_new_inco_code()
+				, #{storeInfoCode}
+				, #{articleCode}
+				, #{custCode}
+				, #{incoVatType}
+				, #{incoVatCate}
+				, #{incoPayType}
+				, #{incoTotal}
+				, #{incoCount}
+				, #{incoVolumeSubtotal}
+				<if test="incoVatCate == '면세'"> 
+				, #{incoTotal}
+				, 0
+				</if>
+				<if test="incoVatCate == '과세'"> 
+				, #{incoSupplyValue}
+				, #{incoTax}
+				</if>
+				, #{incoDate}
+				, NOW()
+				, 'x'
+				, 1)
 	</insert>
 	
 	<select id="purchasesDeadline" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -161,8 +176,6 @@
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 
-			i.inco_system_id, 
-			i.inco_system_name, 
 			i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -198,8 +211,6 @@
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 
-			i.inco_system_id, 
-			i.inco_system_name, 
 			i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -226,6 +237,7 @@
 			i.cust_code, 
 			c.cust_name,
 			i.inco_vat_type, 
+			i.inco_vat_cate, 
 			i.inco_pay_type, 
 			i.inco_total, 
 			i.inco_count, 
@@ -235,8 +247,6 @@
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 
-			i.inco_system_id, 
-			i.inco_system_name, 
 			i.inco_check
 		FROM 
 			tb_incoming AS i

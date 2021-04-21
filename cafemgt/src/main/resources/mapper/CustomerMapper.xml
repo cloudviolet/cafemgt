@@ -107,7 +107,7 @@
 		on
 		cr.store_info_code = st.store_info_code
 	WHERE
-		st.store_info_code= #{SSTORECODE}
+		st.store_info_code IN ( #{SSTORECODE},'owner_000' )
 	AND
 		cr.cust_delete = 'x'
 	</select>

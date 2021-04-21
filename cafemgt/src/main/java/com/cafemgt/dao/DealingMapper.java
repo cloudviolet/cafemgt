@@ -10,6 +10,8 @@ import com.cafemgt.dto.DealingDto;
 @Mapper
 public interface DealingMapper {
 	
+	public List<Map<String, String>> getDealingForVAT();
+	
 	public Map<String,String> getYearFromDealing(String SSTORECODE);
 	
 	public Map<String,Object> getTotalpandsPeriod(Map<String, Object> map);

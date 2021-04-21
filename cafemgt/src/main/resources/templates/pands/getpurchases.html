@@ -40,6 +40,7 @@
 											<tr>
 												<th><input type="checkbox" id="check-all"></th>
 												<th>매입 유형</th>
+												<th>과세 유형</th>
 												<th>입고 수량</th>
 												<th>품목 명</th>
 												<th>거래처 명</th>
@@ -57,6 +58,7 @@
 											<tr th:if="${#lists.size(purchasesList)>0}" th:each="pl : ${purchasesList}">
 												<td><input type="checkbox" id="check-all"></td>
 												<td th:text="${pl.incoVatType}"></td>
+												<td th:text="${pl.incoVatCate}"></td>
 												<td th:text="${pl.incoCount}"></td>
 												<td th:text="${pl.articleName}"></td>
 												<td th:text="${pl.custName}"></td>

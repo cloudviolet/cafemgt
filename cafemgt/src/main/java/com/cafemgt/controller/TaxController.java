@@ -289,6 +289,7 @@ public class TaxController {
 		periodMap.put("firstValue", firstValue);
 		periodMap.put("lastValue", lastValue);
 		resultMap = taxService.getTotalpands(monthMap);
+		System.out.println(resultMap);
 		if(firstValue!= null &&lastValue!=null) {
 			resultMap = taxService.getTotalpandsPeriod(periodMap);
 			System.out.println(resultMap);
@@ -346,9 +347,15 @@ public class TaxController {
 		System.out.println(searchYear+"<<<<<<<<<<<<<<<<<<<");
 		IncomeStatementDto nowISList =  taxService.getIncomeStatement(SSTORECODE, searchYear);
 		IncomeStatementDto agoISList =  taxService.getIncomeStatement(SSTORECODE, secondDateYear);
+		List<Map<String, Object>> list = otherPurchasesService.getOtherPurchasesListForIS(SSTORECODE, searchYear);
+		List<Map<String, Object>> salaryList = taxService.getSalaryForIS(SSTORECODE, searchYear);
+		System.out.println(list);
+		System.out.println(salaryList);
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("nowISList", nowISList);
 		resultMap.put("agoISList", agoISList);
+		resultMap.put("list", list);
+		resultMap.put("salaryList",salaryList);
 		return resultMap;
 	}
 	
