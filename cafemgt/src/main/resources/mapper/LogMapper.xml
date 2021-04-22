@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafemgt.dao.LogMapper">
+	<resultMap type="LogDto" id="LogResultMap">
+		<result property="loginCode"	 			column="login_code" />
+		<result property="loginId"	 			column="login_id" />
+		<result property="loginAct"	 			column="login_act" />
+		<result property="loginRegDate"	 			column="login_reg_date" />		
+	</resultMap>
+	
+
+	<!-- Log 이력(관리자) -->
+	<select id="getLog" resultMap="LogResultMap">
+		SELECT 
+			login_code
+			, login_id
+			, login_act
+			, login_reg_date
+		FROM 
+			tb_login_log
+   </select>
+</mapper>
