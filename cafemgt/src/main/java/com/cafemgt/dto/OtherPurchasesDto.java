@@ -14,6 +14,7 @@ public class OtherPurchasesDto {
 	private String oeDate;
 	private String oeRegDate;
 	private String oeDeadline;
+	private String oeDelete;
 	public String getOeCode() {
 		return oeCode;
 	}
@@ -92,6 +93,20 @@ public class OtherPurchasesDto {
 	public void setOeDeadline(String oeDeadline) {
 		this.oeDeadline = oeDeadline;
 	}
+	public String getOeDelete() {
+		return oeDelete;
+	}
+	public void setOeDelete(String oeDelete) {
+		this.oeDelete = oeDelete;
+	}
+	@Override
+	public String toString() {
+		return "OtherPurchasesDto [oeCode=" + oeCode + ", storeInfoCode=" + storeInfoCode + ", oeStoreName="
+				+ oeStoreName + ", oeVatType=" + oeVatType + ", oeTotal=" + oeTotal + ", oeSupplyValue=" + oeSupplyValue
+				+ ", oeTax=" + oeTax + ", atDebitCode=" + atDebitCode + ", atCreditCode=" + atCreditCode + ", oeEtc="
+				+ oeEtc + ", oeDate=" + oeDate + ", oeRegDate=" + oeRegDate + ", oeDeadline=" + oeDeadline
+				+ ", oeDelete=" + oeDelete + "]";
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -101,6 +116,7 @@ public class OtherPurchasesDto {
 		result = prime * result + ((oeCode == null) ? 0 : oeCode.hashCode());
 		result = prime * result + ((oeDate == null) ? 0 : oeDate.hashCode());
 		result = prime * result + ((oeDeadline == null) ? 0 : oeDeadline.hashCode());
+		result = prime * result + ((oeDelete == null) ? 0 : oeDelete.hashCode());
 		result = prime * result + ((oeEtc == null) ? 0 : oeEtc.hashCode());
 		result = prime * result + ((oeRegDate == null) ? 0 : oeRegDate.hashCode());
 		result = prime * result + ((oeStoreName == null) ? 0 : oeStoreName.hashCode());
@@ -145,6 +161,11 @@ public class OtherPurchasesDto {
 				return false;
 		} else if (!oeDeadline.equals(other.oeDeadline))
 			return false;
+		if (oeDelete == null) {
+			if (other.oeDelete != null)
+				return false;
+		} else if (!oeDelete.equals(other.oeDelete))
+			return false;
 		if (oeEtc == null) {
 			if (other.oeEtc != null)
 				return false;
@@ -177,13 +198,6 @@ public class OtherPurchasesDto {
 		} else if (!storeInfoCode.equals(other.storeInfoCode))
 			return false;
 		return true;
-	}
-	@Override
-	public String toString() {
-		return "OtherPurchasesDto [oeCode=" + oeCode + ", storeInfoCode=" + storeInfoCode + ", oeStoreName="
-				+ oeStoreName + ", oeVatType=" + oeVatType + ", oeTotal=" + oeTotal + ", oeSupplyValue=" + oeSupplyValue
-				+ ", oeTax=" + oeTax + ", atDebitCode=" + atDebitCode + ", atCreditCode=" + atCreditCode + ", oeEtc="
-				+ oeEtc + ", oeDate=" + oeDate + ", oeRegDate=" + oeRegDate + ", oeDeadline=" + oeDeadline + "]";
 	}
 	
 }

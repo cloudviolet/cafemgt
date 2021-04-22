@@ -20,52 +20,65 @@
 		<result property="salesRegDate" 			column="sales_reg_date"/>
 		<result property="salesDeadlineTax" 		column="sales_deadline_tax"/>
 		<result property="salesDeadlineDailyvol" 	column="sales_deadline_dailyvol"/>
-		<result property="salesSystemId" 			column="sales_system_id"/>
-		<result property="salesSystemName" 			column="sales_system_name"/>
+		<result property="salesDelete" 				column="sales_delete"/>
 	</resultMap>
 	
-	<insert id="addCostDetail" parameterType="String">
-	INSERT INTO tb_cost_detail
-(costdetail_code,store_info_code,menu_code,costdetail_sales_count,costdetail_unit_total,costdetail_daily_sales_total,costdetail_reg_date)
-SELECT
-	sf_new_costdetail_code()
-	,s.store_info_code
-	,b2.menu_code
-	,sum(s.sales_count)
-	,b2.cosdetail_unit_total
-	,(b2.cosdetail_unit_total * sum(s.sales_count)) AS 'cosdetail_daily_sales_total'
-	,NOW()
-FROM
-tb_sales AS s
-INNER JOIN 
-	(SELECT
-		m.menu_code
-		,m.menu_name
-		,SUM(c.con_volume * s.stock_min_unit) AS 'cosdetail_unit_total'
-	FROM
-		tb_menu AS m
-		LEFT JOIN
-		tb_consumption AS c
-		ON m.menu_code = c.menu_code
-		LEFT JOIN 
-		tb_stock AS s
-		ON c.article_code = s.article_code
-	WHERE 
-		m.store_info_code = #{SSTORECODE}
-	GROUP BY m.menu_code) AS b2
-ON s.menu_code = b2.menu_code
-WHERE s.sales_deadline_tax = 'x' AND s.sales_code = #{salesCode}
-GROUP BY b2.menu_code
-	
+	<insert id="addCostDetailByAddStock" parameterType="HashMap" >
+		INSERT INTO tb_cost_detail
+		(costdetail_code
+		,store_info_code
+		,menu_code
+		,costdetail_sales_count
+		,costdetail_unit_total
+		,costdetail_daily_sales_total
+		,costdetail_reg_date)
+		VALUES (
+		 sf_new_costdetail_code()
+		,#{storeInfoCode}
+		,#{menuCode}
+		,${salesCount}
+		,${cosdetailUnitTotal}
+		,${cosdetailDailySalesTotal}
+		,NOW()) 
 	</insert>
-	
-	<delete id="removeSales" parameterType="String">
-		DELETE FROM 
-			tb_sales 
+	<select id="getCostDetail" resultType="HashMap">
+		SELECT
+			s.store_info_code as 'storeInfoCode'
+			,b2.menu_code as 'menuCode'
+			,sum(s.sales_count) as 'salesCount'
+			,b2.cosdetail_unit_total as 'cosdetailUnitTotal' 
+			,(b2.cosdetail_unit_total * sum(s.sales_count)) AS 'cosdetailDailySalesTotal'
+			,NOW()
+		FROM
+		tb_sales AS s
+		 JOIN 
+			(SELECT
+			 	 m.store_info_code
+				,m.menu_code
+				,m.menu_name
+				,SUM(c.con_volume * s.stock_min_unit) AS 'cosdetail_unit_total'
+			FROM
+				tb_menu AS m
+				LEFT JOIN
+				tb_consumption AS c
+				ON m.menu_code = c.menu_code
+				LEFT JOIN 
+				tb_stock AS s
+				ON c.article_code = s.article_code
+			GROUP BY m.menu_code, m.store_info_code) AS b2
+		ON s.menu_code = b2.menu_code
 		WHERE 
-			sales_code=#{salesCode};
-	</delete>
+		s.sales_deadline_tax = 'x'
+		GROUP BY b2.menu_code
+	</select>
 	
+	<update id="removeSales" parameterType="String">
+		UPDATE tb_sales
+			SET
+				sales_delete='o'
+			WHERE 
+				sales_code =#{salesCode}
+	</update>
 	<update id="modifySales" parameterType="SalesDto">
 		UPDATE 
 			tb_sales
@@ -100,8 +113,6 @@ GROUP BY b2.menu_code
 			, s.sales_reg_date
 			, s.sales_deadline_tax
 			, s.sales_deadline_dailyvol
-			, s.sales_system_id
-			, s.sales_system_name
 		FROM 
 			tb_sales AS s
 		LEFT JOIN
@@ -128,8 +139,8 @@ GROUP BY b2.menu_code
 	
 	<insert id="addSales" parameterType="SalesDto">
 		INSERT INTO tb_sales
-	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline_tax, sales_deadline_dailyvol, sales_system_id, sales_system_name)
-	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), 'x', 'x', #{salesSystemId}, #{salesSystemName})
+	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline_tax, sales_deadline_dailyvol, sales_delete)
+	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), 'x', 'x','x')
 	</insert>
 	
 	<select id="salesDeadlineForTax" parameterType="String" resultMap="salesDtoResultMap">
@@ -147,9 +158,7 @@ GROUP BY b2.menu_code
 			s.cust_code, 
 			c.cust_name,
 			s.sales_date, 
-			s.sales_reg_date, 
-			s.sales_system_id, 
-			s.sales_system_name
+			s.sales_reg_date
 		FROM 
 			tb_sales AS s
 			LEFT JOIN
@@ -164,6 +173,8 @@ GROUP BY b2.menu_code
 			s.store_info_code = #{SSTORECODE}
 		AND
 			s.sales_deadline_tax = 'x'
+		AND
+			s.sales_delete ='x';
 	</select>
 	
 	<select id="salesDeadlineForStock" parameterType="String" resultMap="salesDtoResultMap">
@@ -181,9 +192,7 @@ GROUP BY b2.menu_code
 			s.cust_code, 
 			c.cust_name,
 			s.sales_date, 
-			s.sales_reg_date, 
-			s.sales_system_id, 
-			s.sales_system_name
+			s.sales_reg_date
 		FROM 
 			tb_sales AS s
 			LEFT JOIN
@@ -197,7 +206,9 @@ GROUP BY b2.menu_code
 		WHERE
 			s.store_info_code = #{SSTORECODE}
 		AND
-			s.sales_deadline_dailyvol = 'x';
+			s.sales_deadline_dailyvol = 'x'
+		AND
+			s.sales_delete ='x';
 	</select>
 	
 	<select id="getSales" parameterType="String" resultMap="salesDtoResultMap">
@@ -217,9 +228,7 @@ GROUP BY b2.menu_code
 			s.sales_date, 
 			s.sales_reg_date, 
 			s.sales_deadline_dailyvol,
-			s.sales_deadline_tax,
-			s.sales_system_id, 
-			s.sales_system_name
+			s.sales_deadline_tax
 		FROM 
 			tb_sales AS s
 			LEFT JOIN
@@ -231,6 +240,8 @@ GROUP BY b2.menu_code
 			ON
 		  	s.cust_code = c.cust_code
 		WHERE
-			s.store_info_code = #{SSTORECODE};
+			s.store_info_code = #{SSTORECODE}
+		AND
+			s.sales_delete ='x';;
 	</select>
 </mapper>

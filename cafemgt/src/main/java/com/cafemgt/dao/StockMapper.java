@@ -11,6 +11,8 @@ import com.cafemgt.dto.StockDto;
 public interface StockMapper {
 	public List<StockDto> getStock(Map<String,Object> map);
 	
+	public List<StockDto> getStockAllStore();
+	
 	public List<StockDto> getStockByArticleCode(Map<String,Object> map);
 	
 	public List<StockDto> getStockByTable(String SSTORECODE);

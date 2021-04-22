@@ -18,6 +18,29 @@
 		<result property="instNetIncome" column="inst_net_income"/>
 	</resultMap>
 	
+	<select id="getSalaryForIS" parameterType="String" resultType="HashMap">
+		SELECT 
+			a.at_name AS 'salaryTitle'
+			,SUM(p.salary_total) AS 'salaryTotal'
+		FROM 
+			tb_pay_management AS p
+			LEFT JOIN
+			tb_account_title AS a
+			ON
+			p.at_debit_code = a.at_code
+		WHERE 
+			p.store_info_code = #{SSTORECODE}
+			AND 
+			<if test="searchYear == null">
+				date_format(p.salary_year_month,'%Y') = DATE_FORMAT(NOW(),'%Y')
+			</if>
+			<if test="searchYear != null">
+				date_format(p.salary_year_month,'%Y') = #{searchYear}
+			</if>
+			
+		GROUP BY p.level_code
+	</select>
+	
 	<select id="getIncomeStatement" parameterType="String" resultMap="IncomeStatementDtoResultMap">
 		SELECT 
 			 inst_code	
@@ -82,8 +105,6 @@
 				,inst_sales_amt_total= ${instSalesAmtTotal}
 				,inst_expenses= ${instExpenses}
 				,inst_op= ${instOp}
-				,inst_noi= ${instNoi}
-				,inst_noe= ${instNoe}
 				,inst_net_income= inst_op+inst_noi-inst_noe;
 	</insert>
 	
@@ -93,12 +114,17 @@
 			,DATE_FORMAT(d.deal_date,'%Y') AS 'inst_year'
 			,CONCAT(d.store_info_code,'_',DATE_FORMAT(d.deal_date,'%Y')) AS 'inst_unique_code'
 			,SUM(if(d.deal_cate ='매출',d.deal_supply_value,0)) AS 'inst_sale_supply_value'
-			,SUM(if(d.deal_cate='매입',d.deal_supply_value,0)) AS 'inst_purchase_supply_value'
+			,SUM(if(d.deal_cate='매입',d.deal_supply_value,0)) AS 'inst_purchase_supply_value'		
 			,SUM(if(d.deal_cate ='매출',d.deal_supply_value,0))-SUM(if(d.deal_cate='매입',d.deal_supply_value,0)) AS 'inst_sales_amt_total'
-			,SUM(if(d.deal_cate= '기타매입',d.deal_supply_value,0)) AS 'inst_expenses'
-			,SUM(if(d.deal_cate ='매출',d.deal_supply_value,0))-SUM(if(d.deal_cate='매입',d.deal_supply_value,0))-SUM(if(d.deal_cate= '기타매입',d.deal_supply_value,0)) AS 'inst_op'
+			,SUM(if(d.deal_cate= '기타매입',d.deal_supply_value,0))+ if(p.years = DATE_FORMAT(d.deal_date,'%Y') AND p.store_info_code = d.store_info_code,p.total,0) AS 'inst_expenses'
+			,SUM(if(d.deal_cate ='매출',d.deal_supply_value,0))-(SUM(if(d.deal_cate='매입',d.deal_supply_value,0))-SUM(if(d.deal_cate= '기타매입',d.deal_supply_value,0))+SUM(if(d.deal_cate= '기타매입',d.deal_supply_value,0))+ if(p.years = DATE_FORMAT(d.deal_date,'%Y') AND p.store_info_code = d.store_info_code,p.total,0)) AS 'inst_op'
 		FROM
-			tb_dealing AS d	
+			tb_dealing AS d	,
+			(SELECT SUM(p.salary_total) AS 'total'
+			, date_format(p.salary_year_month,'%Y') AS 'years' 
+			, p.store_info_code
+			FROM tb_pay_management AS p GROUP BY date_format(p.salary_year_month,'%Y') ,p.store_info_code ) AS p
+			
 		GROUP BY d.store_info_code, inst_year
 	</select>
 </mapper>

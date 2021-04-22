@@ -1,6 +1,7 @@
 package com.cafemgt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,10 @@ public class OtherPurchasesService {
 	
 	public OtherPurchasesService(OtherPurchasesMapper otherPurchasesMapper) {
 		this.otherPurchasesMapper = otherPurchasesMapper;
+	}
+	
+	public List<Map<String, Object>> getOtherPurchasesListForIS(String SSTORECODE, String searchYear){
+		return otherPurchasesMapper.getOtherPurchasesListForIS(SSTORECODE, searchYear);
 	}
 	
 	public int removeOtherPurchases(String oeCode) {
