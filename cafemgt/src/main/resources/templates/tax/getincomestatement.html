@@ -99,7 +99,7 @@
 															<td><span id="instSalesAmtTotal"></span></td>
 														</tr>
 														<tr>
-															<th><a data-toggle="modal" data-target="#myModal">판매비와 일반관리비<i class="fa fa-angle-double-right fa-lg	"></i></a></th>
+															<th><a data-toggle="modal" data-target="#myModal">판매비와 일반관리비<i class="fa fa-angle-double-right fa-lg"></i></a></th>
 															<td><span id="totalOtherPurchases"></span></td>
 														</tr>
 														<tr>
@@ -107,11 +107,11 @@
 															<td><span id="totalOp"></span></td>
 														</tr>
 														<tr>
-															<th>영업외수익</th>
+															<th><a data-toggle="modal" data-target="#modalInstNoi">영업외수익<i class="fa fa-angle-double-right fa-lg"></i></a></th>
 															<td><span id="instNoi"></span></td>
 														</tr>
 														<tr>
-															<th>영업외비용</th>
+															<th><a data-toggle="modal" data-target="#modalInstNoe">영업외비용<i class="fa fa-angle-double-right fa-lg"></i></a></th>
 															<td><span id="instNoe"></span></td>
 														</tr>
 														<tr>
@@ -123,24 +123,80 @@
 											</div>
 										</div>
 									</div>
-									<!-- 판관비 -->
+									<!-- 판관비 모달-->
 									<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 										<div class="modal-dialog">
-										    <div class="modal-content">
+										   <div class="modal-content">
 										      <div class="modal-header">
-										        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+										        <h4 class="modal-title" id="myModalLabel1">판매비와 일반관리비</h4>
 										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										      </div>
 										      <div class="modal-body">
-										        ...
+										      	<table id="modalTable" class="table" style="padding:0; width:100%; text-align: center;">
+										      	</table>
 										      </div>
 										      <div class="modal-footer">
-										        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-										        <button type="button" class="btn btn-primary">Save changes</button>
+										        <button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
 										      </div>
-										    </div>
-										  </div>
+										   </div>
 										</div>
+									</div>
+									<!-- 영업외수익 등록 모달  -->
+									<div class="modal fade" id="modalInstNoi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+										   <div class="modal-content">
+										      <div class="modal-header">
+										        <h4 class="modal-title" id="myModalLabel2">영업외수익 등록</h4>
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										      </div>
+										      <div class="modal-body">
+										      	<input type="hidden" id="intendedYearMonth">									
+												<div class="form-group col-md-12">
+													<form>
+														<div class="col-md-11">
+															<input type="text" class="form-control" id="instNoi" placeholder="영업외수익">
+														</div>			
+														<div class="col-md-1">
+															<label for="vatIntendedTax" style="position:relative; top: 8px;"> 원</label>
+														</div>							
+													</form>
+												</div>	
+										      </div>
+										      <div class="modal-footer">
+										        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+						        				<button type="button" id="addInstNoi" class="btn btn-primary">등록</button>
+										      </div>
+										   </div>
+										</div>
+									</div>
+									<!-- 영업외비용 등록 -->
+									<div class="modal fade" id="modalInstNoe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+										   <div class="modal-content">
+										      <div class="modal-header">
+										        <h4 class="modal-title" id="myModalLabel2">영업외비용 등록</h4>
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										      </div>
+										      <div class="modal-body">
+										      	<input type="hidden" id="intendedYearMonth">									
+												<div class="form-group col-md-12">
+													<form>
+														<div class="col-md-11">
+															<input type="text" class="form-control" id="instNoe" placeholder="영업외비용">
+														</div>			
+														<div class="col-md-1">
+															<label for="vatIntendedTax" style="position:relative; top: 8px;"> 원</label>
+														</div>							
+													</form>
+												</div>	
+										      </div>
+										      <div class="modal-footer">
+										        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+						        				<button type="button" id="addInstNoe" class="btn btn-primary">등록</button>
+										      </div>
+										   </div>
+										</div>
+									</div>
 									<!-- CHART 시작  -->
 									<div class="col-md-6 col-sm-6" id="contend2">
 										<div class="row">
@@ -204,7 +260,29 @@
 			data: inputJson,
 			dataType: "json",
 			success : function(result){
-				console.log(result);
+				console.log(result);				
+				
+				//판관비 모달
+				console.log(result.list.length);
+				for(var i = 0 ; i < result.salaryList.length; i++){
+					
+					var trInnerHtml = '<tr>';
+					trInnerHtml +='<td>'+result.salaryList[i].salaryTitle+'</td>';
+					trInnerHtml +='<td>'+result.salaryList[i].salaryTotal+' 원 </td>';
+					trInnerHtml += '<tr>';
+					
+					$('#modalTable').append(trInnerHtml);
+				}
+				for(var i = 0 ; i < result.list.length; i++){
+					
+					var trInnerHtml = '<tr>';
+					trInnerHtml +='<td>'+result.list[i].otherPurchasesTitle+'</td>';
+					trInnerHtml +='<td>'+result.list[i].otherPurchasesTotal+' 원 </td>';
+					trInnerHtml += '<tr>';
+					
+					$('#modalTable').append(trInnerHtml);
+				}
+				
 				//현재
 				var nowTotalSalse = result.nowISList.instSaleSupplyValue;
 				var nowTotalPurchases = result.nowISList.instPurchaseSupplyValue;
@@ -221,7 +299,7 @@
 				var agoTotalOp = result.agoISList.instOp;
 				var agoInstNetIncome = result.agoISList.instNetIncome;
 				
-				//table
+				//손익계산서table
 				const cn1 = nowTotalSalse.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 				const cn2 = nowTotalPurchases.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 				const cn3 = nowInstSalesAmtTotal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -239,6 +317,8 @@
 				$('#instNoi').text(cn6+' 원');
 				$('#instNoe').text(cn7+' 원');
 				$('#instNetIncome').text(cn8+' 원');
+				
+				
 				
 				//chart
 				var ctx = $('.myChart');

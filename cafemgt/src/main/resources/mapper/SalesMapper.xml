@@ -20,8 +20,7 @@
 		<result property="salesRegDate" 			column="sales_reg_date"/>
 		<result property="salesDeadlineTax" 		column="sales_deadline_tax"/>
 		<result property="salesDeadlineDailyvol" 	column="sales_deadline_dailyvol"/>
-		<result property="salesSystemId" 			column="sales_system_id"/>
-		<result property="salesSystemName" 			column="sales_system_name"/>
+		<result property="salesDelete" 				column="sales_delete"/>
 	</resultMap>
 	
 	<insert id="addCostDetailByAddStock" parameterType="HashMap" >
@@ -72,13 +71,14 @@
 		s.sales_deadline_tax = 'x'
 		GROUP BY b2.menu_code
 	</select>
-	<delete id="removeSales" parameterType="String">
-		DELETE FROM 
-			tb_sales 
-		WHERE 
-			sales_code=#{salesCode};
-	</delete>
 	
+	<update id="removeSales" parameterType="String">
+		UPDATE tb_sales
+			SET
+				sales_delete='o'
+			WHERE 
+				sales_code =#{salesCode}
+	</update>
 	<update id="modifySales" parameterType="SalesDto">
 		UPDATE 
 			tb_sales
@@ -113,8 +113,6 @@
 			, s.sales_reg_date
 			, s.sales_deadline_tax
 			, s.sales_deadline_dailyvol
-			, s.sales_system_id
-			, s.sales_system_name
 		FROM 
 			tb_sales AS s
 		LEFT JOIN
@@ -141,8 +139,8 @@
 	
 	<insert id="addSales" parameterType="SalesDto">
 		INSERT INTO tb_sales
-	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline_tax, sales_deadline_dailyvol, sales_system_id, sales_system_name)
-	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), 'x', 'x', #{salesSystemId}, #{salesSystemName})
+	(sales_code, store_info_code, menu_code, sales_count, sales_total, sales_supply_value, sales_tax, sales_vat_type, sales_pay_type, cust_code, sales_date, sales_reg_date, sales_deadline_tax, sales_deadline_dailyvol, sales_delete)
+	VALUES (sf_new_sales_code(), #{storeInfoCode}, #{menuCode}, #{salesCount}, #{salesTotal}, #{salesTotal}/1.1, sales_total-sales_supply_value, #{salesVatType}, #{salesPayType}, #{custCode}, #{salesDate}, NOW(), 'x', 'x','x')
 	</insert>
 	
 	<select id="salesDeadlineForTax" parameterType="String" resultMap="salesDtoResultMap">
@@ -160,9 +158,7 @@
 			s.cust_code, 
 			c.cust_name,
 			s.sales_date, 
-			s.sales_reg_date, 
-			s.sales_system_id, 
-			s.sales_system_name
+			s.sales_reg_date
 		FROM 
 			tb_sales AS s
 			LEFT JOIN
@@ -177,6 +173,8 @@
 			s.store_info_code = #{SSTORECODE}
 		AND
 			s.sales_deadline_tax = 'x'
+		AND
+			s.sales_delete ='x';
 	</select>
 	
 	<select id="salesDeadlineForStock" parameterType="String" resultMap="salesDtoResultMap">
@@ -194,9 +192,7 @@
 			s.cust_code, 
 			c.cust_name,
 			s.sales_date, 
-			s.sales_reg_date, 
-			s.sales_system_id, 
-			s.sales_system_name
+			s.sales_reg_date
 		FROM 
 			tb_sales AS s
 			LEFT JOIN
@@ -210,7 +206,9 @@
 		WHERE
 			s.store_info_code = #{SSTORECODE}
 		AND
-			s.sales_deadline_dailyvol = 'x';
+			s.sales_deadline_dailyvol = 'x'
+		AND
+			s.sales_delete ='x';
 	</select>
 	
 	<select id="getSales" parameterType="String" resultMap="salesDtoResultMap">
@@ -230,9 +228,7 @@
 			s.sales_date, 
 			s.sales_reg_date, 
 			s.sales_deadline_dailyvol,
-			s.sales_deadline_tax,
-			s.sales_system_id, 
-			s.sales_system_name
+			s.sales_deadline_tax
 		FROM 
 			tb_sales AS s
 			LEFT JOIN
@@ -244,6 +240,8 @@
 			ON
 		  	s.cust_code = c.cust_code
 		WHERE
-			s.store_info_code = #{SSTORECODE};
+			s.store_info_code = #{SSTORECODE}
+		AND
+			s.sales_delete ='x';;
 	</select>
 </mapper>

@@ -12,6 +12,7 @@
 		<result property="custCode" 				column="cust_code"/>
 		<result property="custName" 				column="cust_name"/>
 		<result property="incoVatType" 				column="inco_vat_type"/>
+		<result property="incoVatCate" 				column="inco_vat_cate"/>
 		<result property="incoPayType" 				column="inco_pay_type"/>
 		<result property="incoTotal" 				column="inco_total"/>
 		<result property="incoCount" 				column="inco_count"/>
@@ -22,9 +23,8 @@
 		<result property="incoRegDate" 				column="inco_reg_date"/>
 		<result property="incoDeadline" 			column="inco_deadline"/>
 		<result property="incoDeadlineTax" 			column="inco_deadline_tax"/>
-		<result property="incoSystemId" 			column="inco_system_id"/>
-		<result property="incoSystemName" 			column="inco_system_name"/>
 		<result property="incoCheck" 				column="inco_check"/>
+		<result property="incoDelete" 				column="inco_delete"/>
 	</resultMap>
 	
 	<select id="getPurchasesDeadlineTax" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -46,8 +46,6 @@
 			i.inco_reg_date, 
 			i.inco_deadline, 
 			i.inco_deadline_tax,
-			i.inco_system_id, 
-			i.inco_system_name, 
 			i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -62,15 +60,18 @@
 		WHERE
 			i.store_info_code = #{SSTORECODE}
 		AND
-			i.inco_deadline_tax = 'x';
+			i.inco_deadline_tax = 'x'
+		AND 
+			i.inco_delete = 'x';
 	</select>
 	
-	<delete id="removePurchases" parameterType="String">
-		DELETE FROM 
-			tb_incoming 
-		WHERE 
+	<update id="removePurchases" parameterType="String">
+		UPDATE tb_incoming
+			SET
+				inco_delete='o'
+			WHERE 
 			inco_code=#{incoCode};
-	</delete>
+	</update>
 	
 	<update id="modifyPurchases" parameterType="PurchasesDto">
 		UPDATE 
@@ -108,8 +109,6 @@
 			, i.inco_date
 			, i.inco_reg_date
 			, i.inco_deadline
-			, i.inco_system_id
-			, i.inco_system_name
 			, i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -117,30 +116,55 @@
 			tb_store_info AS s
 		ON
 			i.store_info_code = s.store_info_code
-		WHERE inco_code = #{incoCode};
+		WHERE 
+			inco_code = #{incoCode}
+		AND	
+			i.inco_delete = 'x';
 	</select>
 	
 	<insert id="addPurchases" parameterType="PurchasesDto">
 		INSERT INTO tb_incoming
-			(inco_code, 
-			store_info_code, 
-			article_code, 
-			cust_code, 
-			inco_vat_type, 
-			inco_pay_type, 
-			inco_total, 
-			inco_count, 
-			inco_volume_subtotal, 
-			inco_supply_value, 
-			inco_tax,  
-			inco_date, 
-			inco_reg_date, 
-			inco_deadline, 
-			inco_system_id, 
-			inco_system_name, 
-			inco_check)
+				(inco_code, 
+				store_info_code, 
+				article_code, 
+				cust_code, 
+				inco_vat_type, 
+				inco_vat_cate, 
+				inco_pay_type, 
+				inco_total, 
+				inco_count, 
+				inco_volume_subtotal, 
+				inco_supply_value, 
+				inco_tax,  
+				inco_date, 
+				inco_reg_date, 
+				inco_deadline, 
+				inco_check,
+				inco_delete)
 			VALUES 
-			(sf_new_inco_code(), #{storeInfoCode}, #{articleCode}, #{custCode}, #{incoVatType}, #{incoPayType}, #{incoTotal} ,#{incoCount}, #{incoVolumeSubtotal}, #{incoSupplyValue}, #{incoTax}, '', '', #{incoDate}, NOW(), 'x', '', '', 1)
+				(sf_new_inco_code()
+				, #{storeInfoCode}
+				, #{articleCode}
+				, #{custCode}
+				, #{incoVatType}
+				, #{incoVatCate}
+				, #{incoPayType}
+				, #{incoTotal}
+				, #{incoCount}
+				, #{incoVolumeSubtotal}
+				<if test="incoVatCate == '면세'"> 
+				, #{incoTotal}
+				, 0
+				</if>
+				<if test="incoVatCate == '과세'"> 
+				, #{incoSupplyValue}
+				, #{incoTax}
+				</if>
+				, #{incoDate}
+				, NOW()
+				, 'x'
+				, 1
+				,'x')
 	</insert>
 	
 	<select id="purchasesDeadline" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -161,8 +185,6 @@
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 
-			i.inco_system_id, 
-			i.inco_system_name, 
 			i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -177,7 +199,9 @@
 		WHERE
 			i.store_info_code = #{SSTORECODE}
 		AND
-			i.inco_deadline = 'x';
+			i.inco_deadline = 'x'
+		AND
+			i.inco_delete = 'x';
 	</select>
 	
 	<select id="getPurchasesByArticleCode" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -198,8 +222,6 @@
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 
-			i.inco_system_id, 
-			i.inco_system_name, 
 			i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -214,7 +236,9 @@
 		WHERE
 			i.store_info_code = #{SSTORECODE}
 		AND
-			i.article_code = #{articleCode};
+			i.article_code = #{articleCode}
+		AND
+			i.inco_delete = 'x';
 	</select>
 	
 	<select id="getPurchases" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -226,6 +250,7 @@
 			i.cust_code, 
 			c.cust_name,
 			i.inco_vat_type, 
+			i.inco_vat_cate, 
 			i.inco_pay_type, 
 			i.inco_total, 
 			i.inco_count, 
@@ -235,8 +260,6 @@
 			i.inco_date, 
 			i.inco_reg_date, 
 			i.inco_deadline, 
-			i.inco_system_id, 
-			i.inco_system_name, 
 			i.inco_check
 		FROM 
 			tb_incoming AS i
@@ -249,6 +272,8 @@
 			ON
 			i.article_code = a.article_code
 		WHERE
-			i.store_info_code = #{SSTORECODE};
+			i.store_info_code = #{SSTORECODE}
+		AND
+			i.inco_delete = 'x';
 	</select>
 </mapper>

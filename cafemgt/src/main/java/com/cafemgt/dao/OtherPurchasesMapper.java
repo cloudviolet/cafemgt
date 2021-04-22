@@ -1,6 +1,7 @@
 package com.cafemgt.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -8,6 +9,8 @@ import com.cafemgt.dto.OtherPurchasesDto;
 
 @Mapper
 public interface OtherPurchasesMapper {
+	
+	public List<Map<String, Object>> getOtherPurchasesListForIS(String SSTORECODE, String searchYear);
 	
 	public int removeOtherPurchases(String oeCode);
 	
