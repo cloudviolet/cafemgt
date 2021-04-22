@@ -20,11 +20,12 @@ public class SalesService {
 	public SalesService(SalesMapper salesMapper) {
 		this.salesMapper = salesMapper;
 	}
-	
-	public int addCostDetail(String salesCode,String SSTORECODE) {
-		return salesMapper.addCostDetail(salesCode,SSTORECODE);
+	public int addCostDetailByAddStock(Map<String,String> costDtMap) {
+		return salesMapper.addCostDetailByAddStock(costDtMap);
 	}
-	
+	public List<Map<String,String>> getCostDetail(){
+		return salesMapper.getCostDetail();
+	}
 	public int removeSales(String salesCode) {
 		return salesMapper.removeSales(salesCode);
 	}

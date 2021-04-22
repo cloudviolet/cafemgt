@@ -438,9 +438,6 @@ public class StockController {
 			System.out.println(getSalesList.get(k)); 
 			result += taxService.addDealing(getSalesList.get(k));
 		}
-		for(int j = 0 ; j < arraySales.size() ; j++) {
-			salesService.addCostDetail(arraySales.get(j), SSTORECODE);
-		}
 		
 		dailyVolService.modifySalesDeadLine(arraySales);
 		taxService.modifySalesDeadLineForTax(arraySales);
@@ -485,10 +482,13 @@ public class StockController {
 		stockMap.put("arrayStock", arrayStock);
 		List<StockDto> stockList = stockService.getStock(stockMap);
 		int result = stockService.addStock(stockList);
+		
 		String rtString = "";
 		if(result > 0 ) {
+			
 			rtString = "정상 동작";
 		}else {
+			
 			rtString = "insert 실패";
 		}
 			
