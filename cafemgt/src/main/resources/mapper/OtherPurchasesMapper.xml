@@ -18,6 +18,7 @@
 		<result property="oeDate" 			column="oe_date"/>
 		<result property="oeRegDate" 		column="oe_reg_date"/>
 		<result property="oeDeadline" 		column="oe_deadline"/>
+		<result property="oeDelete" 		column="oe_delete"/>
 	</resultMap>
 	
 	<select id="getOtherPurchasesListForIS" parameterType="String" resultType="HashMap">
@@ -39,15 +40,18 @@
 			<if test="searchYear != null">
 				date_format(oe.oe_date, '%Y') = #{searchYear}
 			</if>
-		GROUP BY a.at_name
+			AND
+				oe.oe_delete = 'x'
+		GROUP BY a.at_name;
 	</select>
 	
-	<delete id="removeOtherPurchases" parameterType="String">
-		DELETE FROM 
-			tb_other_expense 
-		WHERE 
+	<update id="removeOtherPurchases" parameterType="String">
+		UPDATE tb_other_expense
+			SET
+				oe_delete='o'
+			WHERE  
 			oe_code=#{oeCode};
-	</delete>
+	</update>
 	
 	<update id="modifyOtherPurchases" parameterType="OtherPurchasesDto">
 		UPDATE 
@@ -81,7 +85,8 @@
 		, oe_etc
 		, oe_date
 		, oe_reg_date
-		, oe_deadline)
+		, oe_deadline
+		, oe_delete)
 			VALUES (sf_new_otherexpense_code()
 		, #{storeInfoCode}
 		, #{oeStoreName}
@@ -94,6 +99,7 @@
 		, #{oeEtc}
 		, #{oeDate}
 		, NOW()
+		, 'x'
 		, 'x')
 	</insert>
 	
@@ -116,7 +122,9 @@
 			ON
 			oe.store_info_code = si.store_info_code
 		WHERE 
-			oe.oe_code = #{oeCode};
+			oe.oe_code = #{oeCode}
+		AND
+			oe.oe_delete = 'x';
 	</select>
 	
 	<select id="otherPurchasesDeadline" parameterType="String" resultMap="otherPurchasesDtoResultMap">
@@ -139,7 +147,9 @@
 		WHERE
 			store_info_code = #{SSTORECODE}
 		AND
-			oe_deadline = 'x';
+			oe_deadline = 'x'
+		AND
+			oe_delete = 'x';
 	</select>
 	
 	<select id="getOtherPurchases" parameterType="String" resultMap="otherPurchasesDtoResultMap">
@@ -160,6 +170,8 @@
 		FROM 
 			tb_other_expense
 		WHERE
-			store_info_code = #{SSTORECODE};
+			store_info_code = #{SSTORECODE}
+		AND
+			oe_delete = 'x';
 	</select>
 </mapper>

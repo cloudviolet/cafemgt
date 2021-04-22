@@ -146,78 +146,12 @@ public class TaxController {
 		return "pands/purchasesdeadline";
 	}
 	
-	@GetMapping("/purchasesdeadlinetax")
-	public String purchasesDeadlineTax(Model model, HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<PurchasesDto> purchasesTaxCheckList = purchasesService.getPurchasesDeadlineTax(SSTORECODE);
-		model.addAttribute("purchasesTaxCheckList", purchasesTaxCheckList);
-		return "pands/purchasesdeadlinetax";
-	}
-	
-	@PostMapping("/purchasesdeadlinetax")
-	@ResponseBody
-	public String purchasesDeadlineTax(@RequestParam(value = "arrayPurchases[]",required = false)List<String> arrayPurchases
-									   ,HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		System.out.println(arrayPurchases+"<<<<<<<<<<<<<<<<");
-		Map<String, Object> purchasesInfoMap = new HashMap<>();
-		purchasesInfoMap.put("SSTORECODE", SSTORECODE);
-		purchasesInfoMap.put("arrayPurchases", arrayPurchases);
-		List<DealingDto> getPurchsesList = taxService.getPurchasesByDealing(purchasesInfoMap);
-		String resultValue = "실패";
-		int result = 0;
-		for(int i=0; i<getPurchsesList.size();i++) {
-			result += taxService.addDealing(getPurchsesList.get(i));
-		}
-		taxService.modifyPurchasesDeadLineTax(arrayPurchases);
-		if(result>=1) {
-			resultValue ="성공";
-		}		
-		return resultValue;
-	}
-	
 	@GetMapping("/salesdeadlineforstock")
 	public String salesDeadlineForStock(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<SalesDto> salesCheckList = salesService.salesDeadlineForStock(SSTORECODE);
 		model.addAttribute("salesCheckList", salesCheckList);
 		return "pands/salesdeadlineforstock";
-	}
-	
-	@GetMapping("/salesdeadlinefortax")
-	public String salesDeadlineForTax(Model model, HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		List<SalesDto> salesTaxCheckList = salesService.salesDeadlineForTax(SSTORECODE);
-		model.addAttribute("salesTaxCheckList", salesTaxCheckList);
-		return "pands/salesdeadlinefortax";
-	}
-	
-	@PostMapping("/salesdeadlinefortax")
-	@ResponseBody
-	public String salesDeadlineForTax(@RequestParam(value = "arraySales[]",required = false)List<String> arraySales
-									  ,HttpSession session) {
-		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
-		System.out.println(arraySales);
-		Map<String, Object> salesInfoMap = new HashMap<>();
-		salesInfoMap.put("arraySales", arraySales);
-		salesInfoMap.put("SSTORECODE", SSTORECODE);
-		System.out.println(salesInfoMap);
-		
-		String resultValue = "실패";
-		int result = 0;
-		List<DealingDto> getSalesList = taxService.getSalesByDealing(salesInfoMap);
-		for(int i =0; i<getSalesList.size(); i++) {
-			System.out.println(getSalesList.get(i));
-			result += taxService.addDealing(getSalesList.get(i));			
-		}
-		for(int j = 0 ; j < arraySales.size() ; j++) {
-			salesService.addCostDetail(arraySales.get(j), SSTORECODE);
-		}
-		taxService.modifySalesDeadLineForTax(arraySales);
-		if(result>=1) {
-			resultValue = "정상";
-		}
-		return resultValue;
 	}
 	
 	@GetMapping("/otherpurchasesdeadline")

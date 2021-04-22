@@ -24,6 +24,7 @@
 		<result property="incoDeadline" 			column="inco_deadline"/>
 		<result property="incoDeadlineTax" 			column="inco_deadline_tax"/>
 		<result property="incoCheck" 				column="inco_check"/>
+		<result property="incoDelete" 				column="inco_delete"/>
 	</resultMap>
 	
 	<select id="getPurchasesDeadlineTax" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -59,15 +60,18 @@
 		WHERE
 			i.store_info_code = #{SSTORECODE}
 		AND
-			i.inco_deadline_tax = 'x';
+			i.inco_deadline_tax = 'x'
+		AND 
+			i.inco_delete = 'x';
 	</select>
 	
-	<delete id="removePurchases" parameterType="String">
-		DELETE FROM 
-			tb_incoming 
-		WHERE 
+	<update id="removePurchases" parameterType="String">
+		UPDATE tb_incoming
+			SET
+				inco_delete='o'
+			WHERE 
 			inco_code=#{incoCode};
-	</delete>
+	</update>
 	
 	<update id="modifyPurchases" parameterType="PurchasesDto">
 		UPDATE 
@@ -112,7 +116,10 @@
 			tb_store_info AS s
 		ON
 			i.store_info_code = s.store_info_code
-		WHERE inco_code = #{incoCode};
+		WHERE 
+			inco_code = #{incoCode}
+		AND	
+			i.inco_delete = 'x';
 	</select>
 	
 	<insert id="addPurchases" parameterType="PurchasesDto">
@@ -132,7 +139,8 @@
 				inco_date, 
 				inco_reg_date, 
 				inco_deadline, 
-				inco_check)
+				inco_check,
+				inco_delete)
 			VALUES 
 				(sf_new_inco_code()
 				, #{storeInfoCode}
@@ -155,7 +163,8 @@
 				, #{incoDate}
 				, NOW()
 				, 'x'
-				, 1)
+				, 1
+				,'x')
 	</insert>
 	
 	<select id="purchasesDeadline" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -190,7 +199,9 @@
 		WHERE
 			i.store_info_code = #{SSTORECODE}
 		AND
-			i.inco_deadline = 'x';
+			i.inco_deadline = 'x'
+		AND
+			i.inco_delete = 'x';
 	</select>
 	
 	<select id="getPurchasesByArticleCode" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -225,7 +236,9 @@
 		WHERE
 			i.store_info_code = #{SSTORECODE}
 		AND
-			i.article_code = #{articleCode};
+			i.article_code = #{articleCode}
+		AND
+			i.inco_delete = 'x';
 	</select>
 	
 	<select id="getPurchases" parameterType="String" resultMap="purchasesDtoResultMap">
@@ -259,6 +272,8 @@
 			ON
 			i.article_code = a.article_code
 		WHERE
-			i.store_info_code = #{SSTORECODE};
+			i.store_info_code = #{SSTORECODE}
+		AND
+			i.inco_delete = 'x';
 	</select>
 </mapper>

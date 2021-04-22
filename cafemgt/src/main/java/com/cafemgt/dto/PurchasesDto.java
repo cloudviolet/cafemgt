@@ -20,6 +20,7 @@ public class PurchasesDto {
 	private String incoDeadline;
 	private String incoDeadlineTax;
 	private int incoCheck;
+	private String incoDelete;
 	public String getIncoCode() {
 		return incoCode;
 	}
@@ -134,6 +135,12 @@ public class PurchasesDto {
 	public void setIncoCheck(int incoCheck) {
 		this.incoCheck = incoCheck;
 	}
+	public String getIncoDelete() {
+		return incoDelete;
+	}
+	public void setIncoDelete(String incoDelete) {
+		this.incoDelete = incoDelete;
+	}
 	@Override
 	public String toString() {
 		return "PurchasesDto [incoCode=" + incoCode + ", storeInfoCode=" + storeInfoCode + ", articleCode="
@@ -142,7 +149,7 @@ public class PurchasesDto {
 				+ ", incoTotal=" + incoTotal + ", incoCount=" + incoCount + ", incoVolumeSubtotal=" + incoVolumeSubtotal
 				+ ", incoSupplyValue=" + incoSupplyValue + ", incoTax=" + incoTax + ", incoDate=" + incoDate
 				+ ", incoRegDate=" + incoRegDate + ", incoDeadline=" + incoDeadline + ", incoDeadlineTax="
-				+ incoDeadlineTax + ", incoCheck=" + incoCheck + "]";
+				+ incoDeadlineTax + ", incoCheck=" + incoCheck + ", incoDelete=" + incoDelete + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -158,6 +165,7 @@ public class PurchasesDto {
 		result = prime * result + ((incoDate == null) ? 0 : incoDate.hashCode());
 		result = prime * result + ((incoDeadline == null) ? 0 : incoDeadline.hashCode());
 		result = prime * result + ((incoDeadlineTax == null) ? 0 : incoDeadlineTax.hashCode());
+		result = prime * result + ((incoDelete == null) ? 0 : incoDelete.hashCode());
 		result = prime * result + ((incoPayType == null) ? 0 : incoPayType.hashCode());
 		result = prime * result + ((incoRegDate == null) ? 0 : incoRegDate.hashCode());
 		result = prime * result + incoSupplyValue;
@@ -221,6 +229,11 @@ public class PurchasesDto {
 			if (other.incoDeadlineTax != null)
 				return false;
 		} else if (!incoDeadlineTax.equals(other.incoDeadlineTax))
+			return false;
+		if (incoDelete == null) {
+			if (other.incoDelete != null)
+				return false;
+		} else if (!incoDelete.equals(other.incoDelete))
 			return false;
 		if (incoPayType == null) {
 			if (other.incoPayType != null)
