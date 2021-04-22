@@ -178,4 +178,52 @@
 		GROUP BY inc.article_code
 		ORDER BY dtv.detailvol_code
 	</select>
+	<select id="getStockAllStore" resultMap="StockResultMap">
+		SELECT 
+			 inc.inco_code
+			,inc.store_info_code
+			,inc.article_code
+			,a.article_name
+			,a.article_dan
+			,a.article_big_dan
+			,sum(inco_count) AS 'inco_count'
+			,sum(inco_total)AS 'stock_inco_unit_total'
+			,sum(inco_volume_subtotal) AS 'inco_volume_subtotal'
+			,TRUNCATE(sum(inco_total)/sum(inco_volume_subtotal),0) AS 'stock_min_unit'
+			,b2.stock_con_count AS 'stock_con_count'
+			,b2.stock_volume_total AS 'stock_volume_total'
+			,sum(dtv.detailvol_remain_count) AS 'stock_now_count'
+			,sum(dtv.detailvol_remain_volume) AS 'stock_now_volume'
+			,max(inco_date) AS 'stock_reg_date'
+			,inco_reg_date
+			,COUNT(inc.article_code)
+		FROM
+		tb_incoming as inc
+		LEFT JOIN 
+		tb_detail_volume AS dtv
+		ON inc.inco_code = dtv.inco_code
+		LEFT JOIN 
+		tb_article AS a
+		ON inc.article_code = a.article_code
+		INNER JOIN(
+			 SELECT
+				  SUM(dtv2.detailvol_con_count) AS 'stock_con_count'
+				 ,SUM(dtv2.detailvol_volume_total) AS 'stock_volume_total'
+				 ,dtv2.article_code
+			 FROM 
+				 tb_detail_volume AS dtv2
+				 LEFT JOIN
+				 tb_incoming AS i
+				 on
+				 dtv2.inco_code = i.inco_code
+			 WHERE i.inco_check != 3
+			 GROUP BY dtv2.article_code
+			 ) AS b2
+		on
+		a.article_code = b2.article_code
+		WHERE inco_check != 3  
+			AND dtv.detailvol_deadline_check='x' 
+		GROUP BY inc.article_code
+		ORDER BY dtv.detailvol_code
+	</select>
 </mapper>

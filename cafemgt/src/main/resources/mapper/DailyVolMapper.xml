@@ -88,6 +88,8 @@
 			c.article_code = a.article_code
 		WHERE
 			dv.dailyvol_deadline_check = 'x'
+			AND
+			dv.store_info_code = #{SSTORECODE}
 	</select>
 	<select id="getDailyVolDeadLine" parameterType="String" resultMap="DailyVolResultMap">
 		SELECT 
@@ -114,6 +116,8 @@
 			on
 			dv.store_info_code = st.store_info_code
 			WHERE dv.dailyvol_deadline_check = 'x'
+			AND
+			dv.store_info_code = #{SSTORECODE}
 		GROUP BY c.article_code
 		ORDER BY dailyvol_code
 	</select>
