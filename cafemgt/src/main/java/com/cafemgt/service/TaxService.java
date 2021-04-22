@@ -29,6 +29,18 @@ public class TaxService {
 		this.incomeStatementMapper = incomeStatementMapper;
 	}
 	
+	public int addVat(Map<String,String> vatList) {
+		return vatMapper.addVat(vatList);
+	}
+	
+	public List<Map<String, String>> getDealingForVAT(){
+		return dealingMapper.getDealingForVAT();
+	}
+	
+	public List<Map<String, Object>> getSalaryForIS(String SSTORECODE, String searchYear){
+		return incomeStatementMapper.getSalaryForIS(SSTORECODE, searchYear);
+	}
+	
 	public IncomeStatementDto getIncomeStatement(String SSTORECODE, String searchYear){
 		return incomeStatementMapper.getIncomeStatement(SSTORECODE, searchYear);
 	}

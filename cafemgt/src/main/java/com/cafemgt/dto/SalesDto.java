@@ -17,8 +17,7 @@ public class SalesDto {
 	private String salesRegDate;
 	private String salesDeadlineTax; 
 	private String salesDeadlineDailyvol;
-	private String salesSystemId;
-	private String salesSystemName;
+	private String salesDelete;
 	public String getSalesCode() {
 		return salesCode;
 	}
@@ -115,17 +114,11 @@ public class SalesDto {
 	public void setSalesDeadlineDailyvol(String salesDeadlineDailyvol) {
 		this.salesDeadlineDailyvol = salesDeadlineDailyvol;
 	}
-	public String getSalesSystemId() {
-		return salesSystemId;
+	public String getSalesDelete() {
+		return salesDelete;
 	}
-	public void setSalesSystemId(String salesSystemId) {
-		this.salesSystemId = salesSystemId;
-	}
-	public String getSalesSystemName() {
-		return salesSystemName;
-	}
-	public void setSalesSystemName(String salesSystemName) {
-		this.salesSystemName = salesSystemName;
+	public void setSalesDelete(String salesDelete) {
+		this.salesDelete = salesDelete;
 	}
 	@Override
 	public String toString() {
@@ -134,8 +127,8 @@ public class SalesDto {
 				+ ", salesSupplyValue=" + salesSupplyValue + ", salesTax=" + salesTax + ", salesVatType=" + salesVatType
 				+ ", salesPayType=" + salesPayType + ", custCode=" + custCode + ", custName=" + custName
 				+ ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate + ", salesDeadlineTax="
-				+ salesDeadlineTax + ", salesDeadlineDailyvol=" + salesDeadlineDailyvol + ", salesSystemId="
-				+ salesSystemId + ", salesSystemName=" + salesSystemName + "]";
+				+ salesDeadlineTax + ", salesDeadlineDailyvol=" + salesDeadlineDailyvol + ", salesDelete=" + salesDelete
+				+ "]";
 	}
 	@Override
 	public int hashCode() {
@@ -150,11 +143,10 @@ public class SalesDto {
 		result = prime * result + ((salesDate == null) ? 0 : salesDate.hashCode());
 		result = prime * result + ((salesDeadlineDailyvol == null) ? 0 : salesDeadlineDailyvol.hashCode());
 		result = prime * result + ((salesDeadlineTax == null) ? 0 : salesDeadlineTax.hashCode());
+		result = prime * result + ((salesDelete == null) ? 0 : salesDelete.hashCode());
 		result = prime * result + ((salesPayType == null) ? 0 : salesPayType.hashCode());
 		result = prime * result + ((salesRegDate == null) ? 0 : salesRegDate.hashCode());
 		result = prime * result + salesSupplyValue;
-		result = prime * result + ((salesSystemId == null) ? 0 : salesSystemId.hashCode());
-		result = prime * result + ((salesSystemName == null) ? 0 : salesSystemName.hashCode());
 		result = prime * result + salesTax;
 		result = prime * result + salesTotal;
 		result = prime * result + ((salesVatType == null) ? 0 : salesVatType.hashCode());
@@ -212,6 +204,11 @@ public class SalesDto {
 				return false;
 		} else if (!salesDeadlineTax.equals(other.salesDeadlineTax))
 			return false;
+		if (salesDelete == null) {
+			if (other.salesDelete != null)
+				return false;
+		} else if (!salesDelete.equals(other.salesDelete))
+			return false;
 		if (salesPayType == null) {
 			if (other.salesPayType != null)
 				return false;
@@ -223,16 +220,6 @@ public class SalesDto {
 		} else if (!salesRegDate.equals(other.salesRegDate))
 			return false;
 		if (salesSupplyValue != other.salesSupplyValue)
-			return false;
-		if (salesSystemId == null) {
-			if (other.salesSystemId != null)
-				return false;
-		} else if (!salesSystemId.equals(other.salesSystemId))
-			return false;
-		if (salesSystemName == null) {
-			if (other.salesSystemName != null)
-				return false;
-		} else if (!salesSystemName.equals(other.salesSystemName))
 			return false;
 		if (salesTax != other.salesTax)
 			return false;

@@ -17,6 +17,22 @@
 		<result property="dealRegDate" 			column="deal_reg_date"/>
 	</resultMap>
 	
+	<select id="getDealingForVAT" resultType="HashMap">
+		SELECT
+			 d.store_info_code as 'storeInfoCode'
+			,date_format(d.deal_date, '%Y') AS 'vatYear'
+			,if(date_format(d.deal_date, '%m') BETWEEN '01' AND '06','1기','2기') AS 'vatHalf'
+			,SUM(if(d.deal_cate ='매출',d.deal_supply_value,0)) AS 'vatSales'
+			,SUM(if(d.deal_cate ='매입',d.deal_supply_value,0))+SUM(if(d.deal_cate ='기타매입',d.deal_supply_value,0)) AS 'vatPurchases'
+			,TRUNCATE(SUM(if(d.deal_tax=0,d.deal_supply_value,0)) * (9/109),0) AS 'vatDeemedInputTax'
+			,if(TRUNCATE(SUM(if(d.deal_cate='매출' AND d.deal_vat_type='카드',d.deal_supply_value,0)) * 0.026,0) > 5000000,5000000,
+				 TRUNCATE(SUM(if(d.deal_cate='매출' AND d.deal_vat_type='카드',d.deal_supply_value,0)) * 0.026,0)) AS 'vatCard'
+		FROM 
+			tb_dealing AS d
+		group by d.store_info_code, date_format(d.deal_date, '%m') BETWEEN '01' AND '06', date_format(d.deal_date, '%m') BETWEEN '07' AND '12'
+			, date_format(d.deal_date, '%Y')	
+	</select>
+	
 	<select id="getYearFromDealing" parameterType="String" resultType="HashMap">
 		SELECT 
 			date_format(NOW(),'%Y') AS 'year'
