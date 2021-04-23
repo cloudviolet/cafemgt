@@ -34,9 +34,7 @@
 									<form id="demo-form2" method="post" data-parsley-validate class="form-horizontal form-label-left">
 										
 										<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">											
-										<input type="hidden" name="salesSystemId" th:value="${session.MID}">
-										<input type="hidden" name="salesSystemName" th:value="${session.MNAME}">
-										
+													
 										
 										<div class="form-group row">
 											<label class="control-label col-md-3 col-sm-3 label-align" for="menuCode">메뉴 명  *</label>
@@ -164,14 +162,14 @@
 				console.log(radioValue);
 				if(radioValue=='현금'){
 					custCode.prop('disabled', true);
-					custCode.val('cust_998').prop("selected", true);
-					custCode.val('cust_998');
+					custCode.val('cust_000').prop("selected", true);
+					custCode.val('cust_000');
 					console.log(custCode.val());
 					salesPayType.eq(0).prop("checked", true);
 				}else if(radioValue=='카드'){
 					custCode.prop('disabled', true);
-					custCode.val('cust_999').prop("selected", true);
-					custCode.val('cust_999')
+					custCode.val('cust_00').prop("selected", true);
+					custCode.val('cust_00')
 					salesPayType.eq(0).prop("checked", true);
 					console.log(custCode.val());
 				}else{

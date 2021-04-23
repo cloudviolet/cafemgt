@@ -23,8 +23,7 @@
 					 <div class="x_title">
 	                    <h2>매입 조회</h2>
 						<ul class="nav navbar-right panel_toolbox">
-							<li><a th:href="@{/purchasesdeadline}" class="btn btn-info">마감</a></li>
-							<li><a class="btn btn-info">전체마감</a></li>
+							<li><a th:href="@{/tax/purchasesdeadline}" class="btn btn-info">매입마감</a></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -41,6 +40,7 @@
 											<tr>
 												<th><input type="checkbox" id="check-all"></th>
 												<th>매입 유형</th>
+												<th>과세 유형</th>
 												<th>입고 수량</th>
 												<th>품목 명</th>
 												<th>거래처 명</th>
@@ -58,6 +58,7 @@
 											<tr th:if="${#lists.size(purchasesList)>0}" th:each="pl : ${purchasesList}">
 												<td><input type="checkbox" id="check-all"></td>
 												<td th:text="${pl.incoVatType}"></td>
+												<td th:text="${pl.incoVatCate}"></td>
 												<td th:text="${pl.incoCount}"></td>
 												<td th:text="${pl.articleName}"></td>
 												<td th:text="${pl.custName}"></td>
@@ -67,8 +68,8 @@
 												<td th:text="${pl.incoPayType}"></td>
 												<td th:text="${pl.incoDate}"></td>
 												<td th:text="${pl.incoDeadline}"></td>
-												<td><a th:href="@{/modifypurchases(incoCode=${pl.incoCode})}">수정</a></td>
-												<td><a class="removePurchases" th:href="@{/removePurchases(incoCode=${pl.incoCode})}">삭제</a></td>
+												<td><a th:href="@{/tax/modifypurchases(incoCode=${pl.incoCode})}">수정</a></td>
+												<td><a class="removePurchases" th:href="@{/tax/removePurchases(incoCode=${pl.incoCode})}">삭제</a></td>
 											</tr>
 										</tbody>
 									</table>

@@ -23,7 +23,7 @@
 					 <div class="x_title">
 	                    <h2>매출 마감</h2>
 	                    <ul class="nav navbar-right panel_toolbox">
-							<li><a href="#" class="btn btn-info">마감</a></li>
+							<li><a href="#" id="forTaxBtn" class="btn btn-info">마감</a></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -39,6 +39,7 @@
 										<thead>
 											<tr>
 												<th><input type="checkbox" id="check-all"></th>
+												<th>판매 코드</th>
 												<th>판매 메뉴</th>
 												<th>판매 수량</th>
 												<th>매출 유형</th>
@@ -53,6 +54,7 @@
 										<tbody>
 											<tr th:if="${#lists.size(salesTaxCheckList)>0}" th:each="stcl : ${salesTaxCheckList}">
 												<td><input type="checkbox" class="checkBox" name="checkBox" id="check-all"></td>
+												<td th:text="${stcl.salesCode}"></td>
 												<td th:text="${stcl.menuName}"></td>
 												<td th:text="${stcl.salesCount}"></td>
 												<td th:text="${stcl.salesVatType}"></td>
@@ -75,33 +77,24 @@
 	</th:block>
 	<th:block layout:fragment="customJs">
 		<script th:src="@{../vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
 		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
-		<script
-			th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script	th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
 		<script th:src="@{../vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
 		
 		<script type="text/javascript">
 		var checkBoxLength = $('.checkBox').length;		
-		console.log(checkBoxLength);
-		
+		console.log(checkBoxLength);		
 			$('#check-all').click(function(){
 				if($('#check-all').is(":checked")){
 					$('.checkBox').prop("checked", true);
@@ -117,6 +110,48 @@
 				}
 			});			
 			
+		$('#forTaxBtn').click(function(){
+			//버튼을 눌렀을 때 배열 생성
+			var arraySales = [];
+			//버튼 눌렀을 때 체크박스에 체크된 것 찾기
+			var checkBox = $("input[name='checkBox']:checked");
+			//그리고 체크되어있는 것들 반복문으로 돌리기
+			checkBox.each(function(i){
+				//반복되는 수만큼 객체 생성
+				//var sales = {};
+				// checkbox.parent() : checkbox의 부모는 <td>이다.
+				// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+				var tr = checkBox.parent().parent().eq(i);
+				var td = tr.children();
+				
+				var cate = td.eq(1).text();
+				// 객체에 넣기
+				//sales["salesCode"] = cate;
+				
+				arraySales.push(cate);
+			});			
+			console.log(arraySales);
+			if(arraySales.length != 0){
+				$.ajax({
+			        type : 'POST',
+			        url : '/tax/salesdeadlinefortax',
+			        dataType : "text",
+			        data : {"arraySales" : arraySales},
+			        success : function(data){
+			        	console.log(data)
+			            alert("요청되었습니다.")
+			            location.href = '/tax/gettotalpands';
+			        },
+			        error : function(request,status,error){
+			        	console.log(request)
+			        	console.log(status)
+			        	console.log(error)
+			        }
+			    }); 
+			}else{
+				alert('마감할 항목을 선택해주세요.');	
+			}
+		});
 		</script>
 	</th:block>
 

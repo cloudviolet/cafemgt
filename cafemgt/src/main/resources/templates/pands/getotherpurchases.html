@@ -22,7 +22,7 @@
 					 <div class="x_title">
 	                    <h2>기타매입 조회</h2>
 						<ul class="nav navbar-right panel_toolbox">
-							<li><a th:href=@{/otherpurchasesdeadline} class="btn btn-info">회계마감</a></li>
+							<li><a th:href=@{/tax/otherpurchasesdeadline} class="btn btn-info">회계마감</a></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -61,8 +61,8 @@
 												<td th:text="${ol.oeEtc}"></td>
 												<td th:text="${ol.oeDate}"></td>
 												<td th:text="${ol.oeDeadline}"></td>
-												<td><a th:href="@{/modifyotherpurchases(oeCode=${ol.oeCode})}">수정</a></td>
-												<td><a class="removeOtherPurchases" th:href="@{/removeOtherPurchases(oeCode=${ol.oeCode})}">삭제</a></td>
+												<td><a th:href="@{/tax/modifyotherpurchases(oeCode=${ol.oeCode})}">수정</a></td>
+												<td><a class="removeOtherPurchases" th:href="@{/tax/removeOtherPurchases(oeCode=${ol.oeCode})}">삭제</a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -75,7 +75,7 @@
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script th:src="@{../vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net/js/jquery.dataTables.js}"></script>
 		<script	th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 		<script	th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
 		<script	th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>

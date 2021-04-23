@@ -45,7 +45,7 @@
 				<div class="animate form login_form">
 					<section class="login_content">
 						<div class="x_content">
-							<form data-parsley-validate class="form-horizontal form-label-left" th:action="@{/join}" id="demo-form2" method="post" novalidate>
+							<form data-parsley-validate class="form-horizontal form-label-left" th:action="@{/store/join}" id="demo-form2" method="post" novalidate>
 								<h1>회원가입</h1>
 								<!-- password -->
 								<div class="form-group">
@@ -178,30 +178,32 @@
 				$(document).on('click', '#memberIdCheck', function(){
 					var memberId = $('#memberId');
 					console.log(memberId.val());
+					if(memberId.val()==''){
+						alert('아이디를 입력해주세요.');
+					}else{
 					$.ajax({
-						url: '/idCheck', 
+						url: '/store/idCheck', 
 						type: 'POST',	
 						data: { memberId : memberId.val() }, 
 						success : function(data){
 							console.log(data)
-							if(memberId.val()==''){
-								alert('아이디를 입력해주세요.');
-							}else{
+							
 								if(data){
 									alert('중복된 아이디입니다.');
 									memberId.focus();
 								}else{
 									alert('사용 가능한 아이디입니다.');
 								}
-							}
-						},
+							
+							},
 						error : function(xhr,status,error){
 							console.log("xhr: " + xhr);
 							console.log("status: " + status);
 							console.log("error: " + error);
 						}
 					});
-				});
+					}
+				});				
 			});
 		</script>
 	</th:block>

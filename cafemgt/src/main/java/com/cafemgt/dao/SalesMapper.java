@@ -10,6 +10,9 @@ import com.cafemgt.dto.SalesDto;
 
 @Mapper
 public interface SalesMapper {
+	public int addCostDetailByAddStock(Map<String,String> costDtMap);
+
+	public List<Map<String,String>> getCostDetail();
 	
 	public int removeSales(String salesCode);
 	

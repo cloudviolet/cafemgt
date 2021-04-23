@@ -14,6 +14,16 @@
 		<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+		<style>
+			.float-right{
+				float: right;
+				color: gray;
+			}
+			th{
+				text-align: center;
+			}
+			
+		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customContents">
@@ -42,39 +52,60 @@
 									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 										<thead>
 											<tr>
+												<!-- 
 												<th>품목코드</th>
 												<th>상호코드</th>
 												<th>상호명</th>
+												 -->
 												<th>품목명</th>
-												<th>과세면세분류</th>
+												<th>과세/면세</th>
 												<th>대분류</th>
-												<th>대분류단위</th>
 												<th>중분류</th>
-												<th>중분류 단위</th>
 												<th>용량</th>
-												<th>단위</th>
+												<th>등록날짜</th>
 												<th>상세</th>
-												<th>등록날짜</th>
-												<th>등록날짜</th>
+												<th>수정</th>
+												<th>삭제</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="al : ${articleList}">
+											<tr th:if="${#lists.size(articleList)>0}" th:each="al : ${articleList}">
+											<!--
 												<td th:text="${al.articleCode}"></td>
 												<td th:text="${al.storeInfoCode}"></td>
 												<td th:text="${al.storeInfoName}"></td>
-												<td th:text="${al.articleName}"></td>
-												<td th:text="${al.articleTaxCate}"></td>
-												<td th:text="${al.articleBig}"></td>
-												<td th:text="${al.articleBigDan}"></td>
-												<td th:text="${al.articleMiddle}"></td>
-												<td th:text="${al.articleMiddleDan}"></td>
-												<td th:text="${al.articleVolume}"></td>
-												<td th:text="${al.articleDan}"></td>
-												<td th:text="${al.articleEtc}"></td>
-												<td th:text="${al.articleRegDate}"></td>
+											-->
 												<td>
-													<a class="btn btn-primary btn-sm" th:href="@{/modifyArticle(articleCode=${al.articleCode})}">수정</a>
+													<span>[[${al.articleName}]]</span>
+												</td>
+												<td>
+													<span>[[${al.articleTaxCate}]]</span>
+												</td>
+												<td>
+													<span>[[${al.articleBig}]]</span>
+													<span class="float-right">[[${al.articleBigDan}]]</span>
+												</td>
+												<td>
+													<span>[[${al.articleMiddle}]]</span>
+													<span class="float-right">[[${al.articleMiddleDan}]]</span>
+												</td>
+												<td>
+													<span>[[${al.articleVolume}]]</span>
+													<span class="float-right">[[${al.articleDan}]]</span>
+												</td>
+												<td><span>[[${al.articleEtc}]]</span></td>
+												<td><span>[[${al.articleRegDate}]]</span></td>
+												<td>
+													<span>
+														<a class="btn btn-primary btn-sm" 
+														th:href="@{/stock/modifyArticle(articleCode=${al.articleCode})}">수정</a>
+														</span>
+												</td>
+												<td>
+													<span>
+														<button class="btn btn-dark btn-sm removeBtn"
+														th:data-articleCode="${al.articleCode}">삭제</button>
+													</span>
 												</td>
 											</tr>
 										</tbody>
@@ -89,7 +120,7 @@
 	</th:block>
 	<th:block layout:fragment="customJs">
 		<!-- customJs -->
-		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
@@ -104,5 +135,23 @@
 		<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
 		<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+		<script>
+			$('.removeBtn').click(function(){
+				var articleCode= $(this).attr('data-articleCode');
+				var request = $.ajax({
+					url: "/stock/removeArticle", 
+					method: "POST",
+					data: { articleCode : articleCode },
+					dataType: "text"
+				}); 
+				request.done(function( data ){
+					alert(data);
+					location.href="/stock/getArticle"
+				});
+				request.fail(function( err ){
+					console.log(err);
+				});
+			});
+		</script>
 	</th:block>
 </html>

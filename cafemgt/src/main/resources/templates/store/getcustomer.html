@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="@{layout/default}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
 	<title>거래처 조회</title>
@@ -9,11 +9,11 @@
 
 <th:block layout:fragment="customCss">
 	<!-- Datatables -->
-	<link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
 </th:block>
 <th:block layout:fragment="customContents">
 
@@ -58,6 +58,7 @@
 									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 									<thead>
 										<tr>
+											<th>no.</th>
 											<th>거래처코드</th>
 											<th>사업장코드</th>
 											<th>거래처사업자번호</th>
@@ -67,10 +68,14 @@
 											<th>연락처</th>
 											<th>상세</th>	
 											<th>등록날짜</th>
+											<th>수정</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="cl : ${customerList}">
+										<tr th:each="cl,index : ${customerList}">
+											<!-- 표카운트 -->
+	                  						<td th:text ="${index.count}"></td>
 											<td th:text="${cl.custCode}">
 											<td th:text="${cl.storeInfoCode}">
 											<td th:text="${cl.custNumber}">								 		
@@ -80,6 +85,12 @@
 											<td th:text="${cl.custPhone}">
 											<td th:text="${cl.custEtc}">
 											<td th:text="${cl.custRegDate}">
+											<td>
+											<a class="btn btn-primary btn-sm" th:href="@{/store/modifycustomer(custCode=${cl.custCode})}">수정</a> 
+											</td>
+											<td>
+												<button class="custCode btn btn-dark btn-sm" style="color: white;" th:data-custCode="${cl.custCode}" data-toggle="modal" data-target="#myModal" >삭제</button>
+											</td>
 										</tr>
 									</tbody>
 								</table>								
@@ -89,32 +100,63 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+						<h6 class="modal-title">삭제 경고</h6>
+					</div>
+					<div class="modal-body">
+						<h6>삭제하시겠습니까 ?</h6>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-danger" id="removeBtn">삭제</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 	</div>
 </th:block>
 <th:block layout:fragment="customJs">
 	<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+		th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+		th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+		th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+		th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+		th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+		th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
 	<script
-		src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-	<script src="../vendors/jszip/dist/jszip.min.js"></script>
-	<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-	<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+		th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+	<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
+	<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
+	<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+		<script type="text/javascript">
+		var custCode = null;
+	
+		$('.custCode').click(function(){
+			custCode = $(this).attr('data-custCode');
+		});
+		$('#removeBtn').click(function(){
+			console.log(custCode);
+			if(custCode != null){
+				location.href ="/store/deletecustomer?custCode="+custCode;
+			}
+		});
+	</script>
+	
 </th:block>
 
 

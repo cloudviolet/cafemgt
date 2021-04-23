@@ -39,4 +39,9 @@ public class DsalaryService {
 		
 		return dsalaryMapper.addDsalary(dsalaryDto);
 	}
+	
+	public int removeDsalary(String sdCode) {
+		
+		return dsalaryMapper.removeDsalary(sdCode);
+	}
 }

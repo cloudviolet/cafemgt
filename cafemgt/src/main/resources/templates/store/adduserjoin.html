@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<th:block layout:fragment="customTitle">
+    	<title>직원 회원가입 </title>
+    </th:block>
+	
+	<th:block layout:fragment="customCss">
+		<!-- bootstrap-wysiwyg -->
+		<link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+		<!-- Select2 -->
+		<link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+		<!-- Switchery -->
+		<link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+		<!-- starrr -->
+		<link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+		<!-- bootstrap-daterangepicker -->
+		<link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+	    <!-- Bootstrap -->
+	    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+	    <!-- Font Awesome -->
+	    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+	    <!-- NProgress -->
+	    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+	    <!-- Animate.css -->
+	    <link th:href="@{/vendors/animate.css/animate.min.css}" rel="stylesheet">
+	
+	    <!-- Custom Theme Style -->
+	    <link th:href="@{/build/css/custom.min.css}" rel="stylesheet">
+    </th:block>
+    
+    
+  </head>
+<th:block layout:fragment="customContents">
+	<body class="login">
+		<div>
+			<div class="login_wrapper">
+				<div class="animate form login_form">
+					<section class="login_content">
+						<div class="x_content">
+							<form data-parsley-validate class="form-horizontal form-label-left" th:action="@{/store/adduserjoin}" id="demo-form2" method="post" novalidate>
+							<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
+								<h1>직원 회원가입</h1>
+								<div class="form-group row horizontal">
+									<label for="levelNmae">구분 * <span class="required"></span></label>
+									<div class="radio col-md-3 col-sm-3">
+										<label>
+											<input type="radio" checked value="level_02" name="levelCode" id="levelCode"> 상용직
+										</label>
+									</div>
+									<div class="radio col-md-3 col-sm-3">
+										<label class="radio-inline">
+											<input type="radio" value="level_03" name="levelCode" id="levelCode"> 일용직
+										</label>
+									</div>		
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control memberId" name="memberId" id="memberId" placeholder="아이디 *" required="required" />					
+									<button type="button" class="btn-success btn-round" id="memberIdCheck">중복확인</button>
+								</div>
+								<div>
+									<input type="password" id="memberPw" name="memberPw"
+										pattern="(?=.*\d)(?=.*[a-z]).{5,}" placeholder="비밀번호* "
+										data-parsley-error-message="소문자, 숫자 포함하여 최소 5자"
+										required="required" class="form-control pw">
+								</div>
+								<div>
+									<input type="password" class="form-control pwCheck"
+										name="rePassword" data-parsley-equalto="#memberPw"
+										data-parsley-error-message="비밀번호를 확인해주세요"
+										placeholder="비밀번호 확인 *" data-validate-linked='password'
+										required='required' />
+								</div>
+								<!-- /password -->
+								<div>
+									<input type="text" id="memberName" name="memberName"
+										required="required" placeholder="이름 *"
+										class="form-control memberName" />
+								</div>
+								
+								<div>
+									<input type="text" id="memberPhone" name="memberPhone"
+										class="form-control" placeholder="핸드폰번호 *" required="required"
+										data-inputmask="'mask': '999-9999-9999'">
+								</div>
+								<div>
+									<input type="text" class="form-control memberEmail"
+										name="memberEmail" id="memberEmail" placeholder="Email *"
+										required="required" />
+								</div>
+								<div>
+									<input id="memberBirth" name="memberBirth"
+										class="date-picker form-control" placeholder="생년월일"
+										type="text" onfocus="this.type='date'"
+										onmouseover="this.type='date'" onclick="this.type='date'"
+										onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+									<script>
+								function timeFunctionLong(input) {
+									setTimeout(function() {
+										input.type = 'text';
+									}, 60000);
+								}
+							</script>
+								</div>
+								<div class="form-group">
+									<button type='reset' class="btn btn-round btn-success submit"
+										style="margin-top: 20px;">다시 작성</button>
+									<button type='submit' id="submitBtn"
+										class="btn btn-round btn-info submit"
+										style="margin-top: 20px;">회원가입</button>
+								</div>
+
+								<div class="clearfix"></div>
+
+								<div class="separator">
+									<p class="change_link">
+										이미 회원이신가요 ? 
+										<a th:href="@{login}" class="btn btn-round btn-success btn-block btn-md "> 로그인 </a>
+									</p>
+
+									<div class="clearfix"></div>
+									<br />
+
+									<div>
+										<h1>
+											<i class="fa fa-smile-o"></i> CAFE MGT
+										</h1>
+										<p>©2016 All Rights Reserved. Gentelella Alela! is a
+											Bootstrap 3 template. Privacy and Terms</p>
+									</div>
+								</div>
+							</form>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</body>
+</th:block>
+<th:block layout:fragment="customJs">    
+    <!-- js file -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script th:src="@{/vendors/validator/multifield.js}"></script>
+    <script th:src="@{/vendors/validator/validator.js}"></script>
+    <!-- bootstrap-daterangepicker -->
+	<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+	<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+	<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+	<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+	<!-- jQuery Tags Input -->
+	<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+	<!-- Switchery -->
+	<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+	<!-- Select2 -->
+	<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+	
+	<!-- Autosize -->
+	<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+	<!-- jQuery autocomplete -->
+	<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+	<!-- starrr -->
+	<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+    <!-- jQuery -->
+    <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap -->
+    <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+    <!-- FastClick -->
+    <script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+    <!-- NProgress -->
+    <script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+    
+  	<!-- jquery.inputmask -->
+    <script src="../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+    <!-- Parsley -->
+	<script th:src="@{/vendors/parsleyjs/dist/parsley.js}"></script>
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{/build/js/custom.js}"></script>
+    
+	<!-- 아이디 중복확인 -->
+    <th:block layout:fragment="customScript">
+		<script>			
+			$(function(){
+				$(document).on('click', '#memberIdCheck', function(){
+					var memberId = $('#memberId');
+					console.log(memberId.val());
+					$.ajax({
+						url: '/store/idCheck', 
+						type: 'POST',	
+						data: { memberId : memberId.val() }, 
+						success : function(data){
+							console.log(data)
+							if(memberId.val()==''){
+								alert('아이디를 입력해주세요.');
+							}else{
+								if(data){
+									alert('중복된 아이디입니다.');
+									memberId.focus();
+								}else{
+									alert('사용 가능한 아이디입니다.');
+								}
+							}
+						},
+						error : function(xhr,status,error){
+							console.log("xhr: " + xhr);
+							console.log("status: " + status);
+							console.log("error: " + error);
+						}
+					});
+				});
+			});
+		</script>
+	</th:block>
+    
+    
+ 	</th:block>	
+      
+  
+</html>

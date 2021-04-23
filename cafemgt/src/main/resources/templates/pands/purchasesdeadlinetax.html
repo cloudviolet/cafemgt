@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>매입  마감 </title>
+	</th:block>
+	
+	<th:block layout:fragment="customCss">
+		<!-- Datatables -->
+		<link th:href="@{../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+	</th:block>
+	<th:block layout:fragment="customContents">
+	
+		<div class="right_col" role="main">
+			<div class="col-md-12 col-sm-12 ">
+				<div class="x_panel">
+					 <div class="x_title">
+	                    <h2>매입 재고 마감</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a id="submitBtn" class="btn btn-info">마감</a></li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card-box table-responsive">
+									<p class="text-muted font-13 m-b-30">
+										재고를 위한 매입마감
+										<code>강조!</code>
+									</p>
+									<table id="datatable-checkbox" class="table table-striped table-bordered bulk_action" style="width: 100%">
+										<thead>
+											<tr>
+												<th><input type="checkbox" id="check-all"></th>
+												<th>품목 명</th>
+												<th>거래처 명</th>
+												<th>매입 유형</th>
+												<th>입고 수량</th>
+												<th>공급 가액</th>
+												<th>공급 세액</th>
+												<th>공급 합계</th>
+												<th>결제 유형</th>
+												<th>판매 날짜</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:if="${#lists.size(purchasesTaxCheckList)>0}" th:each="pcl : ${purchasesTaxCheckList}">
+												<td><input type="checkbox" class="checkBox" name="checkBox"></td>
+												<td th:text="${pcl.articleName}"></td>
+												<td th:text="${pcl.custName}"></td>
+												<td th:text="${pcl.incoVatType}"></td>
+												<td th:text="${pcl.incoCount}"></td>
+												<td th:text="${pcl.incoSupplyValue}"></td>
+												<td th:text="${pcl.incoTax}"></td>
+												<td th:text="${pcl.incoTotal}"></td>
+												<td th:text="${pcl.incoPayType}"></td>
+												<td th:text="${pcl.incoDate}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script th:src="@{../vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+		<script th:src="@{../vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+		<script
+			th:src="@{../vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+		<script th:src="@{../vendors/jszip/dist/jszip.min.js}"></script>
+		<script th:src="@{../vendors/pdfmake/build/pdfmake.min.js}"></script>
+		<script th:src="@{../vendors/pdfmake/build/vfs_fonts.js}"></script>
+		
+		<script th:inline="javascript">
+		var checkAll = $('#check-all');
+		var checkBox = $('.checkBox');
+	
+		checkAll.click(function(){
+			if(checkAll.is(":checked")){
+				checkBox.prop("checked", true);
+			}else{
+				checkBox.prop("checked", false);
+			}
+		});			
+		checkBox.click(function(){
+			if(checkBox.is(":checked").length == checkBox.length){
+				checkAll.prop("checked", true);
+			}else {
+				checkAll.prop("checked", false);
+			}
+		});		
+			
+			$('#submitBtn').click(function(){
+				var purchasesTaxCheckList = /*[[${purchasesTaxCheckList}]]*/
+				var arrayPurchases= []; 
+				
+				if(checkBox.length != 0){
+					checkBox.each(function(i){
+						if(checkBox.eq(i).is(":checked")){
+							//var purchases = {};
+							//purchases["incoCode"] = purchasesTaxCheckList[i].incoCode;
+							arrayPurchases.push(purchasesTaxCheckList[i].incoCode);
+						}
+					})
+					console.log(arrayPurchases);
+					if(arrayPurchases.length != 0){
+					$.ajax({
+						method: "POST",
+						url: "/tax/purchasesdeadlinetax",
+						dataType: "text",
+						data: {"arrayPurchases" : arrayPurchases },
+			       		success : function(data){
+				        	console.log(data)
+				            alert("요청되었습니다.")
+				            location.href = '/tax/gettotalpands';
+				        },
+				        error : function(request,status,error){
+				        	console.log(request)
+				        	console.log(status)
+				        	console.log(error)
+				        }
+				   });
+				}else{
+					alert('마감할 항목을 선택해주세요.');	
+					}
+				}
+			});	
+		</script>
+	</th:block>
+
+</html>

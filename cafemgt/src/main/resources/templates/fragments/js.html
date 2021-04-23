@@ -13,7 +13,12 @@
 		<!-- iCheck -->
 	    <script th:src="@{/vendors/iCheck/icheck.min.js}"></script>
 		<th:block layout:fragment="customJs"></th:block>
-		
+		<script type="text/javascript">
+			$("#githubBtn").click(function(){
+				console.log('a');
+			    window.open("https://github.com/cloudviolet/cafemgt");
+			});
+			</script>
 		<!-- Custom Theme Scripts -->
 		<script th:src="@{/build/js/custom.js}"></script>
 		

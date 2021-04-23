@@ -16,11 +16,8 @@ public class SalesDto {
 	private String salesDate; 
 	private String salesRegDate;
 	private String salesDeadlineTax; 
-	private String salesDealingGroupCode;
 	private String salesDeadlineDailyvol;
-	private String salesDaliyvolGroupCode;
-	private String salesSystemId;
-	private String salesSystemName;
+	private String salesDelete;
 	public String getSalesCode() {
 		return salesCode;
 	}
@@ -111,35 +108,27 @@ public class SalesDto {
 	public void setSalesDeadlineTax(String salesDeadlineTax) {
 		this.salesDeadlineTax = salesDeadlineTax;
 	}
-	public String getSalesDealingGroupCode() {
-		return salesDealingGroupCode;
-	}
-	public void setSalesDealingGroupCode(String salesDealingGroupCode) {
-		this.salesDealingGroupCode = salesDealingGroupCode;
-	}
 	public String getSalesDeadlineDailyvol() {
 		return salesDeadlineDailyvol;
 	}
 	public void setSalesDeadlineDailyvol(String salesDeadlineDailyvol) {
 		this.salesDeadlineDailyvol = salesDeadlineDailyvol;
 	}
-	public String getSalesDaliyvolGroupCode() {
-		return salesDaliyvolGroupCode;
+	public String getSalesDelete() {
+		return salesDelete;
 	}
-	public void setSalesDaliyvolGroupCode(String salesDaliyvolGroupCode) {
-		this.salesDaliyvolGroupCode = salesDaliyvolGroupCode;
+	public void setSalesDelete(String salesDelete) {
+		this.salesDelete = salesDelete;
 	}
-	public String getSalesSystemId() {
-		return salesSystemId;
-	}
-	public void setSalesSystemId(String salesSystemId) {
-		this.salesSystemId = salesSystemId;
-	}
-	public String getSalesSystemName() {
-		return salesSystemName;
-	}
-	public void setSalesSystemName(String salesSystemName) {
-		this.salesSystemName = salesSystemName;
+	@Override
+	public String toString() {
+		return "SalesDto [salesCode=" + salesCode + ", storeInfoCode=" + storeInfoCode + ", menuCode=" + menuCode
+				+ ", menuName=" + menuName + ", salesCount=" + salesCount + ", salesTotal=" + salesTotal
+				+ ", salesSupplyValue=" + salesSupplyValue + ", salesTax=" + salesTax + ", salesVatType=" + salesVatType
+				+ ", salesPayType=" + salesPayType + ", custCode=" + custCode + ", custName=" + custName
+				+ ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate + ", salesDeadlineTax="
+				+ salesDeadlineTax + ", salesDeadlineDailyvol=" + salesDeadlineDailyvol + ", salesDelete=" + salesDelete
+				+ "]";
 	}
 	@Override
 	public int hashCode() {
@@ -151,16 +140,13 @@ public class SalesDto {
 		result = prime * result + ((menuName == null) ? 0 : menuName.hashCode());
 		result = prime * result + ((salesCode == null) ? 0 : salesCode.hashCode());
 		result = prime * result + salesCount;
-		result = prime * result + ((salesDaliyvolGroupCode == null) ? 0 : salesDaliyvolGroupCode.hashCode());
 		result = prime * result + ((salesDate == null) ? 0 : salesDate.hashCode());
 		result = prime * result + ((salesDeadlineDailyvol == null) ? 0 : salesDeadlineDailyvol.hashCode());
 		result = prime * result + ((salesDeadlineTax == null) ? 0 : salesDeadlineTax.hashCode());
-		result = prime * result + ((salesDealingGroupCode == null) ? 0 : salesDealingGroupCode.hashCode());
+		result = prime * result + ((salesDelete == null) ? 0 : salesDelete.hashCode());
 		result = prime * result + ((salesPayType == null) ? 0 : salesPayType.hashCode());
 		result = prime * result + ((salesRegDate == null) ? 0 : salesRegDate.hashCode());
 		result = prime * result + salesSupplyValue;
-		result = prime * result + ((salesSystemId == null) ? 0 : salesSystemId.hashCode());
-		result = prime * result + ((salesSystemName == null) ? 0 : salesSystemName.hashCode());
 		result = prime * result + salesTax;
 		result = prime * result + salesTotal;
 		result = prime * result + ((salesVatType == null) ? 0 : salesVatType.hashCode());
@@ -203,11 +189,6 @@ public class SalesDto {
 			return false;
 		if (salesCount != other.salesCount)
 			return false;
-		if (salesDaliyvolGroupCode == null) {
-			if (other.salesDaliyvolGroupCode != null)
-				return false;
-		} else if (!salesDaliyvolGroupCode.equals(other.salesDaliyvolGroupCode))
-			return false;
 		if (salesDate == null) {
 			if (other.salesDate != null)
 				return false;
@@ -223,10 +204,10 @@ public class SalesDto {
 				return false;
 		} else if (!salesDeadlineTax.equals(other.salesDeadlineTax))
 			return false;
-		if (salesDealingGroupCode == null) {
-			if (other.salesDealingGroupCode != null)
+		if (salesDelete == null) {
+			if (other.salesDelete != null)
 				return false;
-		} else if (!salesDealingGroupCode.equals(other.salesDealingGroupCode))
+		} else if (!salesDelete.equals(other.salesDelete))
 			return false;
 		if (salesPayType == null) {
 			if (other.salesPayType != null)
@@ -239,16 +220,6 @@ public class SalesDto {
 		} else if (!salesRegDate.equals(other.salesRegDate))
 			return false;
 		if (salesSupplyValue != other.salesSupplyValue)
-			return false;
-		if (salesSystemId == null) {
-			if (other.salesSystemId != null)
-				return false;
-		} else if (!salesSystemId.equals(other.salesSystemId))
-			return false;
-		if (salesSystemName == null) {
-			if (other.salesSystemName != null)
-				return false;
-		} else if (!salesSystemName.equals(other.salesSystemName))
 			return false;
 		if (salesTax != other.salesTax)
 			return false;
@@ -266,16 +237,5 @@ public class SalesDto {
 			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "SalesDto [salesCode=" + salesCode + ", storeInfoCode=" + storeInfoCode + ", menuCode=" + menuCode
-				+ ", menuName=" + menuName + ", salesCount=" + salesCount + ", salesTotal=" + salesTotal
-				+ ", salesSupplyValue=" + salesSupplyValue + ", salesTax=" + salesTax + ", salesVatType=" + salesVatType
-				+ ", salesPayType=" + salesPayType + ", custCode=" + custCode + ", custName=" + custName
-				+ ", salesDate=" + salesDate + ", salesRegDate=" + salesRegDate + ", salesDeadlineTax="
-				+ salesDeadlineTax + ", salesDealingGroupCode=" + salesDealingGroupCode + ", salesDeadlineDailyvol="
-				+ salesDeadlineDailyvol + ", salesDaliyvolGroupCode=" + salesDaliyvolGroupCode + ", salesSystemId="
-				+ salesSystemId + ", salesSystemName=" + salesSystemName + "]";
-	}
-		
+	
 }

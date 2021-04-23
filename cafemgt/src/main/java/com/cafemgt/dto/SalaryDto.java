@@ -16,6 +16,7 @@ public class SalaryDto {
 	private int salaryInsuCalc;
 	private int salaryDeduction;
 	private int salaryReceipts;
+	private String salaryDeadlineCheck;
 	private String salaryPayDate;
 	private String salaryRegDate;
 	
@@ -121,7 +122,12 @@ public class SalaryDto {
 	public void setSalaryRegDate(String salaryRegDate) {
 		this.salaryRegDate = salaryRegDate;
 	}
-	
+	public String getSalaryDeadlineCheck() {
+		return salaryDeadlineCheck;
+	}
+	public void setSalaryDeadlineCheck(String salaryDeadlineCheck) {
+		this.salaryDeadlineCheck = salaryDeadlineCheck;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -155,6 +161,8 @@ public class SalaryDto {
 		builder.append(salaryDeduction);
 		builder.append(", salaryReceipts=");
 		builder.append(salaryReceipts);
+		builder.append(", salaryDeadlineCheck=");
+		builder.append(salaryDeadlineCheck);
 		builder.append(", salaryPayDate=");
 		builder.append(salaryPayDate);
 		builder.append(", salaryRegDate=");

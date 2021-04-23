@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafemgt.dto.ArticleDto;
@@ -20,6 +21,7 @@ import com.cafemgt.service.MenuService;
 import com.cafemgt.service.RecipyService;
 
 @Controller
+@RequestMapping("/menu")
 public class MenuController {
 	
 	private final MenuService menuService;
@@ -39,21 +41,20 @@ public class MenuController {
 		System.out.println("======================================");
 	}
 	//메뉴 등록
-	@GetMapping("/addmenu")
-
-	public String addmenu() {
+	@GetMapping("/addMenu")
+	public String addMenu() {
 		return "menu/addmenu";
 	}
 	
-	@PostMapping("/addmenu")
-	public String addmenu(MenuDto menuDto) {
+	@PostMapping("/addMenu")
+	public String addMenu(MenuDto menuDto) {
 		menuService.addMenu(menuDto);
-		return "redirect:/getmenu";
+		return "redirect:/menu/getMenu";
 	}
 	
 	//레시피 등록
-	@GetMapping("/addrecipy")
-	public String addrecipy(Model model, HttpSession session) {
+	@GetMapping("/addRecipy")
+	public String addRecipy(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<MenuDto> menuList = menuService.getMenu(SSTORECODE);
 		List<ArticleDto> articleList = articleService.getArticle(SSTORECODE);
@@ -61,8 +62,8 @@ public class MenuController {
 		model.addAttribute("articleList",articleList);
 		return "menu/addrecipy";
 	}
-	@PostMapping("/addrecipy")
-	public String addrecipy( @RequestParam(value="articleCode")List<String> articleCode
+	@PostMapping("/addRecipy")
+	public String addRecipy( @RequestParam(value="articleCode")List<String> articleCode
 							,@RequestParam(value="conVolume")List<String> conVolume
 							,@RequestParam(value="conDan")List<String> conDan
 							,RecipyDto inputRecipyDto) {
@@ -79,19 +80,19 @@ public class MenuController {
 			recipyService.addRecipy(recipyDto);
 		}
 		
-		return "redirect:/getrecipy";
+		return "redirect:/menu/getRecipy";
 	}
 	
-	@GetMapping("/getmenu")
-	public String getmenu(Model model, HttpSession session) {
+	@GetMapping("/getMenu")
+	public String getMenu(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<MenuDto> menuList = menuService.getMenu(SSTORECODE);
 		model.addAttribute("menuList",menuList);
 		return "menu/getmenu";
 	}
 	
-	@GetMapping("/getrecipy")
-	public String getrecipy(Model model, HttpSession session) {
+	@GetMapping("/getRecipy")
+	public String getRecipy(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<RecipyDto> recipyList = recipyService.getRecipy(SSTORECODE);
 		model.addAttribute("recipyList",recipyList);
@@ -108,7 +109,7 @@ public class MenuController {
 	@PostMapping("/modifyMenu")
 	public String modifyMenu(MenuDto menuDto) {
 		menuService.modifyMenu(menuDto);
-		return "redirect:/getmenu";
+		return "redirect:/menu/getMenu";
 	}
 	
 	@GetMapping("/modifyRecipy")
@@ -128,6 +129,18 @@ public class MenuController {
 	@PostMapping("/modifyRecipy")
 	public String modifyRecipy(RecipyDto recipyDto) {
 		recipyService.modifyRecipy(recipyDto);
-		return "redirect:/getrecipy";
+		return "redirect:/menu/getRecipy";
 	}
+	
+	@GetMapping("/removeMenu")
+	public String removeMenu(@RequestParam (value = "menuCode",required = false)String menuCode) {
+		menuService.removeMenu(menuCode);
+		return "redirect:/menu/getMenu";
+	}
+	@GetMapping("/removeRecipy")
+	public String removeRecipy(@RequestParam (value="conCode", required = false) String conCode) {
+		recipyService.removeRecipy(conCode);
+		return "redirect:/menu/getRecipy";
+	}
+	
 }

@@ -31,7 +31,7 @@
 						</div>
 						<div class="x_content">
 							<br />
-							<form id="demo-form2" th:action="@{addarticle}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
+							<form id="demo-form2" th:action="@{/stock/addArticle}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 
 								<div class="form-group row">
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="articleName">품목 명 <span class="required">*</span>
@@ -45,7 +45,7 @@
 									<label class="control-label col-md-3 col-sm-3 label-align">과세 • 면세 분류  <span class="required">*</span></label>
 									<div class="col-md-6 col-sm-6 ">
 										<select class="form-control" id="articleTaxCate" name="articleTaxCate" required="required">
-											<option value="">choice plz</option>
+											<option value="">선택해주세요.</option>
 											<option value="과세">* 과세 *</option>
 											<option value="면세">* 면세 *</option>
 										</select>
@@ -62,27 +62,26 @@
 									<label class="control-label col-md-3 col-sm-3 label-align">대분류 단위  <span class="required">*</span></label>
 									<div class="col-md-6 col-sm-6 ">
 										<select class="form-control" name="articleBigDan" required="required">
-											<option value="">choice plz</option>
-											<option value="box">* box *</option>
-											<option value="ea">* ea *</option>
+											<option value="">선택해주세요.</option>
+											<option value="BOX">* BOX *</option>
+											<option value="EA">* EA *</option>
 											<option value="L">* L *</option>
 											<option value="Kg">* Kg *</option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-form-label col-md-3 col-sm-3 label-align" for="articleMiddle">중분류  <span class="required">*</span>
-									</label>
+									<label class="col-form-label col-md-3 col-sm-3 label-align" for="articleMiddle">중분류 </label>
 									<div class="col-md-6 col-sm-6 ">
-										<input type="number" id="articleMiddle" name="articleMiddle" required="required" class="form-control ">
+										<input type="number" id="articleMiddle" name="articleMiddle" class="form-control" placeholder="선택 기입 사항입니다.">
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="control-label col-md-3 col-sm-3 label-align">중분류 단위 *</label>
+									<label class="control-label col-md-3 col-sm-3 label-align">중분류 단위</label>
 									<div class="col-md-6 col-sm-6 ">
-										<select class="form-control" name="articleMiddleDan" required="required">
-											<option value="">choice plz</option>
-											<option value="ea">* ea *</option>
+										<select class="form-control" name="articleMiddleDan">
+											<option value="">선택해주세요.</option>
+											<option value="EA">* EA *</option>
 											<option value="L">* L *</option>
 											<option value="ml">* ml *</option>
 											<option value="Kg">* Kg *</option>
@@ -101,8 +100,8 @@
 									<label class="control-label col-md-3 col-sm-3 label-align">단위 *</label>
 									<div class="col-md-6 col-sm-6 ">
 										<select class="form-control" name="articleDan" required="required">
-											<option value="">choice plz</option>
-											<option value="ea">* ea *</option>
+											<option value="">선택해주세요.</option>
+											<option value="EA">* EA *</option>
 											<option value="ml">* ml *</option>
 											<option value="g">* g *</option>
 										</select>
@@ -118,9 +117,8 @@
 								<div class="ln_solid"></div>
 								<div class="form-group row">
 									<div class="col-md-6 col-sm-6 offset-sm-3 text-center">
-										<button class="btn btn-primary" type="button">Cancel</button>
-										<button class="btn btn-primary" type="reset">Reset</button>
-										<button type="submit" class="btn btn-success">Submit</button>
+										<button class="btn btn-primary" type="reset">다시작성</button>
+										<button type="button" id="submitBtn" class="btn btn-success">등록하기</button>
 									</div>
 								</div>
 							</form>
@@ -143,13 +141,22 @@
 		<!-- Select2 -->
 		<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
 		<!-- Parsley -->
-		<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+		<script th:src="@{/vendors/parsleyjs/dist/parsley.js}"></script>
 		<!-- Autosize -->
 		<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
 		<!-- jQuery autocomplete -->
 		<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
 		<!-- starrr -->
 		<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+		<script>
+			$('#submitBtn').click(function(){
+				var articleMiddle = $('#articleMiddle').val();
+				if(articleMiddle == ""){
+					$('#articleMiddle').val(0);
+				}
+				$('#demo-form2').submit();
+			})
+		</script>
 	</th:block>
 		
 </html>

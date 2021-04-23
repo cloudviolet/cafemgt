@@ -15,8 +15,22 @@
 		<result property="memberEmail" 		column="member_email" />
 		<result property="memberBirth" 		column="member_birth" />
 		<result property="memberRegDate" 	column="member_reg_date" />
+		<result property="memberOutDate" 	column="member_out_date" />
+		<result property="memberDelete" 	column="member_delete" />
 	</resultMap>
 	
+	<select id="getStoreChoice" parameterType="String" resultMap="memberResultMap">
+		SELECT
+		member_id
+		,store_info_name
+		,store_info_code
+	FROM 
+		tb_store_info
+	WHERE member_id=#{MID}
+	AND store_info_delete = 'x'
+	</select>
+	
+	<!-- 가입년도 -->
 	<select id="getyear" parameterType="String" resultType="String">
 	SELECT 
    		date_format(m.member_reg_date,"%Y")
@@ -25,9 +39,9 @@
 	WHERE 
    		m.member_id=#{MID}	
 	</select>
-
+	<!-- 직원 조회 페이지에서 멤버 테이블 정보 조회 -->
 	<select id="addMemberUser" parameterType="String" resultMap="memberResultMap">
-SELECT 
+	SELECT 
 		m.member_id, 
 		m.member_name, 
 		m.level_code,
@@ -48,7 +62,7 @@ SELECT
 		s.store_info_code = #{SSTORECODE}
 	AND u.user_join_date IS NULL
 	</select>
-	
+	<!-- 관리자 설정에서 멤버 전체 조회 -->
 	<select id="getMemberadmin" resultMap="memberResultMap">
 		SELECT 
 			m.member_id
@@ -71,21 +85,60 @@ SELECT
 		ON m.level_code=l.level_code
 		LEFT JOIN 
 			tb_store_info AS s
-		ON u.store_info_code = s.store_info_code or s.member_id = m.member_id	
+		ON u.store_info_code = s.store_info_code or s.member_id = m.member_id
+		where m.member_delete ='x'	
 	</select>
-	<!-- 직원 추가정보 수정에서 member 정보 업데이트  -->
-	<update id="updateMember" parameterType="MemberDto">
+	<!--탈퇴 관리자 설정에서 멤버 전체 조회 -->
+	<select id="getoutmemberadmin" resultMap="memberResultMap">
+		SELECT 
+			m.member_id
+			, m.member_pw
+			, m.member_name
+			, l.level_name
+			, s.store_info_name
+			, m.member_phone
+			, m.member_email
+			, m.member_birth
+			, m.member_reg_date
+			, m.member_out_date
+		FROM
+			tb_member AS m
+		LEFT join
+			tb_user AS u
+		ON 
+		m.member_id = u.member_id
+		LEFT JOIN 
+			tb_level as l
+		ON m.level_code=l.level_code
+		LEFT JOIN 
+			tb_store_info AS s
+		ON u.store_info_code = s.store_info_code or s.member_id = m.member_id
+		where m.member_delete ='o'	
+	</select>
+	
+	
+	<!-- 마이페이지 수정에서 기본정보 수정 업데이트  -->
+	<update id="updateMemberMy" parameterType="MemberDto">
 		UPDATE tb_member
 	SET
 		member_pw=#{memberPw},
 		member_name=#{memberName},
-		level_code=#{levelCode},
 		member_phone=#{memberPhone},
 		member_email=#{memberEmail},
 		member_birth=#{memberBirth}
 	WHERE member_id=#{memberId}
 	</update>
-	
+	<!-- 마이페이지에서 기본정보 조회 -->
+	<!-- 직원 추가정보 수정에서 member 정보 수정 업데이트  -->
+	<update id="updateMember" parameterType="MemberDto">
+		UPDATE tb_member
+	SET
+		member_name=#{memberName},
+		level_code=#{levelCode},
+		member_phone=#{memberPhone}
+	WHERE member_id=#{memberId}
+	</update>
+	<!-- 마이페이지에서 기본정보 조회 -->
 	<select id="getMember" resultMap="memberResultMap">
 		SELECT 
 			m.member_id
@@ -103,13 +156,12 @@ SELECT
 		ON m.level_code=l.level_code
 		WHERE m.member_id = #{MID}
 	</select>
-	
+	<!-- 회원정보 수정, 로그인, 아이디 체크 할때 사용함 -->
 	<select id="getinfoMember" parameterType="String" resultMap="memberResultMap">
-		SELECT m.member_id
+	SELECT m.member_id
 		, member_pw
 		, member_name
 		, m.level_code
-		, s.store_info_code
 		, member_phone
 		, member_email
 		, member_birth
@@ -120,13 +172,24 @@ SELECT
 		tb_user AS u
 		on
 		m.member_id = u.member_id
-		LEFT join
-		tb_store_info AS s
-		on
-		u.store_info_code = s.store_info_code or s.member_id = m.member_id
-		WHERE m.member_id = #{MID}	
+		WHERE m.member_id =#{MID}	
 	</select>
+	<!-- 직원 회원가입 -->
+	<insert id="addUserjoin" parameterType="MemberDto">
+	INSERT INTO tb_member
+		(member_id
+		, member_pw
+		, member_name
+		, level_code
+		, member_phone
+		, member_email
+		, member_birth
+		, member_reg_date
+		, member_delete)
+	VALUES (#{memberId}, #{memberPw}, #{memberName}, #{levelCode}, #{memberPhone}, #{memberEmail}, #{memberBirth}, NOW(),'x')
+	</insert>
 	
+	<!-- 사업주 회원 가입 -->
 	<insert id="addMember" parameterType="MemberDto">
 	INSERT INTO tb_member
 		(member_id
@@ -136,8 +199,9 @@ SELECT
 		, member_phone
 		, member_email
 		, member_birth
-		, member_reg_date)
-	VALUES (#{memberId}, #{memberPw}, #{memberName}, 'level_01', #{memberPhone}, #{memberEmail}, #{memberBirth}, NOW())
+		, member_reg_date
+		, member_delete)
+	VALUES (#{memberId}, #{memberPw}, #{memberName}, 'level_01', #{memberPhone}, #{memberEmail}, #{memberBirth}, NOW(),'x')
 	
 	
 	</insert>

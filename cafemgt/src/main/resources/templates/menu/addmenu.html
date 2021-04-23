@@ -31,7 +31,7 @@
 						</div>
 						<div class="x_content">
 							<br />
-							<form id="demo-form2" th:action="@{/addmenu}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
+							<form id="demo-form2" th:action="@{/menu/addMenu}" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 								<div class="form-group row">
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="menuName">메뉴 명 <span class="required">*</span>
 									</label>
@@ -44,7 +44,7 @@
 									<label class="control-label col-md-3 col-sm-3 label-align">메뉴 카테고리 *</label>
 									<div class="col-md-6 col-sm-6 ">
 										<select class="form-control" name="menuCate" required="required" id="menuCate">
-											<option value="" disabled selected>choice plz</option>
+											<option value="" disabled selected>선택해주세요.</option>
 											<option value="커피">* 커피 *</option>
 											<option value="음료">* 음료 *</option>
 											<option value="베이커리">* 베이커리 *</option>
@@ -62,9 +62,8 @@
 								<div class="ln_solid"></div>
 								<div class="form-group row">
 									<div class="col-md-6 col-sm-6 offset-sm-3 text-center">
-										<button class="btn btn-primary" type="button">Cancel</button>
-										<button class="btn btn-primary" type="reset">Reset</button>
-										<button class="btn btn-success" type="submit" >Submit</button>
+										<button class="btn btn-primary" type="reset">다시작성</button>
+										<button class="btn btn-success" type="submit" >등록하기</button>
 									</div>
 								</div>
 							</form>

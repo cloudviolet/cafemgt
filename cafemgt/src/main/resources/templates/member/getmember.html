@@ -9,11 +9,11 @@
 
 <th:block layout:fragment="customCss">
 	<!-- Datatables -->
-	<link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-	<link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
 </th:block>
 <th:block layout:fragment="customContents">
 
@@ -22,7 +22,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>마이페이지(0326확인)</h3>
+                <h3>마이페이지</h3>
               </div>
             </div>
             
@@ -48,13 +48,13 @@
                       <div class="profile_img">
                         <div id="crop-avatar">
                           <!-- Current avatar -->
-                          <img class="col-lg-12 col-md-12 col-sm-12 img-responsive avatar-view" src="images/cafemgt2.jpg" alt="Avatar" title="Change the avatar">
+                          <img class="col-lg-12 col-md-12 col-sm-12 img-responsive avatar-view"  th:src="@{/images/cafemgt2.jpg}" alt="Avatar" title="Change the avatar">
                         </div>
                       </div>
                       <h3 class="col-lg-10 col-md-12 col-sm-12"><a th:text="${ml.memberName}"></a></h3>
 
                       <ul class="list-unstyled user_data">
-                        <li class="col-lg-10 col-md-12 col-sm-12"><i class="fa fa-map-marker user-profile-icon"></i> <a th:text="${sl.storeInfoAddr}"></a></li>
+                        <li class="col-lg-10 col-md-12 col-sm-12"><i class="fa fa-map-marker user-profile-icon"></i> <a th:text="${sl.storeInfoAddr}+'    '+${sl.storeInfoAddr2}"></a></li>
 
                         <li class="col-lg-10 col-md-12 col-sm-12">
                           <i class="fa fa-briefcase user-profile-icon"></i> Software Engineer
@@ -66,7 +66,7 @@
                         </li>
                       </ul>
 
-                      <a class="col-lg-10 col-md-9 col-sm-12 btn btn-success" style="color: white;" th:href="@{/modifyuser(memberId=${ml.memberId})}"><i class="fa fa-edit m-right-xs"></i> 정보 수정하기</a>
+                      <a class="col-lg-10 col-md-9 col-sm-12 btn btn-success" style="color: white;" th:href="@{/store/modifymember(memberId=${ml.memberId})}"><i class="fa fa-edit m-right-xs"></i> 정보 수정하기</a>
                       <br />
 
                     </div>
@@ -74,11 +74,11 @@
 
                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">기본 정보</a>
+                          <li role="presentation" class=""><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">기본 정보</a>
                           </li>
-                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">추가 정보</a>
+                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">카페 정보</a>
                           </li>
-                          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
+                          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="etc-tab" data-toggle="tab" aria-expanded="false">회원관리(탈퇴)</a>
                           </li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
@@ -100,10 +100,6 @@
                                 <tr>
                                   <td class="col-md-2 col-sm-2"><strong>회원구분</strong></td>
                                   <td class="col-md-4 col-sm-4" th:text="${ml.levelName}">
-                                </tr>
-                                <tr>
-                                  <td class="col-md-2 col-sm-2"><strong>상호명</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${ml.storeInfoName}">
                                 </tr>
                                 <tr>
                                   <td class="col-md-2 col-sm-2"><strong>핸드폰번호</strong></td>
@@ -138,6 +134,10 @@
                                 </tr>
                               </thead>
                               <tbody>
+                              	<tr>
+                                  <td class="col-md-2 col-sm-2"><strong>상호명</strong></td>
+                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoName}">
+                                </tr>
                                 <tr>
                                   <td class="col-md-2 col-sm-2"><strong>사업자번호</strong></td>
                                   <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoLicenseNumber}">
@@ -148,7 +148,7 @@
                                 </tr>
                                 <tr>
                                   <td class="col-md-2 col-sm-2"><strong>주소지</strong></td>
-                                  <td class="col-md-4 col-sm-4" th:text="${sl.storeInfoAddr}">
+                                  <td class="col-md-4 col-sm-4" th:text="'('+${sl.storeInfoZipCode}+')'+' '+${sl.storeInfoAddr}+'    '+${sl.storeInfoAddr2}">
                                 </tr>
                                 <tr>
                                   <td class="col-md-2 col-sm-2"><strong>사업장 연락처</strong></td>
@@ -161,11 +161,14 @@
                               </tbody>
                             </table>
                             <!-- end 추가정보  -->
+                            
+                            </div>
+                          <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="etc-tab">
+                           <!-- start 기타 -->
+                                                    
+                             <a class="col-lg-10 col-md-9 col-sm-12 btn btn-danger" style="color: white; width: 30%;" th:href="@{/}">탈퇴하기</a>
+                  		   <!-- end 기타  -->
 
-                          </div>
-                          <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                            <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
-                              photo booth letterpress, commodo enim craft beer mlkshk </p>
                           </div>
                         </div>
                       </div>
@@ -184,27 +187,27 @@
 <th:block layout:fragment="customJs">
 	<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+		th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+		th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+		th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+		th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+		th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
 	<script
-		src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+		th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
 	<script
-		src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-	<script src="../vendors/jszip/dist/jszip.min.js"></script>
-	<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-	<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+		th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+	<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
+	<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
+	<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
 </th:block>
 
 

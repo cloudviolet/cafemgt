@@ -14,6 +14,13 @@
 		<link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
 		<link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+		
+		<style>
+		.float-right{
+			float: right;
+			color: gray;
+		}
+		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customContents">
@@ -51,17 +58,17 @@
 											-->
 												<th>품목명</th>
 												<th>입고날짜</th>
-												<th>입고수량</th>
 											<!-- 
 												<th>용량</th>
 												<th>단위</th>
 											 -->
+												<th>입고수량</th>
 												<th>입고용량소계</th>
-												<th>소모용량</th>
 												<th>소모수량</th>
-												<th>잔여용량</th>
+												<th>소모용량</th>
 												<th>잔여수량</th>
-												<th>품목 소모 단계</th>
+												<th>잔여용량</th>
+												<th>소모 단계</th>
 												<th>등록날짜</th>
 												<th>마감유무</th>
 											<!-- 
@@ -72,7 +79,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="tsl : ${totalStockList}">
+											<tr th:if="${#lists.size(totalStockList)>0}" th:each="tsl : ${totalStockList}">
 											<!-- 
 												<td th:text="${tsl.detailvolCode}"></td>
 												<td th:text="${tsl.storeInfoCode}"></td>
@@ -80,25 +87,48 @@
 												<td th:text="${tsl.incoCode}"></td>
 												<td th:text="${tsl.articleCode}"></td>
 											 -->
-												<td th:text="${tsl.articleName}"></td>
-												<td th:text="${tsl.incoDate}"></td>
-												<td th:text="${tsl.incoCount}"></td>
+												<td><span>[[${tsl.articleDto.articleName}]]</span></td>
+												<td><span>[[${tsl.incoDate}]]</span></td>
 											<!-- 
-												<td th:text="${tsl.articleVolume}"></td>
-												<td th:text="${tsl.articleDan}"></td>
+												<td th:text="${tsl.articleDto.articleVolume}"></td>
+												<td th:text="${tsl.articleDto.articleDan}"></td>
 											 -->
 												<td>
-													<span style="float: left;">[[${tsl.incoVolumeSubtotal}]]</span>
-													<span style="float: right;">[[${tsl.articleDan}]]</span>
+													<span>[[${tsl.incoCount}]]</span>
+													<span class="float-right">[[${tsl.articleDto.articleBigDan}]]</span>
 												</td>
-												<td th:text="${tsl.detailvolVolumeTotal}+' '+${tsl.articleDan}"></td>
-												<td th:text="${tsl.detailvolConCount}"></td>
-												<td th:text="${tsl.detailvolRemainVolume}+' '+${tsl.articleDan}"></td>
-												<td th:text="${tsl.detailvolRemainCount}"></td>
-												<td th:if="${tsl.incoCheck== 3}" style="color: red;" th:text="${tsl.detailvolCheckString}"></td>
-												<td th:unless="${tsl.incoCheck == 3}" style="color: black;" th:text="${tsl.detailvolCheckString}"></td>
-												<td th:text="${tsl.detailvolRegDate}"></td>
-												<td th:text="${tsl.detailvolDeadlineCheck}"></td>
+												<td>
+													<span>[[${tsl.incoVolumeSubtotal}]]</span>
+													<span class="float-right">[[${tsl.articleDto.articleDan}]]</span>
+												</td>
+												<td>
+													<span>[[${tsl.detailvolConCount}]]</span>
+													<span class="float-right">[[${tsl.articleDto.articleBigDan}]]</span>
+												</td>
+												<td>
+													<span>[[${tsl.detailvolVolumeTotal}]]</span>
+													<span class="float-right">[[${tsl.articleDto.articleDan}]]</span>
+												</td>
+												<td>
+													<span>[[${tsl.detailvolRemainCount}]]</span>
+													<span class="float-right">[[${tsl.articleDto.articleBigDan}]]</span>
+												</td>
+												<td>
+													<span>[[${tsl.detailvolRemainVolume}]]</span>
+													<span class="float-right">[[${tsl.articleDto.articleDan}]]</span>
+												</td>
+												<td th:if="${tsl.incoCheck== 3}" style="color: red;">
+													<span>[[${tsl.detailvolCheckString}]]</span>
+												</td>
+												<td th:unless="${tsl.incoCheck == 3}" style="color: black;">
+													<span>[[${tsl.detailvolCheckString}]]</span>
+												</td>
+												<td>
+													<span>[[${tsl.detailvolRegDate}]]</span>
+												</td>
+												<td>
+													<span>[[${tsl.detailvolDeadlineCheck}]]</span>
+												</td>
 											<!-- 
 												<td th:text="${tsl.detailvolStockGroupCode}"></td>
 												<td th:text="${tsl.detailvolSystemId}"></td>
@@ -118,7 +148,7 @@
 	
 	<th:block layout:fragment="customJs">
 		<!-- customJs -->
-		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>

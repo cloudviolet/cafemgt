@@ -88,7 +88,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														<tr th:each="sl:${stockList}">
+														<tr th:if="${#lists.size(stockList)>0}" th:each="sl:${stockList}">
 															<td><input type="checkbox" class="checkBox" name="checkBox"></td>
 															<!-- 		
 															<td th:text="${sl.stockCode}"></td>
@@ -98,7 +98,7 @@
 															<td th:text="${sl.articleVolume}"></td>
 															<td th:text="${sl.articleDan}"></td>
 															 -->
-															<td th:text="${sl.articleName}"></td>
+															<td th:text="${sl.articleDto.articleName}"></td>
 															<td>
 																<span>[[${sl.stockIncoUnitTotal}]]</span>
 																<span class="float-right">₩</span>
@@ -109,24 +109,27 @@
 															</td>
 															<td>
 																<span>[[${sl.incoCount}]]</span>
+																<span class="float-right">[[${sl.articleDto.articleBigDan}]]</span>
 															</td>
 															<td>
 																<span>[[${sl.incoVolumeSubtotal}]]</span>
-																<span class="float-right">[[${sl.articleDan}]]</span>
+																<span class="float-right">[[${sl.articleDto.articleDan}]]</span>
 															</td>
 															<td>
 																<span>[[${sl.stockConCount}]]</span>
+																<span class="float-right">[[${sl.articleDto.articleBigDan}]]</span>
 															</td>
 															<td>
 																<span>[[${sl.stocklVolumeTotal}]]</span>
-																<span class="float-right">[[${sl.articleDan}]]</span>
+																<span class="float-right">[[${sl.articleDto.articleDan}]]</span>
 															</td>
 															<td>
 																<span>[[${sl.stockNowCount}]]</span>
+																<span class="float-right">[[${sl.articleDto.articleBigDan}]]</span>
 															</td>
 															<td>
 																<span>[[${sl.stockNowVolume}]]</span>
-																<span class="float-right">[[${sl.articleDan}]]</span>
+																<span class="float-right">[[${sl.articleDto.articleDan}]]</span>
 															</td>
 															<td>
 																<span>[[${sl.stockRegDate}]]</span>
@@ -174,7 +177,7 @@
 																<td th:text="${sl.articleVolume}"></td>
 																<td th:text="${sl.articleDan}"></td>
 																 -->
-																<td th:text="${stl.articleName}"></td>
+																<td th:text="${stl.articleDto.articleName}"></td>
 																<td>
 																	<span>[[${stl.stockIncoUnitTotal}]]</span>
 																	<span class="float-right">₩</span>
@@ -185,24 +188,27 @@
 																</td>
 																<td>
 																	<span>[[${stl.incoCount}]]</span>
+																	<span class="float-right">[[${stl.articleDto.articleBigDan}]]</span>
 																</td>
 																<td>
 																	<span>[[${stl.incoVolumeSubtotal}]]</span>
-																	<span class="float-right">[[${stl.articleDan}]]</span>
+																	<span class="float-right">[[${stl.articleDto.articleDan}]]</span>
 																</td>
 																<td>
 																	<span>[[${stl.stockConCount}]]</span>
+																	<span class="float-right">[[${stl.articleDto.articleBigDan}]]</span>
 																</td>
 																<td>
 																	<span>[[${stl.stocklVolumeTotal}]]</span>
-																	<span class="float-right">[[${stl.articleDan}]]</span>
+																	<span class="float-right">[[${stl.articleDto.articleDan}]]</span>
 																</td>
 																<td>
 																	<span>[[${stl.stockNowCount}]]</span>
+																	<span class="float-right">[[${stl.articleDto.articleBigDan}]]</span>
 																</td>
 																<td>
 																	<span>[[${stl.stockNowVolume}]]</span>
-																	<span class="float-right">[[${stl.articleDan}]]</span>
+																	<span class="float-right">[[${stl.articleDto.articleDan}]]</span>
 																</td>
 																<td>
 																	<span>[[${stl.stockRegDate}]]</span>
@@ -225,7 +231,7 @@
 	</th:block>
 	<th:block layout:fragment="customJs">
 		<!-- customJs -->
-		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
@@ -274,7 +280,7 @@
 					
 					var request = $.ajax({
 						method: "POST",
-						url: "addStock", 
+						url: "/stock/addStock", 
 						dataType: "text",
 						data: {"arrayStock" : arrayStock,
 								"SSTORECODE" : stockList[0].storeInfoCode}
@@ -288,8 +294,8 @@
 					});
 				
 				}
-				
-			});		
+			});
+		    // Korean
 		</script>
 	</th:block>
 </html>

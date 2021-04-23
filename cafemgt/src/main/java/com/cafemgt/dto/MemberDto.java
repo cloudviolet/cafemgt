@@ -12,7 +12,8 @@ public class MemberDto {
 	private String memberEmail;
 	private String memberBirth;
 	private String memberRegDate;
-	
+	private String memberOutDate;
+	private String memberDelete;
 	public String getMemberId() {
 		return memberId;
 	}
@@ -79,6 +80,18 @@ public class MemberDto {
 	public void setMemberRegDate(String memberRegDate) {
 		this.memberRegDate = memberRegDate;
 	}
+	public String getMemberOutDate() {
+		return memberOutDate;
+	}
+	public void setMemberOutDate(String memberOutDate) {
+		this.memberOutDate = memberOutDate;
+	}
+	public String getMemberDelete() {
+		return memberDelete;
+	}
+	public void setMemberDelete(String memberDelete) {
+		this.memberDelete = memberDelete;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -86,9 +99,11 @@ public class MemberDto {
 		result = prime * result + ((levelCode == null) ? 0 : levelCode.hashCode());
 		result = prime * result + ((levelName == null) ? 0 : levelName.hashCode());
 		result = prime * result + ((memberBirth == null) ? 0 : memberBirth.hashCode());
+		result = prime * result + ((memberDelete == null) ? 0 : memberDelete.hashCode());
 		result = prime * result + ((memberEmail == null) ? 0 : memberEmail.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
+		result = prime * result + ((memberOutDate == null) ? 0 : memberOutDate.hashCode());
 		result = prime * result + ((memberPhone == null) ? 0 : memberPhone.hashCode());
 		result = prime * result + ((memberPw == null) ? 0 : memberPw.hashCode());
 		result = prime * result + ((memberRegDate == null) ? 0 : memberRegDate.hashCode());
@@ -120,6 +135,11 @@ public class MemberDto {
 				return false;
 		} else if (!memberBirth.equals(other.memberBirth))
 			return false;
+		if (memberDelete == null) {
+			if (other.memberDelete != null)
+				return false;
+		} else if (!memberDelete.equals(other.memberDelete))
+			return false;
 		if (memberEmail == null) {
 			if (other.memberEmail != null)
 				return false;
@@ -134,6 +154,11 @@ public class MemberDto {
 			if (other.memberName != null)
 				return false;
 		} else if (!memberName.equals(other.memberName))
+			return false;
+		if (memberOutDate == null) {
+			if (other.memberOutDate != null)
+				return false;
+		} else if (!memberOutDate.equals(other.memberOutDate))
 			return false;
 		if (memberPhone == null) {
 			if (other.memberPhone != null)
@@ -187,6 +212,10 @@ public class MemberDto {
 		builder.append(memberBirth);
 		builder.append(", memberRegDate=");
 		builder.append(memberRegDate);
+		builder.append(", memberOutDate=");
+		builder.append(memberOutDate);
+		builder.append(", memberDelete=");
+		builder.append(memberDelete);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -34,7 +34,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 
-		log.info("CommonInterceptor ===================================== END");
+		//log.info("CommonInterceptor ===================================== END");
 		
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
@@ -43,7 +43,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 
-		log.info("CommonInterceptor ===================================== AFTER");
+		//log.info("CommonInterceptor ===================================== AFTER");
 		
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}

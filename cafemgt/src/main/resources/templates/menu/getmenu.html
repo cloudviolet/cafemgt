@@ -25,7 +25,7 @@
 			<div class="x_panel">
 				<div class="x_title">
 					<h2>
-						Responsive example<small>Users</small>
+						메뉴 조회
 					</h2>
 					<ul class="nav navbar-right panel_toolbox">
 					</ul>
@@ -36,7 +36,7 @@
 						<div class="col-sm-12">
 							<div class="card-box table-responsive">
 								<p class="text-muted font-13 m-b-30">
-									Responsive is an
+									등록한 메뉴를 조회하고 , 수정및 삭제 할 수 있습니다.
 								</p>
 
 								<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -58,15 +58,15 @@
 											<!-- <td th:text="${ml.menuCode}"></td>-->
 											<!-- <td th:text="${ml.storeInfoCode}"></td>-->
 											<!-- <td th:text="${ml.storeInfoName}"></td>-->
-											<td th:text="${ml.menuName}"></td>
-											<td th:text="${ml.menuCate}"></td>
-											<td th:text="${ml.menuPrice}"></td>
-											<td th:text="${ml.menuRegDate}"></td>
+											<td><span>[[${ml.menuName}]]</span></td>
+											<td><span>[[${ml.menuCate}]]</span></td>
+											<td><span>[[${ml.menuPrice}]]</span></td>
+											<td><span>[[${ml.menuRegDate}]]</span></td>
 											<td>
-												<a class="btn btn-primary btn-sm" th:href="@{/modifyMenu(menuCode=${ml.menuCode})}">수정</a>
+												<a class="btn btn-primary btn-sm" th:href="@{/menu/modifyMenu(menuCode=${ml.menuCode})}">수정</a>
 											</td>
 											<td>
-												<a class="btn btn-primary btn-sm" >삭제</a>
+												<button class="menuCode btn btn-dark btn-sm" th:data-menuCode="${ml.menuCode}" data-toggle="modal" data-target="#myModal" >삭제</button>
 											</td>
 										</tr>
 									</tbody>
@@ -77,26 +77,56 @@
 				</div>
 			</div>
 		</div>
-
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+						<h4 class="modal-title">삭제 경고</h4>
+					</div>
+					<div class="modal-body">
+						<h5>삭제하시겠습니까 ?</h5>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-primary" id="removeBtn">삭제</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 	</div>
 </th:block>
 <th:block layout:fragment="customJs">
 	<!-- customJs -->
-	<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-	<script	src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-	<script	src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-	<script	src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-	<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-	<script	src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-	<script	src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-	<script	src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-	<script	src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-	<script	src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-	<script src="../vendors/jszip/dist/jszip.min.js"></script>
-	<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-	<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+	<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+	<script th:src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+	<script	th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+	<script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
+	<script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
+	<script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+	
+	<script>
+		var menuCode = null;
+		
+		$('.menuCode').click(function(){
+			menuCode = $(this).attr('data-menuCode');
+		});
+		$('#removeBtn').click(function(){
+			console.log(menuCode);
+			if(menuCode != null){
+				location.href ="/menu/removeMenu?menuCode="+menuCode;
+			}
+		});
+	</script>
 </th:block>
 
 </html>

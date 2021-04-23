@@ -18,16 +18,36 @@ public class StoreService {
 	public StoreService(StoreMapper storeMapper) {
 		this.storeMapper = storeMapper;
 	}
+	//사업장 삭제
+	public int deleteStore(String SSTORECODE) {
+		return storeMapper.deleteStore(SSTORECODE);
+	}
+	//사업장 수정
+	public int updateStore(StoreDto storeDto) {
+		return storeMapper.updateStore(storeDto);
+	}
+	
 	// 사업장 등록
 	public int addStore(StoreDto storeDto) {
 		System.out.println("사업장 등록서비스 확인");
 		return storeMapper.addStore(storeDto);		
+	}
+	//사업장이 2개이상일 경우 사업장 선택
+	public List<StoreDto> storeChoice(String MID){
+		List<StoreDto> storeDtoList = storeMapper.storeChoice(MID);
+		
+		return storeDtoList;
 	}
 	
 	public List<StoreDto> getStoreadmin(){
 		List<StoreDto> storeDtoList = storeMapper.getStoreadmin();
 		
 		return storeDtoList;
+	}
+	//
+	public StoreDto getinfoStore(String SSTORECODE){
+		return storeMapper.getinfoStore(SSTORECODE);	
+		
 	}
 	//사업장 관리에서 사업장 조회
 	public List<StoreDto> getStore(String MID){
@@ -42,7 +62,11 @@ public class StoreService {
 		return storeDtoList;
 	}
 	
+	public int addLogIn(String memberId) {
+		return storeMapper.addLogIn(memberId);
+	}
 	
-	
-
+	public int addLogOut(String memberId) {
+		return storeMapper.addLogOut(memberId);
+	}
 }

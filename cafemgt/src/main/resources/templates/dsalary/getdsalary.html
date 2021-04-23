@@ -89,10 +89,10 @@
 											<td th:text="${slr.sdPayDate}">
 											<td th:text="${slr.sdRegDate}">
 											<td>
-												<a class="btn btn-primary btn-sm" th:href="@{/modifyDsalary(sdCode=${slr.sdCode})}">수정</a>
+												<a class="btn btn-primary btn-sm" th:href="@{/salary/modifyDsalary(sdCode=${slr.sdCode})}">수정</a>
 											</td>
 											<td>
-												<a class="btn btn-primary btn-sm" >삭제</a>
+												<a class="btn btn-dark btn-sm" th:href="@{/salary/removeDsalary(sdCode=${slr.sdCode})}">삭제</a>
 											</td>
 										</tr>
 									</tbody>
@@ -106,7 +106,7 @@
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/vendors/datatables.net/js/jquery.dataTables.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
 		<script	th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>

@@ -120,21 +120,13 @@
 				//그리고 체크되어있는 것들 반복문으로 돌리기
 				checkBox.each(function(i){
 					//반복되는 수만큼 객체 생성
-					var sales = {};
 					// checkbox.parent() : checkbox의 부모는 <td>이다.
 					// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
 					var tr = checkBox.parent().parent().eq(i);
 					var td = tr.children();
 					
 					var cate = td.eq(1).text();
-					// 객체에 넣기
-					sales["salesCode"] = cate;
 					
-					// 배열에 객체 넣기
-			 		/* 
-			 		var test = td.eq(3).text();
-					sales["salesCount"] = test;
-					 */
 					arraySales.push(cate);
 				});
 				
@@ -142,13 +134,13 @@
 				if(arraySales.length != 0){
 					$.ajax({
 				        type : 'POST',
-				        url : 'salesDeadline',
+				        url : '/stock/salesDeadline',
 				        dataType : "text",
 				        data : {"arraySales" : arraySales},
 				        success : function(data){
 				        	console.log(data)
 				            alert("요청되었습니다.")
-				            location.href = '/getdailyvolDeadLine';
+				            location.href = '/stock/getDailyvolDeadLine';
 				        },
 				        error : function(request,status,error){
 				        	console.log(request)

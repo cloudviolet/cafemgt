@@ -24,8 +24,23 @@ public class WtimeService {
 		return wtimeDto;
 	}
 	
+	public WtimeDto getWtimeByAttCode(String attCode) {
+		
+		return wtimeMapper.getWtimeByAttCode(attCode);
+	}
+	
+	public int modifyWtime(WtimeDto wtimeDto) {
+		
+		return wtimeMapper.modifyWtime(wtimeDto);
+	}
+	
 	public int addWtime(WtimeDto wtimeDto) {
 			
 		return wtimeMapper.addWtime(wtimeDto);
+	}
+	
+	public int removeWtime(String attCode) {
+		
+		return wtimeMapper.removeWtime(attCode);
 	}
 }

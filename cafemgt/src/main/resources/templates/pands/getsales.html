@@ -23,8 +23,7 @@
 					 <div class="x_title">
 	                    <h2>매출 조회</h2>
 	                    <ul class="nav navbar-right panel_toolbox">
-							<li><a th:href=@{/salesdeadlineforstock} class="btn btn-info">재고마감</a></li>
-							<li><a th:href=@{/salesdeadlinefortax} class="btn btn-info">회계마감</a></li>
+							<li><a th:href=@{/tax/salesdeadlineforstock} class="btn btn-info">매출마감</a></li>
 						</ul>
 						<div class="clearfix"></div>
 					</div>
@@ -69,8 +68,8 @@
 												<td th:text="${sl.salesDate}"></td>
 												<td th:text="${sl.salesDeadlineDailyvol}"></td>
 												<td th:text="${sl.salesDeadlineTax}"></td>
-												<td><a th:href="@{/modifysales(salesCode=${sl.salesCode})}">수정</a></td>
-												<td><a class="removeSales" th:href="@{/removeSales(salesCode=${sl.salesCode})}">삭제</a></td>
+												<td><a th:href="@{/tax/modifysales(salesCode=${sl.salesCode})}">수정</a></td>
+												<td><a class="removeSales" th:href="@{/tax/removeSales(salesCode=${sl.salesCode})}">삭제</a></td>
 											</tr>
 										</tbody>
 									</table>

@@ -11,4 +11,10 @@ public interface WtimeMapper {
 	public List<WtimeDto> getWtime(String SSTORECODE);
 	
 	public int addWtime(WtimeDto wtimeDto);
+	
+	public WtimeDto getWtimeByAttCode(String attCode);
+	
+	public int modifyWtime(WtimeDto wtimeDto);
+
+	public int removeWtime(String attCode);
 }
