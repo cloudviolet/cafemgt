@@ -261,7 +261,7 @@
 			dataType: "json",
 			success : function(result){
 				console.log(result);				
-				
+				console.log(result.agoISList)
 				//판관비 모달
 				console.log(result.list.length);
 				for(var i = 0 ; i < result.salaryList.length; i++){
@@ -292,12 +292,23 @@
 				var nowInstNoi = result.nowISList.instNoi;
 				var nowInstNoe = result.nowISList.instNoe;
 				var nowInstNetIncome = result.nowISList.instNetIncome;
+				
 				//1년전꺼
-				var agoTotalSalse = result.agoISList.instSaleSupplyValue;
-				var agoTotalPurchases = result.agoISList.instPurchaseSupplyValue;
-				var agoTotalOtherPurchases = result.agoISList.instExpenses;
-				var agoTotalOp = result.agoISList.instOp;
-				var agoInstNetIncome = result.agoISList.instNetIncome;
+				var agoTotalSalse = 0;
+				var agoTotalPurchases = 0;
+				var agoTotalOtherPurchases = 0;
+				var agoTotalOp = 0;
+				var agoInstNetIncome = 0;
+				
+				if(result.agoISList != null){
+					agoTotalSalse = result.agoISList.instSaleSupplyValue;
+					agoTotalPurchases = result.agoISList.instPurchaseSupplyValue;
+					agoTotalOtherPurchases = result.agoISList.instExpenses;
+					agoTotalOp = result.agoISList.instOp;
+					agoInstNetIncome = result.agoISList.instNetIncome;
+				}
+				
+							
 				
 				//손익계산서table
 				const cn1 = nowTotalSalse.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -340,7 +351,7 @@
 			    	      fill: false,
 			    	    }
 			    	    , {
-			    	      label: result.agoISList.instYear,
+			    	      label: Number(result.nowISList.instYear)-1,
 			    	      fill: false,
 			    	      backgroundColor: chartColors.blue,
 			    	      borderColor: chartColors.blue,
