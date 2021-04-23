@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafemgt.dto.CustomerDto;
+import com.cafemgt.dto.LogDto;
 import com.cafemgt.dto.MemberDto;
 import com.cafemgt.dto.StoreDto;
 import com.cafemgt.dto.UserDto;
 import com.cafemgt.service.CustomerService;
+import com.cafemgt.service.LogService;
 import com.cafemgt.service.MemberService;
 import com.cafemgt.service.StoreService;
 import com.cafemgt.service.UserService;
@@ -34,16 +36,19 @@ public class StoreController {
 	private final CustomerService customerService;
 	private final MemberService memberService;
 	private final StoreService storeService;
+	private final LogService logService;
 	
 	
 	@Autowired
 	public StoreController(UserService userService
 						  ,CustomerService customerService
 						  ,MemberService memberService
+						  ,LogService logService
 						  ,StoreService storeService) {
 		this.userService = userService;
 		this.customerService = customerService;
 		this.memberService = memberService;
+		this.logService = logService;
 		this.storeService = storeService;
 	}
 	
@@ -441,6 +446,15 @@ public class StoreController {
 		model.addAttribute(storeDtoList);
 		
 		return "admin/getstoreadmin";	
+	}
+	//로그인 이력 조회
+	@GetMapping("/getlog")
+	public String getlog(Model model) {
+		List<LogDto> logDtoList = logService.getLog();
+		model.addAttribute("logDtoList",logDtoList);
+		System.out.println(logDtoList+"<<<<logDtoList");
+		
+		return "admin/getlog";	
 	}
 	//직원조회 관리자
    @GetMapping("/getuseradmin")
