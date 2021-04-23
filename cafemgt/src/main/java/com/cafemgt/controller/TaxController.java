@@ -281,9 +281,17 @@ public class TaxController {
 		System.out.println(searchYear+"<<<<<<<<<<<<<<<<<<<");
 		IncomeStatementDto nowISList =  taxService.getIncomeStatement(SSTORECODE, searchYear);
 		IncomeStatementDto agoISList =  taxService.getIncomeStatement(SSTORECODE, secondDateYear);
+		System.out.println(nowISList);
+		System.out.println(agoISList);
 		List<Map<String, Object>> list = otherPurchasesService.getOtherPurchasesListForIS(SSTORECODE, searchYear);
 		List<Map<String, Object>> salaryList = taxService.getSalaryForIS(SSTORECODE, searchYear);
-		System.out.println(list);
+		if(salaryList.size()==0) {
+			Map<String, Object> salaryMap = new HashMap<>();
+			salaryMap.put("salaryTitle", "급여");
+			salaryMap.put("salaryTotal", 0);
+			salaryList.add(salaryMap);
+		}
+		System.out.println(list+">>>>>>");
 		System.out.println(salaryList);
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("nowISList", nowISList);
