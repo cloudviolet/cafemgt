@@ -13,6 +13,8 @@ public interface DailyVolMapper {
 
 	public List<DailyVolDto> getDailyVolDeadLine(String SSTORECODE);
 	
+	public List<String> getDailyVolByConCode(String SSTORECODE);
+	
 	public int addDailyVolDeadLine(DailyVolDto dailyVolDto);
 
 	public int modifyDailyVolDeadLine(String dailyVolCode);
