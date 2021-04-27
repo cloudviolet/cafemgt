@@ -35,7 +35,8 @@
 							<div class="col-sm-12">
 								<div class="card-box table-responsive">
 									<p class="text-muted font-13 m-b-30">
-										여기에 설명써주시면됩니다.<code>강조!</code>
+										매출 등록 후 마감처리 한 품목들은 <code> 삭제 </code>불가처리가 됩니다. <br>
+										<code> 삭제 </code>하기 위해서는 일일 품목 소모량 마감처리 후에 삭제 하실수 있습니다.
 									</p>
 									<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 										<thead>
@@ -79,8 +80,12 @@
 												<td>
 													<span><a class="btn btn-primary btn-sm" th:href="@{/menu/modifyRecipy(conCode=${rl.conCode})}">수정</a></span>
 												</td>
-												<td>
-													<button class="conCode btn btn-dark btn-sm" th:data-conCode="${rl.conCode}" data-toggle="modal" data-target="#myModal" >삭제</button>
+												<td class="td-ConCode">
+													<button th:unless="${#lists.contains(conCodeList,rl.conCode)}" class="conCode btn btn-dark btn-sm" th:data-conCode="${rl.conCode}" 
+													data-toggle="modal" data-target="#myModal">삭제</button>
+													
+													<button th:if="${#lists.contains(conCodeList,rl.conCode)}" class="conCode btn btn-dark btn-sm" th:data-conCode="${rl.conCode}" 
+													data-toggle="modal" data-target="#myModal" disabled="disabled" >불가</button>
 												</td>
 											</tr>
 										</tbody>
@@ -139,6 +144,10 @@
 					location.href ="/menu/removeRecipy?conCode="+conCode;
 				}
 			});
+			
+			var tdConCode = $('.td-ConCode');
+				console.log(tdConCode.children('button'));
+			
 		</script>
 	</th:block>
 </html>

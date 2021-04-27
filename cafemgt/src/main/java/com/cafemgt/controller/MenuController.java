@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cafemgt.dao.DailyVolMapper;
 import com.cafemgt.dto.ArticleDto;
 import com.cafemgt.dto.MenuDto;
 import com.cafemgt.dto.RecipyDto;
 import com.cafemgt.service.ArticleService;
+import com.cafemgt.service.DailyVolService;
 import com.cafemgt.service.MenuService;
 import com.cafemgt.service.RecipyService;
 
@@ -27,11 +29,14 @@ public class MenuController {
 	private final MenuService menuService;
 	private final RecipyService recipyService;
 	private final ArticleService articleService;
+	private final DailyVolService dailyVolService;
+	
 	@Autowired
-	public MenuController(MenuService menuService,RecipyService recipyService,ArticleService articleService) {
+	public MenuController(MenuService menuService,RecipyService recipyService,ArticleService articleService, DailyVolService dailyVolService) {
 		this.menuService = menuService;
 		this.recipyService=recipyService;
 		this.articleService=articleService;
+		this.dailyVolService=dailyVolService;
 	}
 
 	@PostConstruct
@@ -95,7 +100,18 @@ public class MenuController {
 	public String getRecipy(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<RecipyDto> recipyList = recipyService.getRecipy(SSTORECODE);
+		List<String> conCodeList = dailyVolService.getDailyVolByConCode(SSTORECODE);
+		
+		/*
+		 * for(int i = 0; i < recipyList.size(); i++){ for(int j = 0 ; j<
+		 * conCodeList.size(); j++) {
+		 * if(recipyList.get(i).getConCode().equals(conCodeList.get(j))) {
+		 * recipyList.get(i).setConRemoveString("불가"); break; }else {
+		 * recipyList.get(i).setConRemoveString("삭제"); } } }
+		 */
+		
 		model.addAttribute("recipyList",recipyList);
+		model.addAttribute("conCodeList",conCodeList);
 		return "menu/getrecipy";
 	}
 	

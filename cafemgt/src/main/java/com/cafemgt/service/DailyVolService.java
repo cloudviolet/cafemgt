@@ -28,7 +28,10 @@ public class DailyVolService {
 		
 		return dailyVolMapper.getDailyVolDeadLine(SSTORECODE);
 	}
-	
+	public List<String> getDailyVolByConCode(String SSTORECODE){
+		return dailyVolMapper.getDailyVolByConCode(SSTORECODE);
+	}
+
 	public int addDailyVolDeadLine(DailyVolDto dailyVolDto) {
 		dailyVolMapper.addDailyVolDeadLine(dailyVolDto);
 		return 0;

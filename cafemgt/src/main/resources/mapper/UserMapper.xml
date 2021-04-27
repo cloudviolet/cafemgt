@@ -6,20 +6,22 @@
 
 	<resultMap type="UserDto" id="userResulMap">
 		
-		<result property="memberId" 		column="member_id"/>
-		<result property="storeInfoCode" 	column="store_info_code"/>
-		<result property="storeInfoName" 	column="store_info_name"/>
-		<result property="levelCode" 		column="level_code"/>
-		<result property="levelName" 		column="level_name"/>
-		<result property="userJoinDate" 	column="user_join_date"/>
-		<result property="userOutDate" 		column="user_out_date"/>
-		<result property="userPay" 			column="user_pay"/>
-		<result property="userWorkTime" 	column="user_work_time"/>
-		<result property="userBankName" 	column="user_bank_name"/>
-		<result property="userBankAcount" 	column="user_bank_acount"/>
-		<result property="userAgreement" 	column="user_agreement"/>
-		<result property="userHealthCard" 	column="user_health_card"/>
-		<result property="userEtc" 			column="user_etc"/>
+		<result property="memberId" 			column="member_id"/>
+		<result property="storeInfoCode" 		column="store_info_code"/>
+		<result property="storeInfoName" 		column="store_info_name"/>
+		<result property="levelCode" 			column="level_code"/>
+		<result property="levelName" 			column="level_name"/>
+		<result property="userJoinDate" 		column="user_join_date"/>
+		<result property="userOutDate" 			column="user_out_date"/>
+		<result property="userPay" 				column="user_pay"/>
+		<result property="userWorkTime" 		column="user_work_time"/>
+		<result property="userBankName" 		column="user_bank_name"/>
+		<result property="userBankAcount" 		column="user_bank_acount"/>
+		<result property="userAgreement" 		column="user_agreement"/>
+		<result property="userAgreementSave" 	column="user_agreement_save"/>
+		<result property="userHealthCard" 		column="user_health_card"/>
+		<result property="userHealthCardSave" 	column="user_health_card_save"/>
+		<result property="userEtc" 				column="user_etc"/>
 		<association property="memberDto" javaType="MemberDto">
 			<id property="memberId" column="member_id"/>
 				<result property="memberPw" 		column="member_pw" />
@@ -92,7 +94,9 @@
 		, user_bank_name
 		, user_bank_acount
 		, user_agreement
+		, user_agreement_save
 		, user_health_card
+		, user_health_card_save
 		, user_etc)
 	VALUES (
 	#{memberId}
@@ -104,7 +108,9 @@
 		, #{userBankName}
 		, #{userBankAcount}
 		, #{userAgreement}
+		, #{userAgreementSave}
 		, #{userHealthCard}
+		, #{userHealthCardSave}
 		, #{userEtc}
 		)
 	ON DUPLICATE KEY UPDATE 
@@ -115,7 +121,9 @@
 			,user_bank_name = #{userBankName}
 			,user_bank_acount = #{userBankAcount}
 			,user_agreement = #{userAgreement}
+			,user_agreement_save = #{userAgreementSave}
 			,user_health_card = #{userHealthCard}
+			,user_health_card_save = #{userHealthCardSave}
 			,user_etc = #{userEtc}
 	</insert>
 	<!-- User 추가정보 수정에서 업데이트  -->
@@ -182,7 +190,9 @@
 	, u.user_bank_name
 	, u.user_bank_acount
 	, u.user_agreement
+	, u.user_agreement_save
 	, u.user_health_card
+	, u.user_health_card_save
 	, u.user_etc
 	, m.member_delete
 	FROM 

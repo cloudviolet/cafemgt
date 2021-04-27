@@ -10,6 +10,7 @@ public class RecipyDto {
 	private String articleName;
 	private String conVolume;
 	private String conDan;
+	private String conRemoveString;
 	public String getConCode() {
 		return conCode;
 	}
@@ -64,6 +65,12 @@ public class RecipyDto {
 	public void setConDan(String conDan) {
 		this.conDan = conDan;
 	}
+	public String getConRemoveString() {
+		return conRemoveString;
+	}
+	public void setConRemoveString(String conRemoveString) {
+		this.conRemoveString = conRemoveString;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -85,9 +92,10 @@ public class RecipyDto {
 		builder.append(conVolume);
 		builder.append(", conDan=");
 		builder.append(conDan);
+		builder.append(", conRemoveString=");
+		builder.append(conRemoveString);
 		builder.append("]");
 		return builder.toString();
 	}
-	
 	
 	}

@@ -19,6 +19,17 @@
 		<result property="dailyvolDeadlineCheck" 	column="dailyvol_deadline_check" />
 		<result property="dailyvolRegDate"	 		column="dailyvol_reg_date" />
 	</resultMap>
+	<select id="getDailyVolByConCode" parameterType="String" resultType="String">
+		SELECT
+		con_code as 'conCode'
+			FROM
+		tb_daily_volume
+		WHERE dailyvol_deadline_check= 'x' 
+		and
+		store_info_code = #{SSTORECODE}
+		GROUP BY con_code
+			
+	</select>
 	<update id="modifyDailyVolDeadLine" parameterType="String">
 		UPDATE tb_daily_volume AS a
 		LEFT join
