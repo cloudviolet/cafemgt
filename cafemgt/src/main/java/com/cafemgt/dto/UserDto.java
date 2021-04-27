@@ -13,9 +13,12 @@ public class UserDto {
 	private String userBankName;
 	private String userBankAcount;
 	private String userAgreement;
+	private String userAgreementSave;
 	private String userHealthCard;
+	private String userHealthCardSave;
 	private String userEtc;
 	private MemberDto memberDto;
+	
 	public String getMemberId() {
 		return memberId;
 	}
@@ -88,11 +91,23 @@ public class UserDto {
 	public void setUserAgreement(String userAgreement) {
 		this.userAgreement = userAgreement;
 	}
+	public String getUserAgreementSave() {
+		return userAgreementSave;
+	}
+	public void setUserAgreementSave(String userAgreementSave) {
+		this.userAgreementSave = userAgreementSave;
+	}
 	public String getUserHealthCard() {
 		return userHealthCard;
 	}
 	public void setUserHealthCard(String userHealthCard) {
 		this.userHealthCard = userHealthCard;
+	}
+	public String getUserHealthCardSave() {
+		return userHealthCardSave;
+	}
+	public void setUserHealthCardSave(String userHealthCardSave) {
+		this.userHealthCardSave = userHealthCardSave;
 	}
 	public String getUserEtc() {
 		return userEtc;
@@ -105,107 +120,6 @@ public class UserDto {
 	}
 	public void setMemberDto(MemberDto memberDto) {
 		this.memberDto = memberDto;
-	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((levelCode == null) ? 0 : levelCode.hashCode());
-		result = prime * result + ((levelName == null) ? 0 : levelName.hashCode());
-		result = prime * result + ((memberDto == null) ? 0 : memberDto.hashCode());
-		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
-		result = prime * result + ((storeInfoCode == null) ? 0 : storeInfoCode.hashCode());
-		result = prime * result + ((storeInfoName == null) ? 0 : storeInfoName.hashCode());
-		result = prime * result + ((userAgreement == null) ? 0 : userAgreement.hashCode());
-		result = prime * result + ((userBankAcount == null) ? 0 : userBankAcount.hashCode());
-		result = prime * result + ((userBankName == null) ? 0 : userBankName.hashCode());
-		result = prime * result + ((userEtc == null) ? 0 : userEtc.hashCode());
-		result = prime * result + ((userHealthCard == null) ? 0 : userHealthCard.hashCode());
-		result = prime * result + ((userJoinDate == null) ? 0 : userJoinDate.hashCode());
-		result = prime * result + ((userOutDate == null) ? 0 : userOutDate.hashCode());
-		result = prime * result + userPay;
-		result = prime * result + userWorkTime;
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UserDto other = (UserDto) obj;
-		if (levelCode == null) {
-			if (other.levelCode != null)
-				return false;
-		} else if (!levelCode.equals(other.levelCode))
-			return false;
-		if (levelName == null) {
-			if (other.levelName != null)
-				return false;
-		} else if (!levelName.equals(other.levelName))
-			return false;
-		if (memberDto == null) {
-			if (other.memberDto != null)
-				return false;
-		} else if (!memberDto.equals(other.memberDto))
-			return false;
-		if (memberId == null) {
-			if (other.memberId != null)
-				return false;
-		} else if (!memberId.equals(other.memberId))
-			return false;
-		if (storeInfoCode == null) {
-			if (other.storeInfoCode != null)
-				return false;
-		} else if (!storeInfoCode.equals(other.storeInfoCode))
-			return false;
-		if (storeInfoName == null) {
-			if (other.storeInfoName != null)
-				return false;
-		} else if (!storeInfoName.equals(other.storeInfoName))
-			return false;
-		if (userAgreement == null) {
-			if (other.userAgreement != null)
-				return false;
-		} else if (!userAgreement.equals(other.userAgreement))
-			return false;
-		if (userBankAcount == null) {
-			if (other.userBankAcount != null)
-				return false;
-		} else if (!userBankAcount.equals(other.userBankAcount))
-			return false;
-		if (userBankName == null) {
-			if (other.userBankName != null)
-				return false;
-		} else if (!userBankName.equals(other.userBankName))
-			return false;
-		if (userEtc == null) {
-			if (other.userEtc != null)
-				return false;
-		} else if (!userEtc.equals(other.userEtc))
-			return false;
-		if (userHealthCard == null) {
-			if (other.userHealthCard != null)
-				return false;
-		} else if (!userHealthCard.equals(other.userHealthCard))
-			return false;
-		if (userJoinDate == null) {
-			if (other.userJoinDate != null)
-				return false;
-		} else if (!userJoinDate.equals(other.userJoinDate))
-			return false;
-		if (userOutDate == null) {
-			if (other.userOutDate != null)
-				return false;
-		} else if (!userOutDate.equals(other.userOutDate))
-			return false;
-		if (userPay != other.userPay)
-			return false;
-		if (userWorkTime != other.userWorkTime)
-			return false;
-		return true;
 	}
 	@Override
 	public String toString() {
@@ -234,8 +148,12 @@ public class UserDto {
 		builder.append(userBankAcount);
 		builder.append(", userAgreement=");
 		builder.append(userAgreement);
+		builder.append(", userAgreementSave=");
+		builder.append(userAgreementSave);
 		builder.append(", userHealthCard=");
 		builder.append(userHealthCard);
+		builder.append(", userHealthCardSave=");
+		builder.append(userHealthCardSave);
 		builder.append(", userEtc=");
 		builder.append(userEtc);
 		builder.append(", memberDto=");
@@ -243,5 +161,6 @@ public class UserDto {
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 }

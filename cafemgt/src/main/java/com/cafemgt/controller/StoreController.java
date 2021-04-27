@@ -1,11 +1,16 @@
 package com.cafemgt.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
-
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cafemgt.dto.CustomerDto;
 import com.cafemgt.dto.LogDto;
@@ -161,7 +167,7 @@ public class StoreController {
 	}
 	
 	@PostMapping("/adduserjoin")
-	public String adduserjoin(MemberDto memberDto, UserDto userDto) {
+	public String adduserjoin(MemberDto memberDto, UserDto userDto) throws Exception{
 		StandardPBEStringEncryptor stringPBEConfig = new StandardPBEStringEncryptor();
 		stringPBEConfig.setPassword("cafemgt");		   //대칭키 (암호화 키) 설정
 		stringPBEConfig.setAlgorithm("PBEWithMD5AndDES");  //사용할 암호화  알고리즘
@@ -172,7 +178,7 @@ public class StoreController {
 		System.out.println(memberDto);
 		System.out.println(userDto);
 		userService.addUserjoin1(userDto);
-		return "redirect:/store/adduserjoin";	
+		return "redirect:/store/getuser";	
 	}
 	
 	@RequestMapping(value = "/idCheck", method = RequestMethod.POST)
@@ -376,6 +382,7 @@ public class StoreController {
 	public String getuser(Model model, HttpSession session) {
 		String SSTORECODE = (String)session.getAttribute("SSTORECODE");
 		List<UserDto> userDtoList = userService.getUser(SSTORECODE);
+		
 		model.addAttribute("userList", userDtoList);
 		
 		return "store/getuser";	
@@ -433,8 +440,57 @@ public class StoreController {
 		return "store/adduser";	
 	} 
 	
-	@PostMapping("/adduser")
-	public String adduser(UserDto userDto) {
+	@RequestMapping(value="/adduser")
+	public String adduser(@RequestParam(value = "userAgreementFile", required = false) MultipartFile userAgreementFile
+						 ,@RequestParam(value = "userHealthCardFile", required = false) MultipartFile userHealthCardFile
+						 ,UserDto userDto, HttpSession session) throws IllegalStateException, IOException {
+		/*
+		String rootPath =session.getServletContext().getRealPath("/");
+		System.out.println(session.getServletContext().getRealPath("/"));
+		String basePath = rootPath + "/" + "WEB-INF" + "/" + "classes" + "/" + "static" + "/" + "images";
+		*/
+		
+		//String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
+		String rootPath = System.getProperty("user.dir"); 
+		System.out.println(rootPath);
+		String basePath = rootPath + "/src/main/resources/static/images/" ;
+		
+		//오리지널 파일명
+		String userAgOgName = userAgreementFile.getOriginalFilename();
+		String userHtOgName = userHealthCardFile.getOriginalFilename();
+		
+		//확장자 추출
+		String userAgExtension = userAgOgName.substring(userAgOgName.lastIndexOf("."), userAgOgName.length());
+		String userHtExtension = userHtOgName.substring(userHtOgName.lastIndexOf("."), userHtOgName.length());
+		
+		//파일명 중복을 방지하기 위해
+		UUID uuid1 = UUID.randomUUID();
+		String userAgName = uuid1.toString() + userAgExtension;
+		
+		UUID uuid2 = UUID.randomUUID();
+		String userHtName = uuid2.toString() + userHtExtension;
+		
+		//경로 설정
+		String userAgreementPath = basePath + userAgName;
+		String userHealthCardPath = basePath + userHtName;
+
+		System.out.println(userAgreementPath);
+		System.out.println(userHealthCardPath);
+		
+		//dto에 입력
+		userDto.setUserAgreement(userAgOgName);
+		userDto.setUserAgreementSave(userAgName);
+		
+		userDto.setUserHealthCard(userHtOgName);
+		userDto.setUserHealthCardSave(userHtName);
+		
+		//파일 업로드
+		File upload = new File(userAgreementPath);
+		userAgreementFile.transferTo(upload);
+		
+		upload = new File(userHealthCardPath);
+		userHealthCardFile.transferTo(upload);
+		
 		userService.addUser(userDto);		
 		
 		return "redirect:/store/getuser";			
@@ -464,5 +520,29 @@ public class StoreController {
       
       return "admin/getuseradmin";   
    }
-
+   //파일 다운로드
+   @GetMapping("/getuserFileDown")
+   public void getuserFileDown(@RequestParam(value="download") String download
+		   					  ,@RequestParam(value="fileName") String fileName
+				,HttpServletResponse response, HttpSession session) throws Exception {
+		
+		String rootPath = System.getProperty("user.dir"); 
+		System.out.println(rootPath);
+		String basePath = rootPath + "/src/main/resources/static/images/" ;
+		basePath += download; 
+		System.out.println(basePath);
+		
+		byte[] files = FileUtils.readFileToByteArray(new File(basePath));
+		System.out.println(download);
+		
+		response.setContentType("application/octet-stream");
+		response.setContentLength(files.length);
+		response.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(fileName, "UTF-8")+"\";");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		
+		response.getOutputStream().write(files);
+		response.getOutputStream().flush();
+		response.getOutputStream().close();
+		
+		}
 }
