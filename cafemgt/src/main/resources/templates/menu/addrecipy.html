@@ -113,9 +113,10 @@
 			<!-- custom script -->
 			$(document).on('click', '#addBtn', function(){
 				var addForm =$('#demo-form2 .data-addForm');
-				console.log(addForm.eq(0));
+				$('#demo-form2').parsley().reset();
+				//console.log(addForm.eq(0));
 				var cloneAddForm = addForm.eq(0).clone();
-				console.log(addForm.parents().eq(0));
+				//console.log(addForm.parents().eq(0));
 				
 				var InnerHtml = '';
 				InnerHtml += '<div class="ln_solid"></div>';
@@ -132,31 +133,10 @@
 					inSolid.last().remove();
 				}
 			});
-			//ajax 추가
-			var ajaxFunc = function(array){
-				$.ajax({
-					url     : '/addrecipy',
-			        type    : 'POST',
-			        data    : JSON.stringify(array),
-			        contentType : 'application/json; charset=UTF-8',
-			        dataType: 'json',
-			        
-			        success : function(data) {
-			        	
-			        },
-			        error : function(xhr,status,error) {
-			        	console.log("xhr: " + xhr);
-			        	console.log("status: " + status);
-			        	console.log("error: " + error);
-			        }
-				});
-			};
 			$('#submitButton').click(function(){
-				console.log('a');
 				var addForm =$('#demo-form2 .data-addForm');
 				var arrayRecipy = []; 
-				
-				console.log(addForm.length);
+				//console.log(addForm.length);
 				
 				for(var i = 0; i < addForm.length; i++){
 					var recipyInfo = {};
@@ -164,12 +144,10 @@
 					//input 입력
 					var inputElement = addForm.eq(i).find('input[type="text"]');
 					recipyInfo[inputElement.attr('name')] = inputElement.val();
-					arrayRecipy.push(recipyInfo);
 					
 					//select 입력
 					var selectConName = addForm.eq(i).find('select[name="articleCode"]');
 					recipyInfo[selectConName.attr('name')] = selectConName.val();
-					arrayRecipy.push(recipyInfo);
 					
 					var selectConDan = addForm.eq(i).find('select[name="conDan"]');
 					recipyInfo[selectConDan.attr('name')] = selectConDan.val();
@@ -181,7 +159,7 @@
 			});
 				
 			$('#resetButton').click(function(){
-				$('#demo-form2')[0].reset();
+				$('#demo-form2').parsley().reset();
 			});
 			
 		</script>

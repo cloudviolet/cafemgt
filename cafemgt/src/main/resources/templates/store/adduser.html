@@ -31,7 +31,7 @@
 						<div class="x_content">
 							<br />
 							<!-- 메인콘텐츠 Start -->
-							<form th:action="@{/store/adduser}" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+							<form th:action="@{/store/adduser}" method="post" id="demo-form2" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left">
 								<input type="hidden" name="storeInfoCode" th:value="${session.SSTORECODE}">
 								<input type="hidden" id="memberId" name="memberId">
 								<input type="hidden" id="levelCode" name="levelCode">
@@ -100,14 +100,14 @@
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userAgreement">근로계약서 *</label>						
 									<div class="btn-group">
 										<a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"></a>
-										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="userAgreement"/>								
+										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="userAgreementFile"/>								
 									</div>								
 								</div>								
 								<div class="form-group row">
 									<label class="col-form-label col-md-3 col-sm-3 label-align" for="userHealthCard">보건증 *</label>
 									<div class="btn-group">
 										<a class="btn" title="Insert picture (or just drag & drop)" id="userHealthCard"></a>
-										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="userHealthCard" />
+										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="userHealthCardFile" />
 									</div>		
 								</div>
 								<div class="ln_solid"></div>

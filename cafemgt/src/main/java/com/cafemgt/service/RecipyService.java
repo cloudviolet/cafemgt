@@ -20,7 +20,6 @@ public class RecipyService {
 	}
 	
 	public List<RecipyDto> getRecipy(String SSTORECODE) {
-		
 		return recipyMapper.getRecipy(SSTORECODE);
 	}
 	
